@@ -1,3 +1,4 @@
+import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:airen/app/modules/account/views/about_us_view.dart';
 import 'package:airen/app/modules/account/views/privacy_policy_view.dart';
 import 'package:airen/app/modules/account/views/term_condition_view.dart';
@@ -14,73 +15,92 @@ class AccountView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AccountController>(
-      init: AccountController(),
+      init: AccountController(accountProvider: AccountProvider()),
       builder: (controller) {
-        return SafeArea(
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(Get.height * 0.3),
-              child: Container(
-                color: Colors.white,
-                child: Stack(
-                  children: [
-                    buildBackground(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  'Akun',
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(Get.height * 0.3),
+            child: Container(
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  buildBackground(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 45.0, right: 8.0, left: 8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                'Akun',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Image.asset(
-                                'assets/notif.png',
-                                width: 30,
-                              )
-                            ],
-                          ),
-                          const CircleAvatar(maxRadius: 40, backgroundColor: Colors.white, child: CircleAvatar(radius: 35)),
-                          Text(
-                            'MJ Banana PAMS',
-                            style: GoogleFonts.montserrat(
-                              color: HexColor('#3C3F58'),
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
                             ),
+                            Image.asset(
+                              'assets/notif.png',
+                              width: 30,
+                            )
+                          ],
+                        ),
+                        const CircleAvatar(maxRadius: 40, backgroundColor: Colors.white, child: CircleAvatar(radius: 35)),
+                        Text(
+                          'MJ Banana PAMS',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#3C3F58'),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            'Terdaftar pada 25 Januari 2022',
-                            style: GoogleFonts.montserrat(
-                              color: HexColor('#707793'),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                            ),
+                        ),
+                        Text(
+                          'Terdaftar pada 25 Januari 2022',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#707793'),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            body: Column(
+          ),
+          body: SingleChildScrollView(
+            child: Column(
               children: [
                 TileAccountWidget(title: 'Pengaturan', assets: 'settingblue.png'),
                 TileAccountWidget(title: 'Bantuan', assets: 'helpblue.png'),
-                TileAccountWidget(title: 'Syarat dan Ketentuan', assets: 'rule.png', function: () => Get.to(TermConditionView())),
-                TileAccountWidget(title: 'Kebijakan Privasi', assets: 'privacy.png', function: () => Get.to(PrivacyPolicyView())),
-                TileAccountWidget(title: 'Tentang Airen', assets: 'about.png', function: () => Get.to(AboutUsView())),
+                TileAccountWidget(
+                    title: 'Syarat dan Ketentuan',
+                    assets: 'rule.png',
+                    function: () async {
+                      await controller.getTermCondition();
+                      Get.to(TermConditionView());
+                    }),
+                TileAccountWidget(
+                    title: 'Kebijakan Privasi',
+                    assets: 'privacy.png',
+                    function: () async {
+                      await controller.getPrivacy();
+                      Get.to(PrivacyPolicyView());
+                    }),
+                TileAccountWidget(
+                    title: 'Tentang Airen',
+                    assets: 'about.png',
+                    function: () async {
+                      await controller.getAboutUs();
+                      Get.to(AboutUsView());
+                    }),
                 TileAccountWidget(
                   title: 'Push notifikasi',
                   assets: 'notifblue.png',
