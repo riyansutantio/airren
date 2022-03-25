@@ -8,6 +8,8 @@ abstract class Routes {
   static const ACCOUNT = _Paths.ACCOUNT;
   static const CUSTOMER = _Paths.CUSTOMER;
   static const DATA_MASTER = _Paths.DATA_MASTER;
+  static const SPLASH = _Paths.SPLASH;
+  static const SESSION = _Paths.SESSION;
 }
 
 abstract class _Paths {
@@ -15,4 +17,6 @@ abstract class _Paths {
   static const ACCOUNT = '/account';
   static const CUSTOMER = '/customer';
   static const DATA_MASTER = '/data-master';
+  static const SPLASH = '/splash';
+  static const SESSION = '/session';
 }
