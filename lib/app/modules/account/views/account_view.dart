@@ -17,104 +17,109 @@ class AccountView extends GetView<AccountController> {
     return GetBuilder<AccountController>(
       init: AccountController(accountProvider: AccountProvider()),
       builder: (controller) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(Get.height * 0.3),
-            child: Container(
-              color: Colors.white,
-              child: Stack(
-                children: [
-                  buildBackground(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 45.0, right: 8.0, left: 8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0),
-                              child: Text(
-                                'Akun',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(Get.height * 0.35),
+              child: Container(
+                color: Colors.white,
+                child: Stack(
+                  children: [
+                    buildBackground(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40.0, right: 8.0, left: 8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Text(
+                                  'Akun',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: Image.asset(
+                                  'assets/notif.png',
+                                  width: 30,
+                                ),
+                              )
+                            ],
+                          ),
+                          const CircleAvatar(maxRadius: 40, backgroundColor: Colors.white, child: CircleAvatar(radius: 35)),
+                          Text(
+                            'MJ Banana PAMS',
+                            style: GoogleFonts.montserrat(
+                              color: HexColor('#3C3F58'),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Image.asset(
-                              'assets/notif.png',
-                              width: 30,
-                            )
-                          ],
-                        ),
-                        const CircleAvatar(maxRadius: 40, backgroundColor: Colors.white, child: CircleAvatar(radius: 35)),
-                        Text(
-                          'MJ Banana PAMS',
-                          style: GoogleFonts.montserrat(
-                            color: HexColor('#3C3F58'),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        Text(
-                          'Terdaftar pada 25 Januari 2022',
-                          style: GoogleFonts.montserrat(
-                            color: HexColor('#707793'),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
+                          Text(
+                            'Terdaftar pada 25 Januari 2022',
+                            style: GoogleFonts.montserrat(
+                              color: HexColor('#707793'),
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                TileAccountWidget(title: 'Pengaturan', assets: 'settingblue.png'),
-                TileAccountWidget(title: 'Bantuan', assets: 'helpblue.png'),
-                TileAccountWidget(
-                    title: 'Syarat dan Ketentuan',
-                    assets: 'rule.png',
-                    function: () async {
-                      await controller.getTermCondition();
-                      Get.to(TermConditionView());
-                    }),
-                TileAccountWidget(
-                    title: 'Kebijakan Privasi',
-                    assets: 'privacy.png',
-                    function: () async {
-                      await controller.getPrivacy();
-                      Get.to(PrivacyPolicyView());
-                    }),
-                TileAccountWidget(
-                    title: 'Tentang Airen',
-                    assets: 'about.png',
-                    function: () async {
-                      await controller.getAboutUs();
-                      Get.to(AboutUsView());
-                    }),
-                TileAccountWidget(
-                  title: 'Push notifikasi',
-                  assets: 'notifblue.png',
-                  trail: Switch(
-                    value: true,
-                    onChanged: (value) {
-                      // setState(() {
-                      //   _switchValue = value;
-                      // });
-                    },
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TileAccountWidget(title: 'Pengaturan', assets: 'settingblue.png'),
+                  TileAccountWidget(title: 'Bantuan', assets: 'helpblue.png'),
+                  TileAccountWidget(
+                      title: 'Syarat dan Ketentuan',
+                      assets: 'rule.png',
+                      function: () async {
+                        await controller.getTermCondition();
+                        Get.to(TermConditionView());
+                      }),
+                  TileAccountWidget(
+                      title: 'Kebijakan Privasi',
+                      assets: 'privacy.png',
+                      function: () async {
+                        await controller.getPrivacy();
+                        Get.to(PrivacyPolicyView());
+                      }),
+                  TileAccountWidget(
+                      title: 'Tentang Airen',
+                      assets: 'about.png',
+                      function: () async {
+                        await controller.getAboutUs();
+                        Get.to(AboutUsView());
+                      }),
+                  TileAccountWidget(
+                    title: 'Push notifikasi',
+                    assets: 'notifblue.png',
+                    trail: Switch(
+                      value: true,
+                      onChanged: (value) {
+                        // setState(() {
+                        //   _switchValue = value;
+                        // });
+                      },
+                    ),
                   ),
-                ),
-                TileAccountWidget(title: 'Keluar', assets: 'logout.png'),
-              ],
+                  TileAccountWidget(title: 'Keluar', assets: 'logout.png'),
+                ],
+              ),
             ),
           ),
         );
@@ -128,17 +133,7 @@ class AccountView extends GetView<AccountController> {
       children: [
         Stack(
           children: [
-            Image.asset('assets/accbgsolid.png'),
-            Positioned(top: -50, right: 50, height: 110, width: 150, child: Image.asset('assets/dot.png')),
-            Positioned(
-                top: -80,
-                right: 120,
-                height: 110,
-                width: 150,
-                child: Image.asset(
-                  'assets/dot.png',
-                  color: Colors.blue,
-                )),
+            Image.asset('assets/accappbarbg.png'),
           ],
         ),
         const SizedBox()

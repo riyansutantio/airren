@@ -14,13 +14,13 @@ class TermConditionView extends GetView<AccountController> {
         child: Container(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(left: 2.0, top: 20.0, right: 8.0, bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    IconButton(onPressed: ()=> Get.back(), icon: const Icon(Icons.arrow_back), color: Colors.white),
+                    IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back), color: Colors.white),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
@@ -65,7 +65,11 @@ class TermConditionView extends GetView<AccountController> {
                   child: Container(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Html(data: """${controller.resultTermCondition.value.content}"""),
+                      child: Html(
+                          data: """${controller.resultTermCondition.value.content}""",
+                          customTextStyle: (node, TextStyle baseStyle) {
+                            return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));
+                          }),
                     ),
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(topRight: Radius.circular(25), topLeft: Radius.circular(25)),
