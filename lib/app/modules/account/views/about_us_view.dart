@@ -1,4 +1,5 @@
 import 'package:airen/app/modules/account/controllers/account_controller.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -15,13 +16,13 @@ class AboutUsView extends GetView<AccountController> {
         child: Container(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Padding(
-            padding: const EdgeInsets.only(left: 2.0, top: 20.0, right: 8.0, bottom: 8.0),
+            padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back), color: Colors.white),
+                    IconButton(onPressed: () => Get.back(), icon: const Icon(EvaIcons.arrowBack), color: Colors.white),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
@@ -52,7 +53,7 @@ class AboutUsView extends GetView<AccountController> {
           child: Column(
             children: [
               Image.asset('assets/abtappbar.png', fit: BoxFit.cover),
-              Image.asset('assets/logo.png', width: 150.0),
+              Image.asset('assets/logoof.png', width: 150.0),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -65,8 +66,9 @@ class AboutUsView extends GetView<AccountController> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
                 child: Html(
+                  customTextAlign: (_) => TextAlign.justify,
                     data: """${controller.resultAboutUs.value.content}""",
                     customTextStyle: (node, TextStyle baseStyle) {
                       return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));

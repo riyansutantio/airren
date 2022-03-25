@@ -8,10 +8,12 @@ import '../../../data/http_service.dart';
 import '../../../utils/utils.dart';
 
 class AccountProvider extends GetConnect {
+  List<String>? pathSegment({String? path})=> ['api', HttpService.apiVersion, '$path'];
+
   Future<TermAboutHelpModel?> getTermAboutUsHelp({String? path}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _getTermAboutHelp = Uri.parse(baseUrl).replace(
-        pathSegments: ['api','v1','$path']);
+        pathSegments: pathSegment(path: path));
     logger.wtf('ini adalah baseUrl $_getTermAboutHelp');
     final response = await http.get(_getTermAboutHelp, headers: HttpService.headers);
     if (response.statusCode == 200) {

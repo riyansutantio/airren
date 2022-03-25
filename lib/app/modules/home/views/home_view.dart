@@ -13,71 +13,101 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-          appBar: (controller.pageNavBottom.value == 0) ? AppBar(
-            title: Text('HomeView'),
-            centerTitle: true,
-            backgroundColor: HexColor('#0063F8'),
-          ) : null,
+          appBar: (controller.pageNavBottom.value == 0)
+              ? AppBar(
+                  title: Text('HomeView'),
+                  centerTitle: true,
+                  backgroundColor: HexColor('#0063F8'),
+                )
+              : null,
           body: renderBottomTabPage(context),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedLabelStyle: GoogleFonts.montserrat(
-              color: HexColor('#0063F8'),
-              fontSize: 12,
-              fontWeight: FontWeight.normal,
-            ),
-            selectedItemColor: HexColor('#0063F8'),
-            showSelectedLabels: true,
-            currentIndex: controller.pageNavBottom.value,
-            onTap: (index) => controller.onItemTapPage(index),
-            showUnselectedLabels: false,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/home.png',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 0) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/cust.png',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 1) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
-                ),
-                label: 'Pelanggan',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/data.png',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 2) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
-                ),
-                label: 'Data',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/account.png',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 3) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
-                ),
-                label: 'Account',
-              ),
-            ],
-          ),
+          bottomNavigationBar: buildNavBar(),
         ));
+  }
+
+  Stack buildNavBar() {
+    return Stack(
+          children: [
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0), ),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: HexColor('#0063F8').withOpacity(0.3),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+            ),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0), ),
+              child: BottomNavigationBar(
+                backgroundColor: Colors.white,
+                selectedLabelStyle: GoogleFonts.montserrat(
+                  color: HexColor('#0063F8'),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+                selectedItemColor: HexColor('#0063F8'),
+                showSelectedLabels: true,
+                currentIndex: controller.pageNavBottom.value,
+                onTap: (index) => controller.onItemTapPage(index),
+                showUnselectedLabels: false,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    backgroundColor: Colors.white,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: Image.asset(
+                        'assets/${(controller.pageNavBottom.value == 0) ? 'homenavsolid.png' : 'home.png'}',
+                        width: 25,
+                        color: (controller.pageNavBottom.value == 0) ? HexColor('#0063F8') : HexColor('#707793'),
+                      ),
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    backgroundColor: Colors.white,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: Image.asset(
+                        'assets/${(controller.pageNavBottom.value == 1) ? 'custnavsolid.png' : 'cust.png'}',
+                        width: 25,
+                        color: (controller.pageNavBottom.value == 1) ? HexColor('#0063F8') : HexColor('#707793'),
+                      ),
+                    ),
+                    label: 'Pelanggan',
+                  ),
+                  BottomNavigationBarItem(
+                    backgroundColor: Colors.white,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: Image.asset(
+                        'assets/${(controller.pageNavBottom.value == 2) ? 'datanavsolid.png' : 'data.png'}',
+                        width: 25,
+                        color: (controller.pageNavBottom.value == 2) ? HexColor('#0063F8') : HexColor('#707793'),
+                      ),
+                    ),
+                    label: 'Data',
+                  ),
+                  BottomNavigationBarItem(
+                    backgroundColor: Colors.white,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: Image.asset(
+                        'assets/${(controller.pageNavBottom.value == 3) ? 'accnavsolid.png' : 'account.png'}',
+                        width: 25,
+                        color: (controller.pageNavBottom.value == 3) ? HexColor('#0063F8') : HexColor('#707793'),
+                      ),
+                    ),
+                    label: 'Akun',
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
   }
 
   Widget RenderHomePage() {

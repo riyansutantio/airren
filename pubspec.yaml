@@ -21,6 +21,7 @@ dependencies:
   flutter_html:
   flutter_launcher_icons:
   device_preview:
+  eva_icons_flutter:
   flutter: 
     sdk: flutter
 
