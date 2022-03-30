@@ -1,6 +1,7 @@
 import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:airen/app/modules/account/views/about_us_view.dart';
 import 'package:airen/app/modules/account/views/privacy_policy_view.dart';
+import 'package:airen/app/modules/account/views/settings_view.dart';
 import 'package:airen/app/modules/account/views/term_condition_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,7 @@ class AccountView extends GetView<AccountController> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                TileAccountWidget(title: 'Pengaturan', assets: 'settingblue.png'),
+                TileAccountWidget(title: 'Pengaturan', assets: 'settingblue.png', function: () => Get.to(SettingsView())),
                 const Padding(
                   padding: EdgeInsets.only(left: 75.0),
                   child: Divider(
@@ -195,10 +196,7 @@ class AccountView extends GetView<AccountController> {
   Column buildBackground() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset('assets/accappbarbg.png'),
-        SizedBox()
-      ],
+      children: [Image.asset('assets/accappbarbg.png'), SizedBox()],
     );
   }
 }
