@@ -1,4 +1,4 @@
-package com.tamstud.airen
+package com.airren.airren
 
 import io.flutter.embedding.android.FlutterActivity
 

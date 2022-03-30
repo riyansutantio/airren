@@ -1,3 +1,5 @@
+import 'package:airen/app/modules/session/views/login_view.dart';
+import 'package:airen/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
@@ -7,6 +9,7 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Future.delayed(Duration(seconds: 2)).whenComplete(() => Get.to(LoginView()));
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/modules/session/views/widget_appbar_session.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,10 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../../utils/constant.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
 import '../controllers/session_controller.dart';
+import '../providers/session_provider.dart';
 
 class RegisterStepTwoView extends GetView {
-  final SessionController sessionController = Get.put(SessionController());
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,31 +40,45 @@ class RegisterStepTwoView extends GetView {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.phone,
-                        suffix: Icon(
-                          EvaIcons.phoneOutline,
-                          color: HexColor('#0063F8'),
-                        ),
+                        textInputType: TextInputType.text,
                         hintText: 'Nama Administrator (Pengelola)',
                         obscureText: false,
                         passwordVisibility: false,
                         controller: sessionController,
-                        textEditingController: sessionController.phoneNumberController,
+                        textEditingController: sessionController.nameAdminPamController,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AirenTextFormFieldBase(
                         textInputType: TextInputType.phone,
-                        suffix: Icon(
-                          EvaIcons.chevronDown,
-                          color: HexColor('#0063F8'),
-                        ),
                         hintText: 'Phone Number',
                         obscureText: false,
                         passwordVisibility: false,
                         controller: sessionController,
                         textEditingController: sessionController.phoneNumberController,
+                        prefixText: SizedBox(
+                          child: Center(
+                            widthFactor: 0.0,
+                            child: Text('+62', style: GoogleFonts.montserrat(
+                              color: HexColor('#707793'),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AirenTextFormFieldBase(
+                        enabled: false,
+                        textInputType: TextInputType.phone,
+                        hintText: 'email',
+                        obscureText: false,
+                        passwordVisibility: false,
+                        controller: sessionController,
+                        textEditingController: sessionController.emailPamController,
                       ),
                     ),
                     Padding(
@@ -81,7 +97,8 @@ class RegisterStepTwoView extends GetView {
   ElevatedButton buildElevatedButtonCustom() {
     return ElevatedButton(
         onPressed: () {
-          Get.to(RegisterStepTwoView());
+          // Get.to(PaymentView());
+          sessionController.register();
         },
         child: Ink(
           decoration:
