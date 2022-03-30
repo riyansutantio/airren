@@ -122,30 +122,25 @@ class SessionController extends GetxController {
 
   final resultRegister = <RegisterModel>[].obs;
 
+  final resultError = <Errors>[].obs;
+
   Future register() async {
-    try {
-      isLoadingRegister.value = true;
-      final res = await sessionProvider.register(
-          pamName: nameAdminPamController.text,
-          pamDetailAddress: addressDetailController.text,
-          pamDistrictId: selectedDistrict.value,
-          pamProvinceId: selectedProvince.value,
-          pamRegencyId: selectedRegency.value,
-          pamUserEmail: emailPamController.text,
-          pamUserName: nameController.text,
-          pamUserPhoneNumber: phoneNumberController.text);
-      logger.i('status ${res!.errors!.pamUserEmail![0]}');
-      if (res.status == null) {
-        Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
-      } else {
-        boxPrice.write(priceInit, res.data?.trialPrice);
-        Get.snackbar('${res.message}', 'bisaaa!', backgroundColor: Colors.white);
-        Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
-      }
-    } catch (e) {
-      logger.e(e);
-    } finally {
-      isLoadingRegister.value = false;
+    isLoadingRegister.value = true;
+    final res = await sessionProvider.register(
+        pamName: nameAdminPamController.text,
+        pamDetailAddress: addressDetailController.text,
+        pamDistrictId: selectedDistrict.value,
+        pamProvinceId: selectedProvince.value,
+        pamRegencyId: selectedRegency.value,
+        pamUserEmail: emailPamController.text,
+        pamUserName: nameController.text,
+        pamUserPhoneNumber: phoneNumberController.text);
+    if (res!.status == null) {
+      Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
+    } else {
+      boxPrice.write(priceInit, res.data?.trialPrice);
+      Get.snackbar('${res.message}', '${res.data?.trialPrice}', backgroundColor: Colors.white);
+      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
     }
   }
 

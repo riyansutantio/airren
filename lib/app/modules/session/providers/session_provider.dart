@@ -22,6 +22,8 @@ class SessionProvider extends GetConnect {
 
   List<String>? pathSegmentRegister({String? path}) => ['api', HttpService.apiVersion, '$path', 'register'];
 
+  List<String>? pathSegmentLogin({String? path}) => ['api', HttpService.apiVersion, '$path', 'login'];
+
   Future<DistrictModel?> getDistrict({String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _getDistrict =
@@ -77,9 +79,9 @@ class SessionProvider extends GetConnect {
       String? pamUserPhoneNumber,
       String? pamUserEmail}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
-    Uri _giveRateUrl = Uri.parse(baseUrl).replace(pathSegments: pathSegmentRegister(path: 'auth'));
-    logger.wtf(_giveRateUrl);
-    final response = await http.post(_giveRateUrl,
+    Uri _registerUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentRegister(path: 'auth'));
+    logger.wtf(_registerUri);
+    final response = await http.post(_registerUri,
         headers: HttpService.headers,
         body: jsonEncode({
           "pam_name": pamName,
@@ -90,6 +92,22 @@ class SessionProvider extends GetConnect {
           "pam_user_name": pamUserName,
           "pam_user_phone_number": pamUserPhoneNumber,
           "pam_user_email": pamUserEmail
+        }));
+    logger.wtf(response.body);
+    var jsonString = response.body;
+    logger.wtf(jsonDecode(jsonString));
+    return registerModelFromJson(jsonString);
+  }
+
+  Future<RegisterModel?> login({required String? email, String? id}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _loginUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentRegister(path: 'auth'));
+    logger.wtf(_loginUri);
+    final response = await http.post(_loginUri,
+        headers: HttpService.headers,
+        body: jsonEncode({
+          "email": email,
+          "id": id,
         }));
     logger.wtf(response.body);
     var jsonString = response.body;

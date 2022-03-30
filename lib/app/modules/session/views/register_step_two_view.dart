@@ -14,6 +14,8 @@ import '../providers/session_provider.dart';
 
 class RegisterStepTwoView extends GetView {
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,76 +31,96 @@ class RegisterStepTwoView extends GetView {
             ],
           ),
           title: 'Register', firstSubtitle: 'Mohon masukkan informasi PAMS Anda', secondSubtitle: ''),
-      body: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+      body: Form(
+        key: _formKey,
         child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.text,
-                        hintText: 'Nama Administrator (Pengelola)',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: sessionController,
-                        textEditingController: sessionController.nameAdminPamController,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.phone,
-                        hintText: 'Phone Number',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: sessionController,
-                        textEditingController: sessionController.phoneNumberController,
-                        prefixText: SizedBox(
-                          child: Center(
-                            widthFactor: 0.0,
-                            child: Text('+62', style: GoogleFonts.montserrat(
-                              color: HexColor('#707793'),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
+          decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+          child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AirenTextFormFieldBase(
+                          textInputType: TextInputType.text,
+                          hintText: 'Nama Administrator (Pengelola)',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: sessionController,
+                          textEditingController: sessionController.nameAdminPamController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nama Administrator PAM harus terisi";
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        enabled: false,
-                        textInputType: TextInputType.phone,
-                        hintText: 'email',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: sessionController,
-                        textEditingController: sessionController.emailPamController,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AirenTextFormFieldBase(
+                          textInputType: TextInputType.phone,
+                          hintText: 'Phone Number',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: sessionController,
+                          textEditingController: sessionController.phoneNumberController,
+                          prefixText: SizedBox(
+                            child: Center(
+                              widthFactor: 0.0,
+                              child: Text('+62', style: GoogleFonts.montserrat(
+                                color: HexColor('#707793'),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),),
+                            ),
+                          ),
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nomor HP harus terisi";
+                            } else if(val.length < 7){
+                              return "Nomor HP tidak valid";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: buildElevatedButtonCustom(),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AirenTextFormFieldBase(
+                          enabled: false,
+                          textInputType: TextInputType.phone,
+                          hintText: 'email',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: sessionController,
+                          textEditingController: sessionController.emailPamController,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: buildElevatedButtonCustom(),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-                color: Colors.white)),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  color: Colors.white)),
+        ),
       ));
   }
   ElevatedButton buildElevatedButtonCustom() {
     return ElevatedButton(
         onPressed: () {
-          // Get.to(PaymentView());
-          sessionController.register();
+          if (!_formKey.currentState!.validate()) {
+            return;
+          } else {
+            sessionController.register();
+          }
         },
         child: Ink(
           decoration:

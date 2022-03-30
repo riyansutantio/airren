@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final registerModel = registerModelFromJson(jsonString);
-
 import 'dart:convert';
 
 RegisterModel registerModelFromJson(String str) => RegisterModel.fromJson(json.decode(str));
@@ -10,19 +6,19 @@ class RegisterModel {
   RegisterModel({
     this.status,
     this.message,
+    this.errors,
     this.data,
-    this.errors
   });
 
   final String? status;
   final String? message;
-  final DataPam? data;
   final Errors? errors;
-
+  final DataPam? data;
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
+    errors: json["errors"] == null ? null : Errors.fromJson(json["errors"]),
     data: json["data"] == null ? null : DataPam.fromJson(json["data"]),
   );
 }
@@ -49,6 +45,7 @@ class PamResult {
     this.regencyId,
     this.districtId,
     this.detailAddress,
+    this.isPostpaid,
     this.updatedAt,
     this.createdAt,
     this.id,
@@ -60,6 +57,7 @@ class PamResult {
   final String? regencyId;
   final String? districtId;
   final String? detailAddress;
+  final bool? isPostpaid;
   final DateTime? updatedAt;
   final DateTime? createdAt;
   final int? id;
@@ -71,6 +69,7 @@ class PamResult {
     regencyId: json["regency_id"] == null ? null : json["regency_id"],
     districtId: json["district_id"] == null ? null : json["district_id"],
     detailAddress: json["detail_address"] == null ? null : json["detail_address"],
+    isPostpaid: json["is_postpaid"] == null ? null : json["is_postpaid"],
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     id: json["id"] == null ? null : json["id"],

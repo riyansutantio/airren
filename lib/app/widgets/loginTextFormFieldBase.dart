@@ -80,6 +80,12 @@ class AirenTextFormFieldBase extends StatelessWidget {
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: HexColor('#F0F5F9'),
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
