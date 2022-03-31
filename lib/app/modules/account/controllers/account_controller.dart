@@ -1,6 +1,8 @@
 import 'package:airen/app/model/term_about_help_model.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
+import 'package:airen/app/utils/constant.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../utils/utils.dart';
 
@@ -30,6 +32,8 @@ class AccountController extends GetxController {
   void onClose() {}
   void increment() => count.value++;
 
+  final boxUser = GetStorage();
+
   final resultAboutUs = ResultTermAboutHelp().obs;
   final resultTermCondition = ResultTermAboutHelp().obs;
   final resultPrivacy = ResultTermAboutHelp().obs;
@@ -37,7 +41,7 @@ class AccountController extends GetxController {
   Future getAboutUs() async {
     try {
       isLoadingAboutUs.value = true;
-      final res = await accountProvider.getTermAboutUsHelp(path: 'about-us');
+      final res = await accountProvider.getTermAboutUsHelp(path: 'about-us', bearer: boxUser.read(tokenBearer));
       // logger.wtf(res!.data!.data!.toList());
       resultAboutUs.value = res!.data!;
     } catch (e) {
@@ -49,8 +53,8 @@ class AccountController extends GetxController {
   Future getTermCondition() async {
     try {
       isLoadingAboutUs.value = true;
-      final res = await accountProvider.getTermAboutUsHelp(path: 'term-condition');
-      // logger.wtf(res!.data!.data!.toList());
+      final res = await accountProvider.getTermAboutUsHelp(path: 'term-condition', bearer: boxUser.read(tokenBearer));
+      logger.wtf(boxUser.read(tokenBearer));
       resultTermCondition.value = res!.data!;
     } catch (e) {
       logger.e(e);
@@ -61,7 +65,7 @@ class AccountController extends GetxController {
   Future getPrivacy() async {
     try {
       isLoadingAboutUs.value = true;
-      final res = await accountProvider.getTermAboutUsHelp(path: 'privacy-policy');
+      final res = await accountProvider.getTermAboutUsHelp(path: 'privacy-policy', bearer: boxUser.read(tokenBearer));
       // logger.wtf(res!.data!.data!.toList());
       resultPrivacy.value = res!.data!;
     } catch (e) {

@@ -1,6 +1,6 @@
 import 'dart:convert';
-
-import 'package:airen/app/model/error_register_model.dart';
+import 'dart:io';
+import 'package:airen/app/model/login_model.dart';
 import 'package:airen/app/model/province_model.dart';
 import 'package:airen/app/model/regency_model.dart';
 import 'package:airen/app/model/register_model.dart';
@@ -9,9 +9,15 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../../data/http_service.dart';
 import '../../../model/district_model.dart';
+import '../../../model/logout_model.dart';
 import '../../../utils/utils.dart';
 
 class SessionProvider extends GetConnect {
+  Map<String, String> bearerAuth({String? bearer}) => {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $bearer'
+      };
+
   List<String>? pathSegment({String? path}) => ['api', HttpService.apiVersion, '$path'];
 
   List<String>? pathSegmentRegency({String? path, String? id, String? regency}) =>
@@ -23,6 +29,7 @@ class SessionProvider extends GetConnect {
   List<String>? pathSegmentRegister({String? path}) => ['api', HttpService.apiVersion, '$path', 'register'];
 
   List<String>? pathSegmentLogin({String? path}) => ['api', HttpService.apiVersion, '$path', 'login'];
+  List<String>? pathSegmentLogOut({String? path}) => ['api', HttpService.apiVersion, '$path', 'logout'];
 
   Future<DistrictModel?> getDistrict({String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
@@ -99,9 +106,9 @@ class SessionProvider extends GetConnect {
     return registerModelFromJson(jsonString);
   }
 
-  Future<RegisterModel?> login({required String? email, String? id}) async {
+  Future<LoginModel?> login({required String? email, String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
-    Uri _loginUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentRegister(path: 'auth'));
+    Uri _loginUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentLogin(path: 'auth'));
     logger.wtf(_loginUri);
     final response = await http.post(_loginUri,
         headers: HttpService.headers,
@@ -112,6 +119,23 @@ class SessionProvider extends GetConnect {
     logger.wtf(response.body);
     var jsonString = response.body;
     logger.wtf(jsonDecode(jsonString));
-    return registerModelFromJson(jsonString);
+    return loginModelFromJson(jsonString);
+  }
+
+  Future<LogOutModel?> logOut({required String? email, String? id, String? bearer}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _logOutUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentLogOut(path: 'auth'));
+    logger.wtf(_logOutUri);
+    final response = await http.post(_logOutUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "email": email,
+          "id": id,
+        }));
+    logger.wtf(response.body);
+    var jsonString = response.body;
+    logger.wtf(bearerAuth(bearer: bearer));
+    logger.wtf(jsonDecode(jsonString));
+    return logOutModelFromJson(jsonString);
   }
 }

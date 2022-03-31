@@ -27,6 +27,7 @@ dependencies:
   otp_count_down: ^1.0.6
   google_sign_in:
   rename: ^2.0.1
+  url_launcher:
   flutter: 
     sdk: flutter
 

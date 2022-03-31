@@ -15,7 +15,7 @@ import '../../../utils/constant.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
 import 'widget_appbar_session.dart';
 
-class LoginView extends GetView {
+class LoginView extends GetView<SessionController> {
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
   @override
   Widget build(BuildContext context) {
@@ -58,14 +58,6 @@ class LoginView extends GetView {
                     child: SvgPicture.asset('assets/airrenof.svg'),
                   ),
                 ),
-                GestureDetector(
-                    onTap: (){
-                      sessionController.readGoogleUser();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Card(child: Text('read local')),
-                    )),
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0, left: 15.0),
                   child: Container(

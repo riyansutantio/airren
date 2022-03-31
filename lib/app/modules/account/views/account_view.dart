@@ -3,6 +3,8 @@ import 'package:airen/app/modules/account/views/about_us_view.dart';
 import 'package:airen/app/modules/account/views/privacy_policy_view.dart';
 import 'package:airen/app/modules/account/views/settings_view.dart';
 import 'package:airen/app/modules/account/views/term_condition_view.dart';
+import 'package:airen/app/modules/session/controllers/session_controller.dart';
+import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ import 'package:hexcolor/hexcolor.dart';
 import '../controllers/account_controller.dart';
 
 class AccountView extends GetView<AccountController> {
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AccountController>(
@@ -184,7 +187,9 @@ class AccountView extends GetView<AccountController> {
                     height: 1,
                   ),
                 ),
-                TileAccountWidget(title: 'Keluar', assets: 'logout.png'),
+                TileAccountWidget(title: 'Keluar', assets: 'logout.png', function: (){
+                  sessionController.logOut();
+                }),
               ],
             ),
           ),

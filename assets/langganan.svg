@@ -1,0 +1,6 @@
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="credit-card">
+    <rect id="Rectangle_5126" data-name="Rectangle 5126" width="30" height="30" fill="#ff3d71" opacity="0"/>
+    <path id="Path_1349" data-name="Path 1349" d="M23.25,5H5.75A3.75,3.75,0,0,0,2,8.75v10A3.75,3.75,0,0,0,5.75,22.5h17.5A3.75,3.75,0,0,0,27,18.75v-10A3.75,3.75,0,0,0,23.25,5Zm-10,12.5h-5a1.25,1.25,0,0,1,0-2.5h5a1.25,1.25,0,0,1,0,2.5Zm7.5,0h-2.5a1.25,1.25,0,0,1,0-2.5h2.5a1.25,1.25,0,0,1,0,2.5ZM24.5,10H4.5V8.75A1.25,1.25,0,0,1,5.75,7.5h17.5A1.25,1.25,0,0,1,24.5,8.75Z" transform="translate(0.5 1.25)" fill="#ff3d71"/>
+  </g>
+</svg>

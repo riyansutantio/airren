@@ -7,13 +7,16 @@ import 'package:airen/app/model/register_model.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/modules/session/views/register_view.dart';
+import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:otp_count_down/otp_count_down.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/constant.dart';
 
@@ -25,6 +28,7 @@ class SessionController extends GetxController {
   final nameController = TextEditingController();
   final nameAdminPamController = TextEditingController();
   final emailPamController = TextEditingController();
+  final uidPamController = TextEditingController();
   final provinceController = TextEditingController();
   final regencyController = TextEditingController();
   final districtController = TextEditingController();
@@ -125,26 +129,32 @@ class SessionController extends GetxController {
   final resultError = <Errors>[].obs;
 
   Future register() async {
-    isLoadingRegister.value = true;
-    final res = await sessionProvider.register(
-        pamName: nameAdminPamController.text,
-        pamDetailAddress: addressDetailController.text,
-        pamDistrictId: selectedDistrict.value,
-        pamProvinceId: selectedProvince.value,
-        pamRegencyId: selectedRegency.value,
-        pamUserEmail: emailPamController.text,
-        pamUserName: nameController.text,
-        pamUserPhoneNumber: phoneNumberController.text);
-    if (res!.status == null) {
-      Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
-    } else {
-      boxPrice.write(priceInit, res.data?.trialPrice);
-      Get.snackbar('${res.message}', '${res.data?.trialPrice}', backgroundColor: Colors.white);
-      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+    try {
+      isLoadingRegister.value = true;
+      final res = await sessionProvider.register(
+          pamName: nameAdminPamController.text,
+          pamDetailAddress: addressDetailController.text,
+          pamDistrictId: selectedDistrict.value,
+          pamProvinceId: selectedProvince.value,
+          pamRegencyId: selectedRegency.value,
+          pamUserEmail: emailPamController.text,
+          pamUserName: nameController.text,
+          pamUserPhoneNumber: phoneNumberController.text);
+      if (res!.status == null) {
+        Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
+      } else {
+        boxPrice.write(priceInit, res.data?.trialPrice);
+        Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
+        Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+      }
+    } catch (e) {
+      logger.i(e);
+    } finally {
+      googleSignOut();
     }
   }
 
-  Future<String> getTrialPrice() => boxPrice.read(priceInit);
+  int getTrialPrice() => boxPrice.read(priceInit);
 
   /// Register
 
@@ -160,12 +170,17 @@ class SessionController extends GetxController {
     );
   }
 
-  final boxGoogleUser = GetStorage();
+  /// Login With Google
+  final boxUser = GetStorage();
 
   final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
   GoogleSignInAccount? currentUser;
 
-  void googleSignOut() async {
+  Future<void> googleSignOut() async {
+    await googleSignIn.signOut();
+  }
+
+  Future<void> googleDisconnect() async {
     await googleSignIn.disconnect();
   }
 
@@ -173,19 +188,61 @@ class SessionController extends GetxController {
     try {
       final user = await googleSignIn.signIn();
       currentUser = user;
-      boxGoogleUser.write(emailGoogle, currentUser?.email);
-      boxGoogleUser.write(uidGoogle, currentUser?.id);
+      boxUser.write(emailGoogle, currentUser?.email);
+      boxUser.write(uidGoogle, currentUser?.id);
       logger.i('ini user ${currentUser?.email}, ini ID user ${currentUser?.id}');
     } catch (e) {
-      print(e);
+      logger.e(e);
     } finally {
       emailPamController.text = currentUser!.email;
-      if (currentUser != null) Get.to(RegisterView());
+      uidPamController.text = currentUser!.id;
+      // if (currentUser != null) Get.to(RegisterView());
+      login();
     }
   }
 
+  Future login() async {
+    final res = await sessionProvider.login(email: currentUser!.email, id: currentUser!.id);
+    logger.i(res!.message!);
+    if (res.message == "Please register first") {
+      Get.to(RegisterView());
+    } else if (res.message == "Please pay first") {
+      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+    } else {
+      boxUser.write(tokenBearer, res.data?.token);
+      logger.i(boxUser.read(tokenBearer));
+      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.toNamed(Routes.HOME));
+    }
+  }
+
+  Future logOut() async {
+    final res = await sessionProvider.logOut(
+        email: boxUser.read(emailGoogle), id: boxUser.read(uidGoogle), bearer: boxUser.read(tokenBearer));
+    logger.i(res!.message!);
+    if (res.status == "success") {
+      boxUser.write(tokenBearer, null);
+      boxUser.write(emailGoogle, null);
+      boxUser.write(uidGoogle, null);
+      googleSignOut();
+      Get.offAllNamed(Routes.SESSION);
+    } else {
+      Get.snackbar('${res.message}', 'failed logOut');
+    }
+  }
+
+  /// Login With Google
   void readGoogleUser() {
-    logger.i("ini email google ${boxGoogleUser.read(emailGoogle)}");
-    logger.i("ini uid google ${boxGoogleUser.read(uidGoogle)}");
+    logger.i("ini email google ${boxUser.read(emailGoogle)}");
+    logger.i("ini uid google ${boxUser.read(uidGoogle)}");
+  }
+
+  String? idrFormatter({int? value}) {
+    return NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(double.parse('$value'));
+  }
+
+  void sendWhatsAppConfirm({String? phone, String? nomerOrder, String? bill, String? time}) async {
+    var url =
+        """https://api.whatsapp.com/send?phone=$phone&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20$nomerOrder%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20$bill%0ATanggal%20:%20$time%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
+    await launch(url);
   }
 }

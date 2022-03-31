@@ -1,3 +1,4 @@
+import 'package:airen/app/modules/session/views/login_view.dart';
 import 'package:get/get.dart';
 
 import 'package:airen/app/modules/account/bindings/account_binding.dart';
@@ -48,7 +49,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SESSION,
-      page: () => SessionView(),
+      page: () => LoginView(),
       binding: SessionBinding(),
     ),
   ];

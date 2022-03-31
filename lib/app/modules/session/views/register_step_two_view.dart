@@ -82,6 +82,10 @@ class RegisterStepTwoView extends GetView {
                               return "Nomor HP harus terisi";
                             } else if(val.length < 7){
                               return "Nomor HP tidak valid";
+                            } else if(val.length > 14){
+                              return "Nomor HP tidak valid";
+                            } else if(val[0] == "0"){
+                              return "Nomor HP tidak valid";
                             }
                             return null;
                           },

@@ -23,7 +23,11 @@ class SplashView extends GetView<SplashController> {
                     SizedBox(),
                   ],
                 ),
-                SvgPicture.asset('assets/airrenlogoof.svg'),
+                GestureDetector(
+                    onTap: (){
+                      controller.checkStateUser();
+                    },
+                    child: SvgPicture.asset('assets/airrenlogoof.svg')),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

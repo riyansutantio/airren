@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="60" viewBox="0 0 64 60">
+  <g id="Group_8643" data-name="Group 8643" transform="translate(-101 -80)">
+    <text id="Pengelola" transform="translate(133 125)" fill="#fff" font-size="12" font-family="Montserrat-Medium, Montserrat" font-weight="500" letter-spacing="0.02em"><tspan x="-31.554" y="0">Pengelola</tspan></text>
+    <rect id="Rectangle_4897" data-name="Rectangle 4897" width="32" height="4" rx="2" transform="translate(117 136)" fill="#fff"/>
+    <g id="Layer_2" data-name="Layer 2" transform="translate(121 80)">
+      <g id="person">
+        <rect id="Rectangle_4914" data-name="Rectangle 4914" width="24" height="24" fill="#fff" opacity="0"/>
+        <path id="Path_1260" data-name="Path 1260" d="M12,11A4,4,0,1,0,8,7,4,4,0,0,0,12,11Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,12,5Z" fill="#fff"/>
+        <path id="Path_1261" data-name="Path 1261" d="M12,13a7,7,0,0,0-7,7,1,1,0,0,0,2,0,5,5,0,0,1,10,0,1,1,0,0,0,2,0,7,7,0,0,0-7-7Z" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
