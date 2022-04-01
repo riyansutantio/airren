@@ -1,5 +1,8 @@
 import 'package:airen/app/modules/data_master/providers/master_data_provider.dart';
+import 'package:airen/app/modules/data_master/views/add_base_fee_view.dart';
 import 'package:airen/app/modules/data_master/views/add_pam_manage_view.dart';
+import 'package:airen/app/modules/data_master/views/base_fee_detail_view.dart';
+import 'package:airen/app/modules/data_master/views/pam_manage_detail_view.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -72,7 +75,8 @@ class DataMasterView extends GetView<DataMasterController> {
                             child: Row(
                               children: [
                                 const SizedBox(),
-                                SvgPicture.asset('assets/${controller.masterData.value == 0 ? 'pengelolatab' : 'pengelolauntab'}.svg'),
+                                SvgPicture.asset(
+                                    'assets/${controller.masterData.value == 0 ? 'pengelolatab' : 'pengelolauntab'}.svg'),
                               ],
                             ),
                           ),
@@ -85,7 +89,8 @@ class DataMasterView extends GetView<DataMasterController> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                SvgPicture.asset('assets/${controller.masterData.value == 1 ? 'tarifdasartab' : 'tarifdasaruntab'}.svg'),
+                                SvgPicture.asset(
+                                    'assets/${controller.masterData.value == 1 ? 'tarifdasartab' : 'tarifdasaruntab'}.svg'),
                                 const SizedBox(),
                               ],
                             ),
@@ -99,10 +104,12 @@ class DataMasterView extends GetView<DataMasterController> {
                 ),
                 decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
               ),
-              floatingActionButton:
-                  FloatingActionButton(onPressed: () {
-                    Get.to(AddPamManageView());
-                  }, child: Icon(Icons.add), backgroundColor: HexColor('#0063F8')),
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    (controller.masterData.value == 0) ? Get.to(AddPamManageView()) : Get.to(AddBaseFeeView());
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: HexColor('#0063F8')),
             ));
       },
     );
@@ -116,54 +123,62 @@ class DataMasterView extends GetView<DataMasterController> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.builder(
-              itemCount: 10,
+              itemCount: controller.baseFeeResult.length,
               itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: ListTile(
-                          dense: false,
-                          title: Text(
-                            'Rp. 1.000',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
+                        controller.amountDetailController.text = controller.baseFeeResult[index].amount.toString();
+                        controller.meterDetailPositionController.text = controller.baseFeeResult[index].meterPosition.toString();
+                        Get.to(BaseFeeDetailView());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
+                        child: ListTile(
+                            dense: false,
+                            title: Text(
+                              '${controller.baseFeeResult[index].amount}',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          leading: SvgPicture.asset('assets/icontarifdasar.svg'),
-                          trailing: SizedBox(
-                            width: 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SvgPicture.asset('assets/meter.svg'),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 2.0),
-                                  child: Text('10 m3',
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      )),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.amber,
+                            leading: SvgPicture.asset('assets/icontarifdasar.svg'),
+                            trailing: SizedBox(
+                              width: 100,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SvgPicture.asset('assets/meter.svg'),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 2.0),
+                                    child: Text('${controller.baseFeeResult[index].meterPosition}',
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        )),
                                   ),
-                                )
-                              ],
-                            ),
-                          )),
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.5),
-                          blurRadius: 5.0,
-                          spreadRadius: 0.1,
-                        )
-                      ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.amber,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )),
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.5),
+                            blurRadius: 5.0,
+                            spreadRadius: 0.1,
+                          )
+                        ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                      ),
                     ),
                   )),
         ),
@@ -182,41 +197,56 @@ class DataMasterView extends GetView<DataMasterController> {
               itemCount: controller.pamUserResult.length,
               itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: ListTile(
-                          dense: false,
-                          title: Text(
-                            '${controller.pamUserResult[index].name}',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.nameDetailController.text = controller.pamUserResult[index].name!;
+                        controller.phoneNumberDetailPamController.text = controller.pamUserResult[index].phoneNumber!;
+                        controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
+                        controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
+                        (controller.pamUserResult[index].blocked! == 0)
+                            ? controller.radioValueActivated.value = 1
+                            : controller.radioValueActivated.value = 0;
+                        Get.to(PamManageDetailView());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
+                        child: ListTile(
+                            dense: false,
+                            title: Text(
+                              '${controller.pamUserResult[index].name}',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          subtitle: Text(
-                            '${controller.pamUserResult[index].isOwner == 1 ? 'Administrator' : "yang lain"}',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          leading: const CircleAvatar(backgroundColor: Colors.blue),
-                          trailing: const Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.amber,
-                            ),
-                          )),
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.5),
-                          blurRadius: 5.0,
-                          spreadRadius: 0.1,
-                        )
-                      ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                            subtitle: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: controller.pamUserResult[index].roles!.length,
+                                itemBuilder: (context, indexRole) => Text(
+                                      controller.pamUserResult[index].roles![indexRole].name!,
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    )),
+                            leading: const CircleAvatar(backgroundColor: Colors.blue),
+                            trailing: const Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.amber,
+                              ),
+                            )),
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.5),
+                            blurRadius: 5.0,
+                            spreadRadius: 0.1,
+                          )
+                        ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                      ),
                     ),
                   )),
         ),

@@ -66,6 +66,8 @@ class RegisterView extends GetView {
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
+                                sessionController.regencyController.clear();
+                                sessionController.districtController.clear();
                                 Get.bottomSheet(Container(
                                     child: ListView.builder(
                                         shrinkWrap: true,
@@ -97,7 +99,7 @@ class RegisterView extends GetView {
                               child: AirenTextFormFieldBase(
                                 enabled: false,
                                 textInputType: TextInputType.text,
-                                suffix: Icon(
+                                suffixIcon: Icon(
                                   EvaIcons.chevronDown,
                                   color: HexColor('#0063F8'),
                                 ),
@@ -151,7 +153,7 @@ class RegisterView extends GetView {
                                 child: AirenTextFormFieldBase(
                                   enabled: false,
                                   textInputType: TextInputType.phone,
-                                  suffix: Icon(
+                                  suffixIcon: Icon(
                                     EvaIcons.chevronDown,
                                     color: HexColor('#0063F8'),
                                   ),
@@ -173,39 +175,39 @@ class RegisterView extends GetView {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   Get.bottomSheet(Container(
                                       child: ListView.builder(
                                           shrinkWrap: true,
                                           itemCount: sessionController.resultDistrict.length,
                                           itemBuilder: (context, index) => GestureDetector(
-                                            onTap: () {
-                                              sessionController.selectedDistrict.value =
-                                                  sessionController.resultDistrict[index].id.toString();
-                                              sessionController.districtController.text =
-                                              sessionController.resultDistrict[index].name!;
-                                              // sessionController.getDistrict(
-                                              //     id: sessionController.resultRegency[index].id.toString());
-                                              Get.until((route) => Get.isBottomSheetOpen == false);
-                                            },
-                                            child: ListTile(
-                                              title: Text('${sessionController.resultDistrict[index].name}',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                            ),
-                                          )),
+                                                onTap: () {
+                                                  sessionController.selectedDistrict.value =
+                                                      sessionController.resultDistrict[index].id.toString();
+                                                  sessionController.districtController.text =
+                                                      sessionController.resultDistrict[index].name!;
+                                                  // sessionController.getDistrict(
+                                                  //     id: sessionController.resultRegency[index].id.toString());
+                                                  Get.until((route) => Get.isBottomSheetOpen == false);
+                                                },
+                                                child: ListTile(
+                                                  title: Text('${sessionController.resultDistrict[index].name}',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                      )),
+                                                ),
+                                              )),
                                       decoration: const BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                              BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                           color: Colors.white)));
                                 },
                                 child: AirenTextFormFieldBase(
                                   enabled: false,
                                   textInputType: TextInputType.phone,
-                                  suffix: Icon(
+                                  suffixIcon: Icon(
                                     EvaIcons.chevronDown,
                                     color: HexColor('#0063F8'),
                                   ),

@@ -12,7 +12,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       required this.obscureText,
       this.hintText,
       required this.passwordVisibility,
-      this.suffix,
+      this.suffixIcon,
       this.textInputFormatter,
       this.returnValidation,
       this.logic,
@@ -20,7 +20,8 @@ class AirenTextFormFieldBase extends StatelessWidget {
       this.textInputType,
       this.prefix,
       this.prefixText,
-      this.enabled})
+      this.enabled,
+      this.onChange, this.onTap, this.suffix})
       : super(key: key);
 
   final TextEditingController textEditingController;
@@ -30,17 +31,22 @@ class AirenTextFormFieldBase extends StatelessWidget {
   final String? hintText;
   final Widget? prefixText;
   final bool passwordVisibility;
-  final Widget? suffix;
+  final Widget? suffixIcon;
   final Widget? prefix;
+  final Widget? suffix;
   final List<TextInputFormatter>? textInputFormatter;
   final String? Function(String? val)? returnValidation;
+  final String? Function(String? val)? onChange;
   final String? logic;
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      onChanged: onChange,
       enabled: enabled,
       keyboardType: textInputType,
       textInputAction: textInputAction,
@@ -101,7 +107,8 @@ class AirenTextFormFieldBase extends StatelessWidget {
         ),
         filled: true,
         fillColor: HexColor('#F0F5F9'),
-        suffixIcon: suffix,
+        suffixIcon: suffixIcon,
+        suffix: suffix,
         prefix: prefix,
       ),
       style: GoogleFonts.montserrat(

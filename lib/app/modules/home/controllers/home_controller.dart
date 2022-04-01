@@ -25,7 +25,7 @@ class HomeController extends GetxController {
 
   var menuItem = <MenuItemModel>[
     MenuItemModel(title: 'Catat meter', assets: 'catatmetericon.svg', id: '0'),
-    MenuItemModel(title: 'Pembayaran', assets: 'bendahara.svg', id: '1'),
+    MenuItemModel(title: 'Pembayaran', assets: 'pembayaran.svg', id: '1'),
     MenuItemModel(title: 'Laporan', assets: 'laporan.svg', id: '2'),
     MenuItemModel(title: 'Pelanggan', assets: 'pelanggan.svg', id: '3'),
     MenuItemModel(title: 'Master data', assets: 'masterdata.svg', id: '4'),

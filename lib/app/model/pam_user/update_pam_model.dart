@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-PamUserModel pamUserModelFromJson(String str) => PamUserModel.fromJson(json.decode(str));
+UpdatePamManageModel updatePamManageModelFromJson(String str) => UpdatePamManageModel.fromJson(json.decode(str));
 
-class PamUserModel {
-  PamUserModel({
+class UpdatePamManageModel {
+  UpdatePamManageModel({
     this.status,
     this.message,
     this.data,
@@ -13,7 +13,7 @@ class PamUserModel {
   final String? message;
   final Data? data;
 
-  factory PamUserModel.fromJson(Map<String, dynamic> json) => PamUserModel(
+  factory UpdatePamManageModel.fromJson(Map<String, dynamic> json) => UpdatePamManageModel(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
     data: json["data"] == null ? null : Data.fromJson(json["data"]),
@@ -22,18 +22,18 @@ class PamUserModel {
 
 class Data {
   Data({
-    this.pamsUsers,
+    this.pamUser,
   });
 
-  final List<PamsUserResult>? pamsUsers;
+  final PamUser? pamUser;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    pamsUsers: json["pamsUsers"] == null ? null : List<PamsUserResult>.from(json["pamsUsers"].map((x) => PamsUserResult.fromJson(x))),
+    pamUser: json["pamUser"] == null ? null : PamUser.fromJson(json["pamUser"]),
   );
 }
 
-class PamsUserResult {
-  PamsUserResult({
+class PamUser {
+  PamUser({
     this.id,
     this.pamId,
     this.name,
@@ -47,6 +47,7 @@ class PamsUserResult {
     this.isOwner,
     this.createdAt,
     this.updatedAt,
+    this.pam,
     this.roles,
   });
 
@@ -63,9 +64,10 @@ class PamsUserResult {
   final int? isOwner;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final List<RolePam>? roles;
+  final Pam? pam;
+  final List<Role>? roles;
 
-  factory PamsUserResult.fromJson(Map<String, dynamic> json) => PamsUserResult(
+  factory PamUser.fromJson(Map<String, dynamic> json) => PamUser(
     id: json["id"] == null ? null : json["id"],
     pamId: json["pam_id"] == null ? null : json["pam_id"],
     name: json["name"] == null ? null : json["name"],
@@ -79,12 +81,76 @@ class PamsUserResult {
     isOwner: json["is_owner"] == null ? null : json["is_owner"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    roles: json["roles"] == null ? null : List<RolePam>.from(json["roles"].map((x) => RolePam.fromJson(x))),
+    pam: json["pam"] == null ? null : Pam.fromJson(json["pam"]),
+    roles: json["roles"] == null ? null : List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
   );
 }
 
-class RolePam {
-  RolePam({
+class Pam {
+  Pam({
+    this.id,
+    this.name,
+    this.photoName,
+    this.photoPath,
+    this.dateStart,
+    this.dateEnd,
+    this.provinceId,
+    this.regencyId,
+    this.districtId,
+    this.detailAddress,
+    this.blocked,
+    this.blockedAt,
+    this.charge,
+    this.chargeDueDate,
+    this.minUsage,
+    this.isPostpaid,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  final int? id;
+  final String? name;
+  final dynamic photoName;
+  final dynamic photoPath;
+  final DateTime? dateStart;
+  final DateTime? dateEnd;
+  final int? provinceId;
+  final int? regencyId;
+  final int? districtId;
+  final String? detailAddress;
+  final int? blocked;
+  final dynamic blockedAt;
+  final dynamic charge;
+  final dynamic chargeDueDate;
+  final dynamic minUsage;
+  final int? isPostpaid;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+
+  factory Pam.fromJson(Map<String, dynamic> json) => Pam(
+    id: json["id"] == null ? null : json["id"],
+    name: json["name"] == null ? null : json["name"],
+    photoName: json["photo_name"],
+    photoPath: json["photo_path"],
+    dateStart: json["date_start"] == null ? null : DateTime.parse(json["date_start"]),
+    dateEnd: json["date_end"] == null ? null : DateTime.parse(json["date_end"]),
+    provinceId: json["province_id"] == null ? null : json["province_id"],
+    regencyId: json["regency_id"] == null ? null : json["regency_id"],
+    districtId: json["district_id"] == null ? null : json["district_id"],
+    detailAddress: json["detail_address"] == null ? null : json["detail_address"],
+    blocked: json["blocked"] == null ? null : json["blocked"],
+    blockedAt: json["blocked_at"],
+    charge: json["charge"],
+    chargeDueDate: json["charge_due_date"],
+    minUsage: json["min_usage"],
+    isPostpaid: json["is_postpaid"] == null ? null : json["is_postpaid"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
+}
+
+class Role {
+  Role({
     this.id,
     this.name,
     this.guardName,
@@ -102,7 +168,7 @@ class RolePam {
   final DateTime? updatedAt;
   final Pivot? pivot;
 
-  factory RolePam.fromJson(Map<String, dynamic> json) => RolePam(
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
     id: json["id"] == null ? null : json["id"],
     name: json["name"] == null ? null : json["name"],
     guardName: json["guard_name"] == null ? null : json["guard_name"],
