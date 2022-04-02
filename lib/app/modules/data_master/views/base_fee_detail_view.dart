@@ -120,12 +120,24 @@ class BaseFeeDetailView extends GetView {
                           returnValidation: (val) {
                             if (val!.isEmpty) {
                               return "meter PAM harus terisi";
+                            } else if (val.length >= 10){
+                              return "posisi meter max 9999999999";
                             }
                             return null;
                           },
                         ),
                       ),
-                      buildElevatedButtonCustom()
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                              onTap: (){
+                                dataMasterController.deleteBaseFee();
+                              },
+                              child: SvgPicture.asset('assets/delete.svg')),
+                          buildElevatedButtonCustom()
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -148,11 +160,11 @@ class BaseFeeDetailView extends GetView {
           }
         },
         child: Ink(
+          padding: EdgeInsets.only(right: 15, left: 15),
           decoration:
           BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
           child: SizedBox(
             height: 48,
-            width: double.infinity,
             child: Center(
               child: Text(
                 'Simpan',

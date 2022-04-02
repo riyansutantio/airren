@@ -237,7 +237,7 @@ class SessionController extends GetxController {
   }
 
   String? idrFormatter({int? value}) {
-    return NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(double.parse('$value'));
+    return NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(double.parse('${value ?? 0}'));
   }
 
   void sendWhatsAppConfirm({String? phone, String? nomerOrder, String? bill, String? time}) async {

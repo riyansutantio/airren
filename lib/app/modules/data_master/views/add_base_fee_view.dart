@@ -120,6 +120,8 @@ class AddBaseFeeView extends GetView {
                           returnValidation: (val) {
                             if (val!.isEmpty) {
                               return "meter PAM harus terisi";
+                            } else if (val.length > 10){
+                              return "posisi meter max 9999999999";
                             }
                             return null;
                           },

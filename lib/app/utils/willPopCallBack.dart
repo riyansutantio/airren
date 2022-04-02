@@ -7,7 +7,7 @@ Future<bool> willPopCallback() async {
   return true;
 }
 
-Future<bool> willPopCallbackDc({Future<void>? func}) async {
+Future<bool> willPopCallbackWithFunc({Future<void>? func}) async {
   await func;
   Get.back();
   return true;

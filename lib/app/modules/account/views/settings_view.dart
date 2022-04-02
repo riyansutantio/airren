@@ -1,6 +1,9 @@
+import 'package:airen/app/modules/account/views/charge_view.dart';
+import 'package:airen/app/modules/account/views/min_usage_view.dart';
+import 'package:airen/app/modules/account/views/my_profile_view.dart';
+import 'package:airen/app/modules/account/views/pam_profile_view.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -68,11 +71,13 @@ class SettingsView extends GetView {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   buildListTile(
                       title: 'Denda',
                       subTitle: 'Tentukan nominal denda bagi pelanggan yang terlambat bayar',
-                      assets: 'charge.svg'),
+                      assets: 'charge.svg', func: (){
+                        Get.to(ChargeView());
+                  }),
                   buildListTile(
                       title: 'Fee Loket',
                       subTitle: 'Tentukan nominal fee loket',
@@ -80,15 +85,21 @@ class SettingsView extends GetView {
                   buildListTile(
                       title: 'Minimal Penggunaan',
                       subTitle: 'Tentukan minimal penggunaan air',
-                      assets: 'minused.svg'),
+                      assets: 'minused.svg', func: (){
+                        Get.to(MinUsageView());
+                  }),
                   buildListTile(
                       title: 'Detail Pams',
                       subTitle: 'Atur nama dan sesuaikan lokasi atau alamat',
-                      assets: 'detailpam.svg'),
+                      assets: 'detailpam.svg', func: (){
+                        Get.to(PamProfileView());
+                  }),
                   buildListTile(
                       title: 'Profil Saya',
                       subTitle: 'Atur nama anda atau ganti nomor telepon',
-                      assets: 'profile.svg'),
+                      assets: 'profile.svg', func: (){
+                        Get.to(MyProfileView());
+                  }),
                 ],
               ),
             ),
@@ -98,8 +109,9 @@ class SettingsView extends GetView {
     );
   }
 
-  Widget buildListTile({String? assets, String? title, String? subTitle}) {
+  Widget buildListTile({String? assets, String? title, String? subTitle, VoidCallback? func}) {
     return ListTile(
+      onTap: func,
       minVerticalPadding: 15,
         leading: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

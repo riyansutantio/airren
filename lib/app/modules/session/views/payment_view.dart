@@ -22,7 +22,7 @@ class PaymentView extends GetView {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => willPopCallbackDc(func: sessionController.googleSignOut()),
+      onWillPop: () => willPopCallbackWithFunc(func: sessionController.googleSignOut()),
       child: Scaffold(
         appBar: buildAppBarSession(
             buttonBack: GestureDetector(
@@ -70,7 +70,7 @@ class PaymentView extends GetView {
                                   onTap: () {
                                     logger.i(sessionController.boxPrice.read(priceInit));
                                   },
-                                  child: Text('${sessionController.idrFormatter(value: sessionController.boxPrice.read(priceInit))}',
+                                  child: Text('${sessionController.idrFormatter(value: sessionController.boxPrice.read(priceInit)) ?? 0}',
                                       style: GoogleFonts.montserrat(
                                         color: HexColor('#0063F8'),
                                         fontSize: 24,

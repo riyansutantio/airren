@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../utils/utils.dart';
 import '../controllers/data_master_controller.dart';
 
 class DataMasterView extends GetView<DataMasterController> {
@@ -120,68 +121,114 @@ class DataMasterView extends GetView<DataMasterController> {
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-              itemCount: controller.baseFeeResult.length,
-              itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
-                        controller.amountDetailController.text = controller.baseFeeResult[index].amount.toString();
-                        controller.meterDetailPositionController.text = controller.baseFeeResult[index].meterPosition.toString();
-                        Get.to(BaseFeeDetailView());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5),
-                        child: ListTile(
-                            dense: false,
-                            title: Text(
-                              '${controller.baseFeeResult[index].amount}',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            leading: SvgPicture.asset('assets/icontarifdasar.svg'),
-                            trailing: SizedBox(
-                              width: 100,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SvgPicture.asset('assets/meter.svg'),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 2.0),
-                                    child: Text('${controller.baseFeeResult[index].meterPosition}',
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        )),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 8.0),
-                                    child: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.amber,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )),
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.5),
-                            blurRadius: 5.0,
-                            spreadRadius: 0.1,
-                          )
-                        ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
-                      ),
+        child: (controller.baseFeeResult.isEmpty)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 50.0),
+                    child: SvgPicture.asset('assets/tarifkosong.svg'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 2.0),
+                    child: Text('Belum ada tarif dasar',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text('Tambahkan tarif dasar penggunaan air',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          )),
                     ),
-                  )),
-        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text('melalui tombol di bawah.',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        )),
+                  ),
+                ],
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                    itemCount: controller.baseFeeResult.length,
+                    itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
+                              controller.amountDetailController.text = controller.baseFeeResult[index].amount.toString();
+                              controller.meterDetailPositionController.text =
+                                  controller.baseFeeResult[index].meterPosition.toString();
+                              Get.to(BaseFeeDetailView());
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: ListTile(
+                                  dense: false,
+                                  title: Text(
+                                    '${controller.baseFeeResult[index].amount}',
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  leading: SvgPicture.asset('assets/icontarifdasar.svg'),
+                                  trailing: SizedBox(
+                                    width: 100,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SvgPicture.asset('assets/meter.svg'),
+                                        ),
+                                        Flexible(
+                                          child: SizedBox(
+                                            child: Text('${controller.baseFeeResult[index].meterPosition}',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.montserrat(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                )),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: 8.0),
+                                          child: Icon(
+                                            Icons.arrow_forward,
+                                            color: Colors.amber,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blue.withOpacity(0.5),
+                                  blurRadius: 5.0,
+                                  spreadRadius: 0.1,
+                                )
+                              ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                            ),
+                          ),
+                        )),
+              ),
       ),
     );
   }
@@ -204,9 +251,12 @@ class DataMasterView extends GetView<DataMasterController> {
                         controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
                         controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
                         (controller.pamUserResult[index].blocked! == 0)
-                            ? controller.radioValueActivated.value = 1
-                            : controller.radioValueActivated.value = 0;
-                        Get.to(PamManageDetailView());
+                            ? controller.radioValueActivated.value = 0
+                            : controller.radioValueActivated.value = 1;
+                        controller.checkRole(controller.pamUserResult[index].roles);
+                        Get.to(PamManageDetailView(
+                          roles: controller.pamUserResult[index].roles!,
+                        ));
                       },
                       child: Container(
                         padding: const EdgeInsets.only(top: 5, bottom: 5),

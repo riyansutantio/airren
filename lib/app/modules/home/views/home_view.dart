@@ -58,11 +58,11 @@ class HomeView extends GetView<HomeController> {
                 )
               : null,
           body: renderBottomTabPage(context),
-          bottomNavigationBar: buildNavBar(),
+          bottomNavigationBar: buildNavBarAdminPam(),
         ));
   }
 
-  Stack buildNavBar() {
+  Stack buildNavBarAdminPam() {
     return Stack(
       children: [
         Container(
@@ -266,86 +266,88 @@ class HomeView extends GetView<HomeController> {
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
                   color: Colors.white,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20.0),
-                              child: Text(
-                                'Masa aktif akun sampai dengan tanggal',
-                                style: GoogleFonts.montserrat(
-                                  color: HexColor('#707793'),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  'Masa aktif akun sampai dengan tanggal',
+                                  style: GoogleFonts.montserrat(
+                                    color: HexColor('#707793'),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Text(
-                              '30 November 2022',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              Text(
+                                '30 November 2022',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                            ],
+                          ),
+                          Image.asset(
+                            'assets/license.png',
+                            width: 30,
+                            height: 30,
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text('Segera melakukan pembayaran sebelum tanggal di atas.', style: GoogleFonts.montserrat(
+                                color: HexColor('#FF8801'),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),),
+                            ),
+                          ),
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color:HexColor("#FF8801").withOpacity(0.1),
+                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Stack(
+                          children: [
+                            Container(color: Colors.grey, height: 3),
+                            Container(
+                              color: Colors.green,
+                              height: 3,
+                              width: 150,
                             ),
                           ],
                         ),
-                        Image.asset(
-                          'assets/license.png',
-                          width: 30,
-                          height: 30,
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text('Segera melakukan pembayaran sebelum tanggal di atas.', style: GoogleFonts.montserrat(
-                              color: HexColor('#FF8801'),
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),),
-                          ),
+                      ),
+                      Text(
+                        '01 November 2022 sd. 30 November 2022',
+                        style: GoogleFonts.montserrat(
+                          color: HexColor('#707793'),
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
                         ),
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color:HexColor("#FF8801").withOpacity(0.1),
-                            borderRadius: const BorderRadius.all(Radius.circular(16)),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: Stack(
-                        children: [
-                          Container(color: Colors.grey, height: 3),
-                          Container(
-                            color: Colors.green,
-                            height: 3,
-                            width: 150,
-                          ),
-                        ],
                       ),
-                    ),
-                    Text(
-                      '01 November 2022 sd. 30 November 2022',
-                      style: GoogleFonts.montserrat(
-                        color: HexColor('#707793'),
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )

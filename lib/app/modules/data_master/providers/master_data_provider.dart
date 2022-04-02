@@ -19,11 +19,6 @@ class MasterDataProvider extends GetConnect {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 
-  Map<String, String> bearerAuthSecond({String? bearer}) => {
-    HttpHeaders.acceptHeader: 'application/json',
-    HttpHeaders.authorizationHeader: 'Bearer $bearer',
-  };
-
   List<String>? pathSegmentPengelola() => ['api', HttpService.apiVersion, 'pam-user'];
   List<String>? pathSegmentUpdatePengelola({String? id}) => ['api', HttpService.apiVersion, 'pam-user', '$id'];
   List<String>? pathSegmentBaseFee() => ['api', HttpService.apiVersion, 'base-fee'];
@@ -106,7 +101,7 @@ class MasterDataProvider extends GetConnect {
     return updatePamManageModelFromJson(jsonString);
   }
 
-  Future<CommonPamManageModel?> deletePamManage(
+  Future<CommonModel?> deletePamManage(
       {required String? bearer,
         required String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
@@ -153,7 +148,7 @@ class MasterDataProvider extends GetConnect {
       "meter_position": meterPosition,
     }));
     logger.wtf(jsonDecode(jsonString));
-    logger.wtf(response.statusCode);
+    logger.wtf(response.body);
     return addPamManageModelFromJson(jsonString);
   }
 
@@ -180,5 +175,19 @@ class MasterDataProvider extends GetConnect {
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
     return addPamManageModelFromJson(jsonString);
+  }
+
+  Future<CommonModel?> deleteBaseFee(
+      {required String? bearer,
+        required String? id}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _deleteBaseFeeUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentBaseFeeUpdate(id: id));
+    logger.wtf(_deleteBaseFeeUri);
+    final response = await http.delete(_deleteBaseFeeUri,
+        headers: bearerAuth(bearer: bearer));
+    var jsonString = response.body;
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return commonPamManageModelFromJson(jsonString);
   }
 }

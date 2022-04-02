@@ -71,7 +71,18 @@ class DataMasterController extends GetxController {
   final isLoadingPamUser = false.obs;
 
   final pamUserResult = <PamsUserResult>[].obs;
+
   final pamRoleResult = <RolePam>[].obs;
+
+  void checkRole(List<RolePam>? role){
+    for(var i = 0; i < role!.length; i++){
+      if (role[i].name == "Bendahara PAM"){
+        checkBoxPembayaran.value = true;
+      } else if (role[i].name == "Catat Meter PAM"){
+        checkBoxCatatMeter.value = true;
+      }
+    }
+  }
 
   Future getPamUser() async {
     try {
@@ -189,7 +200,7 @@ class DataMasterController extends GetxController {
   Future addBaseFee() async {
     final res = await masterDataProvider.addBaseFee(
         bearer: boxUser.read(tokenBearer), amount: amountController.text, meterPosition: meterPositionController.text);
-    if (res!.status! == 'success') {
+    if (res!.message! == 'Base fee successfully created') {
       await getBaseFee();
       await clearCondition();
       Get.back();
@@ -200,6 +211,7 @@ class DataMasterController extends GetxController {
           subTitle: 'berhasil ditambahkan',
           color: Colors.green);
     } else {
+      Get.back();
       snackBarNotification(
           title: 'Tarif dasar',
           messageText: 'gagal ditambahkan',
@@ -232,6 +244,24 @@ class DataMasterController extends GetxController {
           titleText: 'Tarif dasar',
           subTitle: 'gagal diubah',
           color: Colors.red);
+    }
+  }
+
+  Future deleteBaseFee() async {
+    final res = await masterDataProvider.deleteBaseFee(id: idBaseFeeController.text, bearer: boxUser.read(tokenBearer));
+    if (res!.status! == 'success') {
+      await getBaseFee();
+      await clearCondition();
+      Get.back();
+      snackBarNotification(
+          title: 'Tarif dasar',
+          messageText: 'berhasil dihapus',
+          titleText: 'Tarif dasar',
+          subTitle: 'berhasil dihapus',
+          color: Colors.green);
+    } else {
+      snackBarNotification(
+          title: 'Tarif dasar', messageText: 'gagal dihapus', titleText: 'Tarif dasar', subTitle: 'gagal dihapus', color: Colors.red);
     }
   }
 

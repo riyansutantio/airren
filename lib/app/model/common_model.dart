@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-CommonPamManageModel commonPamManageModelFromJson(String str) => CommonPamManageModel.fromJson(json.decode(str));
+CommonModel commonPamManageModelFromJson(String str) => CommonModel.fromJson(json.decode(str));
 
-class CommonPamManageModel {
-  CommonPamManageModel({
+class CommonModel {
+  CommonModel({
     this.status,
     this.message,
   });
@@ -11,7 +11,7 @@ class CommonPamManageModel {
   final String? status;
   final String? message;
 
-  factory CommonPamManageModel.fromJson(Map<String, dynamic> json) => CommonPamManageModel(
+  factory CommonModel.fromJson(Map<String, dynamic> json) => CommonModel(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
   );
