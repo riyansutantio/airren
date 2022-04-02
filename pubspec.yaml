@@ -28,6 +28,9 @@ dependencies:
   google_sign_in:
   rename: ^2.0.1
   url_launcher:
+  path_provider:
+  open_file:
+  pdf:
   flutter: 
     sdk: flutter
 
