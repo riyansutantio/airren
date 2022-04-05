@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../utils/utils.dart';
 import '../controllers/account_controller.dart';
 
 class AccountView extends GetView<AccountController> {
@@ -66,44 +67,53 @@ class AccountView extends GetView<AccountController> {
                                   ],
                                 ),
                               ),
-                              CircleAvatar(
-                                  maxRadius: 40,
-                                  backgroundColor: Colors.white,
-                                  child: CircleAvatar(
-                                    radius: 35,
-                                    backgroundColor: HexColor('#0063F8'),
-                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  controller.getFileFromDevice();
+                                },
+                                child: const CircleAvatar(
+                                    maxRadius: 40,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      maxRadius: 35,
+                                      backgroundImage: NetworkImage(
+                                          "https://i0.wp.com/digstraksi.com/wp-content/uploads/2021/08/NINTCHDBPICT000592609288.jpg?resize=480%2C265&ssl=1"),
+                                      backgroundColor: Colors.transparent,
+                                    )),
+                              ),
                               const SizedBox(height: 20),
                             ],
                           ),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'MJ Banana PAMS',
-                                style: GoogleFonts.montserrat(
-                                  color: HexColor('#3C3F58'),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 30.0),
-                                child: Text(
-                                  'Terdaftar pada 25 Januari 2022',
-                                  style: GoogleFonts.montserrat(
-                                    color: HexColor('#707793'),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
+                          child: Obx(() => Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    controller.displayName.value,
+                                    style: GoogleFonts.montserrat(
+                                      color: HexColor('#3C3F58'),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
+                                  const SizedBox(height: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 30.0),
+                                    child: Text(
+                                      (controller.displayRegisterCreated.value.isEmpty)
+                                          ? ""
+                                          : "terdaftar pada ${controller.displayRegisterToDateTime()}",
+                                      style: GoogleFonts.montserrat(
+                                        color: HexColor('#707793'),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )),
                         ),
                       ],
                     ),
@@ -187,9 +197,12 @@ class AccountView extends GetView<AccountController> {
                     height: 1,
                   ),
                 ),
-                TileAccountWidget(title: 'Keluar', assets: 'logout.png', function: (){
-                  sessionController.logOut();
-                }),
+                TileAccountWidget(
+                    title: 'Keluar',
+                    assets: 'logout.png',
+                    function: () {
+                      sessionController.logOut();
+                    }),
               ],
             ),
           ),

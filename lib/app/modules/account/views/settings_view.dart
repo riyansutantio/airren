@@ -78,28 +78,58 @@ class SettingsView extends GetView {
                       assets: 'charge.svg', func: (){
                         Get.to(ChargeView());
                   }),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 75.0),
+                    child: Divider(
+                      height: 1,
+                    ),
+                  ),
                   buildListTile(
-                      title: 'Fee Loket',
-                      subTitle: 'Tentukan nominal fee loket',
+                      title: 'Biaya Admin',
+                      subTitle: 'Tentukan biaya untuk admin',
                       assets: 'feeloket.svg'),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 75.0),
+                    child: Divider(
+                      height: 1,
+                    ),
+                  ),
                   buildListTile(
                       title: 'Minimal Penggunaan',
                       subTitle: 'Tentukan minimal penggunaan air',
                       assets: 'minused.svg', func: (){
                         Get.to(MinUsageView());
                   }),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 75.0),
+                    child: Divider(
+                      height: 1,
+                    ),
+                  ),
                   buildListTile(
                       title: 'Detail Pams',
                       subTitle: 'Atur nama dan sesuaikan lokasi atau alamat',
                       assets: 'detailpam.svg', func: (){
                         Get.to(PamProfileView());
                   }),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 75.0),
+                    child: Divider(
+                      height: 1,
+                    ),
+                  ),
                   buildListTile(
                       title: 'Profil Saya',
                       subTitle: 'Atur nama anda atau ganti nomor telepon',
                       assets: 'profile.svg', func: (){
                         Get.to(MyProfileView());
                   }),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 75.0),
+                    child: Divider(
+                      height: 1,
+                    ),
+                  ),
                 ],
               ),
             ),

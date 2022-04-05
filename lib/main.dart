@@ -10,10 +10,8 @@ import 'app/routes/app_pages.dart';
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FlavorConfig(
-    name: "DEV",
     color: Colors.red,
     location: BannerLocation.bottomStart,
     variables: {

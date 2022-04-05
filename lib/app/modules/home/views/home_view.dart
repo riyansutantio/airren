@@ -86,6 +86,7 @@ class HomeView extends GetView<HomeController> {
             topRight: Radius.circular(15.0),
           ),
           child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.white,
             selectedLabelStyle: GoogleFonts.montserrat(
               color: HexColor('#0063F8'),
@@ -103,6 +104,7 @@ class HomeView extends GetView<HomeController> {
             currentIndex: controller.pageNavBottom.value,
             onTap: (index) => controller.onItemTapPage(index),
             showUnselectedLabels: true,
+            enableFeedback: false,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,

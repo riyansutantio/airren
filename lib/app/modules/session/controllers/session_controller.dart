@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:airen/app/model/district_model.dart';
 import 'package:airen/app/model/province_model.dart';
 import 'package:airen/app/model/regency_model.dart';
@@ -9,7 +8,6 @@ import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/modules/session/views/register_view.dart';
 import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -25,7 +23,7 @@ class SessionController extends GetxController {
 
   SessionController({required this.sessionProvider});
 
-  final nameController = TextEditingController();
+  final namePamController = TextEditingController();
   final nameAdminPamController = TextEditingController();
   final emailPamController = TextEditingController();
   final uidPamController = TextEditingController();
@@ -132,13 +130,13 @@ class SessionController extends GetxController {
     try {
       isLoadingRegister.value = true;
       final res = await sessionProvider.register(
-          pamName: nameAdminPamController.text,
+          pamName: namePamController.text,
           pamDetailAddress: addressDetailController.text,
           pamDistrictId: selectedDistrict.value,
           pamProvinceId: selectedProvince.value,
           pamRegencyId: selectedRegency.value,
           pamUserEmail: emailPamController.text,
-          pamUserName: nameController.text,
+          pamUserName: nameAdminPamController.text,
           pamUserPhoneNumber: phoneNumberController.text);
       if (res!.status == null) {
         Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
@@ -176,6 +174,14 @@ class SessionController extends GetxController {
   final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
   GoogleSignInAccount? currentUser;
 
+  Future<void> newDataCreate() async {
+    boxUser.write(tokenBearer, null);
+    boxUser.write(emailGoogle, null);
+    boxUser.write(uidGoogle, null);
+    await googleSignOut();
+    Get.offAllNamed(Routes.SESSION);
+  }
+
   Future<void> googleSignOut() async {
     await googleSignIn.signOut();
   }
@@ -190,6 +196,7 @@ class SessionController extends GetxController {
       currentUser = user;
       boxUser.write(emailGoogle, currentUser?.email);
       boxUser.write(uidGoogle, currentUser?.id);
+      nameAdminPamController.text = currentUser!.displayName!;
       logger.i('ini user ${currentUser?.email}, ini ID user ${currentUser?.id}');
     } catch (e) {
       logger.e(e);
@@ -211,7 +218,7 @@ class SessionController extends GetxController {
     } else {
       boxUser.write(tokenBearer, res.data?.token);
       logger.i(boxUser.read(tokenBearer));
-      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.toNamed(Routes.HOME));
+      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.offAllNamed(Routes.HOME));
     }
   }
 
@@ -234,10 +241,6 @@ class SessionController extends GetxController {
   void readGoogleUser() {
     logger.i("ini email google ${boxUser.read(emailGoogle)}");
     logger.i("ini uid google ${boxUser.read(uidGoogle)}");
-  }
-
-  String? idrFormatter({int? value}) {
-    return NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(double.parse('${value ?? 0}'));
   }
 
   void sendWhatsAppConfirm({String? phone, String? nomerOrder, String? bill, String? time}) async {

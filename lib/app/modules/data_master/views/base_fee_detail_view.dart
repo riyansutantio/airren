@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,15 +49,19 @@ class BaseFeeDetailView extends GetView {
                       'assets/notif.png',
                       width: 30,
                     ),
-                    const SizedBox(width: 5),
-                    const Icon(Icons.check, color: Colors.white),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                        onTap: (){
+                          dataMasterController.updateBaseFee();
+                        },
+                        child: const Icon(Icons.check, color: Colors.white)),
                   ],
                 ),
               ],
             ),
           ),
           decoration:
-          BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
+              BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
         ),
         preferredSize: Size.fromHeight(Get.height * 0.1),
       ),
@@ -83,6 +88,7 @@ class BaseFeeDetailView extends GetView {
                           passwordVisibility: false,
                           controller: dataMasterController,
                           textEditingController: dataMasterController.amountDetailController,
+                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
                           prefixText: SizedBox(
                             child: Center(
                               widthFactor: 0.0,
@@ -120,7 +126,7 @@ class BaseFeeDetailView extends GetView {
                           returnValidation: (val) {
                             if (val!.isEmpty) {
                               return "meter PAM harus terisi";
-                            } else if (val.length >= 10){
+                            } else if (val.length >= 10) {
                               return "posisi meter max 9999999999";
                             }
                             return null;
@@ -131,8 +137,117 @@ class BaseFeeDetailView extends GetView {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                              onTap: (){
-                                dataMasterController.deleteBaseFee();
+                              onTap: () {
+                                Get.bottomSheet(Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                    color: Colors.white,
+                                  ),
+                                  child: Wrap(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: 70,
+                                              height: 5,
+                                              decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                                color: Colors.amber,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SvgPicture.asset('assets/deletemanage.svg'),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Anda Yakin ?',
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#3C3F58'),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Data akan dihapus secara permanen.',
+                                            style: GoogleFonts.montserrat(
+                                              color: HexColor('#707793'),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Benarkah ingin menghapusnya?',
+                                            style: GoogleFonts.montserrat(
+                                              color: HexColor('#707793'),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Container(
+                                                      child: Text('Batal',
+                                                          style: GoogleFonts.montserrat(
+                                                            color: HexColor('#0063F8'),
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.bold,
+                                                          )),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        color: HexColor('#0063F8').withOpacity(0.2),
+                                                      ),
+                                                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    dataMasterController.deleteBaseFee();
+                                                    Get.back();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Container(
+                                                      child: Text('Ya, hapus',
+                                                          style: GoogleFonts.montserrat(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.bold,
+                                                          )),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        color: Colors.red,
+                                                      ),
+                                                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ));
                               },
                               child: SvgPicture.asset('assets/delete.svg')),
                           buildElevatedButtonCustom()
@@ -162,7 +277,7 @@ class BaseFeeDetailView extends GetView {
         child: Ink(
           padding: EdgeInsets.only(right: 15, left: 15),
           decoration:
-          BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
+              BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
           child: SizedBox(
             height: 48,
             child: Center(
@@ -180,5 +295,4 @@ class BaseFeeDetailView extends GetView {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
   }
-
 }

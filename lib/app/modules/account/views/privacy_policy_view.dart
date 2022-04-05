@@ -65,7 +65,7 @@ class PrivacyPolicyView extends GetView<AccountController> {
                 child: SingleChildScrollView(
                   child: Container(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 8.0),
                       child: Html(
                         customTextAlign: (_) => TextAlign.justify,
                         data: """${controller.resultPrivacy.value.content}""",

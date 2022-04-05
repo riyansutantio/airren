@@ -47,7 +47,16 @@ class MyProfileView extends GetView {
                       'assets/notif.png',
                       width: 30,
                     ),
-                    const Icon(Icons.check, color: Colors.white),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                        onTap: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          } else {
+                            accountController.updateProfile();
+                          }
+                        },
+                        child: const Icon(Icons.check, color: Colors.white)),
                   ],
                 )
               ],

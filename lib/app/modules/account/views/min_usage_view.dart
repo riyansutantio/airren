@@ -48,7 +48,16 @@ class MinUsageView extends GetView<AccountController> {
                       'assets/notif.png',
                       width: 30,
                     ),
-                    const Icon(Icons.check, color: Colors.white),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                        onTap: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          } else {
+                            accountController.addMinUsage();
+                          }
+                        },
+                        child: const Icon(Icons.check, color: Colors.white)),
                   ],
                 )
               ],
@@ -76,7 +85,7 @@ class MinUsageView extends GetView<AccountController> {
                           child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
                         ),
                         textInputType: TextInputType.number,
-                        hintText: 'posisi meter',
+                        hintText: 'Posisi meter',
                         obscureText: false,
                         passwordVisibility: false,
                         controller: accountController,

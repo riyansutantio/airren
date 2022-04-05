@@ -1,9 +1,6 @@
 import 'package:airen/app/modules/session/controllers/session_controller.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/modules/session/views/otp_view.dart';
-import 'package:airen/app/modules/session/views/register_view.dart';
-import 'package:airen/app/modules/session/views/widget_bottom_nav_session.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../utils/constant.dart';
-import '../../../widgets/loginTextFormFieldBase.dart';
 import 'widget_appbar_session.dart';
 
 class LoginView extends GetView<SessionController> {
@@ -30,25 +26,6 @@ class LoginView extends GetView<SessionController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: AirenTextFormFieldBase(
-                //     textInputType: TextInputType.phone,
-                //     suffix: Icon(
-                //       EvaIcons.phoneOutline,
-                //       color: HexColor('#0063F8'),
-                //     ),
-                //     hintText: 'Phone Number',
-                //     obscureText: false,
-                //     passwordVisibility: false,
-                //     controller: sessionController,
-                //     textEditingController: sessionController.phoneNumberController,
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: buildElevatedButtonCustom(),
-                // )
                 GestureDetector(
                   onTap: (){
                     sessionController.googleSignOut();
@@ -60,36 +37,35 @@ class LoginView extends GetView<SessionController> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0, left: 15.0),
-                  child: Container(
-                    height: 50,
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: HexColor('#0063F8').withOpacity(0.1),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3), // changes position of shadow
-                        ),
-                      ], borderRadius: BorderRadius.circular(15), color: Colors.white),
-                      child: GestureDetector(
-                        onTap: (){
-                          // Get.to(RegisterView());
-                          sessionController.signInWithGoogle();
-                        },
+                  child: GestureDetector(
+                    onTap: (){
+                      sessionController.signInWithGoogle();
+                    },
+                    child: Container(
+                      height: 50,
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: HexColor('#0063F8').withOpacity(0.1),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3), // changes position of shadow
+                          ),
+                        ], borderRadius: BorderRadius.circular(15), color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset('assets/gicon.svg'),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Text('Lanjutkan dengan Google', style: GoogleFonts.montserrat(
                               color: HexColor('#0063F8'),
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ))
                           ],
-                        ),
-                      )),
+                        )),
+                  ),
                 ),
-                SvgPicture.asset('assets/wave.svg'),
+                Image.asset('assets/wavebottom.png', width: double.infinity,),
               ],
             ),
             decoration: const BoxDecoration(

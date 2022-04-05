@@ -1,3 +1,5 @@
+import 'package:airen/app/modules/account/controllers/account_controller.dart';
+import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:airen/app/modules/session/views/login_view.dart';
 import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/constant.dart';
@@ -7,7 +9,6 @@ import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController {
   //TODO: Implement SplashController
-
   final count = 0.obs;
   @override
   void onInit() async {
@@ -26,9 +27,9 @@ class SplashController extends GetxController {
 
   final boxUser = GetStorage();
 
-  checkStateUser() {
+  checkStateUser() async {
     logger.i(boxUser.read(tokenBearer));
-    Future.delayed(const Duration(seconds: 2))
+    await Future.delayed(const Duration(seconds: 2))
         .whenComplete(() => boxUser.read(tokenBearer) == null ? Get.offAllNamed(Routes.SESSION) : Get.offAllNamed(Routes.HOME));
   }
 }

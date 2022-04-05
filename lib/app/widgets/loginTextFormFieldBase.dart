@@ -21,7 +21,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       this.prefix,
       this.prefixText,
       this.enabled,
-      this.onChange, this.onTap, this.suffix})
+      this.onChange, this.onTap, this.suffix, this.onSubmit})
       : super(key: key);
 
   final TextEditingController textEditingController;
@@ -36,6 +36,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
   final Widget? suffix;
   final List<TextInputFormatter>? textInputFormatter;
   final String? Function(String? val)? returnValidation;
+  final String? Function(String? val)? onSubmit;
   final String? Function(String? val)? onChange;
   final String? logic;
   final TextInputAction? textInputAction;
@@ -45,6 +46,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: onSubmit,
       onTap: onTap,
       onChanged: onChange,
       enabled: enabled,
@@ -84,7 +86,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
         hintStyle: GoogleFonts.montserrat(
           color: Colors.grey,
           fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.normal,
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -94,13 +96,14 @@ class AirenTextFormFieldBase extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
+            width: 3,
             color: HexColor('#F0F5F9'),
           ),
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: HexColor('#F0F5F9'),
+          borderSide: const BorderSide(
+            color: Colors.blue,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(15),

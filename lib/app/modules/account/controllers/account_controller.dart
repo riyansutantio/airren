@@ -1,10 +1,16 @@
 import 'package:airen/app/model/term_about_help_model.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
+import 'package:airen/app/modules/session/controllers/session_controller.dart';
+import 'package:airen/app/modules/session/providers/session_provider.dart';
+import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/constant.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 
 import '../../../model/account_settings/user_model.dart';
 import '../../../utils/utils.dart';
@@ -15,17 +21,20 @@ class AccountController extends GetxController {
 
   AccountController({required this.accountProvider});
 
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+
   final isLoadingAboutUs = false.obs;
   final isLoadingUser = false.obs;
   final isLoadingTermCondition = false.obs;
   final isLoadingPrivacy = false.obs;
 
   final meterPositionController = TextEditingController();
-  final amountController = TextEditingController();
+  final amountChargeController = TextEditingController();
   final dueDateController = TextEditingController();
   final nameController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final emailController = TextEditingController();
+  final registerDateController = TextEditingController();
 
   final namePamController = TextEditingController();
   final provinceController = TextEditingController();
@@ -36,6 +45,13 @@ class AccountController extends GetxController {
   final selectedRegency = ''.obs;
   final selectedProvince = ''.obs;
   final selectedDistrict = ''.obs;
+
+  final displayName = ''.obs;
+  final displayRegisterCreated = ''.obs;
+
+  String displayRegisterToDateTime(){
+    return DateFormat('d MMMM yyyy').format(DateTime.parse(displayRegisterCreated.value));
+  }
 
   final count = 0.obs;
   @override
@@ -67,11 +83,17 @@ class AccountController extends GetxController {
       // logger.wtf(res!.data!.data!.toList());
       resultUser.value = res!.data!.profile!;
       emailController.text = res.data!.profile!.email!;
-      nameController.text = res.data!.profile!.name!;
+      displayName.value = res.data!.profile!.name!;
+      displayRegisterCreated.value = res.data!.profile!.createdAt!.toString();
       phoneNumberController.text = res.data!.profile!.phoneNumber!;
       addressDetailController.text = res.data!.profile!.pam!.detailAddress!;
+      namePamController.text = res.data!.profile!.pam!.name!;
+      amountChargeController.text = res.data!.profile!.pam!.charge.toString();
+      dueDateController.text = res.data!.profile!.pam!.chargeDueDate.toString();
+      meterPositionController.text = res.data!.profile!.pam!.minUsage.toString();
     } catch (e) {
       logger.e(e);
+      sessionController.newDataCreate();
     } finally {
       isLoadingUser.value = false;
     }
@@ -140,7 +162,7 @@ class AccountController extends GetxController {
 
   Future addCharge() async {
     final res = await accountProvider.addCharge(
-        bearer: boxUser.read(tokenBearer), charge: amountController.text, dueDate: dueDateController.text);
+        bearer: boxUser.read(tokenBearer), charge: amountChargeController.text.numericOnly(), dueDate: dueDateController.text);
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();
@@ -172,7 +194,11 @@ class AccountController extends GetxController {
     } else {
       Get.back();
       snackBarNotification(
-          title: 'Update Profile', messageText: 'gagal ditambahkan', titleText: 'Update Profile', subTitle: 'gagal ditambahkan', color: Colors.red);
+          title: 'Update Profile',
+          messageText: 'gagal ditambahkan',
+          titleText: 'Update Profile',
+          subTitle: 'gagal ditambahkan',
+          color: Colors.red);
     }
   }
 
@@ -196,7 +222,35 @@ class AccountController extends GetxController {
     } else {
       Get.back();
       snackBarNotification(
-          title: 'PAM Profile', messageText: 'gagal ditambahkan', titleText: 'PAM Profile', subTitle: 'gagal ditambahkan', color: Colors.red);
+          title: 'PAM Profile',
+          messageText: 'gagal ditambahkan',
+          titleText: 'PAM Profile',
+          subTitle: 'gagal ditambahkan',
+          color: Colors.red);
+    }
+  }
+
+  var selectedImagePath = ''.obs;
+  var imageInit = ''.obs;
+  var selectedImageSize = ''.obs;
+  var selectedNameImage = ''.obs;
+
+  Future getFileFromDevice() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
+    if (result != null) {
+      File file = File(result.files.single.path.toString());
+      PlatformFile fileName = result.files.last;
+      logger.i(fileName.name);
+      selectedImagePath.value = result.files.single.path.toString();
+      selectedNameImage.value = fileName.name;
+      logger.wtf(selectedImagePath.value);
+      await accountProvider.pushProfilePhoto(photoPath: selectedImagePath.value, bearer: boxUser.read(tokenBearer));
+      await getUser();
+    } else {
+      Get.snackbar('file not found', 'choose your photo');
     }
   }
 

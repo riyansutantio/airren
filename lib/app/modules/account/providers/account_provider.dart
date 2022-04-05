@@ -31,7 +31,9 @@ class AccountProvider extends GetConnect {
   List<String>? pathSegmentCharge() => ['api', HttpService.apiVersion, 'charge'];
 
   List<String>? pathSegmentPamUserProfile() => ['api', HttpService.apiVersion, 'profile', 'pam-user'];
+
   List<String>? pathSegmentUpdatePam() => ['api', HttpService.apiVersion, 'profile', 'pam'];
+  List<String>? pathSegmentUploadPhotoUser() => ['api', HttpService.apiVersion, 'profile', 'pam-image'];
 
   Future<TermAboutHelpModel?> getTermAboutUsHelp({String? path, String? bearer}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
@@ -159,5 +161,29 @@ class AccountProvider extends GetConnect {
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.body);
     return pamUpdateModelFromJson(jsonString);
+  }
+
+  Future pushProfilePhoto({
+    required String photoPath,
+    required String? bearer,
+  }) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    var request = http.MultipartRequest('POST', Uri.parse(baseUrl).replace(pathSegments: pathSegmentUploadPhotoUser()));
+
+    logger.wtf('coba push foto profile ${request.fields}');
+
+    request.files.add(await http.MultipartFile.fromPath('image', photoPath));
+
+    request.fields['_method'] = 'PATCH';
+
+    request.headers.assignAll(bearerAuth(bearer: bearer));
+
+    http.StreamedResponse response = await request.send();
+    logger.i('status code ${request.fields}');
+    if (response.statusCode == 200) {
+      return logger.wtf('berhasil input profile ${await response.stream.bytesToString()} ${response.reasonPhrase}');
+    } else {
+      return logger.wtf('gagal input profile ${await response.stream.bytesToString()} ${response.reasonPhrase}');
+    }
   }
 }

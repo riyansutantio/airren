@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/willPopCallBack.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
@@ -20,17 +21,18 @@ class RegisterView extends GetView {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => willPopCallbackWithFunc(func: sessionController.googleSignOut()),
+      onWillPop: () =>           willPopCallbackWithFunc(func: sessionController.googleDisconnect()).whenComplete(() => Get.offAllNamed(Routes.SESSION)),
+
       child: Scaffold(
         appBar: buildAppBarSession(
             buttonBack: Row(
               children: [
                 GestureDetector(
                     onTap: () {
-                      Get.back();
+                      sessionController.googleDisconnect().whenComplete(() => Get.offAllNamed(Routes.SESSION));
                     },
-                    child: Icon(EvaIcons.arrowBack, color: Colors.white)),
-                SizedBox(
+                    child: const Icon(EvaIcons.arrowBack, color: Colors.white)),
+                const SizedBox(
                   width: 15,
                 )
               ],
@@ -56,7 +58,7 @@ class RegisterView extends GetView {
                                 obscureText: false,
                                 passwordVisibility: false,
                                 controller: sessionController,
-                                textEditingController: sessionController.nameController,
+                                textEditingController: sessionController.namePamController,
                                 returnValidation: (val) {
                                   if (val!.isEmpty) {
                                     return "Nama Pams harus terisi";
@@ -67,7 +69,24 @@ class RegisterView extends GetView {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: GestureDetector(
+                              child: AirenTextFormFieldBase(
+                                enabled: true,
+                                textInputType: TextInputType.none,
+                                suffixIcon: Icon(
+                                  EvaIcons.chevronDown,
+                                  color: HexColor('#0063F8'),
+                                ),
+                                hintText: 'Provinsi',
+                                obscureText: false,
+                                passwordVisibility: false,
+                                controller: sessionController,
+                                textEditingController: sessionController.provinceController,
+                                returnValidation: (val) {
+                                  if (val!.isEmpty) {
+                                    return "Provinsi harus terpilih";
+                                  }
+                                  return null;
+                                },
                                 onTap: () {
                                   sessionController.regencyController.clear();
                                   sessionController.districtController.clear();
@@ -76,54 +95,52 @@ class RegisterView extends GetView {
                                           shrinkWrap: true,
                                           itemCount: sessionController.resultProvince.length,
                                           itemBuilder: (context, index) => GestureDetector(
-                                                onTap: () {
-                                                  sessionController.selectedProvince.value =
-                                                      sessionController.resultProvince[index].id.toString();
-                                                  sessionController.provinceController.text =
-                                                      sessionController.resultProvince[index].name!;
-                                                  sessionController.getRegency(
-                                                      id: sessionController.resultProvince[index].id.toString());
-                                                  Get.until((route) => Get.isBottomSheetOpen == false);
-                                                },
-                                                child: ListTile(
-                                                  title: Text('${sessionController.resultProvince[index].name}',
-                                                      style: GoogleFonts.montserrat(
-                                                        color: HexColor('#707793'),
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                      )),
-                                                ),
-                                              )),
+                                            onTap: () {
+                                              sessionController.selectedProvince.value =
+                                                  sessionController.resultProvince[index].id.toString();
+                                              sessionController.provinceController.text =
+                                              sessionController.resultProvince[index].name!;
+                                              sessionController.getRegency(
+                                                  id: sessionController.resultProvince[index].id.toString());
+                                              Get.until((route) => Get.isBottomSheetOpen == false);
+                                            },
+                                            child: ListTile(
+                                              title: Text('${sessionController.resultProvince[index].name}',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  )),
+                                            ),
+                                          )),
                                       decoration: const BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                          BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                           color: Colors.white)));
                                 },
-                                child: AirenTextFormFieldBase(
-                                  enabled: false,
-                                  textInputType: TextInputType.text,
-                                  suffixIcon: Icon(
-                                    EvaIcons.chevronDown,
-                                    color: HexColor('#0063F8'),
-                                  ),
-                                  hintText: 'Provinsi',
-                                  obscureText: false,
-                                  passwordVisibility: false,
-                                  controller: sessionController,
-                                  textEditingController: sessionController.provinceController,
-                                  returnValidation: (val) {
-                                    if (val!.isEmpty) {
-                                      return "Provinsi harus terpilih";
-                                    }
-                                    return null;
-                                  },
-                                ),
                               ),
                             ),
                             if (sessionController.resultRegency.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
+                                child: AirenTextFormFieldBase(
+                                  enabled: true,
+                                  textInputType: TextInputType.none,
+                                  suffixIcon: Icon(
+                                    EvaIcons.chevronDown,
+                                    color: HexColor('#0063F8'),
+                                  ),
+                                  hintText: 'Kabupaten',
+                                  obscureText: false,
+                                  passwordVisibility: false,
+                                  controller: sessionController,
+                                  textEditingController: sessionController.regencyController,
+                                  returnValidation: (val) {
+                                    if (val!.isEmpty) {
+                                      return "Kabupaten harus terpilih";
+                                    }
+                                    return null;
+                                  },
                                   onTap: () {
                                     sessionController.districtController.clear();
                                     Get.bottomSheet(Container(
@@ -131,102 +148,81 @@ class RegisterView extends GetView {
                                             shrinkWrap: true,
                                             itemCount: sessionController.resultRegency.length,
                                             itemBuilder: (context, index) => GestureDetector(
-                                                  onTap: () {
-                                                    sessionController.selectedRegency.value =
-                                                        sessionController.resultRegency[index].id.toString();
-                                                    sessionController.regencyController.text =
-                                                        sessionController.resultRegency[index].name!;
-                                                    sessionController.getDistrict(
-                                                        id: sessionController.resultRegency[index].id.toString());
-                                                    Get.until((route) => Get.isBottomSheetOpen == false);
-                                                  },
-                                                  child: ListTile(
-                                                    title: Text('${sessionController.resultRegency[index].name}',
-                                                        style: GoogleFonts.montserrat(
-                                                          color: HexColor('#707793'),
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                        )),
-                                                  ),
-                                                )),
+                                              onTap: () {
+                                                sessionController.selectedRegency.value =
+                                                    sessionController.resultRegency[index].id.toString();
+                                                sessionController.regencyController.text =
+                                                sessionController.resultRegency[index].name!;
+                                                sessionController.getDistrict(
+                                                    id: sessionController.resultRegency[index].id.toString());
+                                                Get.until((route) => Get.isBottomSheetOpen == false);
+                                              },
+                                              child: ListTile(
+                                                title: Text('${sessionController.resultRegency[index].name}',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                              ),
+                                            )),
                                         decoration: const BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                            BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                             color: Colors.white)));
                                   },
-                                  child: AirenTextFormFieldBase(
-                                    enabled: false,
-                                    textInputType: TextInputType.phone,
-                                    suffixIcon: Icon(
-                                      EvaIcons.chevronDown,
-                                      color: HexColor('#0063F8'),
-                                    ),
-                                    hintText: 'Kabupaten',
-                                    obscureText: false,
-                                    passwordVisibility: false,
-                                    controller: sessionController,
-                                    textEditingController: sessionController.regencyController,
-                                    returnValidation: (val) {
-                                      if (val!.isEmpty) {
-                                        return "Kabupaten harus terpilih";
-                                      }
-                                      return null;
-                                    },
-                                  ),
                                 ),
                               ),
                             if (sessionController.resultDistrict.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
+                                child: AirenTextFormFieldBase(
+                                  enabled: true,
+                                  textInputType: TextInputType.none,
+                                  suffixIcon: Icon(
+                                    EvaIcons.chevronDown,
+                                    color: HexColor('#0063F8'),
+                                  ),
+                                  hintText: 'Kecamatan',
+                                  obscureText: false,
+                                  passwordVisibility: false,
+                                  controller: sessionController,
+                                  textEditingController: sessionController.districtController,
+                                  returnValidation: (val) {
+                                    if (val!.isEmpty) {
+                                      return "Kecamatan harus terpilih";
+                                    }
+                                    return null;
+                                  },
                                   onTap: () {
                                     Get.bottomSheet(Container(
                                         child: ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: sessionController.resultDistrict.length,
                                             itemBuilder: (context, index) => GestureDetector(
-                                                  onTap: () {
-                                                    sessionController.selectedDistrict.value =
-                                                        sessionController.resultDistrict[index].id.toString();
-                                                    sessionController.districtController.text =
-                                                        sessionController.resultDistrict[index].name!;
-                                                    // sessionController.getDistrict(
-                                                    //     id: sessionController.resultRegency[index].id.toString());
-                                                    Get.until((route) => Get.isBottomSheetOpen == false);
-                                                  },
-                                                  child: ListTile(
-                                                    title: Text('${sessionController.resultDistrict[index].name}',
-                                                        style: GoogleFonts.montserrat(
-                                                          color: HexColor('#707793'),
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                        )),
-                                                  ),
-                                                )),
+                                              onTap: () {
+                                                sessionController.selectedDistrict.value =
+                                                    sessionController.resultDistrict[index].id.toString();
+                                                sessionController.districtController.text =
+                                                sessionController.resultDistrict[index].name!;
+                                                // sessionController.getDistrict(
+                                                //     id: sessionController.resultRegency[index].id.toString());
+                                                Get.until((route) => Get.isBottomSheetOpen == false);
+                                              },
+                                              child: ListTile(
+                                                title: Text('${sessionController.resultDistrict[index].name}',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                              ),
+                                            )),
                                         decoration: const BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                            BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                             color: Colors.white)));
                                   },
-                                  child: AirenTextFormFieldBase(
-                                    enabled: false,
-                                    textInputType: TextInputType.phone,
-                                    suffixIcon: Icon(
-                                      EvaIcons.chevronDown,
-                                      color: HexColor('#0063F8'),
-                                    ),
-                                    hintText: 'Kecamatan',
-                                    obscureText: false,
-                                    passwordVisibility: false,
-                                    controller: sessionController,
-                                    textEditingController: sessionController.districtController,
-                                    returnValidation: (val) {
-                                      if (val!.isEmpty) {
-                                        return "Kecamatan harus terpilih";
-                                      }
-                                      return null;
-                                    },
-                                  ),
                                 ),
                               ),
                             // Padding(

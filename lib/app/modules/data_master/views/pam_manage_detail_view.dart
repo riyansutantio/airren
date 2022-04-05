@@ -1,6 +1,7 @@
 import 'package:airen/app/model/pam_user/pam_user_model.dart';
 import 'package:airen/app/modules/data_master/controllers/data_master_controller.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -167,7 +168,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                             GestureDetector(
                               onTap: () {
                                 Get.bottomSheet(Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
                                     color: Colors.white,
                                   ),
@@ -180,7 +181,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                 child: Container(
                                                   width: 70,
                                                   height: 5,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     borderRadius: BorderRadius.only(
                                                         topRight: Radius.circular(40), topLeft: Radius.circular(40)),
                                                     color: Colors.amber,
@@ -195,51 +196,61 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              CheckboxListTile(
-                                                controlAffinity: ListTileControlAffinity.leading,
-                                                value: dataMasterController.checkBoxCatatMeter.value,
-                                                onChanged: (val) {
-                                                  dataMasterController.checkBoxCatatMeter.value = val!;
-                                                  logger.i(dataMasterController.checkBoxCatatMeter.value);
-                                                },
-                                                title: Text(
-                                                  'Entry meter',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                              Theme(
+                                                data: ThemeData(
+                                                    checkboxTheme: CheckboxThemeData(
+                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                                                child: CheckboxListTile(
+                                                  controlAffinity: ListTileControlAffinity.leading,
+                                                  value: dataMasterController.checkBoxCatatMeter.value,
+                                                  onChanged: (val) {
+                                                    dataMasterController.checkBoxCatatMeter.value = val!;
+                                                    logger.i(dataMasterController.checkBoxCatatMeter.value);
+                                                  },
+                                                  title: Text(
+                                                    'Entry meter',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
                                                   ),
-                                                ),
-                                                subtitle: Text(
-                                                  'Jadikan sebagai petugas catat meter',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.normal,
+                                                  subtitle: Text(
+                                                    'Jadikan sebagai petugas catat meter',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                              CheckboxListTile(
-                                                controlAffinity: ListTileControlAffinity.leading,
-                                                value: dataMasterController.checkBoxPembayaran.value,
-                                                onChanged: (val) {
-                                                  dataMasterController.checkBoxPembayaran.value = val!;
-                                                  logger.i(dataMasterController.checkBoxPembayaran.value);
-                                                },
-                                                title: Text(
-                                                  'Pembayaran',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                              Theme(
+                                                data: ThemeData(
+                                                    checkboxTheme: CheckboxThemeData(
+                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                                                child: CheckboxListTile(
+                                                  controlAffinity: ListTileControlAffinity.leading,
+                                                  value: dataMasterController.checkBoxPembayaran.value,
+                                                  onChanged: (val) {
+                                                    dataMasterController.checkBoxPembayaran.value = val!;
+                                                    logger.i(dataMasterController.checkBoxPembayaran.value);
+                                                  },
+                                                  title: Text(
+                                                    'Pembayaran',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
                                                   ),
-                                                ),
-                                                subtitle: Text(
-                                                  'Jadikan sebagai petugas penerima pembayaran',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.normal,
+                                                  subtitle: Text(
+                                                    'Jadikan sebagai petugas penerima pembayaran',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -347,7 +358,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                             GestureDetector(
                               onTap: () {
                                 Get.bottomSheet(Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
                                     color: Colors.white,
                                   ),
@@ -368,7 +379,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                 ),
                                               ),
                                               Text(
-                                                'Tentukan Status',
+                                                'Status Pnegelola',
                                                 style: GoogleFonts.montserrat(
                                                   color: HexColor('#3C3F58'),
                                                   fontSize: 18,
@@ -380,16 +391,44 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                     value: 1,
                                                     groupValue: controller.radioValueActivated.value,
                                                     onChanged: controller.handleRadioValueChangeActivated),
-                                                title: Text('Active'),
-                                                subtitle: Text('diperbolehkan untuk masuk ke aplikasi'),
+                                                title: Text(
+                                                  'Active',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                subtitle: Text(
+                                                  'diperbolehkan untuk masuk ke aplikasi',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
                                               ),
                                               ListTile(
                                                 leading: Radio(
                                                     value: 0,
                                                     groupValue: controller.radioValueActivated.value,
                                                     onChanged: controller.handleRadioValueChangeActivated),
-                                                title: Text('Nonaktif'),
-                                                subtitle: Text('Tidak diperbolehkan untuk masuk ke aplikasi'),
+                                                title: Text(
+                                                  'Nonaktif',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                subtitle: Text(
+                                                  'Tidak diperbolehkan untuk masuk ke aplikasi',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           )),
@@ -499,7 +538,118 @@ class PamManageDetailView extends GetView<DataMasterController> {
                               children: [
                                 GestureDetector(
                                     onTap: () {
-                                      dataMasterController.deleteManagePam();
+                                      Get.bottomSheet(Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                          color: Colors.white,
+                                        ),
+                                        child: Wrap(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: 70,
+                                                    height: 5,
+                                                    decoration: const BoxDecoration(
+                                                      borderRadius: BorderRadius.only(
+                                                          topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                                      color: Colors.amber,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: SvgPicture.asset('assets/deletemanage.svg'),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Anda Yakin ?',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#3C3F58'),
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Data akan dihapus secara permanen.',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Benarkah ingin menghapusnya?',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.back();
+                                                        },
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Container(
+                                                            child: Text('Batal',
+                                                                style: GoogleFonts.montserrat(
+                                                                  color: HexColor('#0063F8'),
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.bold,
+                                                                )),
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(10),
+                                                              color: HexColor('#0063F8').withOpacity(0.2),
+                                                            ),
+                                                            padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          dataMasterController.deleteManagePam();
+                                                          Get.back();
+                                                        },
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Container(
+                                                            child: Text('Ya, hapus',
+                                                                style: GoogleFonts.montserrat(
+                                                                  color: Colors.white,
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.bold,
+                                                                )),
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(10),
+                                                              color: Colors.red,
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ));
                                     },
                                     child: SvgPicture.asset('assets/delete.svg')),
                                 if (dataMasterController.checkBoxPembayaran.value != false ||

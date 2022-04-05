@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -83,6 +84,9 @@ class AddBaseFeeView extends GetView {
                           passwordVisibility: false,
                           controller: dataMasterController,
                           textEditingController: dataMasterController.amountController,
+                          textInputFormatter: [
+                           CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)
+                          ],
                           prefixText: SizedBox(
                             child: Center(
                               widthFactor: 0.0,

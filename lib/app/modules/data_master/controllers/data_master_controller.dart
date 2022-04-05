@@ -1,5 +1,4 @@
 import 'package:airen/app/model/base_fee/base_fee_model.dart';
-import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,11 @@ class DataMasterController extends GetxController {
 
   final count = 0.obs;
   final masterData = 0.obs;
+  final isSearchPengelola = false.obs;
+  final isSearchBaseFee = false.obs;
+
+  final searchController = TextEditingController();
+
 
   ///Manage User
   final nameController = TextEditingController();
@@ -199,7 +203,7 @@ class DataMasterController extends GetxController {
 
   Future addBaseFee() async {
     final res = await masterDataProvider.addBaseFee(
-        bearer: boxUser.read(tokenBearer), amount: amountController.text, meterPosition: meterPositionController.text);
+        bearer: boxUser.read(tokenBearer), amount: amountController.text.numericOnly(), meterPosition: meterPositionController.text);
     if (res!.message! == 'Base fee successfully created') {
       await getBaseFee();
       await clearCondition();
@@ -225,7 +229,7 @@ class DataMasterController extends GetxController {
     final res = await masterDataProvider.updateBaseFee(
         id: idBaseFeeController.text,
         bearer: boxUser.read(tokenBearer),
-        amount: amountDetailController.text,
+        amount: amountDetailController.text.numericOnly(),
         meterPosition: meterDetailPositionController.text);
     if (res!.status! == 'success') {
       await getBaseFee();

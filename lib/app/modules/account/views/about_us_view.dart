@@ -66,7 +66,7 @@ class AboutUsView extends GetView<AccountController> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
                 child: Html(
                   customTextAlign: (_) => TextAlign.justify,
                     data: """${controller.resultAboutUs.value.content}""",

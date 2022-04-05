@@ -49,7 +49,15 @@ class AddPamManageView extends GetView {
                       width: 30,
                     ),
                     const SizedBox(width: 5),
-                    const Icon(Icons.check, color: Colors.white),
+                    GestureDetector(
+                        onTap: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          } else {
+                            dataMasterController.addManagePam();
+                          }
+                        },
+                        child: const Icon(Icons.check, color: Colors.white)),
                   ],
                 ),
               ],
@@ -161,67 +169,77 @@ class AddPamManageView extends GetView {
                               color: Colors.grey,
                             ),
                           ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              color: HexColor('#FF3B3B').withOpacity(0.1),
-                            ),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Anda harus menentukan rolenya',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#FF3B3B'),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                          // Container(
+                          //   width: double.infinity,
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.all(Radius.circular(5)),
+                          //     color: HexColor('#FF3B3B').withOpacity(0.1),
+                          //   ),
+                          //   padding: EdgeInsets.all(10),
+                          //   child: Text(
+                          //     'Anda harus menentukan rolenya',
+                          //     style: GoogleFonts.montserrat(
+                          //       color: HexColor('#FF3B3B'),
+                          //       fontSize: 12,
+                          //       fontWeight: FontWeight.w500,
+                          //     ),
+                          //   ),
+                          // ),
+                          Theme(
+                            data: ThemeData(
+                                checkboxTheme: CheckboxThemeData(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              value: dataMasterController.checkBoxCatatMeter.value,
+                              onChanged: (val) {
+                                dataMasterController.checkBoxCatatMeter.value = val!;
+                                logger.i(dataMasterController.checkBoxCatatMeter.value);
+                              },
+                              title: Text(
+                                'Entry meter',
+                                style: GoogleFonts.montserrat(
+                                  color: HexColor('#707793'),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'Jadikan sebagai petugas catat meter',
+                                style: GoogleFonts.montserrat(
+                                  color: HexColor('#707793'),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                           ),
-                          CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            value: dataMasterController.checkBoxCatatMeter.value,
-                            onChanged: (val) {
-                              dataMasterController.checkBoxCatatMeter.value = val!;
-                              logger.i(dataMasterController.checkBoxCatatMeter.value);
-                            },
-                            title: Text(
-                              'Entry meter',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                          Theme(
+                            data: ThemeData(
+                                checkboxTheme: CheckboxThemeData(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              value: dataMasterController.checkBoxPembayaran.value,
+                              onChanged: (val) {
+                                dataMasterController.checkBoxPembayaran.value = val!;
+                                logger.i(dataMasterController.checkBoxPembayaran.value);
+                              },
+                              title: Text(
+                                'Pembayaran',
+                                style: GoogleFonts.montserrat(
+                                  color: HexColor('#707793'),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            subtitle: Text(
-                              'Jadikan sebagai petugas catat meter',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            value: dataMasterController.checkBoxPembayaran.value,
-                            onChanged: (val) {
-                              dataMasterController.checkBoxPembayaran.value = val!;
-                              logger.i(dataMasterController.checkBoxPembayaran.value);
-                            },
-                            title: Text(
-                              'Pembayaran',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            subtitle: Text(
-                              'Jadikan sebagai petugas penerima pembayaran',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
+                              subtitle: Text(
+                                'Jadikan sebagai petugas penerima pembayaran',
+                                style: GoogleFonts.montserrat(
+                                  color: HexColor('#707793'),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                           ),

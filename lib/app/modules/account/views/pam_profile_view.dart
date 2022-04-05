@@ -51,7 +51,16 @@ class PamProfileView extends GetView {
                       'assets/notif.png',
                       width: 30,
                     ),
-                    const Icon(Icons.check, color: Colors.white),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                        onTap: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          } else {
+                            accountController.updatePamProfile();
+                          }
+                        },
+                        child: const Icon(Icons.check, color: Colors.white)),
                   ],
                 )
               ],

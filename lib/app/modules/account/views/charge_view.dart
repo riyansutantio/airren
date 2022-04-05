@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,7 +49,16 @@ class ChargeView extends GetView {
                       'assets/notif.png',
                       width: 30,
                     ),
-                    const Icon(Icons.check, color: Colors.white),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                        onTap: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          } else {
+                            accountController.addCharge();
+                          }
+                        },
+                        child: const Icon(Icons.check, color: Colors.white)),
                   ],
                 )
               ],
@@ -80,7 +90,7 @@ class ChargeView extends GetView {
                         obscureText: false,
                         passwordVisibility: false,
                         controller: accountController,
-                        textEditingController: accountController.amountController,
+                        textEditingController: accountController.amountChargeController,
                         prefixText: SizedBox(
                           child: Center(
                             widthFactor: 0.0,
@@ -94,6 +104,9 @@ class ChargeView extends GetView {
                             ),
                           ),
                         ),
+                        textInputFormatter: [
+                          CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)
+                        ],
                         returnValidation: (val) {
                           if (val!.isEmpty) {
                             return "tarif harus terisi";
@@ -123,7 +136,7 @@ class ChargeView extends GetView {
                           EvaIcons.chevronDown,
                           color: HexColor('#0063F8'),
                         ),
-                        textInputType: TextInputType.number,
+                        textInputType: TextInputType.none,
                         hintText: 'jatuh tempo',
                         obscureText: false,
                         passwordVisibility: false,
@@ -136,6 +149,30 @@ class ChargeView extends GetView {
                             return "valuasi 1 sampai 31";
                           }
                           return null;
+                        },
+                        onTap: (){
+                          Get.bottomSheet(Container(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 31,
+                                  itemBuilder: (context, index) => GestureDetector(
+                                    onTap: () {
+                                      accountController.dueDateController.text = (index+1).toString();
+                                      Get.until((route) => Get.isBottomSheetOpen == false);
+                                    },
+                                    child: ListTile(
+                                      title: Text('${index+1}',
+                                          style: GoogleFonts.montserrat(
+                                            color: HexColor('#707793'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                    ),
+                                  )),
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                  color: Colors.white)));
                         },
                       ),
                     ),
