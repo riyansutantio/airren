@@ -10,6 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../utils/constant.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
+import '../../error_handling/views/error_handling_view.dart';
 
 class AddPamManageView extends GetView {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -44,10 +45,11 @@ class AddPamManageView extends GetView {
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/notif.png',
-                      width: 30,
-                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(ErrorHandlingView());
+                        },
+                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
                     const SizedBox(width: 5),
                     GestureDetector(
                         onTap: () {
@@ -57,7 +59,8 @@ class AddPamManageView extends GetView {
                             dataMasterController.addManagePam();
                           }
                         },
-                        child: const Icon(Icons.check, color: Colors.white)),
+                        child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                    const SizedBox(width: 8),
                   ],
                 ),
               ],
@@ -71,15 +74,15 @@ class AddPamManageView extends GetView {
       body: Container(
         decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
         child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Obx(() => Column(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Obx(() => Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 10.0, right: 20, left: 20, bottom: 8.0),
                             child: AirenTextFormFieldBase(
                               textInputType: TextInputType.text,
                               hintText: 'Nama Pengelola',
@@ -89,14 +92,14 @@ class AddPamManageView extends GetView {
                               textEditingController: dataMasterController.nameController,
                               returnValidation: (val) {
                                 if (val!.isEmpty) {
-                                  return "Nama Administrator PAM harus terisi";
+                                  return "Nama administrator PAM harus diisi";
                                 }
                                 return null;
                               },
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 10.0, right: 20, left: 20, bottom: 8.0),
                             child: AirenTextFormFieldBase(
                               textInputType: TextInputType.phone,
                               hintText: 'Nomor HP',
@@ -108,18 +111,18 @@ class AddPamManageView extends GetView {
                                 child: Center(
                                   widthFactor: 0.0,
                                   child: Text(
-                                    '+62',
+                                    '62',
                                     style: GoogleFonts.montserrat(
                                       color: HexColor('#707793'),
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
                                 ),
                               ),
                               returnValidation: (val) {
                                 if (val!.isEmpty) {
-                                  return "Nomor HP harus terisi";
+                                  return "Nomor HP harus diisi";
                                 } else if (val.length < 7) {
                                   return "Nomor HP tidak valid";
                                 } else if (val.length > 14) {
@@ -132,7 +135,7 @@ class AddPamManageView extends GetView {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 10.0, right: 20, left: 20, bottom: 8.0),
                             child: AirenTextFormFieldBase(
                               textInputType: TextInputType.emailAddress,
                               hintText: 'email',
@@ -143,13 +146,15 @@ class AddPamManageView extends GetView {
                               returnValidation: (val) {
                                 if (!val!.isEmail) {
                                   return "Email tidak valid";
+                                } else if (val.isEmpty) {
+                                  return "Email harus diisi";
                                 }
                                 return null;
                               },
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 10.0, right: 20, left: 20, bottom: 8.0),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
@@ -163,10 +168,10 @@ class AddPamManageView extends GetView {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Container(
                               height: 2,
-                              color: Colors.grey,
+                              color: HexColor('#F0F5F9'),
                             ),
                           ),
                           // Container(
@@ -187,8 +192,8 @@ class AddPamManageView extends GetView {
                           // ),
                           Theme(
                             data: ThemeData(
-                                checkboxTheme: CheckboxThemeData(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                                checkboxTheme:
+                                    CheckboxThemeData(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
                               value: dataMasterController.checkBoxCatatMeter.value,
@@ -216,8 +221,8 @@ class AddPamManageView extends GetView {
                           ),
                           Theme(
                             data: ThemeData(
-                                checkboxTheme: CheckboxThemeData(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                                checkboxTheme:
+                                    CheckboxThemeData(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
                               value: dataMasterController.checkBoxPembayaran.value,
@@ -246,10 +251,13 @@ class AddPamManageView extends GetView {
                           const SizedBox(height: 10),
                           if (dataMasterController.checkBoxPembayaran.value != false ||
                               dataMasterController.checkBoxCatatMeter.value != false)
-                            buildElevatedButtonCustom(),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, right: 20, left: 20, bottom: 8.0),
+                              child: buildElevatedButtonCustom(),
+                            ),
                         ],
-                      )),
-                ),
+                      ),
+                    )),
               ),
             ),
             decoration: const BoxDecoration(

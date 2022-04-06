@@ -13,6 +13,7 @@ import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../../../utils/willPopCallBack.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
+import '../../error_handling/views/error_handling_view.dart';
 import '../providers/master_data_provider.dart';
 
 class PamManageDetailView extends GetView<DataMasterController> {
@@ -20,8 +21,9 @@ class PamManageDetailView extends GetView<DataMasterController> {
   final DataMasterController dataMasterController = Get.put(DataMasterController(masterDataProvider: MasterDataProvider()));
 
   List<RolePam> roles;
+  int? admin;
 
-  PamManageDetailView({required this.roles});
+  PamManageDetailView({required this.roles, required this.admin});
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +56,18 @@ class PamManageDetailView extends GetView<DataMasterController> {
                   ),
                   Row(
                     children: [
-                      Image.asset(
-                        'assets/notif.png',
-                        width: 30,
-                      ),
+                      GestureDetector(
+                          onTap: (){
+                            Get.to(ErrorHandlingView());
+                          },
+                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+
                       const SizedBox(width: 5),
-                      const Icon(Icons.check, color: Colors.white),
+                      GestureDetector(
+                          onTap: (){
+                            dataMasterController.updateManagePam();
+                          },child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                      const SizedBox(width: 8),
                     ],
                   ),
                 ],
@@ -91,7 +99,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                 textEditingController: dataMasterController.nameDetailController,
                                 returnValidation: (val) {
                                   if (val!.isEmpty) {
-                                    return "Nama Administrator PAM harus terisi";
+                                    return "Nama pengelola harus diisi";
                                   }
                                   return null;
                                 },
@@ -110,7 +118,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                   child: Center(
                                     widthFactor: 0.0,
                                     child: Text(
-                                      '+62',
+                                      '62',
                                       style: GoogleFonts.montserrat(
                                         color: HexColor('#707793'),
                                         fontSize: 14,
@@ -121,7 +129,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                 ),
                                 returnValidation: (val) {
                                   if (val!.isEmpty) {
-                                    return "Nomor HP harus terisi";
+                                    return "Nomor HP harus diisi";
                                   } else if (val.length < 7) {
                                     return "Nomor HP tidak valid";
                                   } else if (val.length > 14) {
@@ -165,390 +173,63 @@ class PamManageDetailView extends GetView<DataMasterController> {
                               ),
                             ),
                             const SizedBox(height: 15),
-                            GestureDetector(
-                              onTap: () {
-                                Get.bottomSheet(Container(
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-                                    color: Colors.white,
-                                  ),
-                                  child: Wrap(
+                            (admin == 1) ? Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blue.withOpacity(0.5),
+                                  blurRadius: 5.0,
+                                  spreadRadius: 0.1,
+                                )
+                              ], borderRadius: BorderRadius.circular(16), color: Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Obx(() => Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  width: 70,
-                                                  height: 5,
-                                                  decoration: const BoxDecoration(
-                                                    borderRadius: BorderRadius.only(
-                                                        topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-                                                    color: Colors.amber,
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'Tentukan Role',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#3C3F58'),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Theme(
-                                                data: ThemeData(
-                                                    checkboxTheme: CheckboxThemeData(
-                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
-                                                child: CheckboxListTile(
-                                                  controlAffinity: ListTileControlAffinity.leading,
-                                                  value: dataMasterController.checkBoxCatatMeter.value,
-                                                  onChanged: (val) {
-                                                    dataMasterController.checkBoxCatatMeter.value = val!;
-                                                    logger.i(dataMasterController.checkBoxCatatMeter.value);
-                                                  },
-                                                  title: Text(
-                                                    'Entry meter',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  subtitle: Text(
-                                                    'Jadikan sebagai petugas catat meter',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Theme(
-                                                data: ThemeData(
-                                                    checkboxTheme: CheckboxThemeData(
-                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
-                                                child: CheckboxListTile(
-                                                  controlAffinity: ListTileControlAffinity.leading,
-                                                  value: dataMasterController.checkBoxPembayaran.value,
-                                                  onChanged: (val) {
-                                                    dataMasterController.checkBoxPembayaran.value = val!;
-                                                    logger.i(dataMasterController.checkBoxPembayaran.value);
-                                                  },
-                                                  title: Text(
-                                                    'Pembayaran',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  subtitle: Text(
-                                                    'Jadikan sebagai petugas penerima pembayaran',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Text('Batal',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#0063F8'),
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    )),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  color: HexColor('#0063F8').withOpacity(0.2),
-                                                ),
-                                                padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                              ),
-                                            ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                        child: Text(
+                                          'Tentukan Role',
+                                          style: GoogleFonts.montserrat(
+                                            color: HexColor('#707793'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Text('Simpan',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    )),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  color: HexColor('#0063F8'),
-                                                ),
-                                                padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                        child: Text(
+                                          roles.map((e) => e.name).join(' & '),
+                                          style: GoogleFonts.montserrat(
+                                            color: HexColor('#0063F8'),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
-                                ));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.blue.withOpacity(0.5),
-                                    blurRadius: 5.0,
-                                    spreadRadius: 0.1,
-                                  )
-                                ], borderRadius: BorderRadius.circular(16), color: Colors.white),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
-                                          child: Text(
-                                            'Tentukan Role',
-                                            style: GoogleFonts.montserrat(
-                                              color: HexColor('#707793'),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
-                                          child: Text(
-                                            roles.map((e) => e.name).join(' & '),
-                                            style: GoogleFonts.montserrat(
-                                              color: HexColor('#0063F8'),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset('assets/edit.svg'),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            GestureDetector(
-                              onTap: () {
-                                Get.bottomSheet(Container(
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-                                    color: Colors.white,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset('assets/edit.svg'),
                                   ),
-                                  child: Wrap(
-                                    children: [
-                                      Obx(() => Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  width: 70,
-                                                  height: 5,
-                                                  decoration: const BoxDecoration(
-                                                    borderRadius: BorderRadius.only(
-                                                        topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-                                                    color: Colors.amber,
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'Status Pnegelola',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#3C3F58'),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              ListTile(
-                                                leading: Radio(
-                                                    value: 1,
-                                                    groupValue: controller.radioValueActivated.value,
-                                                    onChanged: controller.handleRadioValueChangeActivated),
-                                                title: Text(
-                                                  'Active',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                                subtitle: Text(
-                                                  'diperbolehkan untuk masuk ke aplikasi',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ),
-                                              ListTile(
-                                                leading: Radio(
-                                                    value: 0,
-                                                    groupValue: controller.radioValueActivated.value,
-                                                    onChanged: controller.handleRadioValueChangeActivated),
-                                                title: Text(
-                                                  'Nonaktif',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                                subtitle: Text(
-                                                  'Tidak diperbolehkan untuk masuk ke aplikasi',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Text('Batal',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#0063F8'),
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    )),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  color: HexColor('#0063F8').withOpacity(0.2),
-                                                ),
-                                                padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Text('Simpan',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    )),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  color: HexColor('#0063F8'),
-                                                ),
-                                                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.blue.withOpacity(0.5),
-                                    blurRadius: 5.0,
-                                    spreadRadius: 0.1,
-                                  )
-                                ], borderRadius: BorderRadius.circular(16), color: Colors.white),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
-                                          child: Text(
-                                            'Tentukan Status',
-                                            style: GoogleFonts.montserrat(
-                                              color: HexColor('#707793'),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
-                                          child: Text(
-                                            controller.radioValueActivated.value == 1 ? "Aktiv" : 'Nonaktif',
-                                            style: GoogleFonts.montserrat(
-                                              color: controller.radioValueActivated.value == 1
-                                                  ? HexColor('#05C270')
-                                                  : HexColor('#FF3B3B'),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset('assets/edit.svg'),
-                                    ),
-                                  ],
-                                ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                    onTap: () {
-                                      Get.bottomSheet(Container(
-                                        decoration: const BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-                                          color: Colors.white,
-                                        ),
-                                        child: Wrap(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                            ) :  Padding(
+                              padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.bottomSheet(Container(
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                      color: Colors.white,
+                                    ),
+                                    child: Wrap(
+                                      children: [
+                                        Obx(() => Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
@@ -556,106 +237,531 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                     width: 70,
                                                     height: 5,
                                                     decoration: const BoxDecoration(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                                      borderRadius: BorderRadius.all(Radius.circular(40)),
                                                       color: Colors.amber,
                                                     ),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: SvgPicture.asset('assets/deletemanage.svg'),
+                                                Text(
+                                                  'Tentukan Role',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#3C3F58'),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
+                                                Theme(
+                                                  data: ThemeData(
+                                                      checkboxTheme: CheckboxThemeData(
+                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                                                  child: CheckboxListTile(
+                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                    value: dataMasterController.checkBoxCatatMeter.value,
+                                                    onChanged: (val) {
+                                                      dataMasterController.checkBoxCatatMeter.value = val!;
+                                                      logger.i(dataMasterController.checkBoxCatatMeter.value);
+                                                    },
+                                                    title: Text(
+                                                      'Entry meter',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    subtitle: Text(
+                                                      'Jadikan sebagai petugas catat meter',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Theme(
+                                                  data: ThemeData(
+                                                      checkboxTheme: CheckboxThemeData(
+                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
+                                                  child: CheckboxListTile(
+                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                    value: dataMasterController.checkBoxPembayaran.value,
+                                                    onChanged: (val) {
+                                                      dataMasterController.checkBoxPembayaran.value = val!;
+                                                      logger.i(dataMasterController.checkBoxPembayaran.value);
+                                                    },
+                                                    title: Text(
+                                                      'Pembayaran',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    subtitle: Text(
+                                                      'Jadikan sebagai petugas penerima pembayaran',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Text('Batal',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#0063F8'),
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      )),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: HexColor('#0063F8').withOpacity(0.2),
+                                                  ),
+                                                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Text('Simpan',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      )),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: HexColor('#0063F8'),
+                                                  ),
+                                                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blue.withOpacity(0.5),
+                                      blurRadius: 5.0,
+                                      spreadRadius: 0.1,
+                                    )
+                                  ], borderRadius: BorderRadius.circular(16), color: Colors.white),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                            child: Text(
+                                              'Tentukan Role',
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#707793'),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                            child: Text(
+                                              roles.map((e) => e.name).join(' & '),
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#0063F8'),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SvgPicture.asset('assets/edit.svg'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            (admin == 1) ? Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blue.withOpacity(0.5),
+                                  blurRadius: 5.0,
+                                  spreadRadius: 0.1,
+                                )
+                              ], borderRadius: BorderRadius.circular(16), color: Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                        child: Text(
+                                          'Tentukan Status',
+                                          style: GoogleFonts.montserrat(
+                                            color: HexColor('#707793'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                        child: Text(
+                                          controller.radioValueActivated.value == 0 ? "Aktif" : 'Nonaktif',
+                                          style: GoogleFonts.montserrat(
+                                            color: controller.radioValueActivated.value == 0
+                                                ? HexColor('#05C270')
+                                                : HexColor('#FF3B3B'),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset('assets/edit.svg'),
+                                  ),
+                                ],
+                              ),
+                            ) : Padding(
+                              padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.bottomSheet(Container(
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                      color: Colors.white,
+                                    ),
+                                    child: Wrap(
+                                      children: [
+                                        Obx(() => Column(
+                                              children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Anda Yakin ?',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#3C3F58'),
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                  child: Container(
+                                                    width: 70,
+                                                    height: 5,
+                                                    decoration: const BoxDecoration(
+                                                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                                                      color: Colors.amber,
                                                     ),
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Data akan dihapus secara permanen.',
+                                                  'Status Pnegelola',
                                                   style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.normal,
+                                                    color: HexColor('#3C3F58'),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                Text(
-                                                  'Benarkah ingin menghapusnya?',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.normal,
+                                                ListTile(
+                                                  leading: Radio(
+                                                      value: 0,
+                                                      groupValue: controller.radioValueActivated.value,
+                                                      onChanged: controller.handleRadioValueChangeActivated),
+                                                  title: Text(
+                                                    'Active',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  subtitle: Text(
+                                                    'diperbolehkan untuk masuk ke aplikasi',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Get.back();
-                                                        },
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: Container(
-                                                            child: Text('Batal',
-                                                                style: GoogleFonts.montserrat(
-                                                                  color: HexColor('#0063F8'),
-                                                                  fontSize: 16,
-                                                                  fontWeight: FontWeight.bold,
-                                                                )),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(10),
-                                                              color: HexColor('#0063F8').withOpacity(0.2),
-                                                            ),
-                                                            padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          dataMasterController.deleteManagePam();
-                                                          Get.back();
-                                                        },
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: Container(
-                                                            child: Text('Ya, hapus',
-                                                                style: GoogleFonts.montserrat(
-                                                                  color: Colors.white,
-                                                                  fontSize: 16,
-                                                                  fontWeight: FontWeight.bold,
-                                                                )),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(10),
-                                                              color: Colors.red,
-                                                            ),
-                                                            padding:
-                                                                const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                ListTile(
+                                                  leading: Radio(
+                                                      value: 1,
+                                                      groupValue: controller.radioValueActivated.value,
+                                                      onChanged: controller.handleRadioValueChangeActivated),
+                                                  title: Text(
+                                                    'Nonaktif',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  subtitle: Text(
+                                                    'Tidak diperbolehkan untuk masuk ke aplikasi',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
+                                            )),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Text('Batal',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#0063F8'),
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      )),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: HexColor('#0063F8').withOpacity(0.2),
+                                                  ),
+                                                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Text('Simpan',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      )),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: HexColor('#0063F8'),
+                                                  ),
+                                                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ));
-                                    },
-                                    child: SvgPicture.asset('assets/delete.svg')),
-                                if (dataMasterController.checkBoxPembayaran.value != false ||
-                                    dataMasterController.checkBoxCatatMeter.value != false)
-                                  buildElevatedButtonCustom(),
-                              ],
+                                      ],
+                                    ),
+                                  ));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blue.withOpacity(0.5),
+                                      blurRadius: 5.0,
+                                      spreadRadius: 0.1,
+                                    )
+                                  ], borderRadius: BorderRadius.circular(16), color: Colors.white),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                            child: Text(
+                                              'Tentukan Status',
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#707793'),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 25.0),
+                                            child: Text(
+                                              controller.radioValueActivated.value == 0 ? "Aktif" : 'Nonaktif',
+                                              style: GoogleFonts.montserrat(
+                                                color: controller.radioValueActivated.value == 0
+                                                    ? HexColor('#05C270')
+                                                    : HexColor('#FF3B3B'),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SvgPicture.asset('assets/edit.svg'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                           (admin == 1) ? const SizedBox() : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.bottomSheet(Container(
+                                          decoration: const BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                            color: Colors.white,
+                                          ),
+                                          child: Wrap(
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Container(
+                                                      width: 70,
+                                                      height: 5,
+                                                      decoration: const BoxDecoration(
+                                                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                                                        color: Colors.amber,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: SvgPicture.asset('assets/deletemanage.svg'),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Anda Yakin ?',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#3C3F58'),
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Data akan dihapus secara permanen.',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Benarkah ingin menghapusnya?',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.back();
+                                                          },
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Container(
+                                                              child: Text('Batal',
+                                                                  style: GoogleFonts.montserrat(
+                                                                    color: HexColor('#0063F8'),
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  )),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(10),
+                                                                color: HexColor('#0063F8').withOpacity(0.2),
+                                                              ),
+                                                              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            dataMasterController.deleteManagePam();
+                                                            Get.back();
+                                                          },
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Container(
+                                                              child: Text('Ya, hapus',
+                                                                  style: GoogleFonts.montserrat(
+                                                                    color: Colors.white,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  )),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(10),
+                                                                color: Colors.red,
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ));
+                                      },
+                                      child: SvgPicture.asset('assets/delete.svg')),
+                                  if (dataMasterController.checkBoxPembayaran.value != false ||
+                                      dataMasterController.checkBoxCatatMeter.value != false)
+                                    buildElevatedButtonCustom(),
+                                ],
+                              ),
                             )
                           ],
                         )),

@@ -141,7 +141,10 @@ class SessionController extends GetxController {
       if (res!.status == null) {
         Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
       } else {
+        boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
         boxPrice.write(priceInit, res.data?.trialPrice);
+        boxPrice.write(orderIdTrxCreated, res.data?.pam?.createdAt);
+        boxPrice.write(orderIdTrx, res.data?.pam?.id);
         Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
         Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
       }
@@ -197,6 +200,8 @@ class SessionController extends GetxController {
       boxUser.write(emailGoogle, currentUser?.email);
       boxUser.write(uidGoogle, currentUser?.id);
       nameAdminPamController.text = currentUser!.displayName!;
+      emailPamController.text = currentUser!.email;
+      uidPamController.text = currentUser!.id;
       logger.i('ini user ${currentUser?.email}, ini ID user ${currentUser?.id}');
     } catch (e) {
       logger.e(e);
@@ -243,9 +248,9 @@ class SessionController extends GetxController {
     logger.i("ini uid google ${boxUser.read(uidGoogle)}");
   }
 
-  void sendWhatsAppConfirm({String? phone, String? nomerOrder, String? bill, String? time}) async {
+  void sendWhatsAppConfirm({String? time}) async {
     var url =
-        """https://api.whatsapp.com/send?phone=$phone&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20$nomerOrder%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20$bill%0ATanggal%20:%20$time%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
+        """https://api.whatsapp.com/send?phone=62${boxUser.read(phoneNumberVerification)}&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20${boxUser.read(orderIdTrx)}%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20${boxUser.read(priceInit)}%0ATanggal%20:%20${boxUser.read(orderIdTrxCreated)}%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
     await launch(url);
   }
 }

@@ -46,20 +46,20 @@ class LoginView extends GetView<SessionController> {
                         decoration: BoxDecoration(boxShadow: [
                           BoxShadow(
                             color: HexColor('#0063F8').withOpacity(0.1),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
+                            spreadRadius: 3,
+                            blurRadius: 6,
+                            offset: const Offset(0, 2), // changes position of shadow
                           ),
                         ], borderRadius: BorderRadius.circular(15), color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset('assets/gicon.svg'),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 10),
                             Text('Lanjutkan dengan Google', style: GoogleFonts.montserrat(
                               color: HexColor('#0063F8'),
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ))
                           ],
                         )),

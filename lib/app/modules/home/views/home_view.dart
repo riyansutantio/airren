@@ -1,5 +1,6 @@
 import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
+import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -39,12 +40,13 @@ class HomeView extends GetView<HomeController> {
                           ),
                           Row(
                             children: [
-                              Image.asset(
-                                'assets/notif.png',
-                                width: 30,
-                              ),
-                              SizedBox(width: 20),
-                              CircleAvatar(
+                              GestureDetector(
+                                  onTap: () {
+                                    Get.to(ErrorHandlingView());
+                                  },
+                                  child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                              const SizedBox(width: 20),
+                              const CircleAvatar(
                                 maxRadius: 20,
                               ),
                             ],
@@ -73,10 +75,7 @@ class HomeView extends GetView<HomeController> {
               topRight: Radius.circular(15.0),
             ),
             boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: HexColor('#0063F8').withOpacity(0.3),
-                blurRadius: 10,
-              ),
+              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
             ],
           ),
         ),
@@ -96,37 +95,29 @@ class HomeView extends GetView<HomeController> {
             unselectedLabelStyle: GoogleFonts.montserrat(
               color: HexColor('#707793'),
               fontSize: 12,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.normal,
             ),
             unselectedItemColor: HexColor('#707793'),
             selectedItemColor: HexColor('#0063F8'),
             showSelectedLabels: true,
             currentIndex: controller.pageNavBottom.value,
             onTap: (index) => controller.onItemTapPage(index),
-            showUnselectedLabels: true,
+            showUnselectedLabels: false,
             enableFeedback: false,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/${(controller.pageNavBottom.value == 0) ? 'homenavsolid.png' : 'home.png'}',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 0) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
+                  child: controller.pageNavBottom.value == 0 ? const Icon(EvaIcons.home) : const Icon(EvaIcons.homeOutline),
                 ),
-                label: 'Home',
+                label: 'Beranda',
               ),
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/${(controller.pageNavBottom.value == 1) ? 'custnavsolid.png' : 'cust.png'}',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 1) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
+                  child: controller.pageNavBottom.value == 1 ? const Icon(EvaIcons.people) : const Icon(EvaIcons.peopleOutline),
                 ),
                 label: 'Pelanggan',
               ),
@@ -134,11 +125,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/${(controller.pageNavBottom.value == 2) ? 'datanavsolid.png' : 'data.png'}',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 2) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
+                  child: controller.pageNavBottom.value == 2 ? const Icon(EvaIcons.edit) : const Icon(EvaIcons.editOutline),
                 ),
                 label: 'Data',
               ),
@@ -146,11 +133,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Image.asset(
-                    'assets/${(controller.pageNavBottom.value == 3) ? 'accnavsolid.png' : 'account.png'}',
-                    width: 25,
-                    color: (controller.pageNavBottom.value == 3) ? HexColor('#0063F8') : HexColor('#707793'),
-                  ),
+                  child: controller.pageNavBottom.value == 3 ? const Icon(EvaIcons.droplet) : const Icon(EvaIcons.dropletOutline),
                 ),
                 label: 'Akun',
               ),
@@ -311,19 +294,22 @@ class HomeView extends GetView<HomeController> {
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text('Segera melakukan pembayaran sebelum tanggal di atas.', style: GoogleFonts.montserrat(
-                                color: HexColor('#FF8801'),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                              ),),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  'Segera melakukan pembayaran sebelum tanggal di atas.',
+                                  style: GoogleFonts.montserrat(
+                                    color: HexColor('#FF8801'),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
                             height: 60,
                             decoration: BoxDecoration(
-                              color:HexColor("#FF8801").withOpacity(0.1),
+                              color: HexColor("#FF8801").withOpacity(0.1),
                               borderRadius: const BorderRadius.all(Radius.circular(16)),
                             )),
                       ),

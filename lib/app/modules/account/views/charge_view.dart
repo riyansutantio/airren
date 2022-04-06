@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../utils/constant.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
+import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/account_controller.dart';
 import '../providers/account_provider.dart';
 
@@ -45,20 +46,22 @@ class ChargeView extends GetView {
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/notif.png',
-                      width: 30,
-                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(ErrorHandlingView());
+                        },
+                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
                     const SizedBox(width: 10),
                     GestureDetector(
                         onTap: () {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           } else {
-                            accountController.addCharge();
+                            // accountController.addCharge();
                           }
                         },
-                        child: const Icon(Icons.check, color: Colors.white)),
+                        child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                    const SizedBox(width: 10),
                   ],
                 )
               ],
@@ -86,7 +89,7 @@ class ChargeView extends GetView {
                           child: SvgPicture.asset('assets/tarif.svg'),
                         ),
                         textInputType: TextInputType.number,
-                        hintText: 'tarif',
+                        hintText: 'Nominal',
                         obscureText: false,
                         passwordVisibility: false,
                         controller: accountController,
@@ -104,12 +107,10 @@ class ChargeView extends GetView {
                             ),
                           ),
                         ),
-                        textInputFormatter: [
-                          CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)
-                        ],
+                        textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
                         returnValidation: (val) {
                           if (val!.isEmpty) {
-                            return "tarif harus terisi";
+                            return "Nominal harus diisi";
                           }
                           return null;
                         },
@@ -133,52 +134,69 @@ class ChargeView extends GetView {
                       padding: const EdgeInsets.all(8.0),
                       child: AirenTextFormFieldBase(
                         suffixIcon: Icon(
-                          EvaIcons.chevronDown,
+                          EvaIcons.arrowIosDownwardOutline,
                           color: HexColor('#0063F8'),
                         ),
                         textInputType: TextInputType.none,
-                        hintText: 'jatuh tempo',
+                        hintText: 'Jatuh Tempo',
                         obscureText: false,
                         passwordVisibility: false,
                         controller: accountController,
                         textEditingController: accountController.dueDateController,
                         returnValidation: (val) {
                           if (val!.isEmpty) {
-                            return "meter PAM harus terisi";
+                            return "Jatuh tempo harus diisi";
                           } else if (int.parse(val) > 31) {
                             return "valuasi 1 sampai 31";
                           }
                           return null;
                         },
-                        onTap: (){
+                        onTap: () {
                           Get.bottomSheet(Container(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: 31,
-                                  itemBuilder: (context, index) => GestureDetector(
-                                    onTap: () {
-                                      accountController.dueDateController.text = (index+1).toString();
-                                      Get.until((route) => Get.isBottomSheetOpen == false);
-                                    },
-                                    child: ListTile(
-                                      title: Text('${index+1}',
-                                          style: GoogleFonts.montserrat(
-                                            color: HexColor('#707793'),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          )),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: 70,
+                                        height: 5,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                                          color: Colors.amber,
+                                        ),
+                                      ),
                                     ),
-                                  )),
+                                    ListView.builder(
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: 31,
+                                        itemBuilder: (context, index) => GestureDetector(
+                                              onTap: () {
+                                                accountController.dueDateController.text = (index + 1).toString();
+                                                Get.until((route) => Get.isBottomSheetOpen == false);
+                                              },
+                                              child: ListTile(
+                                                title: Text('Tanggal ${index + 1}',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                              ),
+                                            )),
+                                  ],
+                                ),
+                              ),
                               decoration: const BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                  borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
                                   color: Colors.white)));
                         },
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: buildElevatedButtonCustom(),
+                      padding: const EdgeInsets.all(8.0),
+                      child: buildElevatedButtonCustom(context),
                     )
                   ],
                 ),
@@ -191,13 +209,23 @@ class ChargeView extends GetView {
     );
   }
 
-  ElevatedButton buildElevatedButtonCustom() {
+  ElevatedButton buildElevatedButtonCustom(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            accountController.addCharge();
+            // accountController.addCharge();
+            final snackBar = SnackBar(
+              content: const Text('Hi, I am a SnackBar!'),
+              backgroundColor: (Colors.black12),
+              action: SnackBarAction(
+                label: 'dismiss',
+                onPressed: () {
+                },
+              ),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         child: Ink(

@@ -3,20 +3,18 @@ import 'package:airen/app/modules/account/views/about_us_view.dart';
 import 'package:airen/app/modules/account/views/privacy_policy_view.dart';
 import 'package:airen/app/modules/account/views/settings_view.dart';
 import 'package:airen/app/modules/account/views/term_condition_view.dart';
-import 'package:airen/app/modules/session/controllers/session_controller.dart';
-import 'package:airen/app/modules/session/providers/session_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../../utils/utils.dart';
+import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/account_controller.dart';
 
 class AccountView extends GetView<AccountController> {
-  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AccountController>(
@@ -47,7 +45,7 @@ class AccountView extends GetView<AccountController> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 20.0),
+                                      padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         'Akun',
                                         style: GoogleFonts.montserrat(
@@ -58,11 +56,12 @@ class AccountView extends GetView<AccountController> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(right: 20.0),
-                                      child: Image.asset(
-                                        'assets/notif.png',
-                                        width: 30,
-                                      ),
+                                      padding: const EdgeInsets.only(right: 2.0),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            Get.to(ErrorHandlingView());
+                                          },
+                                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
                                     )
                                   ],
                                 ),
@@ -71,15 +70,21 @@ class AccountView extends GetView<AccountController> {
                                 onTap: () {
                                   controller.getFileFromDevice();
                                 },
-                                child: const CircleAvatar(
-                                    maxRadius: 40,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      maxRadius: 35,
-                                      backgroundImage: NetworkImage(
-                                          "https://i0.wp.com/digstraksi.com/wp-content/uploads/2021/08/NINTCHDBPICT000592609288.jpg?resize=480%2C265&ssl=1"),
-                                      backgroundColor: Colors.transparent,
-                                    )),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [BoxShadow(blurRadius: 9, color: Colors.blue.withOpacity(0.2), spreadRadius: 1)],
+                                  ),
+                                  child: CircleAvatar(
+                                      maxRadius: 45,
+                                      backgroundColor: Colors.white,
+                                      child: CircleAvatar(
+                                        maxRadius: 40,
+                                        child: SvgPicture.asset('assets/photo.svg'),
+                                        backgroundColor: HexColor('#0063F8'),
+                                      )),
+                                ),
                               ),
                               const SizedBox(height: 20),
                             ],
@@ -88,7 +93,7 @@ class AccountView extends GetView<AccountController> {
                         Expanded(
                           flex: 1,
                           child: Obx(() => Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     controller.displayName.value,
@@ -98,18 +103,17 @@ class AccountView extends GetView<AccountController> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 20),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 30.0),
-                                    child: Text(
-                                      (controller.displayRegisterCreated.value.isEmpty)
-                                          ? ""
-                                          : "terdaftar pada ${controller.displayRegisterToDateTime()}",
-                                      style: GoogleFonts.montserrat(
-                                        color: HexColor('#707793'),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text(
+                                    (controller.displayRegisterCreated.value.isEmpty)
+                                        ? ""
+                                        : "terdaftar pada ${controller.displayRegisterToDateTime()}",
+                                    style: GoogleFonts.montserrat(
+                                      color: HexColor('#707793'),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
                                 ],
@@ -178,19 +182,20 @@ class AccountView extends GetView<AccountController> {
                     height: 1,
                   ),
                 ),
-                TileAccountWidget(
+                Obx(()=>TileAccountWidget(
                   title: 'Push notifikasi',
                   assets: 'notifblue.png',
                   trail: Switch(
-                    activeColor: Colors.green,
-                    value: true,
+                    activeColor: HexColor('#05C270'),
+                    value: controller.pushNotification.value,
                     onChanged: (value) {
+                      controller.pushNotification.toggle();
                       // setState(() {
                       //   _switchValue = value;
                       // });
                     },
                   ),
-                ),
+                )),
                 const Padding(
                   padding: EdgeInsets.only(left: 75.0),
                   child: Divider(
@@ -199,9 +204,9 @@ class AccountView extends GetView<AccountController> {
                 ),
                 TileAccountWidget(
                     title: 'Keluar',
-                    assets: 'logout.png',
+                    assets: 'logout1.png',
                     function: () {
-                      sessionController.logOut();
+                      controller.sessionController.logOut();
                     }),
               ],
             ),
@@ -230,20 +235,29 @@ class TileAccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4.0, right: 4.0, left: 4.0),
-      child: ListTile(
-        onTap: function,
-        title: Text('$title',
-            style: GoogleFonts.montserrat(
-              color: HexColor('#707793'),
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            )),
-        leading: Image.asset(
-          'assets/$assets',
-          width: 30,
+      padding: const EdgeInsets.all(4.0),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
         ),
-        trailing: trail,
+        child: ListTile(
+          dense: false,
+          enableFeedback: false,
+          onTap: function,
+          title: Text('$title',
+              style: GoogleFonts.montserrat(
+                color: HexColor('#707793'),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              )),
+          leading: Image.asset(
+            'assets/$assets',
+            width: 30,
+          ),
+          trailing: trail,
+        ),
       ),
     );
   }

@@ -12,6 +12,7 @@ import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:get/get.dart';
 
 import '../../../data/http_service.dart';
+import '../../../model/account_settings/admin_fee_model.dart';
 import '../../../model/account_settings/profile_update_model.dart';
 import '../../../utils/utils.dart';
 
@@ -27,6 +28,7 @@ class AccountProvider extends GetConnect {
   List<String>? pathSegmentGetUser({String? path}) => ['api', HttpService.apiVersion, 'profile'];
 
   List<String>? pathSegmentMinUsage() => ['api', HttpService.apiVersion, 'min-usage'];
+  List<String>? pathSegmentAdminFee() => ['api', HttpService.apiVersion, 'admin-fee'];
 
   List<String>? pathSegmentCharge() => ['api', HttpService.apiVersion, 'charge'];
 
@@ -128,6 +130,26 @@ class AccountProvider extends GetConnect {
     return pamUserProfileModelFromJson(jsonString);
   }
 
+  Future<AdminFeeModel?> adminFee({required String? bearer, required String? adminFee}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _adminFee = Uri.parse(baseUrl).replace(pathSegments: pathSegmentAdminFee());
+    logger.wtf(_adminFee);
+    final response = await http.post(_adminFee,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "_method": "PATCH",
+          "admin_fee": adminFee,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "_method": "PATCH",
+      "admin_fee": adminFee,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.body);
+    return adminFeeModelFromJson(jsonString);
+  }
+
   Future<PamUpdateModel?> updatePamProfile({
     required String? bearer,
     required String? pamProvinceId,
@@ -145,7 +167,7 @@ class AccountProvider extends GetConnect {
           "_method": "PATCH",
           "name": name,
           "province_id": pamProvinceId,
-          "regency_id": pamProvinceId,
+          "regency_id": pamRegencyId,
           "district_id": pamDistrictId,
           "detail_address": detailAddress,
         }));
@@ -154,7 +176,7 @@ class AccountProvider extends GetConnect {
       "_method": "PATCH",
       "name": name,
       "province_id": pamProvinceId,
-      "regency_id": pamProvinceId,
+      "regency_id": pamRegencyId,
       "district_id": pamDistrictId,
       "detail_address": detailAddress,
     }));

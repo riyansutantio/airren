@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../error_handling/views/error_handling_view.dart';
+
 class TermConditionView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,11 @@ class TermConditionView extends GetView<AccountController> {
                     ),
                   ],
                 ),
-                Image.asset(
-                  'assets/notif.png',
-                  width: 30,
-                )
+                GestureDetector(
+                    onTap: (){
+                      Get.to(ErrorHandlingView());
+                    },
+                    child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
               ],
             ),
           ),
@@ -65,7 +68,7 @@ class TermConditionView extends GetView<AccountController> {
                 child: SingleChildScrollView(
                   child: Container(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10.0),
                       child: Html(
                           customTextAlign: (_) => TextAlign.justify,
                           data: """${controller.resultTermCondition.value.content}""",

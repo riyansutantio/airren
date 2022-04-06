@@ -13,7 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../utils/utils.dart';
+import '../../../utils/willPopCallBack.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
+import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/data_master_controller.dart';
 
 class DataMasterView extends GetView<DataMasterController> {
@@ -23,170 +25,161 @@ class DataMasterView extends GetView<DataMasterController> {
       init: DataMasterController(masterDataProvider: MasterDataProvider()),
       builder: (controller) {
         return Obx(() => Scaffold(
-              appBar: (controller.isSearchPengelola.value)
-                  ? buildAppBarSearch(context, controller)
-                  : buildAppBarDefault(context),
-              body: Container(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            controller.toPengelola();
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            height: 90,
-                            width: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  const SizedBox(),
-                                  controller.masterData.value == 0
-                                      ? Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset('assets/pengelolaiconon.svg'),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'pengelola',
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
+          backgroundColor: Colors.blue,
+              appBar: (controller.isSearchBaseFee.value) ? buildAppBarSearch(context, controller) : buildAppBarDefault(context),
+              body: WillPopScope(
+                onWillPop: () => willPopWithFuncOnly(func: controller.closeSearchAppBar()),
+                child: Container(
+                  child: Column(
+                    children: [
+                      if (controller.isSearchBaseFee.value == false)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                controller.toPengelola();
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                height: 90,
+                                width: 100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(),
+                                      controller.masterData.value == 0
+                                          ? Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset('assets/pengelolaiconon.svg'),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'pengelola',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 40,
-                                              height: 3,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                                color: Colors.white,
-                                              ),
+                                                if (controller.masterData.value == 0)
+                                                  Container(
+                                                    width: 35,
+                                                    height: 5,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(100),
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                              ],
                                             )
-                                          ],
-                                        )
-                                      : Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset('assets/pengelolaiconoff.svg', color: Colors.white.withOpacity(0.5)),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'pengelola',
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.white.withOpacity(0.5),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
+                                          : Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset('assets/pengelolaiconoff.svg',
+                                                    color: Colors.white.withOpacity(0.5)),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'pengelola',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: Colors.white.withOpacity(0.5),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                            Container(
-                                              width: 40,
-                                              height: 3,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                                color: Colors.white.withOpacity(0.5),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                ],
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            controller.toTarifDasar();
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            height: 90,
-                            width: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  controller.masterData.value == 1
-                                      ? Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset('assets/tarifdasariconon.svg', color: Colors.white),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'tarif dasar',
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
+                            GestureDetector(
+                              onTap: () {
+                                controller.toBaseFee();
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                height: 90,
+                                width: 100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      controller.masterData.value == 1
+                                          ? Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset('assets/tarifdasariconon.svg', color: Colors.white),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'tarif dasar',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 40,
-                                              height: 3,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                                color: Colors.white,
-                                              ),
+                                                if (controller.masterData.value == 1)
+                                                  Container(
+                                                    width: 35,
+                                                    height: 5,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(100),
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                              ],
                                             )
-                                          ],
-                                        )
-                                      : Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset('assets/tarifdasariconon.svg', color: Colors.white.withOpacity(0.5)),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'tarif dasar',
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.white.withOpacity(0.5),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
+                                          : Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset('assets/tarifdasariconon.svg',
+                                                    color: Colors.white.withOpacity(0.5)),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'tarif dasar',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: Colors.white.withOpacity(0.5),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                                color: Colors.white.withOpacity(0.5),
-                                              ),
-                                              width: 40,
-                                              height: 3,
-                                            )
-                                          ],
-                                        ),
-                                  const SizedBox(),
-                                ],
+                                      const SizedBox(),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    (controller.masterData.value == 0) ? buildExpandedPengelola() : buildExpandedBasePrice()
-                  ],
+                      const SizedBox(height: 20),
+                      (controller.masterData.value == 0) ? buildExpandedPengelola() : buildExpandedBasePrice()
+                    ],
+                  ),
+                  decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
                 ),
-                decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
               ),
               floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     (controller.masterData.value == 0) ? Get.to(AddPamManageView()) : Get.to(AddBaseFeeView());
                   },
-                  child: const Icon(Icons.add),
+                  child: const Icon(EvaIcons.plus),
                   backgroundColor: HexColor('#0063F8')),
             ));
       },
@@ -203,9 +196,9 @@ class DataMasterView extends GetView<DataMasterController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: (){
-                  controller.isSearchPengelola.value = false;
-                  controller.isLoadingBaseFee.value = false;
+                onTap: () {
+                  controller.isSearchBaseFee.value = false;
+                  controller.searchValue.value = '';
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -218,10 +211,13 @@ class DataMasterView extends GetView<DataMasterController> {
               Expanded(
                   child: Container(
                 child: AirenTextFormFieldBase(
-                  onSubmit: (val){
-                    controller.isSearchPengelola.value = false;
-                    controller.isLoadingBaseFee.value = false;
+                  onSubmit: (val) {
+                    controller.searchController.clear();
                     logger.i(val!);
+                    return null;
+                  },
+                  onChange: (val) {
+                    controller.searchValue.value = val!;
                     return null;
                   },
                   suffixIcon: const Padding(
@@ -236,7 +232,7 @@ class DataMasterView extends GetView<DataMasterController> {
                   textEditingController: controller.searchController,
                   returnValidation: (val) {
                     if (val!.isEmpty) {
-                      return "tarif harus terisi";
+                      return "Tarif dasar harus terisi";
                     }
                     return null;
                   },
@@ -255,6 +251,7 @@ class DataMasterView extends GetView<DataMasterController> {
 
   AppBar buildAppBarDefault(BuildContext context) {
     return AppBar(
+        elevation: 0,
         leadingWidth: 200,
         leading: Center(
           child: Text(
@@ -267,22 +264,28 @@ class DataMasterView extends GetView<DataMasterController> {
           ),
         ),
         actions: [
-          Image.asset(
-            'assets/notif.png',
-            width: 24,
-          ),
-          const SizedBox(width: 20),
           GestureDetector(
-            onTap: (){
-              controller.isSearchPengelola.value = true;
-            },
-            child: const Icon(
-              EvaIcons.search,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
+              onTap: () {
+                Get.to(ErrorHandlingView());
+              },
+              child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
           const SizedBox(width: 20),
+          if (controller.masterData.value == 1)
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    controller.isSearchBaseFee.value = true;
+                  },
+                  child: const Icon(
+                    EvaIcons.search,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 20),
+              ],
+            ),
         ],
         flexibleSpace: Container(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -299,44 +302,82 @@ class DataMasterView extends GetView<DataMasterController> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 50.0),
-                    child: SvgPicture.asset('assets/tarifkosong.svg'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2.0),
-                    child: Text('Belum ada tarif dasar',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text('Tambahkan tarif dasar penggunaan air',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text('melalui tombol di bawah.',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        )),
-                  ),
+                  (controller.isSearchBaseFee.value)
+                      ? Padding(
+                          padding: const EdgeInsets.only(bottom: 50.0),
+                          child: Icon(EvaIcons.search, size: 62.0, color: HexColor('#0063F8')),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 50.0),
+                          child: SvgPicture.asset('assets/tarifkosong.svg'),
+                        ),
+                  (controller.isSearchBaseFee.value)
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Text('Tidak ditemukan',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Text('Belum ada tarif dasar',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                  (controller.isSearchBaseFee.value)
+                      ? Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text('Belum ada tarif dasar air yang sesuai',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                )),
+                          ),
+                        )
+                      : Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text('Tambahkan tarif dasar penggunaan air',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                )),
+                          ),
+                        ),
+                  (controller.isSearchBaseFee.value)
+                      ? Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text('dengan kata kunci di atas.',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              )),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text('melalui tombol di bawah.',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              )),
+                        ),
                 ],
               )
             : Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2.0),
                 child: ListView.builder(
                     itemCount: controller.baseFeeResult.length,
                     itemBuilder: (context, index) => Padding(
@@ -361,7 +402,10 @@ class DataMasterView extends GetView<DataMasterController> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  leading: SvgPicture.asset('assets/icontarifdasar.svg'),
+                                  leading: CircleAvatar(
+                                      backgroundColor: HexColor('#0063F8').withOpacity(0.1),
+                                      maxRadius: 25,
+                                      child: Icon(EvaIcons.dropletOutline, color: HexColor('#0063F8'))),
                                   trailing: SizedBox(
                                     width: 100,
                                     child: Row(
@@ -413,7 +457,7 @@ class DataMasterView extends GetView<DataMasterController> {
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(2.0),
           child: ListView.builder(
               itemCount: controller.pamUserResult.length,
               itemBuilder: (context, index) => Padding(
@@ -425,10 +469,11 @@ class DataMasterView extends GetView<DataMasterController> {
                         controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
                         controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
                         (controller.pamUserResult[index].blocked! == 1)
-                            ? controller.radioValueActivated.value = 0
-                            : controller.radioValueActivated.value = 1;
+                            ? controller.radioValueActivated.value = 1
+                            : controller.radioValueActivated.value = 0;
                         controller.checkRole(controller.pamUserResult[index].roles);
                         Get.to(PamManageDetailView(
+                          admin: controller.pamUserResult[index].isOwner,
                           roles: controller.pamUserResult[index].roles!,
                         ));
                       },
@@ -478,7 +523,7 @@ class DataMasterView extends GetView<DataMasterController> {
                             blurRadius: 5.0,
                             spreadRadius: 0.1,
                           )
-                        ], borderRadius: BorderRadius.all(const Radius.circular(16)), color: Colors.white),
+                        ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
                       ),
                     ),
                   )),

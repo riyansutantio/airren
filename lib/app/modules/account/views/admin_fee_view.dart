@@ -1,5 +1,7 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +13,7 @@ import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/account_controller.dart';
 import '../providers/account_provider.dart';
 
-class MyProfileView extends GetView {
+class AdminFeeView extends GetView {
   final AccountController accountController = Get.put(AccountController(accountProvider: AccountProvider()));
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -32,7 +34,7 @@ class MyProfileView extends GetView {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'Profil Saya',
+                        'Biaya admin',
                         style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontSize: 14,
@@ -56,7 +58,7 @@ class MyProfileView extends GetView {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           } else {
-                            accountController.updateProfile();
+                            accountController.addCharge();
                           }
                         },
                         child: const Icon(EvaIcons.checkmark, color: Colors.white)),
@@ -83,48 +85,22 @@ class MyProfileView extends GetView {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.text,
-                        hintText: 'Nama',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: accountController,
-                        textEditingController: accountController.nameController,
-                        returnValidation: (val) {
-                          if (val!.isEmpty) {
-                            return "Nama harus diisi";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.phone,
-                        hintText: 'Phone Number',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: accountController,
-                        textEditingController: accountController.phoneNumberController,
-                        prefixText: SizedBox(
-                          child: Center(
-                            widthFactor: 0.0,
-                            child: Text('62', style: GoogleFonts.montserrat(
-                              color: HexColor('#707793'),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SvgPicture.asset('assets/tarif.svg', color: Colors.blue),
                         ),
+                        textInputType: TextInputType.number,
+                        hintText: 'Nominal',
+                        obscureText: false,
+                        passwordVisibility: false,
+                        controller: accountController,
+                        textEditingController: accountController.adminFeeController,
+                        textInputFormatter: [
+                          CurrencyTextInputFormatter(locale: 'id', symbol: 'Rp. ', decimalDigits: 0)
+                        ],
                         returnValidation: (val) {
                           if (val!.isEmpty) {
-                            return "Nomor HP harus diisi";
-                          } else if(val.length < 7){
-                            return "Nomor HP tidak valid";
-                          } else if(val.length > 14){
-                            return "Nomor HP tidak valid";
-                          } else if(val[0] == "0"){
-                            return "Nomor HP tidak valid";
+                            return "Nominal harus diisi";
                           }
                           return null;
                         },
@@ -132,14 +108,13 @@ class MyProfileView extends GetView {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        enabled: false,
-                        textInputType: TextInputType.emailAddress,
-                        hintText: 'email',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: accountController,
-                        textEditingController: accountController.emailController,
+                      child: Text(
+                        'Selalu dibebankan kepada pelanggan pada setiap tagihan yang sudah diterbitkan',
+                        style: GoogleFonts.montserrat(
+                          color: HexColor('#707793'),
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ),
                     Padding(
@@ -162,7 +137,7 @@ class MyProfileView extends GetView {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            accountController.updateProfile();
+            accountController.adminFee();
           }
         },
         child: Ink(

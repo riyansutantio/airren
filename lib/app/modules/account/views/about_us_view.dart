@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../error_handling/views/error_handling_view.dart';
+
 class AboutUsView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,12 @@ class AboutUsView extends GetView<AccountController> {
                     ),
                   ],
                 ),
-                Image.asset(
-                  'assets/notif.png',
-                  width: 30,
-                )
+                GestureDetector(
+                    onTap: (){
+                      Get.to(ErrorHandlingView());
+                    },
+                    child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+
               ],
             ),
           ),

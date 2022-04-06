@@ -30,6 +30,7 @@ class AccountController extends GetxController {
 
   final meterPositionController = TextEditingController();
   final amountChargeController = TextEditingController();
+  final adminFeeController = TextEditingController();
   final dueDateController = TextEditingController();
   final nameController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -42,14 +43,18 @@ class AccountController extends GetxController {
   final districtController = TextEditingController();
   final addressDetailController = TextEditingController();
 
-  final selectedRegency = ''.obs;
   final selectedProvince = ''.obs;
+  final selectedRegency = ''.obs;
   final selectedDistrict = ''.obs;
 
   final displayName = ''.obs;
   final displayRegisterCreated = ''.obs;
+  final photoPath = ''.obs;
+  final photoName = ''.obs;
 
-  String displayRegisterToDateTime(){
+  final pushNotification = false.obs;
+
+  String displayRegisterToDateTime() {
     return DateFormat('d MMMM yyyy').format(DateTime.parse(displayRegisterCreated.value));
   }
 
@@ -77,25 +82,31 @@ class AccountController extends GetxController {
   final resultUser = ResultProfile().obs;
 
   Future getUser() async {
-    try {
-      isLoadingUser.value = true;
-      final res = await accountProvider.getUser(bearer: boxUser.read(tokenBearer));
-      // logger.wtf(res!.data!.data!.toList());
-      resultUser.value = res!.data!.profile!;
+    isLoadingUser.value = true;
+    final res = await accountProvider.getUser(bearer: boxUser.read(tokenBearer));
+    // logger.i(res!.message);
+    if (res == null) {
+      sessionController.newDataCreate();
+    } else if (res.message == 'Profile successfully retrieved') {
+      resultUser.value = res.data!.profile!;
       emailController.text = res.data!.profile!.email!;
       displayName.value = res.data!.profile!.name!;
       displayRegisterCreated.value = res.data!.profile!.createdAt!.toString();
       phoneNumberController.text = res.data!.profile!.phoneNumber!;
       addressDetailController.text = res.data!.profile!.pam!.detailAddress!;
+      provinceController.text = res.data!.profile!.pam!.province!.nameLocation!;
+      regencyController.text = res.data!.profile!.pam!.regency!.nameLocation!;
+      districtController.text = res.data!.profile!.pam!.district!.nameLocation!;
       namePamController.text = res.data!.profile!.pam!.name!;
-      amountChargeController.text = res.data!.profile!.pam!.charge.toString();
-      dueDateController.text = res.data!.profile!.pam!.chargeDueDate.toString();
-      meterPositionController.text = res.data!.profile!.pam!.minUsage.toString();
-    } catch (e) {
-      logger.e(e);
-      sessionController.newDataCreate();
-    } finally {
-      isLoadingUser.value = false;
+      nameController.text = res.data!.profile!.name!;
+      amountChargeController.text = (res.data!.profile!.pam!.charge == null) ? "" : res.data!.profile!.pam!.charge.toString();
+      dueDateController.text = (res.data!.profile!.pam!.chargeDueDate == null) ? "" : res.data!.profile!.pam!.chargeDueDate.toString();
+      meterPositionController.text = (res.data!.profile!.pam!.minUsage == null) ? "" : res.data!.profile!.pam!.minUsage.toString();
+      selectedProvince.value = res.data!.profile!.pam!.provinceId!.toString();
+      selectedRegency.value = res.data!.profile!.pam!.regencyId!.toString();
+      selectedDistrict.value = res.data!.profile!.pam!.districtId!.toString();
+      photoPath.value = res.data!.profile!.pam!.photoPath!.toString();
+      photoName.value = (res.data!.profile!.pam!.photoName == null ? "" : res.data!.profile!.pam!.photoName!.toString());
     }
   }
 
@@ -160,18 +171,37 @@ class AccountController extends GetxController {
     }
   }
 
+  Future adminFee() async {
+    final res = await accountProvider.adminFee(
+        bearer: boxUser.read(tokenBearer), adminFee: adminFeeController.text.numericOnly());
+    if (res!.status! == 'success') {
+      Get.back();
+      clearCondition();
+      snackBarNotification(
+          title: 'Biaya admin',
+          messageText: 'berhasil ditambahkan',
+          titleText: 'Biaya admin',
+          subTitle: 'berhasil ditambahkan',
+          color: Colors.green);
+    } else {
+      Get.back();
+      snackBarNotification(
+          title: 'Biaya admin', messageText: 'gagal ditambahkan', titleText: 'Biaya admin', subTitle: 'gagal ditambahkan', color: Colors.red);
+    }
+  }
+
   Future addCharge() async {
     final res = await accountProvider.addCharge(
         bearer: boxUser.read(tokenBearer), charge: amountChargeController.text.numericOnly(), dueDate: dueDateController.text);
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();
-      snackBarNotification(
-          title: 'Denda',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'Denda',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      // snackBarNotification(
+      //     title: 'Denda',
+      //     messageText: 'berhasil ditambahkan',
+      //     titleText: 'Denda',
+      //     subTitle: 'berhasil ditambahkan',
+      //     color: Colors.green);
     } else {
       Get.back();
       snackBarNotification(
@@ -231,7 +261,6 @@ class AccountController extends GetxController {
   }
 
   var selectedImagePath = ''.obs;
-  var imageInit = ''.obs;
   var selectedImageSize = ''.obs;
   var selectedNameImage = ''.obs;
 
@@ -255,6 +284,6 @@ class AccountController extends GetxController {
   }
 
   void clearCondition() {
-    meterPositionController.clear();
+    // meterPositionController.clear();
   }
 }

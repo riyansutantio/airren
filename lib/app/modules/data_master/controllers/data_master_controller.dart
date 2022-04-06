@@ -16,8 +16,8 @@ class DataMasterController extends GetxController {
   DataMasterController({required this.masterDataProvider});
 
   final count = 0.obs;
+  final searchValue = ''.obs;
   final masterData = 0.obs;
-  final isSearchPengelola = false.obs;
   final isSearchBaseFee = false.obs;
 
   final searchController = TextEditingController();
@@ -54,6 +54,8 @@ class DataMasterController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    debounce(searchValue, (val) => searchBaseFee(),
+        time: 500.milliseconds);
   }
 
   @override
@@ -65,9 +67,14 @@ class DataMasterController extends GetxController {
     logger.i(masterData.value);
   }
 
-  void toTarifDasar() {
+  void toBaseFee() {
     masterData.value = 1;
     logger.i(masterData.value);
+  }
+
+  Future<void> closeSearchAppBar()async{
+    isSearchBaseFee.value = false;
+    searchValue.value = '';
   }
 
   final boxUser = GetStorage();
@@ -192,6 +199,19 @@ class DataMasterController extends GetxController {
     try {
       isLoadingBaseFee.value = true;
       final res = await masterDataProvider.getBaseFee(bearer: boxUser.read(tokenBearer));
+      // logger.wtf(res!.data!.data!.toList());
+      baseFeeResult.assignAll(res!.data!.baseFees!);
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      isLoadingBaseFee.value = false;
+    }
+  }
+
+  Future searchBaseFee() async {
+    try {
+      isLoadingBaseFee.value = true;
+      final res = await masterDataProvider.getSearchBaseFee(bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
       // logger.wtf(res!.data!.data!.toList());
       baseFeeResult.assignAll(res!.data!.baseFees!);
     } catch (e) {

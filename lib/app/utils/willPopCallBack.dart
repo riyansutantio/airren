@@ -12,3 +12,8 @@ Future<bool> willPopCallbackWithFunc({Future<void>? func}) async {
   Get.back();
   return true;
 }
+
+Future<bool> willPopWithFuncOnly({Future<void>? func}) async {
+  await func;
+  return false;
+}

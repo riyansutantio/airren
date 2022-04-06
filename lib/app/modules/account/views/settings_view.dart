@@ -1,3 +1,4 @@
+import 'package:airen/app/modules/account/views/admin_fee_view.dart';
 import 'package:airen/app/modules/account/views/charge_view.dart';
 import 'package:airen/app/modules/account/views/min_usage_view.dart';
 import 'package:airen/app/modules/account/views/my_profile_view.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import '../../error_handling/views/error_handling_view.dart';
 
 class SettingsView extends GetView {
   @override
@@ -39,10 +42,12 @@ class SettingsView extends GetView {
                     ),
                   ],
                 ),
-                Image.asset(
-                  'assets/notif.png',
-                  width: 30,
-                )
+                GestureDetector(
+                    onTap: (){
+                      Get.to(ErrorHandlingView());
+                    },
+                    child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+
               ],
             ),
           ),
@@ -87,7 +92,9 @@ class SettingsView extends GetView {
                   buildListTile(
                       title: 'Biaya Admin',
                       subTitle: 'Tentukan biaya untuk admin',
-                      assets: 'feeloket.svg'),
+                      assets: 'feeloket.svg', func: (){
+                        Get.to(AdminFeeView());
+                  }),
                   const Padding(
                     padding: EdgeInsets.only(left: 75.0),
                     child: Divider(
@@ -124,12 +131,6 @@ class SettingsView extends GetView {
                       assets: 'profile.svg', func: (){
                         Get.to(MyProfileView());
                   }),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 75.0),
-                    child: Divider(
-                      height: 1,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -151,7 +152,7 @@ class SettingsView extends GetView {
           ],
         ),
         title: Text('$title', style: GoogleFonts.montserrat(
-          color: HexColor('#707793'),
+          color: HexColor('#3C3F58'),
           fontSize: 14,
           fontWeight: FontWeight.bold,
         )),

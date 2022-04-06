@@ -10,4 +10,8 @@ const tokenBearer = 'tokenBearer';
 
 ///Price Initial
 const priceInit = 'priceInit';
+const phoneNumberVerification = 'phoneNumberVerification';
+const orderIdTrx = 'orderIdTrx';
+const orderIdTrxCreated = 'orderIdTrxCreated';
+
 const isPayment = 'isPayment'; /// true paid, false waiting payment

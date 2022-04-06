@@ -10,6 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../utils/constant.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
+import '../../error_handling/views/error_handling_view.dart';
 
 class MinUsageView extends GetView<AccountController> {
   final AccountController accountController = Get.put(AccountController(accountProvider: AccountProvider()));
@@ -44,10 +45,12 @@ class MinUsageView extends GetView<AccountController> {
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/notif.png',
-                      width: 30,
-                    ),
+                    GestureDetector(
+                        onTap: (){
+                          Get.to(ErrorHandlingView());
+                        },
+                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+
                     const SizedBox(width: 10),
                     GestureDetector(
                         onTap: () {
@@ -57,7 +60,8 @@ class MinUsageView extends GetView<AccountController> {
                             accountController.addMinUsage();
                           }
                         },
-                        child: const Icon(Icons.check, color: Colors.white)),
+                        child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                    const SizedBox(width: 10),
                   ],
                 )
               ],
@@ -92,9 +96,9 @@ class MinUsageView extends GetView<AccountController> {
                         textEditingController: accountController.meterPositionController,
                         returnValidation: (val) {
                           if (val!.isEmpty) {
-                            return "meter PAM harus terisi";
+                            return "Posisi meter harus diisi";
                           } else if (val.length > 10) {
-                            return "posisi meter max 9999999999";
+                            return "Posisi meter maksimal 9999999999";
                           }
                           return null;
                         },
@@ -112,7 +116,7 @@ class MinUsageView extends GetView<AccountController> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: buildElevatedButtonCustom(),
                     )
                   ],

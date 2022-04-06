@@ -52,7 +52,7 @@ class RegisterStepTwoView extends GetView {
                           textEditingController: sessionController.nameAdminPamController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "Nama Administrator PAM harus terisi";
+                              return "Nama Administrator harus terisi";
                             }
                             return null;
                           },
@@ -70,22 +70,22 @@ class RegisterStepTwoView extends GetView {
                           prefixText: SizedBox(
                             child: Center(
                               widthFactor: 0.0,
-                              child: Text('+62', style: GoogleFonts.montserrat(
+                              child: Text('62', style: GoogleFonts.montserrat(
                                 color: HexColor('#707793'),
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.normal,
                               ),),
                             ),
                           ),
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "Nomor HP harus terisi";
+                              return "Nomor hp harus diisi";
                             } else if(val.length < 7){
-                              return "Nomor HP tidak valid";
+                              return "Nomor hp tidak valid";
                             } else if(val.length > 14){
-                              return "Nomor HP tidak valid";
+                              return "Nomor hp tidak valid";
                             } else if(val[0] == "0"){
-                              return "Nomor HP tidak valid";
+                              return "Nomor hp tidak valid";
                             }
                             return null;
                           },

@@ -27,14 +27,17 @@ class DataPam {
   DataPam({
     this.pam,
     this.trialPrice,
+    this.phoneNumber
   });
 
   final PamResult? pam;
   final int? trialPrice;
+  final String? phoneNumber;
 
   factory DataPam.fromJson(Map<String, dynamic> json) => DataPam(
     pam: json["pam"] == null ? null : PamResult.fromJson(json["pam"]),
     trialPrice: json["trial_price"] == null ? null : json["trial_price"],
+    phoneNumber: json["phone_number"] == null ? null : json["phone_number"],
   );
 }
 

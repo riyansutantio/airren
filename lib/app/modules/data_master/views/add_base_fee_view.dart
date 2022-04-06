@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../utils/constant.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
+import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/data_master_controller.dart';
 import '../providers/master_data_provider.dart';
 
@@ -45,12 +46,14 @@ class AddBaseFeeView extends GetView {
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/notif.png',
-                      width: 30,
-                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(ErrorHandlingView());
+                        },
+                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
                     const SizedBox(width: 5),
-                    const Icon(Icons.check, color: Colors.white),
+                    const Icon(EvaIcons.checkmark, color: Colors.white),
+                    const SizedBox(width: 8),
                   ],
                 ),
               ],
@@ -65,7 +68,7 @@ class AddBaseFeeView extends GetView {
         decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
         child: Container(
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 25),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
@@ -79,14 +82,12 @@ class AddBaseFeeView extends GetView {
                             child: SvgPicture.asset('assets/tarif.svg'),
                           ),
                           textInputType: TextInputType.number,
-                          hintText: 'tarif',
+                          hintText: 'Nominal',
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataMasterController,
                           textEditingController: dataMasterController.amountController,
-                          textInputFormatter: [
-                           CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)
-                          ],
+                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
                           prefixText: SizedBox(
                             child: Center(
                               widthFactor: 0.0,
@@ -95,14 +96,14 @@ class AddBaseFeeView extends GetView {
                                 style: GoogleFonts.montserrat(
                                   color: HexColor('#707793'),
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.normal,
                                 ),
                               ),
                             ),
                           ),
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "tarif harus terisi";
+                              return "Nominal beban harus diisi";
                             }
                             return null;
                           },
@@ -116,22 +117,25 @@ class AddBaseFeeView extends GetView {
                             child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
                           ),
                           textInputType: TextInputType.number,
-                          hintText: 'meter',
+                          hintText: 'Pada posisi meter',
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataMasterController,
                           textEditingController: dataMasterController.meterPositionController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "meter PAM harus terisi";
-                            } else if (val.length > 10){
-                              return "posisi meter max 9999999999";
+                              return "Posisi meter harus diisi";
+                            } else if (val.length > 10) {
+                              return "Posisi meter maksimal 9999999999";
                             }
                             return null;
                           },
                         ),
                       ),
-                      buildElevatedButtonCustom()
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: buildElevatedButtonCustom(),
+                      )
                     ],
                   ),
                 ),
@@ -143,6 +147,7 @@ class AddBaseFeeView extends GetView {
       ),
     );
   }
+
   ElevatedButton buildElevatedButtonCustom() {
     return ElevatedButton(
         onPressed: () {
@@ -154,7 +159,7 @@ class AddBaseFeeView extends GetView {
         },
         child: Ink(
           decoration:
-          BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
+              BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
           child: SizedBox(
             height: 48,
             width: double.infinity,
@@ -173,5 +178,4 @@ class AddBaseFeeView extends GetView {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
   }
-
 }

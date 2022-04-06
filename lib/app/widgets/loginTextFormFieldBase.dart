@@ -46,6 +46,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorHeight: 5.0,
       onFieldSubmitted: onSubmit,
       onTap: onTap,
       onChanged: onChange,
@@ -57,6 +58,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       controller: textEditingController,
       obscureText: obscureText,
       decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 10.0),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
@@ -72,19 +74,19 @@ class AirenTextFormFieldBase extends StatelessWidget {
         ),
         errorStyle: GoogleFonts.montserrat(
           color: Colors.red,
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
-        prefixStyle: TextStyle(color: Colors.black),
+        prefixStyle: const TextStyle(color: Colors.black),
         prefixIcon: prefixText,
         labelStyle: GoogleFonts.montserrat(
           color: HexColor('#707793'),
           fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.normal,
         ),
         hintText: hintText,
         hintStyle: GoogleFonts.montserrat(
-          color: Colors.grey,
+          color: HexColor('#707793'),
           fontSize: 14,
           fontWeight: FontWeight.normal,
         ),
@@ -104,7 +106,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color: Colors.blue,
-            width: 1,
+            width: 3,
           ),
           borderRadius: BorderRadius.circular(15),
         ),
@@ -117,7 +119,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       style: GoogleFonts.montserrat(
         color: HexColor('#707793'),
         fontSize: 14,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.normal,
       ),
     );
   }

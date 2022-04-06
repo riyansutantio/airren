@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -20,7 +21,7 @@ PreferredSize buildAppBarSession(
               Container(
                 decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
               ),
-              Positioned(top: -80, right: -15, child: Image.asset('assets/doubledot.png'))
+              Positioned(top: -80, right: -15, child: SvgPicture.asset('assets/dot2.svg'))
             ],
           ),
           SizedBox(
@@ -51,7 +52,7 @@ PreferredSize buildAppBarSession(
                       style: GoogleFonts.montserrat(
                         color: Colors.white,
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),
@@ -62,7 +63,7 @@ PreferredSize buildAppBarSession(
                       style: GoogleFonts.montserrat(
                         color: Colors.white,
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),

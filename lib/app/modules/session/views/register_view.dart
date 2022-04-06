@@ -1,6 +1,5 @@
 import 'package:airen/app/modules/session/views/register_step_two_view.dart';
 import 'package:airen/app/modules/session/views/widget_appbar_session.dart';
-import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +20,8 @@ class RegisterView extends GetView {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () =>           willPopCallbackWithFunc(func: sessionController.googleDisconnect()).whenComplete(() => Get.offAllNamed(Routes.SESSION)),
-
+      onWillPop: () =>
+          willPopCallbackWithFunc(func: sessionController.googleDisconnect()).whenComplete(() => Get.offAllNamed(Routes.SESSION)),
       child: Scaffold(
         appBar: buildAppBarSession(
             buttonBack: Row(
@@ -61,7 +60,7 @@ class RegisterView extends GetView {
                                 textEditingController: sessionController.namePamController,
                                 returnValidation: (val) {
                                   if (val!.isEmpty) {
-                                    return "Nama Pams harus terisi";
+                                    return "Nama pam harus diisi";
                                   }
                                   return null;
                                 },
@@ -83,7 +82,7 @@ class RegisterView extends GetView {
                                 textEditingController: sessionController.provinceController,
                                 returnValidation: (val) {
                                   if (val!.isEmpty) {
-                                    return "Provinsi harus terpilih";
+                                    return "Provinsi harus dipilih";
                                   }
                                   return null;
                                 },
@@ -95,27 +94,27 @@ class RegisterView extends GetView {
                                           shrinkWrap: true,
                                           itemCount: sessionController.resultProvince.length,
                                           itemBuilder: (context, index) => GestureDetector(
-                                            onTap: () {
-                                              sessionController.selectedProvince.value =
-                                                  sessionController.resultProvince[index].id.toString();
-                                              sessionController.provinceController.text =
-                                              sessionController.resultProvince[index].name!;
-                                              sessionController.getRegency(
-                                                  id: sessionController.resultProvince[index].id.toString());
-                                              Get.until((route) => Get.isBottomSheetOpen == false);
-                                            },
-                                            child: ListTile(
-                                              title: Text('${sessionController.resultProvince[index].name}',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                            ),
-                                          )),
+                                                onTap: () {
+                                                  sessionController.selectedProvince.value =
+                                                      sessionController.resultProvince[index].id.toString();
+                                                  sessionController.provinceController.text =
+                                                      sessionController.resultProvince[index].name!;
+                                                  sessionController.getRegency(
+                                                      id: sessionController.resultProvince[index].id.toString());
+                                                  Get.until((route) => Get.isBottomSheetOpen == false);
+                                                },
+                                                child: ListTile(
+                                                  title: Text('${sessionController.resultProvince[index].name}',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.normal,
+                                                      )),
+                                                ),
+                                              )),
                                       decoration: const BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                              BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                           color: Colors.white)));
                                 },
                               ),
@@ -137,7 +136,7 @@ class RegisterView extends GetView {
                                   textEditingController: sessionController.regencyController,
                                   returnValidation: (val) {
                                     if (val!.isEmpty) {
-                                      return "Kabupaten harus terpilih";
+                                      return "Kabupaten harus dipilih";
                                     }
                                     return null;
                                   },
@@ -148,27 +147,27 @@ class RegisterView extends GetView {
                                             shrinkWrap: true,
                                             itemCount: sessionController.resultRegency.length,
                                             itemBuilder: (context, index) => GestureDetector(
-                                              onTap: () {
-                                                sessionController.selectedRegency.value =
-                                                    sessionController.resultRegency[index].id.toString();
-                                                sessionController.regencyController.text =
-                                                sessionController.resultRegency[index].name!;
-                                                sessionController.getDistrict(
-                                                    id: sessionController.resultRegency[index].id.toString());
-                                                Get.until((route) => Get.isBottomSheetOpen == false);
-                                              },
-                                              child: ListTile(
-                                                title: Text('${sessionController.resultRegency[index].name}',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                    )),
-                                              ),
-                                            )),
+                                                  onTap: () {
+                                                    sessionController.selectedRegency.value =
+                                                        sessionController.resultRegency[index].id.toString();
+                                                    sessionController.regencyController.text =
+                                                        sessionController.resultRegency[index].name!;
+                                                    sessionController.getDistrict(
+                                                        id: sessionController.resultRegency[index].id.toString());
+                                                    Get.until((route) => Get.isBottomSheetOpen == false);
+                                                  },
+                                                  child: ListTile(
+                                                    title: Text('${sessionController.resultRegency[index].name}',
+                                                        style: GoogleFonts.montserrat(
+                                                          color: HexColor('#707793'),
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.normal,
+                                                        )),
+                                                  ),
+                                                )),
                                         decoration: const BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                                BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                             color: Colors.white)));
                                   },
                                 ),
@@ -190,7 +189,7 @@ class RegisterView extends GetView {
                                   textEditingController: sessionController.districtController,
                                   returnValidation: (val) {
                                     if (val!.isEmpty) {
-                                      return "Kecamatan harus terpilih";
+                                      return "Kecamatan harus dipilih";
                                     }
                                     return null;
                                   },
@@ -200,27 +199,27 @@ class RegisterView extends GetView {
                                             shrinkWrap: true,
                                             itemCount: sessionController.resultDistrict.length,
                                             itemBuilder: (context, index) => GestureDetector(
-                                              onTap: () {
-                                                sessionController.selectedDistrict.value =
-                                                    sessionController.resultDistrict[index].id.toString();
-                                                sessionController.districtController.text =
-                                                sessionController.resultDistrict[index].name!;
-                                                // sessionController.getDistrict(
-                                                //     id: sessionController.resultRegency[index].id.toString());
-                                                Get.until((route) => Get.isBottomSheetOpen == false);
-                                              },
-                                              child: ListTile(
-                                                title: Text('${sessionController.resultDistrict[index].name}',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                    )),
-                                              ),
-                                            )),
+                                                  onTap: () {
+                                                    sessionController.selectedDistrict.value =
+                                                        sessionController.resultDistrict[index].id.toString();
+                                                    sessionController.districtController.text =
+                                                        sessionController.resultDistrict[index].name!;
+                                                    // sessionController.getDistrict(
+                                                    //     id: sessionController.resultRegency[index].id.toString());
+                                                    Get.until((route) => Get.isBottomSheetOpen == false);
+                                                  },
+                                                  child: ListTile(
+                                                    title: Text('${sessionController.resultDistrict[index].name}',
+                                                        style: GoogleFonts.montserrat(
+                                                          color: HexColor('#707793'),
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.normal,
+                                                        )),
+                                                  ),
+                                                )),
                                         decoration: const BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                                                BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                                             color: Colors.white)));
                                   },
                                 ),
@@ -257,7 +256,7 @@ class RegisterView extends GetView {
                                 textEditingController: sessionController.addressDetailController,
                                 returnValidation: (val) {
                                   if (val!.isEmpty) {
-                                    return "Detail Alamat harus terisi";
+                                    return "Detail alamat harus diisi";
                                   }
                                   return null;
                                 },

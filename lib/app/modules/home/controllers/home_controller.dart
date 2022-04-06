@@ -1,13 +1,15 @@
+import 'package:airen/app/modules/account/controllers/account_controller.dart';
+import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
-
+  AccountController accountController = Get.put(AccountController(accountProvider: AccountProvider()));
   final pageNavBottom = 0.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await accountController.getUser();
   }
 
   @override
@@ -20,7 +22,7 @@ class HomeController extends GetxController {
   void increment() => pageNavBottom.value++;
 
   void onItemTapPage(int index) {
-      pageNavBottom.value = index;
+    pageNavBottom.value = index;
   }
 
   var menuItem = <MenuItemModel>[
@@ -32,6 +34,7 @@ class HomeController extends GetxController {
     MenuItemModel(title: 'Berlangganan', assets: 'langganan.svg', id: '5'),
   ];
 }
+
 class MenuItemModel {
   String? title;
   String? assets;

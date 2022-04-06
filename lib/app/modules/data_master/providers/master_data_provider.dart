@@ -69,11 +69,12 @@ class MasterDataProvider extends GetConnect {
 
   Future<UpdatePamManageModel?> updatePamManage(
       {required String? bearer,
-        required String? name,
-        required String? phoneNumber,
-        required String? email,
-        required int? blocked,
-        required List<String> roles, String? id}) async {
+      required String? name,
+      required String? phoneNumber,
+      required String? email,
+      required int? blocked,
+      required List<String> roles,
+      String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _updatePamManageUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentUpdatePengelola(id: id));
     logger.wtf(_updatePamManageUri);
@@ -101,21 +102,18 @@ class MasterDataProvider extends GetConnect {
     return updatePamManageModelFromJson(jsonString);
   }
 
-  Future<CommonModel?> deletePamManage(
-      {required String? bearer,
-        required String? id}) async {
+  Future<CommonModel?> deletePamManage({required String? bearer, required String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _addPamManageUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentUpdatePengelola(id: id));
     logger.wtf(_addPamManageUri);
-    final response = await http.delete(_addPamManageUri,
-        headers: bearerAuth(bearer: bearer));
+    final response = await http.delete(_addPamManageUri, headers: bearerAuth(bearer: bearer));
     var jsonString = response.body;
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
     return commonPamManageModelFromJson(jsonString);
   }
 
-  Future<BaseFeeModel?> getBaseFee({String? path, String? bearer}) async {
+  Future<BaseFeeModel?> getBaseFee({String? bearer}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _getBaseFee = Uri.parse(baseUrl).replace(pathSegments: pathSegmentBaseFee());
     logger.wtf('ini adalah baseUrl $_getBaseFee');
@@ -129,10 +127,22 @@ class MasterDataProvider extends GetConnect {
     return null;
   }
 
+  Future<BaseFeeModel?> getSearchBaseFee({String? path, String? bearer, String? searchValue}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _getSearchBaseFee = Uri.parse(baseUrl).replace(pathSegments: pathSegmentBaseFee(), queryParameters: {"search": searchValue});
+    logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
+    final response = await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return baseFeeModelFromJson(jsonString);
+    }
+    return null;
+  }
+
   Future<AddPamManageModel?> addBaseFee(
-      {required String? bearer,
-        required String? amount,
-        required String? meterPosition}) async {
+      {required String? bearer, required String? amount, required String? meterPosition}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _addPamManageUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentBaseFee());
     logger.wtf(_addPamManageUri);
@@ -153,9 +163,7 @@ class MasterDataProvider extends GetConnect {
   }
 
   Future<AddPamManageModel?> updateBaseFee(
-      {required String? bearer,
-        required String? amount,
-        required String? meterPosition,required String? id}) async {
+      {required String? bearer, required String? amount, required String? meterPosition, required String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _updateBaseFee = Uri.parse(baseUrl).replace(pathSegments: pathSegmentBaseFeeUpdate(id: id));
     logger.wtf(_updateBaseFee);
@@ -177,14 +185,11 @@ class MasterDataProvider extends GetConnect {
     return addPamManageModelFromJson(jsonString);
   }
 
-  Future<CommonModel?> deleteBaseFee(
-      {required String? bearer,
-        required String? id}) async {
+  Future<CommonModel?> deleteBaseFee({required String? bearer, required String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
     Uri _deleteBaseFeeUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentBaseFeeUpdate(id: id));
     logger.wtf(_deleteBaseFeeUri);
-    final response = await http.delete(_deleteBaseFeeUri,
-        headers: bearerAuth(bearer: bearer));
+    final response = await http.delete(_deleteBaseFeeUri, headers: bearerAuth(bearer: bearer));
     var jsonString = response.body;
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);

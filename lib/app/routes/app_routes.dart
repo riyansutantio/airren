@@ -10,6 +10,7 @@ abstract class Routes {
   static const DATA_MASTER = _Paths.DATA_MASTER;
   static const SPLASH = _Paths.SPLASH;
   static const SESSION = _Paths.SESSION;
+  static const ERROR_HANDLING = _Paths.ERROR_HANDLING;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const DATA_MASTER = '/data-master';
   static const SPLASH = '/splash';
   static const SESSION = '/session';
+  static const ERROR_HANDLING = '/error-handling';
 }

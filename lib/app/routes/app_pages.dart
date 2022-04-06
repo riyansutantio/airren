@@ -1,4 +1,3 @@
-import 'package:airen/app/modules/session/views/login_view.dart';
 import 'package:get/get.dart';
 
 import 'package:airen/app/modules/account/bindings/account_binding.dart';
@@ -7,9 +6,12 @@ import 'package:airen/app/modules/customer/bindings/customer_binding.dart';
 import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/bindings/data_master_binding.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
+import 'package:airen/app/modules/error_handling/bindings/error_handling_binding.dart';
+import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
 import 'package:airen/app/modules/home/bindings/home_binding.dart';
 import 'package:airen/app/modules/home/views/home_view.dart';
 import 'package:airen/app/modules/session/bindings/session_binding.dart';
+import 'package:airen/app/modules/session/views/login_view.dart';
 import 'package:airen/app/modules/session/views/session_view.dart';
 import 'package:airen/app/modules/splash/bindings/splash_binding.dart';
 import 'package:airen/app/modules/splash/views/splash_view.dart';
@@ -51,6 +53,11 @@ class AppPages {
       name: _Paths.SESSION,
       page: () => LoginView(),
       binding: SessionBinding(),
+    ),
+    GetPage(
+      name: _Paths.ERROR_HANDLING,
+      page: () => ErrorHandlingView(),
+      binding: ErrorHandlingBinding(),
     ),
   ];
 }
