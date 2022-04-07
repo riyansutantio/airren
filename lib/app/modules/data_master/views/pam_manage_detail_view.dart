@@ -34,7 +34,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
           child: Container(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Padding(
-              padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -174,12 +174,12 @@ class PamManageDetailView extends GetView<DataMasterController> {
                             ),
                             const SizedBox(height: 15),
                             (admin == 1) ? Container(
-                              decoration: BoxDecoration(boxShadow: [
+                              decoration: BoxDecoration(boxShadow: const [
                                 BoxShadow(
-                                  color: Colors.blue.withOpacity(0.5),
-                                  blurRadius: 5.0,
-                                  spreadRadius: 0.1,
-                                )
+                                  offset: Offset(0.0, 8.0),
+                                  color: Color.fromRGBO(0, 99, 248, 0.16),
+                                  blurRadius: 24,
+                                ),
                               ], borderRadius: BorderRadius.circular(16), color: Colors.white),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -362,12 +362,12 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                   ));
                                 },
                                 child: Container(
-                                  decoration: BoxDecoration(boxShadow: [
+                                  decoration: BoxDecoration(boxShadow: const [
                                     BoxShadow(
-                                      color: Colors.blue.withOpacity(0.5),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 0.1,
-                                    )
+                                      offset: Offset(0.0, 8.0),
+                                      color: Color.fromRGBO(0, 99, 248, 0.16),
+                                      blurRadius: 24,
+                                    ),
                                   ], borderRadius: BorderRadius.circular(16), color: Colors.white),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -410,13 +410,13 @@ class PamManageDetailView extends GetView<DataMasterController> {
                               ),
                             ),
                             const SizedBox(height: 15),
-                            (admin == 1) ? Container(
-                              decoration: BoxDecoration(boxShadow: [
+                            if (admin == 1) Container(
+                              decoration: BoxDecoration(boxShadow: const [
                                 BoxShadow(
-                                  color: Colors.blue.withOpacity(0.5),
-                                  blurRadius: 5.0,
-                                  spreadRadius: 0.1,
-                                )
+                                  offset: Offset(0.0, 8.0),
+                                  color: Color.fromRGBO(0, 99, 248, 0.16),
+                                  blurRadius: 24,
+                                ),
                               ], borderRadius: BorderRadius.circular(16), color: Colors.white),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -457,7 +457,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                   ),
                                 ],
                               ),
-                            ) : Padding(
+                            ) else Padding(
                               padding: const EdgeInsets.only(right: 8.0, left: 8.0),
                               child: GestureDetector(
                                 onTap: () {
@@ -590,12 +590,12 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                   ));
                                 },
                                 child: Container(
-                                  decoration: BoxDecoration(boxShadow: [
+                                  decoration: BoxDecoration(boxShadow: const [
                                     BoxShadow(
-                                      color: Colors.blue.withOpacity(0.5),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 0.1,
-                                    )
+                                      color: Color.fromRGBO(0, 99, 248, 0.16),
+                                      offset: Offset(0.0, 8.0),
+                                      blurRadius: 24,
+                                    ),
                                   ], borderRadius: BorderRadius.circular(16), color: Colors.white),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
