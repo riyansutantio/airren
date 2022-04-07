@@ -173,7 +173,7 @@ class DataMasterView extends GetView<DataMasterController> {
                   decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: (controller.isSearchBaseFee.value) ? const SizedBox() : FloatingActionButton(
                   onPressed: () {
                     (controller.masterData.value == 0) ? Get.to(AddPamManageView()) : Get.to(AddBaseFeeView());
                   },
@@ -223,7 +223,7 @@ class DataMasterView extends GetView<DataMasterController> {
                     child: Icon(EvaIcons.search),
                   ),
                   textInputType: TextInputType.text,
-                  hintText: 'cari..',
+                  hintText: 'Cari..',
                   obscureText: false,
                   passwordVisibility: false,
                   controller: controller,

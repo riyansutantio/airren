@@ -14,10 +14,10 @@ class PamUpdateModel {
   final Data? data;
 
   factory PamUpdateModel.fromJson(Map<String, dynamic> json) => PamUpdateModel(
-    status: json["status"] == null ? null : json["status"],
-    message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-  );
+        status: json["status"] == null ? null : json["status"],
+        message: json["message"] == null ? null : json["message"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      );
 }
 
 class Data {
@@ -28,8 +28,8 @@ class Data {
   final PamDetailResult? pam;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    pam: json["pam"] == null ? null : PamDetailResult.fromJson(json["pam"]),
-  );
+        pam: json["pam"] == null ? null : PamDetailResult.fromJson(json["pam"]),
+      );
 }
 
 class PamDetailResult {
@@ -68,29 +68,29 @@ class PamDetailResult {
   final dynamic blockedAt;
   final int? charge;
   final int? chargeDueDate;
-  final int? minUsage;
+  final String? minUsage;
   final int? isPostpaid;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
   factory PamDetailResult.fromJson(Map<String, dynamic> json) => PamDetailResult(
-    id: json["id"] == null ? null : json["id"],
-    name: json["name"] == null ? null : json["name"],
-    photoName: json["photo_name"],
-    photoPath: json["photo_path"],
-    dateStart: json["date_start"] == null ? null : DateTime.parse(json["date_start"]),
-    dateEnd: json["date_end"] == null ? null : DateTime.parse(json["date_end"]),
-    provinceId: json["province_id"] == null ? null : json["province_id"],
-    regencyId: json["regency_id"] == null ? null : json["regency_id"],
-    districtId: json["district_id"] == null ? null : json["district_id"],
-    detailAddress: json["detail_address"] == null ? null : json["detail_address"],
-    blocked: json["blocked"] == null ? null : json["blocked"],
-    blockedAt: json["blocked_at"],
-    charge: json["charge"] == null ? null : json["charge"],
-    chargeDueDate: json["charge_due_date"] == null ? null : json["charge_due_date"],
-    minUsage: json["min_usage"] == null ? null : json["min_usage"],
-    isPostpaid: json["is_postpaid"] == null ? null : json["is_postpaid"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-  );
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        photoName: json["photo_name"],
+        photoPath: json["photo_path"],
+        dateStart: json["date_start"] == null ? null : DateTime.parse(json["date_start"]),
+        dateEnd: json["date_end"] == null ? null : DateTime.parse(json["date_end"]),
+        provinceId: json["province_id"] == null ? null : json["province_id"],
+        regencyId: json["regency_id"] == null ? null : json["regency_id"],
+        districtId: json["district_id"] == null ? null : json["district_id"],
+        detailAddress: json["detail_address"] == null ? null : json["detail_address"],
+        blocked: json["blocked"] == null ? null : json["blocked"],
+        blockedAt: json["blocked_at"],
+        charge: json["charge"] == null ? null : json["charge"],
+        chargeDueDate: json["charge_due_date"] == null ? null : json["charge_due_date"],
+        minUsage: json["min_usage"] == null ? null : json["min_usage"],
+        isPostpaid: json["is_postpaid"] == null ? null : json["is_postpaid"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+      );
 }
