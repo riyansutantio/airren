@@ -39,6 +39,7 @@ class SessionController extends GetxController {
   var countDownOtp = "".obs;
 
   final RoundedLoadingButtonController btnControllerLoginGoogle = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btnControllerRegister = RoundedLoadingButtonController();
 
   @override
   void onInit() async {

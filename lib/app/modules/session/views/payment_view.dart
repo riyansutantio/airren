@@ -56,214 +56,217 @@ class PaymentView extends GetView {
                       child: Container(height: 400, color: HexColor('#F0F5F9'), width: 200),
                     ),
                   ),
-                  Column(
-                    children: [
-                      Expanded(
-                        flex: 15,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            logger.i(sessionController.boxPrice.read(priceInit));
-                                          },
-                                          child: Text('${idrFormatter(value: sessionController.boxPrice.read(priceInit)) ?? 0}',
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 15,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              logger.i(sessionController.boxPrice.read(priceInit));
+                                            },
+                                            child: Text('${idrFormatter(value: sessionController.boxPrice.read(priceInit)) ?? 0}',
+                                                style: GoogleFonts.montserrat(
+                                                  color: HexColor('#0063F8'),
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Text('Lisensi untuk 30 hari',
                                               style: GoogleFonts.montserrat(
-                                                color: HexColor('#0063F8'),
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
+                                                color: HexColor('#707793'),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
                                               )),
-                                        ),
-                                        Text('Lisensi untuk 30 hari',
-                                            style: GoogleFonts.montserrat(
-                                              color: HexColor('#707793'),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            )),
-                                      ],
-                                    ),
-                                    SvgPicture.asset('assets/licences.svg')
-                                  ],
+                                        ],
+                                      ),
+                                      SvgPicture.asset('assets/licences.svg')
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15, top: 15.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(boxShadow: [
-                                    BoxShadow(
-                                      color: HexColor('#0063F8').withOpacity(0.2),
-                                      spreadRadius: 5,
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 3), // changes position of shadow
-                                    ),
-                                  ], borderRadius: BorderRadius.circular(20.0), color: Colors.white),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(
-                                          height: 15.0,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text('Mohon transfer sejumlah sekian ke',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#707793'),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                            Text('nomor rekening di bawah',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#707793'),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 15.0,
-                                        ),
-                                        Column(
-                                          children: [
-                                            SvgPicture.asset('assets/bri.svg'),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                                              child: Text('1063 0100 0630 303',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#0063F8'),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                            ),
-                                            Text('A.n Bangun Karya Mandiri',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#707793'),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 15.0,
-                                        ),
-                                        Column(
-                                          children: [
-                                            SvgPicture.asset('assets/mandiri.svg'),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                                              child: Text('138 00 1570767 7',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#0063F8'),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                            ),
-                                            Text('A.n Bangun Karya Mandiri',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#707793'),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 15.0,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(15.0),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Akan segera kami informasikan status ',
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15, top: 15.0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: HexColor('#0063F8').withOpacity(0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 3), // changes position of shadow
+                                      ),
+                                    ], borderRadius: BorderRadius.circular(20.0), color: Colors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(
+                                            height: 15.0,
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text('Mohon transfer sejumlah sekian ke',
                                                   style: GoogleFonts.montserrat(
                                                     color: HexColor('#707793'),
-                                                    fontSize: 12,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                    text: 'pembayaran melalui WhatsApp atau email. Bila ',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#707793'),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w500,
-                                                    )),
-                                                TextSpan(
-                                                  text: 'lunas,',
+                                                  )),
+                                              Text('nomor rekening di bawah',
                                                   style: GoogleFonts.montserrat(
-                                                    color: HexColor('#05C270'),
-                                                    fontSize: 12,
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                    text: ' silakan login menggunakan email yang sudah didaftarkan.',
+                                                  )),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 15.0,
+                                          ),
+                                          Column(
+                                            children: [
+                                              SvgPicture.asset('assets/bri.svg'),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                                child: Text('1063 0100 0630 303',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#0063F8'),
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                    )),
+                                              ),
+                                              Text('A.n Bangun Karya Mandiri',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  )),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 15.0,
+                                          ),
+                                          Column(
+                                            children: [
+                                              SvgPicture.asset('assets/mandiri.svg'),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                                child: Text('138 00 1570767 7',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#0063F8'),
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                    )),
+                                              ),
+                                              Text('A.n Bangun Karya Mandiri',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: HexColor('#707793'),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  )),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 15.0,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(15.0),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Akan segera kami informasikan status ',
                                                     style: GoogleFonts.montserrat(
                                                       color: HexColor('#707793'),
                                                       fontSize: 12,
                                                       fontWeight: FontWeight.w500,
-                                                    )),
-                                              ],
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                      text: 'pembayaran melalui WhatsApp atau email. Bila ',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w500,
+                                                      )),
+                                                  TextSpan(
+                                                    text: 'lunas,',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: HexColor('#05C270'),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                      text: ' silakan login menggunakan email yang sudah didaftarkan.',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#707793'),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w500,
+                                                      )),
+                                                ],
+                                              ),
+                                              textAlign: TextAlign.center,
                                             ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: GestureDetector(
-                          onTap: () async {
-                            sessionController.sendWhatsAppConfirm();
-                          },
-                          child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset('assets/wa.svg'),
-                                  Center(
-                                    child: RichText(
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                              text: ' Konfirmasi lewat WA',
-                                              style: GoogleFonts.montserrat(
-                                                color: Colors.white,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                              )),
-                                        ])),
-                                  ),
-                                ],
-                              ),
-                              height: 48.0,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: [HexColor('#23C861'), HexColor('#118578')]),
-                                  borderRadius:
-                                  const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-                                  color: Colors.white)),
-                        ),
-                      )
-                    ],
+                        Expanded(
+                          flex: 2,
+                          child: GestureDetector(
+                            onTap: () async {
+                              sessionController.sendWhatsAppConfirm();
+                            },
+                            child: Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset('assets/wa.svg'),
+                                    Center(
+                                      child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                                text: ' Konfirmasi lewat WA',
+                                                style: GoogleFonts.montserrat(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                )),
+                                          ])),
+                                    ),
+                                  ],
+                                ),
+                                height: 48.0,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(colors: [HexColor('#23C861'), HexColor('#118578')]),
+                                    borderRadius:
+                                    const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                                    color: Colors.white)),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

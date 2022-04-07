@@ -60,7 +60,7 @@ class PamResult {
   final int? regencyId;
   final int? districtId;
   final String? detailAddress;
-  final bool? isPostpaid;
+  final int? isPostpaid;
   final DateTime? updatedAt;
   final DateTime? createdAt;
   final int? id;
