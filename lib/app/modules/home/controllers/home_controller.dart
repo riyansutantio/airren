@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   HomeController({required this.accountProvider});
 
   final pageNavBottom = 0.obs;
+  final userLocal = "".obs;
 
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
 
@@ -22,11 +23,16 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
     await getUser();
+    checkUserLocal();
   }
 
   @override
   void onReady() {
     super.onReady();
+  }
+
+  void checkUserLocal(){
+    userLocal.value = boxUser.read(roleUser);
   }
 
   @override

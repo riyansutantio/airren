@@ -68,7 +68,7 @@ class PamResultMinUsage {
   final dynamic blockedAt;
   final dynamic charge;
   final dynamic chargeDueDate;
-  final int? minUsage;
+  final String? minUsage;
   final int? isPostpaid;
   final DateTime? createdAt;
   final DateTime? updatedAt;

@@ -11,12 +11,17 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../../model/pam_user/pam_user_model.dart';
 import '../../../utils/constant.dart';
 import '../../../widgets/snack_bar_notification.dart';
+import '../../session/controllers/session_controller.dart';
+import '../../session/providers/session_provider.dart';
 import '../providers/master_data_provider.dart';
 
 class DataMasterController extends GetxController {
   MasterDataProvider masterDataProvider;
 
   DataMasterController({required this.masterDataProvider});
+
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+
 
   final count = 0.obs;
   final searchValue = ''.obs;
@@ -164,13 +169,14 @@ class DataMasterController extends GetxController {
 
   Future deleteManagePam() async {
     final res = await masterDataProvider.deletePamManage(id: idManagePamController.text, bearer: boxUser.read(tokenBearer));
-    if (res!.status! == 'success') {
+    if (res!.message! == 'Admin fee successfully updated') {
       await getPamUser();
       await clearCondition();
       Get.back();
       snackBarNotificationSuccess(title: 'Berhasil dihapus');
     } else {
       snackBarNotificationFailed(title: 'Gagal dihapus');
+      sessionController.authError();
     }
   }
 
