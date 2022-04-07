@@ -177,7 +177,7 @@ class AccountController extends GetxController {
 
   Future addCharge() async {
     final res = await accountProvider.addCharge(
-        bearer: boxUser.read(tokenBearer), charge: amountChargeController.text.numericOnly(), dueDate: dueDateController.text);
+        bearer: boxUser.read(tokenBearer), charge: amountChargeController.text.numericOnly(), dueDate: dueDateController.text.numericOnly());
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();

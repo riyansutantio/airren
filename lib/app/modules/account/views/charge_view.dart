@@ -146,8 +146,6 @@ class ChargeView extends GetView {
                         returnValidation: (val) {
                           if (val!.isEmpty) {
                             return "Jatuh tempo harus diisi";
-                          } else if (int.parse(val) > 31) {
-                            return "valuasi 1 sampai 31";
                           }
                           return null;
                         },
@@ -173,7 +171,7 @@ class ChargeView extends GetView {
                                         itemCount: 31,
                                         itemBuilder: (context, index) => GestureDetector(
                                               onTap: () {
-                                                accountController.dueDateController.text = (index + 1).toString();
+                                                accountController.dueDateController.text ='Tanggal ${index + 1}' ;
                                                 Get.until((route) => Get.isBottomSheetOpen == false);
                                               },
                                               child: ListTile(
