@@ -26,13 +26,13 @@ class DataMasterView extends GetView<DataMasterController> {
       builder: (controller) {
         return Obx(() => Scaffold(
               backgroundColor: Colors.blue,
-              appBar: (controller.isSearchBaseFee.value) ? buildAppBarSearch(context, controller) : buildAppBarDefault(context),
+              appBar: (controller.isSearch.value) ? buildAppBarSearch(context, controller) : buildAppBarDefault(context),
               body: WillPopScope(
                 onWillPop: () => willPopWithFuncOnly(func: controller.closeSearchAppBar()),
                 child: Container(
                   child: Column(
                     children: [
-                      if (controller.isSearchBaseFee.value == false)
+                      if (controller.isSearch.value == false)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -57,7 +57,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    'pengelola',
+                                                    'Pengelola',
                                                     style: GoogleFonts.montserrat(
                                                       color: Colors.white,
                                                       fontSize: 12,
@@ -148,7 +148,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    'tarif dasar',
+                                                    'Tarif Dasar Air',
                                                     style: GoogleFonts.montserrat(
                                                       color: Colors.white.withOpacity(0.5),
                                                       fontSize: 12,
@@ -173,7 +173,7 @@ class DataMasterView extends GetView<DataMasterController> {
                   decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
                 ),
               ),
-              floatingActionButton: (controller.isSearchBaseFee.value)
+              floatingActionButton: (controller.isSearch.value)
                   ? const SizedBox()
                   : FloatingActionButton(
                       onPressed: () {
@@ -197,7 +197,7 @@ class DataMasterView extends GetView<DataMasterController> {
             children: [
               GestureDetector(
                 onTap: () {
-                  controller.isSearchBaseFee.value = false;
+                  controller.isSearch.value = false;
                   controller.searchValue.value = '';
                 },
                 child: const Padding(
@@ -270,12 +270,11 @@ class DataMasterView extends GetView<DataMasterController> {
               },
               child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
           const SizedBox(width: 20),
-          if (controller.masterData.value == 1)
             Row(
               children: [
                 GestureDetector(
                   onTap: () {
-                    controller.isSearchBaseFee.value = true;
+                    controller.isSearch.value = true;
                   },
                   child: const Icon(
                     EvaIcons.search,
@@ -302,7 +301,7 @@ class DataMasterView extends GetView<DataMasterController> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  (controller.isSearchBaseFee.value)
+                  (controller.isSearch.value)
                       ? Padding(
                           padding: const EdgeInsets.only(bottom: 50.0),
                           child: SvgPicture.asset('assets/searchnofound.svg'),
@@ -311,7 +310,7 @@ class DataMasterView extends GetView<DataMasterController> {
                           padding: const EdgeInsets.only(bottom: 50.0),
                           child: SvgPicture.asset('assets/tarifkosong.svg'),
                         ),
-                  (controller.isSearchBaseFee.value)
+                  (controller.isSearch.value)
                       ? Padding(
                           padding: const EdgeInsets.only(left: 2.0),
                           child: Text('Tidak ditemukan',
@@ -330,7 +329,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                 fontWeight: FontWeight.bold,
                               )),
                         ),
-                  (controller.isSearchBaseFee.value)
+                  (controller.isSearch.value)
                       ? Align(
                           alignment: Alignment.center,
                           child: Padding(
@@ -355,7 +354,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                 )),
                           ),
                         ),
-                  (controller.isSearchBaseFee.value)
+                  (controller.isSearch.value)
                       ? Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text('kata kunci di atas.',

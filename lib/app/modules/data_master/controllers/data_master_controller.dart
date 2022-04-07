@@ -21,7 +21,7 @@ class DataMasterController extends GetxController {
   final count = 0.obs;
   final searchValue = ''.obs;
   final masterData = 0.obs;
-  final isSearchBaseFee = false.obs;
+  final isSearch = false.obs;
 
   final searchController = TextEditingController();
 
@@ -56,7 +56,13 @@ class DataMasterController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    debounce(searchValue, (val) => searchBaseFee(), time: 500.milliseconds);
+    debounce(searchValue, (val){
+      if (masterData.value == 0) {
+        return searchManage();
+      } else {
+        return searchBaseFee();
+      }
+    }, time: 500.milliseconds);
   }
 
   @override
@@ -78,7 +84,7 @@ class DataMasterController extends GetxController {
   }
 
   Future<void> closeSearchAppBar() async {
-    isSearchBaseFee.value = false;
+    isSearch.value = false;
     searchValue.value = '';
   }
 
@@ -192,6 +198,13 @@ class DataMasterController extends GetxController {
     } finally {
       isLoadingBaseFee.value = false;
     }
+  }
+
+  Future searchManage() async {
+    isLoadingPamUser.value = true;
+    final res = await masterDataProvider.getSearchManage(bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
+    // logger.wtf(res!.data!.data!.toList());
+    pamUserResult.assignAll(res!.data!.pamsUsers!);
   }
 
   Future addBaseFee() async {

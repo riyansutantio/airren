@@ -1,5 +1,6 @@
 import 'package:airen/app/modules/account/controllers/account_controller.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
+import 'package:airen/app/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -16,7 +17,6 @@ class HomeController extends GetxController {
   final pageNavBottom = 0.obs;
 
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
-
 
   @override
   void onInit() async {
@@ -43,6 +43,19 @@ class HomeController extends GetxController {
 
   final resultUser = ResultProfile().obs;
 
+  String? roleUserData({required int isOwner, required List<Role> role}) {
+    if (isOwner == 1) {
+      return '1';
+    } else if (role.length == 2) {
+      return '2';
+    } else if (role[0].name == 'Bendahara PAM') {
+      return '3';
+    } else if (role[0].name == 'Catat Meter PAM') {
+      return '4';
+    }
+    return null;
+  }
+
   Future getUser() async {
     isLoadingUser.value = true;
     final res = await accountProvider.getUser(bearer: boxUser.read(tokenBearer));
@@ -51,6 +64,8 @@ class HomeController extends GetxController {
       sessionController.authError();
     } else if (res.message == 'Profile successfully retrieved') {
       resultUser.value = res.data!.profile!;
+      boxUser.write(roleUser, roleUserData(isOwner: res.data!.profile!.isOwner!, role: res.data!.profile!.roles!));
+      logger.i('ini adalah user sebagai ${boxUser.read(roleUser)}');
     }
   }
 
