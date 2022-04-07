@@ -58,7 +58,7 @@ class AdminFeeView extends GetView {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           } else {
-                            accountController.addCharge();
+                            accountController.adminFee();
                           }
                         },
                         child: const Icon(EvaIcons.checkmark, color: Colors.white)),

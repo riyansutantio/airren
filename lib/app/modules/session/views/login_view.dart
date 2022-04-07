@@ -7,8 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../../utils/constant.dart';
+import '../../../widgets/snack_bar_notification.dart';
 import 'widget_appbar_session.dart';
 
 class LoginView extends GetView<SessionController> {
@@ -27,8 +29,8 @@ class LoginView extends GetView<SessionController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: (){
-                    sessionController.googleSignOut();
+                  onTap: () {
+                    snackBarNotificationFailed(title: 'trtrtrt');
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30.0),
@@ -38,34 +40,45 @@ class LoginView extends GetView<SessionController> {
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0, left: 15.0),
                   child: GestureDetector(
-                    onTap: (){
-                      sessionController.signInWithGoogle();
-                    },
-                    child: Container(
-                      height: 50,
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: HexColor('#0063F8').withOpacity(0.1),
-                            spreadRadius: 3,
-                            blurRadius: 6,
-                            offset: const Offset(0, 2), // changes position of shadow
-                          ),
-                        ], borderRadius: BorderRadius.circular(15), color: Colors.white),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/gicon.svg'),
-                            const SizedBox(width: 10),
-                            Text('Lanjutkan dengan Google', style: GoogleFonts.montserrat(
-                              color: HexColor('#0063F8'),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ))
-                          ],
-                        )),
+                    onTap: () {},
+                    child: RoundedLoadingButton(
+                      color: Colors.white,
+                      valueColor: Colors.blue,
+                      key: const Key('buttonLoginGoogle'),
+                      controller: controller.btnControllerLoginGoogle,
+                      onPressed: () async {
+                        sessionController.signInWithGoogle();
+                      },
+                      child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: HexColor('#0063F8').withOpacity(0.1),
+                              spreadRadius: 3,
+                              blurRadius: 6,
+                              offset: const Offset(0, 2), // changes position of shadow
+                            ),
+                          ], borderRadius: BorderRadius.circular(15), color: Colors.white),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/gicon.svg'),
+                              const SizedBox(width: 10),
+                              Text('Lanjutkan dengan Google',
+                                  style: GoogleFonts.montserrat(
+                                    color: HexColor('#0063F8'),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ))
+                            ],
+                          )),
+                    ),
                   ),
                 ),
-                Image.asset('assets/wavebottom.png', width: double.infinity,),
+                Image.asset(
+                  'assets/wavebottom.png',
+                  width: double.infinity,
+                ),
               ],
             ),
             decoration: const BoxDecoration(

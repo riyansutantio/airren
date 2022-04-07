@@ -50,7 +50,7 @@ PreferredSize buildAppBarSession(
                     child: Text(
                       '$firstSubtitle',
                       style: GoogleFonts.montserrat(
-                        color: Colors.white,
+                        color: Colors.white.withOpacity(0.7),
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                       ),
@@ -61,7 +61,7 @@ PreferredSize buildAppBarSession(
                     child: Text(
                       '$secondSubtitle',
                       style: GoogleFonts.montserrat(
-                        color: Colors.white,
+                        color: Colors.white.withOpacity(0.7),
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                       ),

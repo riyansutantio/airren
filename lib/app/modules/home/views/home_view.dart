@@ -102,38 +102,62 @@ class HomeView extends GetView<HomeController> {
             showSelectedLabels: true,
             currentIndex: controller.pageNavBottom.value,
             onTap: (index) => controller.onItemTapPage(index),
-            showUnselectedLabels: false,
+            showUnselectedLabels: true,
             enableFeedback: false,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
+                tooltip: "",
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 0 ? const Icon(EvaIcons.home) : const Icon(EvaIcons.homeOutline),
+                  child: controller.pageNavBottom.value == 0
+                      ? const Icon(EvaIcons.homeOutline)
+                      : const Icon(
+                          EvaIcons.homeOutline,
+                          color: Colors.grey,
+                        ),
                 ),
                 label: 'Beranda',
               ),
               BottomNavigationBarItem(
+                tooltip: "",
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 1 ? const Icon(EvaIcons.people) : const Icon(EvaIcons.peopleOutline),
+                  child: controller.pageNavBottom.value == 1
+                      ? const Icon(EvaIcons.peopleOutline)
+                      : const Icon(
+                          EvaIcons.peopleOutline,
+                          color: Colors.grey,
+                        ),
                 ),
                 label: 'Pelanggan',
               ),
               BottomNavigationBarItem(
+                tooltip: "",
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 2 ? const Icon(EvaIcons.edit) : const Icon(EvaIcons.editOutline),
+                  child: controller.pageNavBottom.value == 2
+                      ? const Icon(EvaIcons.editOutline)
+                      : const Icon(
+                          EvaIcons.editOutline,
+                          color: Colors.grey,
+                        ),
                 ),
-                label: 'Data',
+                label: 'Data Master',
               ),
               BottomNavigationBarItem(
+                tooltip: "",
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3 ? const Icon(EvaIcons.droplet) : const Icon(EvaIcons.dropletOutline),
+                  child: controller.pageNavBottom.value == 3
+                      ? const Icon(EvaIcons.dropletOutline)
+                      : const Icon(
+                          EvaIcons.dropletOutline,
+                          color: Colors.grey,
+                        ),
                 ),
                 label: 'Akun',
               ),

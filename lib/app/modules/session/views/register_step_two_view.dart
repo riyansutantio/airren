@@ -73,7 +73,7 @@ class RegisterStepTwoView extends GetView {
                               child: Text('62', style: GoogleFonts.montserrat(
                                 color: HexColor('#707793'),
                                 fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.w500,
                               ),),
                             ),
                           ),

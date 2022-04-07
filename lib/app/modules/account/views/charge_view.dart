@@ -215,17 +215,7 @@ class ChargeView extends GetView {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            // accountController.addCharge();
-            final snackBar = SnackBar(
-              content: const Text('Hi, I am a SnackBar!'),
-              backgroundColor: (Colors.black12),
-              action: SnackBarAction(
-                label: 'dismiss',
-                onPressed: () {
-                },
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            accountController.addCharge();
           }
         },
         child: Ink(

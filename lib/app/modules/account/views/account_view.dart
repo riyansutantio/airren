@@ -136,7 +136,9 @@ class AccountView extends GetView<AccountController> {
                     height: 1,
                   ),
                 ),
-                TileAccountWidget(title: 'Bantuan', assets: 'helpblue.png'),
+                TileAccountWidget(title: 'Bantuan', assets: 'helpblue.png', function: (){
+                  Get.to(ErrorHandlingView());
+                }),
                 const Padding(
                   padding: EdgeInsets.only(left: 75.0),
                   child: Divider(

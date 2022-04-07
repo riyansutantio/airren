@@ -1,15 +1,27 @@
 import 'package:airen/app/modules/account/controllers/account_controller.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../../model/account_settings/user_model.dart';
+import '../../../utils/constant.dart';
+import '../../session/controllers/session_controller.dart';
+import '../../session/providers/session_provider.dart';
 
 class HomeController extends GetxController {
-  AccountController accountController = Get.put(AccountController(accountProvider: AccountProvider()));
+  AccountProvider accountProvider;
+
+  HomeController({required this.accountProvider});
+
   final pageNavBottom = 0.obs;
+
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+
 
   @override
   void onInit() async {
     super.onInit();
-    await accountController.getUser();
+    await getUser();
   }
 
   @override
@@ -23,6 +35,23 @@ class HomeController extends GetxController {
 
   void onItemTapPage(int index) {
     pageNavBottom.value = index;
+  }
+
+  final isLoadingUser = false.obs;
+
+  final boxUser = GetStorage();
+
+  final resultUser = ResultProfile().obs;
+
+  Future getUser() async {
+    isLoadingUser.value = true;
+    final res = await accountProvider.getUser(bearer: boxUser.read(tokenBearer));
+    // logger.i(res!.message);
+    if (res == null) {
+      sessionController.authError();
+    } else if (res.message == 'Profile successfully retrieved') {
+      resultUser.value = res.data!.profile!;
+    }
   }
 
   var menuItem = <MenuItemModel>[

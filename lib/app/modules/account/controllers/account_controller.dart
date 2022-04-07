@@ -2,7 +2,6 @@ import 'package:airen/app/model/term_about_help_model.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:airen/app/modules/session/controllers/session_controller.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
-import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,7 +85,7 @@ class AccountController extends GetxController {
     final res = await accountProvider.getUser(bearer: boxUser.read(tokenBearer));
     // logger.i(res!.message);
     if (res == null) {
-      sessionController.newDataCreate();
+      sessionController.authError();
     } else if (res.message == 'Profile successfully retrieved') {
       resultUser.value = res.data!.profile!;
       emailController.text = res.data!.profile!.email!;
@@ -100,8 +99,10 @@ class AccountController extends GetxController {
       namePamController.text = res.data!.profile!.pam!.name!;
       nameController.text = res.data!.profile!.name!;
       amountChargeController.text = (res.data!.profile!.pam!.charge == null) ? "" : res.data!.profile!.pam!.charge.toString();
-      dueDateController.text = (res.data!.profile!.pam!.chargeDueDate == null) ? "" : res.data!.profile!.pam!.chargeDueDate.toString();
-      meterPositionController.text = (res.data!.profile!.pam!.minUsage == null) ? "" : res.data!.profile!.pam!.minUsage.toString();
+      dueDateController.text =
+          (res.data!.profile!.pam!.chargeDueDate == null) ? "" : res.data!.profile!.pam!.chargeDueDate.toString();
+      meterPositionController.text =
+          (res.data!.profile!.pam!.minUsage == null) ? "" : res.data!.profile!.pam!.minUsage.toString();
       selectedProvince.value = res.data!.profile!.pam!.provinceId!.toString();
       selectedRegency.value = res.data!.profile!.pam!.regencyId!.toString();
       selectedDistrict.value = res.data!.profile!.pam!.districtId!.toString();
@@ -154,39 +155,23 @@ class AccountController extends GetxController {
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();
-      snackBarNotification(
-          title: 'Minimal Penggunaan',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'Minimal Penggunaan',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
-      snackBarNotification(
-          title: 'Minimal Penggunaan',
-          messageText: 'gagal ditambahkan',
-          titleText: 'Minimal Penggunaan',
-          subTitle: 'gagal ditambahkan',
-          color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
 
   Future adminFee() async {
-    final res = await accountProvider.adminFee(
-        bearer: boxUser.read(tokenBearer), adminFee: adminFeeController.text.numericOnly());
+    final res =
+        await accountProvider.adminFee(bearer: boxUser.read(tokenBearer), adminFee: adminFeeController.text.numericOnly());
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();
-      snackBarNotification(
-          title: 'Biaya admin',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'Biaya admin',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
-      snackBarNotification(
-          title: 'Biaya admin', messageText: 'gagal ditambahkan', titleText: 'Biaya admin', subTitle: 'gagal ditambahkan', color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
 
@@ -196,16 +181,10 @@ class AccountController extends GetxController {
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();
-      // snackBarNotification(
-      //     title: 'Denda',
-      //     messageText: 'berhasil ditambahkan',
-      //     titleText: 'Denda',
-      //     subTitle: 'berhasil ditambahkan',
-      //     color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
-      snackBarNotification(
-          title: 'Denda', messageText: 'gagal ditambahkan', titleText: 'Denda', subTitle: 'gagal ditambahkan', color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
 
@@ -214,21 +193,12 @@ class AccountController extends GetxController {
         bearer: boxUser.read(tokenBearer), phoneNumber: phoneNumberController.text, name: nameController.text);
     if (res!.status! == 'success') {
       Get.back();
+      await getUser();
       clearCondition();
-      snackBarNotification(
-          title: 'Update Profile',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'Update Profile',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
-      snackBarNotification(
-          title: 'Update Profile',
-          messageText: 'gagal ditambahkan',
-          titleText: 'Update Profile',
-          subTitle: 'gagal ditambahkan',
-          color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 
@@ -243,20 +213,10 @@ class AccountController extends GetxController {
     if (res!.status! == 'success') {
       Get.back();
       clearCondition();
-      snackBarNotification(
-          title: 'PAM Profile',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'PAM Profile',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
-      snackBarNotification(
-          title: 'PAM Profile',
-          messageText: 'gagal ditambahkan',
-          titleText: 'PAM Profile',
-          subTitle: 'gagal ditambahkan',
-          color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 

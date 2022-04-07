@@ -56,9 +56,9 @@ class PamResult {
   });
 
   final String? name;
-  final String? provinceId;
-  final String? regencyId;
-  final String? districtId;
+  final int? provinceId;
+  final int? regencyId;
+  final int? districtId;
   final String? detailAddress;
   final bool? isPostpaid;
   final DateTime? updatedAt;

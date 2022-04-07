@@ -58,7 +58,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       controller: textEditingController,
       obscureText: obscureText,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 10.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
@@ -82,13 +82,13 @@ class AirenTextFormFieldBase extends StatelessWidget {
         labelStyle: GoogleFonts.montserrat(
           color: HexColor('#707793'),
           fontSize: 14,
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.w500,
         ),
         hintText: hintText,
         hintStyle: GoogleFonts.montserrat(
           color: HexColor('#707793'),
           fontSize: 14,
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.w500,
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -119,7 +119,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       style: GoogleFonts.montserrat(
         color: HexColor('#707793'),
         fontSize: 14,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
       ),
     );
   }

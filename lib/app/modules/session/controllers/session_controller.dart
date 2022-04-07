@@ -3,6 +3,7 @@ import 'package:airen/app/model/district_model.dart';
 import 'package:airen/app/model/province_model.dart';
 import 'package:airen/app/model/regency_model.dart';
 import 'package:airen/app/model/register_model.dart';
+import 'package:airen/app/modules/error_handling/views/common_error_view.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/modules/session/views/register_view.dart';
@@ -12,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 import 'package:otp_count_down/otp_count_down.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/constant.dart';
@@ -36,6 +37,8 @@ class SessionController extends GetxController {
   final count = 0.obs;
 
   var countDownOtp = "".obs;
+
+  final RoundedLoadingButtonController btnControllerLoginGoogle = RoundedLoadingButtonController();
 
   @override
   void onInit() async {
@@ -127,31 +130,25 @@ class SessionController extends GetxController {
   final resultError = <Errors>[].obs;
 
   Future register() async {
-    try {
-      isLoadingRegister.value = true;
-      final res = await sessionProvider.register(
-          pamName: namePamController.text,
-          pamDetailAddress: addressDetailController.text,
-          pamDistrictId: selectedDistrict.value,
-          pamProvinceId: selectedProvince.value,
-          pamRegencyId: selectedRegency.value,
-          pamUserEmail: emailPamController.text,
-          pamUserName: nameAdminPamController.text,
-          pamUserPhoneNumber: phoneNumberController.text);
-      if (res!.status == null) {
-        Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
-      } else {
-        boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
-        boxPrice.write(priceInit, res.data?.trialPrice);
-        boxPrice.write(orderIdTrxCreated, res.data?.pam?.createdAt);
-        boxPrice.write(orderIdTrx, res.data?.pam?.id);
-        Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
-        Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
-      }
-    } catch (e) {
-      logger.i(e);
-    } finally {
-      googleSignOut();
+    isLoadingRegister.value = true;
+    final res = await sessionProvider.register(
+        pamName: namePamController.text,
+        pamDetailAddress: addressDetailController.text,
+        pamDistrictId: selectedDistrict.value,
+        pamProvinceId: selectedProvince.value,
+        pamRegencyId: selectedRegency.value,
+        pamUserEmail: emailPamController.text,
+        pamUserName: nameAdminPamController.text,
+        pamUserPhoneNumber: phoneNumberController.text);
+    if (res!.status == null) {
+      Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
+    } else {
+      boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
+      boxPrice.write(priceInit, res.data?.trialPrice);
+      boxPrice.write(orderIdTrxCreated, res.data?.pam?.createdAt.toString());
+      boxPrice.write(orderIdTrx, res.data?.pam?.id);
+      Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
+      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
     }
   }
 
@@ -183,6 +180,14 @@ class SessionController extends GetxController {
     boxUser.write(uidGoogle, null);
     await googleSignOut();
     Get.offAllNamed(Routes.SESSION);
+  }
+
+  Future<void> authError() async {
+    boxUser.write(tokenBearer, null);
+    boxUser.write(emailGoogle, null);
+    boxUser.write(uidGoogle, null);
+    await googleSignOut();
+    Get.to(CommonErrorView());
   }
 
   Future<void> googleSignOut() async {

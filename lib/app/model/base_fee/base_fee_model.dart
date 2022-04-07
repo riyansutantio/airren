@@ -45,7 +45,7 @@ class BaseFeeResult {
   final int? id;
   final int? pamId;
   final int? amount;
-  final int? meterPosition;
+  final String? meterPosition;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 

@@ -72,7 +72,7 @@ class RegisterView extends GetView {
                                 enabled: true,
                                 textInputType: TextInputType.none,
                                 suffixIcon: Icon(
-                                  EvaIcons.chevronDown,
+                                  EvaIcons.arrowIosDownwardOutline,
                                   color: HexColor('#0063F8'),
                                 ),
                                 hintText: 'Provinsi',
@@ -126,7 +126,7 @@ class RegisterView extends GetView {
                                   enabled: true,
                                   textInputType: TextInputType.none,
                                   suffixIcon: Icon(
-                                    EvaIcons.chevronDown,
+                                    EvaIcons.arrowIosDownwardOutline,
                                     color: HexColor('#0063F8'),
                                   ),
                                   hintText: 'Kabupaten',
@@ -179,7 +179,7 @@ class RegisterView extends GetView {
                                   enabled: true,
                                   textInputType: TextInputType.none,
                                   suffixIcon: Icon(
-                                    EvaIcons.chevronDown,
+                                    EvaIcons.arrowIosDownwardOutline,
                                     color: HexColor('#0063F8'),
                                   ),
                                   hintText: 'Kecamatan',

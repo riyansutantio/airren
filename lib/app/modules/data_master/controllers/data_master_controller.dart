@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:airen/app/model/base_fee/base_fee_model.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../../../model/pam_user/pam_user_model.dart';
 import '../../../utils/constant.dart';
@@ -21,7 +24,6 @@ class DataMasterController extends GetxController {
   final isSearchBaseFee = false.obs;
 
   final searchController = TextEditingController();
-
 
   ///Manage User
   final nameController = TextEditingController();
@@ -44,23 +46,35 @@ class DataMasterController extends GetxController {
   final amountDetailController = TextEditingController();
   final meterDetailPositionController = TextEditingController();
 
+  List<Color> colorsRandom = [HexColor('#FF8801'), HexColor('#05C270'), HexColor('#FF3B3B')];
+  Random random = Random();
+  var indexColors = 0.obs;
+
+  void randomColors(){
+    indexColors.value = random.nextInt(3);
+  }
+
   @override
   void onInit() async {
     super.onInit();
     await getPamUser();
     await getBaseFee();
+    randomColors();
   }
 
   @override
   void onReady() {
     super.onReady();
-    debounce(searchValue, (val) => searchBaseFee(),
-        time: 500.milliseconds);
+    debounce(searchValue, (val) => searchBaseFee(), time: 500.milliseconds);
   }
 
   @override
   void onClose() {}
   void increment() => count.value++;
+
+  String getInitials(String name) => name.isNotEmpty
+      ? name.trim().split(' ').map((e) => e[0]).take(2).join()
+      : '';
 
   void toPengelola() {
     masterData.value = 0;
@@ -72,7 +86,7 @@ class DataMasterController extends GetxController {
     logger.i(masterData.value);
   }
 
-  Future<void> closeSearchAppBar()async{
+  Future<void> closeSearchAppBar() async {
     isSearchBaseFee.value = false;
     searchValue.value = '';
   }
@@ -85,11 +99,11 @@ class DataMasterController extends GetxController {
 
   final pamRoleResult = <RolePam>[].obs;
 
-  void checkRole(List<RolePam>? role){
-    for(var i = 0; i < role!.length; i++){
-      if (role[i].name == "Bendahara PAM"){
+  void checkRole(List<RolePam>? role) {
+    for (var i = 0; i < role!.length; i++) {
+      if (role[i].name == "Bendahara PAM") {
         checkBoxPembayaran.value = true;
-      } else if (role[i].name == "Catat Meter PAM"){
+      } else if (role[i].name == "Catat Meter PAM") {
         checkBoxCatatMeter.value = true;
       }
     }
@@ -123,19 +137,9 @@ class DataMasterController extends GetxController {
       await getPamUser();
       await clearCondition();
       Get.back();
-      snackBarNotification(
-          title: 'Pengelola',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'Pengelola',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
-      snackBarNotification(
-          title: 'Pengelola',
-          messageText: 'gagal ditambahkan',
-          titleText: 'Pengelola',
-          subTitle: 'gagal ditambahkan',
-          color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
 
@@ -155,19 +159,9 @@ class DataMasterController extends GetxController {
       await getPamUser();
       await clearCondition();
       Get.back();
-      snackBarNotification(
-          title: 'Pengelola',
-          messageText: 'berhasil diupdate',
-          titleText: 'Pengelola',
-          subTitle: 'berhasil diupdate',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
-      snackBarNotification(
-          title: 'Pengelola',
-          messageText: 'gagal diupdate',
-          titleText: 'Pengelola',
-          subTitle: 'gagal diupdate',
-          color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 
@@ -177,15 +171,9 @@ class DataMasterController extends GetxController {
       await getPamUser();
       await clearCondition();
       Get.back();
-      snackBarNotification(
-          title: 'Pengelola',
-          messageText: 'berhasil dihapus',
-          titleText: 'Pengelola',
-          subTitle: 'berhasil dihapus',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil dihapus');
     } else {
-      snackBarNotification(
-          title: 'Pengelola', messageText: 'gagal dihapus', titleText: 'Pengelola', subTitle: 'gagal dihapus', color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal dihapus');
     }
   }
 
@@ -196,16 +184,10 @@ class DataMasterController extends GetxController {
   final baseFeeResult = <BaseFeeResult>[].obs;
 
   Future getBaseFee() async {
-    try {
-      isLoadingBaseFee.value = true;
-      final res = await masterDataProvider.getBaseFee(bearer: boxUser.read(tokenBearer));
-      // logger.wtf(res!.data!.data!.toList());
-      baseFeeResult.assignAll(res!.data!.baseFees!);
-    } catch (e) {
-      logger.e(e);
-    } finally {
-      isLoadingBaseFee.value = false;
-    }
+    isLoadingBaseFee.value = true;
+    final res = await masterDataProvider.getBaseFee(bearer: boxUser.read(tokenBearer));
+    // logger.wtf(res!.data!.data!.toList());
+    baseFeeResult.assignAll(res!.data!.baseFees!);
   }
 
   Future searchBaseFee() async {
@@ -223,25 +205,17 @@ class DataMasterController extends GetxController {
 
   Future addBaseFee() async {
     final res = await masterDataProvider.addBaseFee(
-        bearer: boxUser.read(tokenBearer), amount: amountController.text.numericOnly(), meterPosition: meterPositionController.text);
+        bearer: boxUser.read(tokenBearer),
+        amount: amountController.text.numericOnly(),
+        meterPosition: meterPositionController.text);
     if (res!.message! == 'Base fee successfully created') {
       await getBaseFee();
       await clearCondition();
       Get.back();
-      snackBarNotification(
-          title: 'Tarif dasar',
-          messageText: 'berhasil ditambahkan',
-          titleText: 'Tarif dasar',
-          subTitle: 'berhasil ditambahkan',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
-      snackBarNotification(
-          title: 'Tarif dasar',
-          messageText: 'gagal ditambahkan',
-          titleText: 'Tarif dasar',
-          subTitle: 'gagal ditambahkan',
-          color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
 
@@ -255,19 +229,9 @@ class DataMasterController extends GetxController {
       await getBaseFee();
       await clearCondition();
       Get.back();
-      snackBarNotification(
-          title: 'Tarif dasar',
-          messageText: 'berhasil diubah',
-          titleText: 'Tarif dasar',
-          subTitle: 'berhasil diubah',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
-      snackBarNotification(
-          title: 'Tarif dasar',
-          messageText: 'gagal diubah',
-          titleText: 'Tarif dasar',
-          subTitle: 'gagal diubah',
-          color: Colors.red);
+      snackBarNotificationSuccess(title: 'Gagal diubah');
     }
   }
 
@@ -277,15 +241,9 @@ class DataMasterController extends GetxController {
       await getBaseFee();
       await clearCondition();
       Get.back();
-      snackBarNotification(
-          title: 'Tarif dasar',
-          messageText: 'berhasil dihapus',
-          titleText: 'Tarif dasar',
-          subTitle: 'berhasil dihapus',
-          color: Colors.green);
+      snackBarNotificationSuccess(title: 'Berhasil dihapus');
     } else {
-      snackBarNotification(
-          title: 'Tarif dasar', messageText: 'gagal dihapus', titleText: 'Tarif dasar', subTitle: 'gagal dihapus', color: Colors.red);
+      snackBarNotificationFailed(title: 'Gagal dihapus');
     }
   }
 

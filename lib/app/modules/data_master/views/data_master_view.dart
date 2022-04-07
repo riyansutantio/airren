@@ -25,7 +25,7 @@ class DataMasterView extends GetView<DataMasterController> {
       init: DataMasterController(masterDataProvider: MasterDataProvider()),
       builder: (controller) {
         return Obx(() => Scaffold(
-          backgroundColor: Colors.blue,
+              backgroundColor: Colors.blue,
               appBar: (controller.isSearchBaseFee.value) ? buildAppBarSearch(context, controller) : buildAppBarDefault(context),
               body: WillPopScope(
                 onWillPop: () => willPopWithFuncOnly(func: controller.closeSearchAppBar()),
@@ -376,77 +376,73 @@ class DataMasterView extends GetView<DataMasterController> {
                         ),
                 ],
               )
-            : Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: ListView.builder(
-                    itemCount: controller.baseFeeResult.length,
-                    itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
-                              controller.amountDetailController.text = controller.baseFeeResult[index].amount.toString();
-                              controller.meterDetailPositionController.text =
-                                  controller.baseFeeResult[index].meterPosition.toString();
-                              Get.to(BaseFeeDetailView());
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.only(top: 5, bottom: 5),
-                              child: ListTile(
-                                  dense: false,
-                                  title: Text(
-                                    '${rpFormatter(value: controller.baseFeeResult[index].amount) ?? 0}',
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+            : ListView.builder(
+                itemCount: controller.baseFeeResult.length,
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
+                        controller.amountDetailController.text = controller.baseFeeResult[index].amount.toString();
+                        controller.meterDetailPositionController.text = controller.baseFeeResult[index].meterPosition.toString();
+                        Get.to(BaseFeeDetailView());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 5, bottom: 5),
+                          child: ListTile(
+                              dense: false,
+                              title: Text(
+                                '${rpFormatter(value: controller.baseFeeResult[index].amount) ?? 0}',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              leading: CircleAvatar(
+                                  backgroundColor: HexColor('#0063F8').withOpacity(0.1),
+                                  maxRadius: 25,
+                                  child: Icon(EvaIcons.dropletOutline, color: HexColor('#0063F8'))),
+                              trailing: SizedBox(
+                                width: 100,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.asset('assets/meter.svg'),
                                     ),
-                                  ),
-                                  leading: CircleAvatar(
-                                      backgroundColor: HexColor('#0063F8').withOpacity(0.1),
-                                      maxRadius: 25,
-                                      child: Icon(EvaIcons.dropletOutline, color: HexColor('#0063F8'))),
-                                  trailing: SizedBox(
-                                    width: 100,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SvgPicture.asset('assets/meter.svg'),
-                                        ),
-                                        Flexible(
-                                          child: SizedBox(
-                                            child: Text('${controller.baseFeeResult[index].meterPosition}',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                )),
-                                          ),
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          child: Icon(
-                                            Icons.arrow_forward,
-                                            color: Colors.amber,
-                                          ),
-                                        )
-                                      ],
+                                    Flexible(
+                                      child: SizedBox(
+                                        child: Text('${controller.baseFeeResult[index].meterPosition}',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            )),
+                                      ),
                                     ),
-                                  )),
-                              decoration: BoxDecoration(boxShadow: [
-                                BoxShadow(
-                                  color: Colors.blue.withOpacity(0.5),
-                                  blurRadius: 5.0,
-                                  spreadRadius: 0.1,
-                                )
-                              ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
-                            ),
-                          ),
-                        )),
-              ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 8.0),
+                                      child: Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.amber,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )),
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(0.5),
+                              blurRadius: 5.0,
+                              spreadRadius: 0.1,
+                            )
+                          ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                        ),
+                      ),
+                    )),
       ),
     );
   }
@@ -456,78 +452,76 @@ class DataMasterView extends GetView<DataMasterController> {
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: ListView.builder(
-              itemCount: controller.pamUserResult.length,
-              itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.nameDetailController.text = controller.pamUserResult[index].name!;
-                        controller.phoneNumberDetailPamController.text = controller.pamUserResult[index].phoneNumber!;
-                        controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
-                        controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
-                        (controller.pamUserResult[index].blocked! == 1)
-                            ? controller.radioValueActivated.value = 1
-                            : controller.radioValueActivated.value = 0;
-                        controller.checkRole(controller.pamUserResult[index].roles);
-                        Get.to(PamManageDetailView(
-                          admin: controller.pamUserResult[index].isOwner,
-                          roles: controller.pamUserResult[index].roles!,
-                        ));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5),
-                        child: ListTile(
-                            dense: false,
-                            title: Text(
-                              '${controller.pamUserResult[index].name}',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
+        child: ListView.builder(
+            itemCount: controller.pamUserResult.length,
+            itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    controller.nameDetailController.text = controller.pamUserResult[index].name!;
+                    controller.phoneNumberDetailPamController.text = controller.pamUserResult[index].phoneNumber!;
+                    controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
+                    controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
+                    (controller.pamUserResult[index].blocked! == 1)
+                        ? controller.radioValueActivated.value = 1
+                        : controller.radioValueActivated.value = 0;
+                    controller.checkRole(controller.pamUserResult[index].roles);
+                    Get.to(PamManageDetailView(
+                      admin: controller.pamUserResult[index].isOwner,
+                      roles: controller.pamUserResult[index].roles!,
+                    ));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
+                    child: Container(
+                      child: ListTile(
+                          dense: false,
+                          title: Text(
+                            '${controller.pamUserResult[index].name}',
+                            style: GoogleFonts.montserrat(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
-                            subtitle: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: controller.pamUserResult[index].roles!.length,
-                                itemBuilder: (context, indexRole) => Text(
-                                      controller.pamUserResult[index].roles![indexRole].name!,
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    )),
-                            leading: CircleAvatar(
-                                backgroundColor: Colors.blue.withOpacity(0.2),
-                                child: Text(
-                                  controller.pamUserResult[index].name![0].toUpperCase(),
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )),
-                            trailing: const Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.amber,
-                              ),
-                            )),
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.5),
-                            blurRadius: 5.0,
-                            spreadRadius: 0.1,
-                          )
-                        ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
-                      ),
+                          ),
+                          subtitle: ListView.builder(
+                              padding: const EdgeInsets.only(top: 5),
+                              shrinkWrap: true,
+                              itemCount: controller.pamUserResult[index].roles!.length,
+                              itemBuilder: (context, indexRole) => Text(
+                                    controller.pamUserResult[index].roles![indexRole].name!,
+                                    style: GoogleFonts.montserrat(
+                                      color: HexColor('#707793'),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  )),
+                          leading: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: controller.colorsRandom[controller.indexColors.value].withOpacity(0.2),
+                              child: Text(
+                                controller.getInitials(controller.pamUserResult[index].name!.toUpperCase()),
+                                style: GoogleFonts.montserrat(
+                                  color: controller.colorsRandom[controller.indexColors.value],
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                          trailing: const Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.amber,
+                            ),
+                          )),
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: Colors.blue.withOpacity(0.5),
+                          blurRadius: 5.0,
+                          spreadRadius: 0.1,
+                        )
+                      ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
                     ),
-                  )),
-        ),
+                  ),
+                )),
       ),
     );
   }

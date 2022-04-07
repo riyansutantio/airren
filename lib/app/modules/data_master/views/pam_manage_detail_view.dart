@@ -482,7 +482,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Status Pnegelola',
+                                                  'Status Pengelola',
                                                   style: GoogleFonts.montserrat(
                                                     color: HexColor('#3C3F58'),
                                                     fontSize: 18,
@@ -491,11 +491,12 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                 ),
                                                 ListTile(
                                                   leading: Radio(
+                                                    activeColor: Colors.blue,
                                                       value: 0,
                                                       groupValue: controller.radioValueActivated.value,
                                                       onChanged: controller.handleRadioValueChangeActivated),
                                                   title: Text(
-                                                    'Active',
+                                                    'Aktif',
                                                     style: GoogleFonts.montserrat(
                                                       color: HexColor('#707793'),
                                                       fontSize: 14,

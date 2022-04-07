@@ -100,7 +100,7 @@ class BaseFeeDetailView extends GetView {
                                 style: GoogleFonts.montserrat(
                                   color: HexColor('#707793'),
                                   fontSize: 14,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
