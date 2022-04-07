@@ -86,7 +86,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    'pengelola',
+                                                    'Pengelola',
                                                     style: GoogleFonts.montserrat(
                                                       color: Colors.white.withOpacity(0.5),
                                                       fontSize: 12,
@@ -122,7 +122,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    'tarif dasar',
+                                                    'Tarif Dasar Air',
                                                     style: GoogleFonts.montserrat(
                                                       color: Colors.white,
                                                       fontSize: 12,
@@ -496,11 +496,19 @@ class DataMasterView extends GetView<DataMasterController> {
                                   )),
                           leading: CircleAvatar(
                               maxRadius: 30,
-                              backgroundColor: controller.colorsRandom[controller.indexColors.value].withOpacity(0.2),
+                              backgroundColor: controller.pamUserResult[index].isOwner == 1
+                                  ? HexColor('#FF8801').withOpacity(0.1)
+                                  : (controller.pamUserResult[index].roles!.length == 2)
+                                      ? Colors.red.withOpacity(0.1)
+                                      : Colors.green.withOpacity(0.1),
                               child: Text(
                                 controller.getInitials(controller.pamUserResult[index].name!.toUpperCase()),
                                 style: GoogleFonts.montserrat(
-                                  color: controller.colorsRandom[controller.indexColors.value],
+                                  color: controller.pamUserResult[index].isOwner == 1
+                                      ? HexColor('#FF8801')
+                                      : (controller.pamUserResult[index].roles!.length == 2)
+                                          ? Colors.red
+                                          : Colors.green,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),

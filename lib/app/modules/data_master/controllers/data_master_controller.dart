@@ -46,20 +46,11 @@ class DataMasterController extends GetxController {
   final amountDetailController = TextEditingController();
   final meterDetailPositionController = TextEditingController();
 
-  List<Color> colorsRandom = [HexColor('#FF8801'), HexColor('#05C270'), HexColor('#FF3B3B')];
-  Random random = Random();
-  var indexColors = 0.obs;
-
-  void randomColors(){
-    indexColors.value = random.nextInt(3);
-  }
-
   @override
   void onInit() async {
     super.onInit();
     await getPamUser();
     await getBaseFee();
-    randomColors();
   }
 
   @override

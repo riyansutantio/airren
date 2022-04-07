@@ -491,7 +491,8 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                 ),
                                                 ListTile(
                                                   leading: Radio(
-                                                    activeColor: Colors.blue,
+                                                    fillColor: MaterialStateProperty.all(HexColor('#0063F8').withOpacity(0.2)),
+                                                    activeColor: Colors.red,
                                                       value: 0,
                                                       groupValue: controller.radioValueActivated.value,
                                                       onChanged: controller.handleRadioValueChangeActivated),
@@ -514,6 +515,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                 ),
                                                 ListTile(
                                                   leading: Radio(
+                                                      fillColor: MaterialStateProperty.all(HexColor('#0063F8').withOpacity(0.2)),
                                                       value: 1,
                                                       groupValue: controller.radioValueActivated.value,
                                                       onChanged: controller.handleRadioValueChangeActivated),
