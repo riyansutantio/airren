@@ -76,14 +76,27 @@ class AccountView extends GetView<AccountController> {
                                     shape: BoxShape.circle,
                                     boxShadow: [BoxShadow(blurRadius: 9, color: Colors.blue.withOpacity(0.2), spreadRadius: 1)],
                                   ),
-                                  child: CircleAvatar(
+                                  child: Obx(() => CircleAvatar(
                                       maxRadius: 45,
                                       backgroundColor: Colors.white,
-                                      child: CircleAvatar(
-                                        maxRadius: 40,
-                                        child: SvgPicture.asset('assets/photo.svg'),
-                                        backgroundColor: HexColor('#0063F8'),
-                                      )),
+                                      child: (controller.photoName.value == "")
+                                          ? CircleAvatar(
+                                              maxRadius: 40,
+                                              child: SvgPicture.asset('assets/photo.svg'),
+                                              backgroundColor: HexColor('#0063F8'),
+                                            )
+                                          : CircleAvatar(
+                                              maxRadius: 40,
+                                              child: ClipOval(
+                                                child: AspectRatio(
+                                                    aspectRatio: 1 / 1,
+                                                    child: Image.network(
+                                                      controller.photoPath.value,
+                                                      fit: BoxFit.cover,
+                                                    )),
+                                              ),
+                                              backgroundColor: HexColor('#0063F8'),
+                                            ))),
                                 ),
                               ),
                               const SizedBox(height: 20),
@@ -136,9 +149,12 @@ class AccountView extends GetView<AccountController> {
                     height: 1,
                   ),
                 ),
-                TileAccountWidget(title: 'Bantuan', assets: 'helpblue.png', function: (){
-                  Get.to(ErrorHandlingView());
-                }),
+                TileAccountWidget(
+                    title: 'Bantuan',
+                    assets: 'helpblue.png',
+                    function: () {
+                      Get.to(ErrorHandlingView());
+                    }),
                 const Padding(
                   padding: EdgeInsets.only(left: 75.0),
                   child: Divider(
@@ -184,20 +200,20 @@ class AccountView extends GetView<AccountController> {
                     height: 1,
                   ),
                 ),
-                Obx(()=>TileAccountWidget(
-                  title: 'Push notifikasi',
-                  assets: 'notifblue.png',
-                  trail: Switch(
-                    activeColor: HexColor('#05C270'),
-                    value: controller.pushNotification.value,
-                    onChanged: (value) {
-                      controller.pushNotification.toggle();
-                      // setState(() {
-                      //   _switchValue = value;
-                      // });
-                    },
-                  ),
-                )),
+                Obx(() => TileAccountWidget(
+                      title: 'Push notifikasi',
+                      assets: 'notifblue.png',
+                      trail: Switch(
+                        activeColor: HexColor('#05C270'),
+                        value: controller.pushNotification.value,
+                        onChanged: (value) {
+                          controller.pushNotification.toggle();
+                          // setState(() {
+                          //   _switchValue = value;
+                          // });
+                        },
+                      ),
+                    )),
                 const Padding(
                   padding: EdgeInsets.only(left: 75.0),
                   child: Divider(
