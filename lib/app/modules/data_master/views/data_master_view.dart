@@ -43,7 +43,6 @@ class DataMasterView extends GetView<DataMasterController> {
                               child: Container(
                                 color: Colors.transparent,
                                 height: 90,
-                                width: 100,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
@@ -108,7 +107,6 @@ class DataMasterView extends GetView<DataMasterController> {
                               child: Container(
                                 color: Colors.transparent,
                                 height: 90,
-                                width: 100,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
