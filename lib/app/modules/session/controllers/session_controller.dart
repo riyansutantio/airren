@@ -54,7 +54,9 @@ class SessionController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    logger.w('close');
+  }
   void increment() => count.value++;
 
   /// Result Province
@@ -149,10 +151,9 @@ class SessionController extends GetxController {
       boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
       boxPrice.write(priceInit, res.data?.trialPrice);
       boxPrice.write(orderIdTrxCreated, res.data?.pam?.createdAt.toString());
-      boxPrice.write(orderIdTrx, res.data?.transaction?.trxId);
-      Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
+      boxPrice.write(orderIdTrx, res.data?.pam?.id);
+      // Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
       Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
-      btnControllerRegister.stop();
     }
   }
 
@@ -260,7 +261,7 @@ class SessionController extends GetxController {
 
   void sendWhatsAppConfirm({String? time}) async {
     var url =
-        """https://api.whatsapp.com/send?phone=62${boxUser.read(phoneNumberVerification)}&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20${boxUser.read(orderIdTrx)}%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20${idrFormatter(value: boxUser.read(priceInit))}%0ATanggal%20:%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
+        """https://api.whatsapp.com/send?phone=62${boxUser.read(phoneNumberVerification)}&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20${boxUser.read(orderIdTrx)}%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20${rpFormatter(value: boxUser.read(priceInit))}%0ATanggal%20:%20${boxUser.read(orderIdTrxCreated)}%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
     await launch(url);
   }
 }

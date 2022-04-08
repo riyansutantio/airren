@@ -1,5 +1,5 @@
-import 'package:airen/app/modules/account/controllers/account_controller.dart';
-import 'package:airen/app/modules/account/providers/account_provider.dart';
+import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
+import 'package:airen/app/modules/home/providers/home_provider.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,14 +10,15 @@ import '../../session/controllers/session_controller.dart';
 import '../../session/providers/session_provider.dart';
 
 class HomeController extends GetxController {
-  AccountProvider accountProvider;
+  HomeProvider homeProvider;
 
-  HomeController({required this.accountProvider});
+  HomeController({required this.homeProvider});
+
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+
 
   final pageNavBottom = 0.obs;
   final userLocal = "".obs;
-
-  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
 
   @override
   void onInit() async {
@@ -31,12 +32,13 @@ class HomeController extends GetxController {
     super.onReady();
   }
 
-  void checkUserLocal(){
+  void checkUserLocal() {
     userLocal.value = boxUser.read(roleUser);
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+  }
   void increment() => pageNavBottom.value++;
 
   void onItemTapPage(int index) {
@@ -54,9 +56,9 @@ class HomeController extends GetxController {
       return '1';
     } else if (role.length == 2) {
       return '2';
-    } else if (role[0].name == 'Bendahara PAM') {
-      return '3';
     } else if (role[0].name == 'Catat Meter PAM') {
+      return '3';
+    } else if (role[0].name == 'Bendahara PAM') {
       return '4';
     }
     return null;
@@ -64,7 +66,7 @@ class HomeController extends GetxController {
 
   Future getUser() async {
     isLoadingUser.value = true;
-    final res = await accountProvider.getUser(bearer: boxUser.read(tokenBearer));
+    final res = await homeProvider.getUser(bearer: boxUser.read(tokenBearer));
     // logger.i(res!.message);
     if (res == null) {
       sessionController.authError();

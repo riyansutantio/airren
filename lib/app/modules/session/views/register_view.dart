@@ -73,7 +73,7 @@ class RegisterView extends GetView {
                                 textInputType: TextInputType.none,
                                 suffixIcon: Icon(
                                   EvaIcons.arrowIosDownwardOutline,
-                                  color: HexColor('#0063F8'),
+                                  color: HexColor('#0063F8').withOpacity(0.5),
                                 ),
                                 hintText: 'Provinsi',
                                 obscureText: false,
@@ -119,15 +119,14 @@ class RegisterView extends GetView {
                                 },
                               ),
                             ),
-                            if (sessionController.resultRegency.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AirenTextFormFieldBase(
-                                  enabled: true,
+                                  enabled: (sessionController.selectedProvince.isEmpty) ? false : true,
                                   textInputType: TextInputType.none,
                                   suffixIcon: Icon(
                                     EvaIcons.arrowIosDownwardOutline,
-                                    color: HexColor('#0063F8'),
+                                    color: HexColor('#0063F8').withOpacity(0.5),
                                   ),
                                   hintText: 'Kabupaten',
                                   obscureText: false,
@@ -172,15 +171,14 @@ class RegisterView extends GetView {
                                   },
                                 ),
                               ),
-                            if (sessionController.resultDistrict.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AirenTextFormFieldBase(
-                                  enabled: true,
+                                  enabled: (sessionController.selectedRegency.isEmpty) ? false : true,
                                   textInputType: TextInputType.none,
                                   suffixIcon: Icon(
                                     EvaIcons.arrowIosDownwardOutline,
-                                    color: HexColor('#0063F8'),
+                                    color: HexColor('#0063F8').withOpacity(0.5),
                                   ),
                                   hintText: 'Kecamatan',
                                   obscureText: false,

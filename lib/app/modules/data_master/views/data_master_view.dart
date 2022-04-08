@@ -3,7 +3,6 @@ import 'package:airen/app/modules/data_master/views/add_base_fee_view.dart';
 import 'package:airen/app/modules/data_master/views/add_pam_manage_view.dart';
 import 'package:airen/app/modules/data_master/views/base_fee_detail_view.dart';
 import 'package:airen/app/modules/data_master/views/pam_manage_detail_view.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

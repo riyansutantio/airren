@@ -1,6 +1,7 @@
 import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
+import 'package:airen/app/modules/home/providers/home_provider.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -12,16 +13,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../account/providers/account_provider.dart';
 import '../../account/views/account_view.dart';
-import '../../account/views/my_profile_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
-      init: HomeController(accountProvider: AccountProvider()),
+      init: HomeController(homeProvider: HomeProvider()),
       builder: (controller) {
         return Obx(()=>Scaffold(
           appBar: (controller.pageNavBottom.value == 0 && controller.userLocal.value == '1')
@@ -227,7 +226,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 2
+                  child: controller.pageNavBottom.value == 0
                       ? const Icon(EvaIcons.editOutline)
                       : const Icon(
                           EvaIcons.editOutline,
@@ -241,7 +240,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3
+                  child: controller.pageNavBottom.value == 1
                       ? const Icon(EvaIcons.dropletOutline)
                       : const Icon(
                           EvaIcons.dropletOutline,
@@ -303,7 +302,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3
+                  child: controller.pageNavBottom.value == 0
                       ? const Icon(EvaIcons.editOutline)
                       : const Icon(
                           EvaIcons.editOutline,
@@ -317,7 +316,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3
+                  child: controller.pageNavBottom.value == 1
                       ? const Icon(EvaIcons.dropletOutline)
                       : const Icon(
                           EvaIcons.dropletOutline,

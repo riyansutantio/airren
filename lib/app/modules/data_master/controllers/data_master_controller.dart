@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:airen/app/model/base_fee/base_fee_model.dart';
+import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 import '../../../model/pam_user/pam_user_model.dart';
 import '../../../utils/constant.dart';
@@ -21,7 +19,6 @@ class DataMasterController extends GetxController {
   DataMasterController({required this.masterDataProvider});
 
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
-
 
   final count = 0.obs;
   final searchValue = ''.obs;
@@ -61,7 +58,7 @@ class DataMasterController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    debounce(searchValue, (val){
+    debounce(searchValue, (val) {
       if (masterData.value == 0) {
         return searchManage();
       } else {
@@ -71,12 +68,12 @@ class DataMasterController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() async {
+    await getPamUser();
+  }
   void increment() => count.value++;
 
-  String getInitials(String name) => name.isNotEmpty
-      ? name.trim().split(' ').map((e) => e[0]).take(2).join()
-      : '';
+  String getInitials(String name) => name.isNotEmpty ? name.trim().split(' ').map((e) => e[0]).take(2).join() : '';
 
   void toPengelola() {
     masterData.value = 0;
@@ -116,7 +113,11 @@ class DataMasterController extends GetxController {
       isLoadingPamUser.value = true;
       final res = await masterDataProvider.getPamUser(bearer: boxUser.read(tokenBearer));
       // logger.wtf(res!.data!.data!.toList());
-      pamUserResult.assignAll(res!.data!.pamsUsers!);
+      if (res == null) {
+        Get.to(UnauthenticationView());
+      } else if (res.message == "Pam user successfully retrived") {
+        pamUserResult.assignAll(res.data!.pamsUsers!);
+      }
     } catch (e) {
       logger.e(e);
     } finally {
@@ -190,7 +191,11 @@ class DataMasterController extends GetxController {
     isLoadingBaseFee.value = true;
     final res = await masterDataProvider.getBaseFee(bearer: boxUser.read(tokenBearer));
     // logger.wtf(res!.data!.data!.toList());
-    baseFeeResult.assignAll(res!.data!.baseFees!);
+    if (res == null) {
+      Get.to(UnauthenticationView());
+    } else if (res.message == "Base fees successfully retrieved") {
+      baseFeeResult.assignAll(res.data!.baseFees!);
+    }
   }
 
   Future searchBaseFee() async {

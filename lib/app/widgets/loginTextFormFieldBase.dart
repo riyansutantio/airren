@@ -46,7 +46,6 @@ class AirenTextFormFieldBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorHeight: 5.0,
       onFieldSubmitted: onSubmit,
       onTap: onTap,
       onChanged: onChange,

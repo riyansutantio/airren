@@ -128,6 +128,7 @@ class RegisterStepTwoView extends GetView {
 
   Widget buildElevatedButtonCustom() {
     return RoundedLoadingButton(
+      height: 48,
       color: Colors.white,
       valueColor: Colors.blue,
       key: const Key('btnControllerRegister'),

@@ -72,7 +72,7 @@ class PaymentView extends GetView {
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
