@@ -432,13 +432,15 @@ class DataMasterView extends GetView<DataMasterController> {
                                   ],
                                 ),
                               )),
-                          decoration: BoxDecoration(boxShadow: [
-                            BoxShadow(
-                              color: Colors.blue.withOpacity(0.5),
-                              blurRadius: 5.0,
-                              spreadRadius: 0.1,
-                            )
-                          ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                          decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0.0, 8.0),
+                                color: Color.fromRGBO(0, 99, 248, 0.16),
+                                blurRadius: 24,
+                              ),
+                            ],
+                          borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
                         ),
                       ),
                     )),
@@ -519,13 +521,13 @@ class DataMasterView extends GetView<DataMasterController> {
                               color: Colors.amber,
                             ),
                           )),
-                      decoration: BoxDecoration(boxShadow: [
+                      decoration: const BoxDecoration(boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.5),
-                          blurRadius: 5.0,
-                          spreadRadius: 0.1,
-                        )
-                      ], borderRadius: const BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                          offset: Offset(0.0, 8.0),
+                          color: Color.fromRGBO(0, 99, 248, 0.16),
+                          blurRadius: 24,
+                        ),
+                      ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
                     ),
                   ),
                 )),

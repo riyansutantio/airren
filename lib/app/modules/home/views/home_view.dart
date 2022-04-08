@@ -78,13 +78,17 @@ class HomeView extends GetView<HomeController> {
       children: [
         Container(
           height: 50,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(15.0),
               topRight: Radius.circular(15.0),
             ),
             boxShadow: <BoxShadow>[
-              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+            BoxShadow(
+              offset: Offset(0.0, -8.0),
+              color: Color.fromRGBO(0, 99, 248, 0.16),
+              blurRadius: 24,
+            ),
             ],
           ),
         ),
@@ -452,12 +456,14 @@ class HomeView extends GetView<HomeController> {
               padding: const EdgeInsets.all(15.0),
               child: Container(
                   height: 90,
-                  decoration: BoxDecoration(boxShadow: <BoxShadow>[
+                  decoration: BoxDecoration(boxShadow: const <BoxShadow>[
                     BoxShadow(
-                      color: HexColor('#0063F8').withOpacity(0.3),
-                      blurRadius: 10,
+                      offset: Offset(0.0, 8.0),
+                      color: Color.fromRGBO(0, 99, 248, 0.16),
+                      blurRadius: 24,
                     ),
-                  ], borderRadius: BorderRadius.circular(16), color: Colors.white),
+                  ],
+                  borderRadius: BorderRadius.circular(16), color: Colors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -516,14 +522,15 @@ class HomeView extends GetView<HomeController> {
               flex: 5,
               child: Container(
                 padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: HexColor('#0063F8').withOpacity(0.3),
-                      blurRadius: 10,
+                      offset: Offset(0.0, -8.0),
+                      color: Color.fromRGBO(0, 99, 248, 0.16),
+                      blurRadius: 24,
                     ),
                   ],
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
                   color: Colors.white,
                 ),
                 child: SingleChildScrollView(
@@ -622,11 +629,11 @@ class HomeView extends GetView<HomeController> {
 
   Widget containerItemMenu({String? assets, String? title}) {
     return Container(
-        decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[
+          decoration: BoxDecoration(boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: HexColor('#0063F8').withOpacity(0.3),
-              blurRadius: 10,
+              offset: Offset(0.0, 8.0),
+              color: Color.fromRGBO(0, 99, 248, 0.16),
+              blurRadius: 24,
             ),
           ],
           borderRadius: BorderRadius.circular(12.0),
