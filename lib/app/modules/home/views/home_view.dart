@@ -434,8 +434,8 @@ class HomeView extends GetView<HomeController> {
               child: AlignedGridView.count(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 crossAxisCount: 3,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
                 itemCount: controller.menuItem.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -455,7 +455,6 @@ class HomeView extends GetView<HomeController> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Container(
-                  height: 90,
                   decoration: BoxDecoration(boxShadow: const <BoxShadow>[
                     BoxShadow(
                       offset: Offset(0.0, 8.0),
@@ -468,50 +467,57 @@ class HomeView extends GetView<HomeController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Pengaturan',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.amber,
-                            ),
-                          )
-                        ],
-                      ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                        child: Column(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Tentukan denda, minimum penggunaan',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
+                            Expanded(
+                              flex: 10,
+                              child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Pengaturan',
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Tentukan denda, minimum penggunaan dan lainnya.',
+                                          style: GoogleFonts.montserrat(
+                                            color: HexColor('#707793'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]
+                              )
                             ),
-                            Text(
-                              'dan lainnya.',
-                              style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
+                            const Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+                                child: Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            )
                           ],
                         ),
                       ),
@@ -541,35 +547,42 @@ class HomeView extends GetView<HomeController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0),
-                                child: Text(
-                                  'Masa aktif akun sampai dengan tanggal',
-                                  style: GoogleFonts.montserrat(
-                                    color: HexColor('#707793'),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
+                          Expanded(
+                            flex: 10,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: Text(
+                                    'Masa aktif akun sampai dengan tanggal',
+                                    style: GoogleFonts.montserrat(
+                                      color: HexColor('#707793'),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text(
-                                '30 November 2022',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  '30 November 2022',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          Image.asset(
-                            'assets/license.png',
-                            width: 30,
-                            height: 30,
+                          Expanded(
+                            flex: 2,
+                            child: Image.asset(
+                              'assets/license.png',
+                              width: 50,
+                              height: 50,
+                              opacity: const AlwaysStoppedAnimation<double>(0.5)
+                            ),
                           )
                         ],
                       ),
@@ -640,7 +653,7 @@ class HomeView extends GetView<HomeController> {
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 12, 8.0, 12),
           child: Column(
             children: [
               SvgPicture.asset('assets/$assets'),
@@ -671,7 +684,7 @@ class HomeView extends GetView<HomeController> {
         return Container();
     }
   }
-  
+
   Widget renderPageNotePayment(BuildContext context) {
     // logger.wtf(controller.pageNavBottom.value);
     var command = '${controller.pageNavBottom.value}';

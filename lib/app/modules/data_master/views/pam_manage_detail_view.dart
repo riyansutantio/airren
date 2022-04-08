@@ -348,8 +348,15 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                         fontWeight: FontWeight.bold,
                                                       )),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        offset: Offset(0.0, 8.0),
+                                                        color: Color.fromRGBO(0, 99, 248, 0.2),
+                                                        blurRadius: 24,
+                                                      ),
+                                                    ],
                                                     color: HexColor('#0063F8'),
+                                                    borderRadius: BorderRadius.circular(10)
                                                   ),
                                                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                                                 ),
@@ -576,8 +583,15 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                         fontWeight: FontWeight.bold,
                                                       )),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        offset: Offset(0.0, 8.0),
+                                                        color: Color.fromRGBO(0, 99, 248, 0.2),
+                                                        blurRadius: 24,
+                                                      ),
+                                                    ],
                                                     color: HexColor('#0063F8'),
+                                                    borderRadius: BorderRadius.circular(10)
                                                   ),
                                                   padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                                                 ),
@@ -790,8 +804,17 @@ class PamManageDetailView extends GetView<DataMasterController> {
         },
         child: Ink(
           padding: const EdgeInsets.only(right: 15, left: 15),
-          decoration:
-              BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                offset: Offset(0.0, 8.0),
+                color: Color.fromRGBO(0, 99, 248, 0.2),
+                blurRadius: 24,
+              ),
+            ],
+            gradient: LinearGradient(colors: gradientColorAirren),
+            borderRadius: BorderRadius.circular(10)
+          ),
           child: SizedBox(
             height: 48,
             child: Center(
@@ -807,6 +830,6 @@ class PamManageDetailView extends GetView<DataMasterController> {
           ),
         ),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
+            padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
   }
 }

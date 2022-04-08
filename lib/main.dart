@@ -25,6 +25,7 @@ void main() async {
       color: Colors.red,
       location: BannerLocation.topStart,
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorKey: Get.key,
         theme: ThemeData.light(),
         title: "Airen",

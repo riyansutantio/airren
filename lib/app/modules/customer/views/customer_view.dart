@@ -79,11 +79,11 @@ class CustomerView extends GetView<CustomerController> {
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: ListView.builder(
                 itemCount: controller.menuItem.length,
                 itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8.0, right: 8.0),
                       child: GestureDetector(
                         onTap: () {},
                         child: Container(
