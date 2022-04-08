@@ -23,7 +23,7 @@ class AccountView extends GetView<AccountController> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(Get.height * 0.35),
+            preferredSize: Size.fromHeight(250.0),
             child: Container(
               color: Colors.white,
               child: Stack(
@@ -35,68 +35,68 @@ class AccountView extends GetView<AccountController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Text(
-                                        'Akun',
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.white,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Text(
+                                      'Akun',
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 2.0),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Get.to(ErrorHandlingView());
-                                          },
-                                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          Get.to(ErrorHandlingView());
+                                        },
+                                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                                  )
+                                ],
                               ),
                               GestureDetector(
                                 onTap: () {
                                   controller.getFileFromDevice();
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [BoxShadow(blurRadius: 9, color: Colors.blue.withOpacity(0.2), spreadRadius: 1)],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 30.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [BoxShadow(blurRadius: 9, color: Colors.blue.withOpacity(0.2), spreadRadius: 1)],
+                                    ),
+                                    child: Obx(() => CircleAvatar(
+                                        maxRadius: 45,
+                                        backgroundColor: Colors.white,
+                                        child: (controller.photoName.value == "")
+                                            ? CircleAvatar(
+                                                maxRadius: 40,
+                                                child: SvgPicture.asset('assets/photo.svg'),
+                                                backgroundColor: HexColor('#0063F8'),
+                                              )
+                                            : CircleAvatar(
+                                                maxRadius: 40,
+                                                child: ClipOval(
+                                                  child: AspectRatio(
+                                                      aspectRatio: 1 / 1,
+                                                      child: Image.network(
+                                                        controller.photoPath.value,
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                ),
+                                                backgroundColor: HexColor('#0063F8'),
+                                              ))),
                                   ),
-                                  child: Obx(() => CircleAvatar(
-                                      maxRadius: 45,
-                                      backgroundColor: Colors.white,
-                                      child: (controller.photoName.value == "")
-                                          ? CircleAvatar(
-                                              maxRadius: 40,
-                                              child: SvgPicture.asset('assets/photo.svg'),
-                                              backgroundColor: HexColor('#0063F8'),
-                                            )
-                                          : CircleAvatar(
-                                              maxRadius: 40,
-                                              child: ClipOval(
-                                                child: AspectRatio(
-                                                    aspectRatio: 1 / 1,
-                                                    child: Image.network(
-                                                      controller.photoPath.value,
-                                                      fit: BoxFit.cover,
-                                                    )),
-                                              ),
-                                              backgroundColor: HexColor('#0063F8'),
-                                            ))),
                                 ),
                               ),
                               const SizedBox(height: 20),
@@ -117,12 +117,12 @@ class AccountView extends GetView<AccountController> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 15,
+                                    height: 10,
                                   ),
                                   Text(
                                     (controller.displayRegisterCreated.value.isEmpty)
                                         ? ""
-                                        : "terdaftar pada ${controller.displayRegisterToDateTime()}",
+                                        : "Terdaftar pada ${controller.displayRegisterToDateTime()}",
                                     style: GoogleFonts.montserrat(
                                       color: HexColor('#707793'),
                                       fontSize: 14,

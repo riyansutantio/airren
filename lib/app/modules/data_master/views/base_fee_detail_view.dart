@@ -281,9 +281,18 @@ class BaseFeeDetailView extends GetView {
           }
         },
         child: Ink(
-          padding: EdgeInsets.only(right: 15, left: 15),
-          decoration:
-              BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
+          padding: const EdgeInsets.only(right: 15, left: 15),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                offset: Offset(0.0, 8.0),
+                color: Color.fromRGBO(0, 99, 248, 0.2),
+                blurRadius: 24,
+              ),
+            ],
+            gradient: LinearGradient(colors: gradientColorAirren),
+            borderRadius: BorderRadius.circular(10)
+          ),
           child: SizedBox(
             height: 48,
             child: Center(
@@ -299,6 +308,6 @@ class BaseFeeDetailView extends GetView {
           ),
         ),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
+            padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
   }
 }

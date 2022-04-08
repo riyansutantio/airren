@@ -45,14 +45,16 @@ class LoginView extends GetView<SessionController> {
                         sessionController.signInWithGoogle();
                       },
                       child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(boxShadow: [
+                        height: 50,
+                        decoration: BoxDecoration(
+                          boxShadow: const [
                             BoxShadow(
-                              color: HexColor('#0063F8').withOpacity(0.2),
+                              offset: Offset(0.0, 8.0),
+                              color: Color.fromRGBO(0, 99, 248, 0.2),
                               blurRadius: 24,
-                              offset: const Offset(0, 8), // changes position of shadow
                             ),
-                          ], borderRadius: BorderRadius.circular(15), color: Colors.white),
+                          ],
+                          borderRadius: BorderRadius.circular(10), color: Colors.white),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -65,7 +67,8 @@ class LoginView extends GetView<SessionController> {
                                     fontWeight: FontWeight.w600,
                                   ))
                             ],
-                          )),
+                          )
+                        ),
                     ),
                   ),
                 ),
