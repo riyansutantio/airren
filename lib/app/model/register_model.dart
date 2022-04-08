@@ -27,16 +27,19 @@ class DataPam {
   DataPam({
     this.pam,
     this.trialPrice,
+    this.transaction,
     this.phoneNumber
   });
 
   final PamResult? pam;
   final int? trialPrice;
+  final PamResult? transaction;
   final String? phoneNumber;
 
   factory DataPam.fromJson(Map<String, dynamic> json) => DataPam(
     pam: json["pam"] == null ? null : PamResult.fromJson(json["pam"]),
     trialPrice: json["trial_price"] == null ? null : json["trial_price"],
+    transaction: json["transaction"] == null ? null : json["transaction"],
     phoneNumber: json["phone_number"] == null ? null : json["phone_number"],
   );
 }
@@ -51,6 +54,7 @@ class PamResult {
     this.isPostpaid,
     this.updatedAt,
     this.createdAt,
+    this.trxId,
     this.id,
     this.pamUsers,
   });
@@ -63,6 +67,7 @@ class PamResult {
   final int? isPostpaid;
   final DateTime? updatedAt;
   final DateTime? createdAt;
+  final String? trxId ;
   final int? id;
   final List<PamUser>? pamUsers;
 
@@ -75,6 +80,7 @@ class PamResult {
     isPostpaid: json["is_postpaid"] == null ? null : json["is_postpaid"],
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    trxId: json["transaction_id"] == null ? null : json["transaction_id"],
     id: json["id"] == null ? null : json["id"],
     pamUsers: json["pam_users"] == null ? null : List<PamUser>.from(json["pam_users"].map((x) => PamUser.fromJson(x))),
   );
