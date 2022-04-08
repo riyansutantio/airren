@@ -48,10 +48,9 @@ class LoginView extends GetView<SessionController> {
                           height: 50,
                           decoration: BoxDecoration(boxShadow: [
                             BoxShadow(
-                              color: HexColor('#0063F8').withOpacity(0.1),
-                              spreadRadius: 3,
-                              blurRadius: 6,
-                              offset: const Offset(0, 2), // changes position of shadow
+                              color: HexColor('#0063F8').withOpacity(0.2),
+                              blurRadius: 24,
+                              offset: const Offset(0, 8), // changes position of shadow
                             ),
                           ], borderRadius: BorderRadius.circular(15), color: Colors.white),
                           child: Row(

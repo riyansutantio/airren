@@ -70,7 +70,9 @@ class AccountController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() async {
+    await getUser();
+  }
   void increment() => count.value++;
 
   final boxUser = GetStorage();

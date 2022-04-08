@@ -1,5 +1,6 @@
 import 'package:airen/app/modules/account/controllers/account_controller.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
+import 'package:airen/app/modules/home/views/home_view.dart';
 import 'package:airen/app/modules/session/views/login_view.dart';
 import 'package:airen/app/routes/app_pages.dart';
 import 'package:airen/app/utils/constant.dart';
@@ -30,6 +31,6 @@ class SplashController extends GetxController {
   checkStateUser() async {
     logger.i(boxUser.read(tokenBearer));
     await Future.delayed(const Duration(seconds: 2))
-        .whenComplete(() => boxUser.read(tokenBearer) == null ? Get.offAllNamed(Routes.SESSION) : Get.offAllNamed(Routes.HOME));
+        .whenComplete(() => boxUser.read(tokenBearer) == null ? Get.offAllNamed(Routes.SESSION) : Get.to(HomeView()));
   }
 }

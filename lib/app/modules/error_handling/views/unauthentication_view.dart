@@ -77,16 +77,14 @@ class UnauthenticationView extends GetView {
         body: Container(
           decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
           child: Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
-                      child: SvgPicture.asset('assets/unauth.svg'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(50.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(height: 10.0),
+                  Flexible(child: SvgPicture.asset('assets/unauth.svg')),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20.0, left: 20.0),
                       child: Text(
                         'Biasanya disebabkan karena keterlambatan dalam pembayaran atau bisa juga karena pelanggaran kebijakan privasi serta syarat dan ketentuan dari kami.',
                         style: GoogleFonts.montserrat(
@@ -98,12 +96,14 @@ class UnauthenticationView extends GetView {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Image.asset(
+                  ),
+                  Flexible(
+                    child: Image.asset(
                       'assets/wavebottom.png',
                       width: double.infinity,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),

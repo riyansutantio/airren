@@ -1,6 +1,7 @@
 import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
+import 'package:airen/app/modules/home/providers/home_provider.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -12,16 +13,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../account/providers/account_provider.dart';
 import '../../account/views/account_view.dart';
-import '../../account/views/my_profile_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
-      init: HomeController(accountProvider: AccountProvider()),
+      init: HomeController(homeProvider: HomeProvider()),
       builder: (controller) {
         return Obx(()=>Scaffold(
           appBar: (controller.pageNavBottom.value == 0 && controller.userLocal.value == '1')
@@ -499,7 +498,7 @@ class HomeView extends GetView<HomeController> {
                             Text(
                               'Tentukan denda, minimum penggunaan',
                               style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
+                                color: HexColor('#707793').withOpacity(0.7),
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               ),
