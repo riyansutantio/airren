@@ -2,6 +2,7 @@ import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
 import 'package:airen/app/utils/constant.dart';
+import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,58 +12,66 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../account/providers/account_provider.dart';
 import '../../account/views/account_view.dart';
+import '../../account/views/my_profile_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
-          appBar: (controller.pageNavBottom.value == 0)
+    return GetBuilder<HomeController>(
+      init: HomeController(accountProvider: AccountProvider()),
+      builder: (controller) {
+        return Obx(()=>Scaffold(
+          appBar: (controller.pageNavBottom.value == 0 && controller.userLocal.value == '1')
               ? PreferredSize(
-                  child: Container(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'Beranda',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                  onTap: () {
-                                    Get.to(ErrorHandlingView());
-                                  },
-                                  child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                              const SizedBox(width: 20),
-                              const CircleAvatar(
-                                maxRadius: 20,
-                              ),
-                            ],
-                          )
-                        ],
+            child: Container(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Beranda',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
-                  ),
-                  preferredSize: Size.fromHeight(Get.height * 0.1),
-                )
+                    Row(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Get.to(ErrorHandlingView());
+                            },
+                            child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                        const SizedBox(width: 20),
+                        const CircleAvatar(
+                          maxRadius: 20,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
+            ),
+            preferredSize: Size.fromHeight(Get.height * 0.1),
+          )
               : null,
-          body: renderBottomTabPage(context),
-          bottomNavigationBar: buildNavBarAdminPam(),
+          body: pageByRole(context),
+          bottomNavigationBar: navBarByRole(context),
         ));
+      },
+    );
   }
+  ///
 
   Stack buildNavBarAdminPam() {
     return Stack(
@@ -160,6 +169,248 @@ class HomeView extends GetView<HomeController> {
                       ? const Icon(EvaIcons.dropletOutline)
                       : const Icon(
                           EvaIcons.dropletOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Akun',
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Stack buildNavBarNoteMeter() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15.0),
+              topRight: Radius.circular(15.0),
+            ),
+            boxShadow: <BoxShadow>[
+              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+            ],
+          ),
+        ),
+        ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedLabelStyle: GoogleFonts.montserrat(
+              color: HexColor('#0063F8'),
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: GoogleFonts.montserrat(
+              color: HexColor('#707793'),
+              fontSize: 12,
+              fontWeight: FontWeight.normal,
+            ),
+            unselectedItemColor: HexColor('#707793'),
+            selectedItemColor: HexColor('#0063F8'),
+            showSelectedLabels: true,
+            currentIndex: controller.pageNavBottom.value,
+            onTap: (index) => controller.onItemTapPage(index),
+            showUnselectedLabels: true,
+            enableFeedback: false,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 2
+                      ? const Icon(EvaIcons.editOutline)
+                      : const Icon(
+                          EvaIcons.editOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Catat Meter',
+              ),
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 3
+                      ? const Icon(EvaIcons.dropletOutline)
+                      : const Icon(
+                          EvaIcons.dropletOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Akun',
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Stack buildNavBarPayment() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15.0),
+              topRight: Radius.circular(15.0),
+            ),
+            boxShadow: <BoxShadow>[
+              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+            ],
+          ),
+        ),
+        ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedLabelStyle: GoogleFonts.montserrat(
+              color: HexColor('#0063F8'),
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: GoogleFonts.montserrat(
+              color: HexColor('#707793'),
+              fontSize: 12,
+              fontWeight: FontWeight.normal,
+            ),
+            unselectedItemColor: HexColor('#707793'),
+            selectedItemColor: HexColor('#0063F8'),
+            showSelectedLabels: true,
+            currentIndex: controller.pageNavBottom.value,
+            onTap: (index) => controller.onItemTapPage(index),
+            showUnselectedLabels: true,
+            enableFeedback: false,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 3
+                      ? const Icon(EvaIcons.editOutline)
+                      : const Icon(
+                          EvaIcons.editOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Pembayaran',
+              ),
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 3
+                      ? const Icon(EvaIcons.dropletOutline)
+                      : const Icon(
+                          EvaIcons.dropletOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Akun',
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Stack buildNavBarNoteMeterPayment() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15.0),
+              topRight: Radius.circular(15.0),
+            ),
+            boxShadow: <BoxShadow>[
+              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+            ],
+          ),
+        ),
+        ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedLabelStyle: GoogleFonts.montserrat(
+              color: HexColor('#0063F8'),
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: GoogleFonts.montserrat(
+              color: HexColor('#707793'),
+              fontSize: 12,
+              fontWeight: FontWeight.normal,
+            ),
+            unselectedItemColor: HexColor('#707793'),
+            selectedItemColor: HexColor('#0063F8'),
+            showSelectedLabels: true,
+            currentIndex: controller.pageNavBottom.value,
+            onTap: (index) => controller.onItemTapPage(index),
+            showUnselectedLabels: true,
+            enableFeedback: false,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 0
+                      ? const Icon(EvaIcons.homeOutline)
+                      : const Icon(
+                          EvaIcons.homeOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Catat Meter',
+              ),
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 1
+                      ? const Icon(EvaIcons.peopleOutline)
+                      : const Icon(
+                          EvaIcons.peopleOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Pembayaran',
+              ),
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 2
+                      ? const Icon(EvaIcons.editOutline)
+                      : const Icon(
+                          EvaIcons.editOutline,
                           color: Colors.grey,
                         ),
                 ),
@@ -404,8 +655,8 @@ class HomeView extends GetView<HomeController> {
         ));
   }
 
-  Widget renderBottomTabPage(BuildContext context) {
-    // logger.wtf(controller.pageNavBottom.value);
+  ///
+  Widget renderPageAdmin(BuildContext context) {
     var command = '${controller.pageNavBottom.value}';
     switch (command) {
       case '0':
@@ -420,4 +671,78 @@ class HomeView extends GetView<HomeController> {
         return Container();
     }
   }
+  
+  Widget renderPageNotePayment(BuildContext context) {
+    // logger.wtf(controller.pageNavBottom.value);
+    var command = '${controller.pageNavBottom.value}';
+    switch (command) {
+      case '0':
+        return Container(child: Center(child: const Text('Catat Meter')),);
+      case '1':
+        return Center(child: Center(child: Text('Pembayaran')));
+      case '2':
+        return AccountView();
+      default:
+        return Container();
+    }
+  }
+
+  Widget renderPageNote(BuildContext context) {
+    // logger.wtf(controller.pageNavBottom.value);
+    var command = '${controller.pageNavBottom.value}';
+    switch (command) {
+      case '0':
+        return Container(child: const Center(child: Text('Catat Meter')),);
+      case '1':
+        return AccountView();
+      default:
+        return Container();
+    }
+  }
+
+  Widget renderPagePayment(BuildContext context) {
+    // logger.wtf(controller.pageNavBottom.value);
+    var command = '${controller.pageNavBottom.value}';
+    switch (command) {
+      case '0':
+        return Container(child: const Center(child: Text('Pembayaran')),);
+      case '1':
+        return AccountView();
+      default:
+        return Container();
+    }
+  }
+
+  Widget pageByRole(BuildContext context) {
+    var command = controller.userLocal.value;
+    switch (command) {
+      case '1':
+        return renderPageAdmin(context);
+      case '2':
+        return renderPageNotePayment(context);
+      case '3':
+        return renderPageNote(context);
+      case '4':
+        return renderPagePayment(context);
+      default:
+        return Container();
+    }
+  }
+
+  Widget navBarByRole(BuildContext context) {
+    var command = controller.userLocal.value;
+    switch (command) {
+      case '1':
+        return buildNavBarAdminPam();
+      case '2':
+        return buildNavBarNoteMeterPayment();
+      case '3':
+        return buildNavBarNoteMeter();
+      case '4':
+        return buildNavBarPayment();
+      default:
+        return Container();
+    }
+  }
+
 }

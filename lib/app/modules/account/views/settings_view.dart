@@ -3,6 +3,7 @@ import 'package:airen/app/modules/account/views/charge_view.dart';
 import 'package:airen/app/modules/account/views/min_usage_view.dart';
 import 'package:airen/app/modules/account/views/my_profile_view.dart';
 import 'package:airen/app/modules/account/views/pam_profile_view.dart';
+import 'package:airen/app/utils/constant.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,8 +13,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../error_handling/views/error_handling_view.dart';
+import '../controllers/account_controller.dart';
+import '../providers/account_provider.dart';
 
 class SettingsView extends GetView {
+  final AccountController accountController = Get.put(AccountController(accountProvider: AccountProvider()));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,49 +81,49 @@ class SettingsView extends GetView {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  buildListTile(
+                 if (accountController.boxUser.read(roleUser) == '1') buildListTile(
                       title: 'Denda',
                       subTitle: 'Tentukan nominal denda bagi pelanggan yang terlambat bayar',
                       assets: 'charge.svg', func: (){
                         Get.to(ChargeView());
                   }),
-                  const Padding(
+                  if (accountController.boxUser.read(roleUser) == '1') const Padding(
                     padding: EdgeInsets.only(left: 75.0),
                     child: Divider(
                       height: 1,
                     ),
                   ),
-                  buildListTile(
+                  if (accountController.boxUser.read(roleUser) == '1') buildListTile(
                       title: 'Biaya Admin',
                       subTitle: 'Tentukan biaya untuk admin',
                       assets: 'feeloket.svg', func: (){
                         Get.to(AdminFeeView());
                   }),
-                  const Padding(
+                  if (accountController.boxUser.read(roleUser) == '1') const Padding(
                     padding: EdgeInsets.only(left: 75.0),
                     child: Divider(
                       height: 1,
                     ),
                   ),
-                  buildListTile(
+                  if (accountController.boxUser.read(roleUser) == '1') buildListTile(
                       title: 'Minimal Penggunaan',
                       subTitle: 'Tentukan minimal penggunaan air',
                       assets: 'minused.svg', func: (){
                         Get.to(MinUsageView());
                   }),
-                  const Padding(
+                  if (accountController.boxUser.read(roleUser) == '1') const Padding(
                     padding: EdgeInsets.only(left: 75.0),
                     child: Divider(
                       height: 1,
                     ),
                   ),
-                  buildListTile(
+                  if (accountController.boxUser.read(roleUser) == '1')  buildListTile(
                       title: 'Detail Pams',
                       subTitle: 'Atur nama dan sesuaikan lokasi atau alamat',
                       assets: 'detailpam.svg', func: (){
                         Get.to(PamProfileView());
                   }),
-                  const Padding(
+                  if (accountController.boxUser.read(roleUser) == '1') const Padding(
                     padding: EdgeInsets.only(left: 75.0),
                     child: Divider(
                       height: 1,

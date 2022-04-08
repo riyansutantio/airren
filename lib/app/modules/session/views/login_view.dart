@@ -28,14 +28,9 @@ class LoginView extends GetView<SessionController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    snackBarNotificationFailed(title: 'trtrtrt');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: SvgPicture.asset('assets/airrenof.svg'),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: SvgPicture.asset('assets/airrenof.svg'),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0, left: 15.0),

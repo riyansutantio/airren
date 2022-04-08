@@ -11,6 +11,8 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../../model/pam_user/pam_user_model.dart';
 import '../../../utils/constant.dart';
 import '../../../widgets/snack_bar_notification.dart';
+import '../../session/controllers/session_controller.dart';
+import '../../session/providers/session_provider.dart';
 import '../providers/master_data_provider.dart';
 
 class DataMasterController extends GetxController {
@@ -18,10 +20,13 @@ class DataMasterController extends GetxController {
 
   DataMasterController({required this.masterDataProvider});
 
+  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+
+
   final count = 0.obs;
   final searchValue = ''.obs;
   final masterData = 0.obs;
-  final isSearchBaseFee = false.obs;
+  final isSearch = false.obs;
 
   final searchController = TextEditingController();
 
@@ -56,7 +61,13 @@ class DataMasterController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    debounce(searchValue, (val) => searchBaseFee(), time: 500.milliseconds);
+    debounce(searchValue, (val){
+      if (masterData.value == 0) {
+        return searchManage();
+      } else {
+        return searchBaseFee();
+      }
+    }, time: 500.milliseconds);
   }
 
   @override
@@ -78,7 +89,7 @@ class DataMasterController extends GetxController {
   }
 
   Future<void> closeSearchAppBar() async {
-    isSearchBaseFee.value = false;
+    isSearch.value = false;
     searchValue.value = '';
   }
 
@@ -158,13 +169,14 @@ class DataMasterController extends GetxController {
 
   Future deleteManagePam() async {
     final res = await masterDataProvider.deletePamManage(id: idManagePamController.text, bearer: boxUser.read(tokenBearer));
-    if (res!.status! == 'success') {
+    if (res!.message! == 'Admin fee successfully updated') {
       await getPamUser();
       await clearCondition();
       Get.back();
       snackBarNotificationSuccess(title: 'Berhasil dihapus');
     } else {
       snackBarNotificationFailed(title: 'Gagal dihapus');
+      sessionController.authError();
     }
   }
 
@@ -192,6 +204,13 @@ class DataMasterController extends GetxController {
     } finally {
       isLoadingBaseFee.value = false;
     }
+  }
+
+  Future searchManage() async {
+    isLoadingPamUser.value = true;
+    final res = await masterDataProvider.getSearchManage(bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
+    // logger.wtf(res!.data!.data!.toList());
+    pamUserResult.assignAll(res!.data!.pamsUsers!);
   }
 
   Future addBaseFee() async {

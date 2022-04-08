@@ -4,6 +4,7 @@ import 'package:airen/app/model/province_model.dart';
 import 'package:airen/app/model/regency_model.dart';
 import 'package:airen/app/model/register_model.dart';
 import 'package:airen/app/modules/error_handling/views/common_error_view.dart';
+import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/modules/session/views/register_view.dart';
@@ -143,6 +144,7 @@ class SessionController extends GetxController {
         pamUserPhoneNumber: phoneNumberController.text);
     if (res!.status == null) {
       Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
+      btnControllerRegister.stop();
     } else {
       boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
       boxPrice.write(priceInit, res.data?.trialPrice);
@@ -150,6 +152,7 @@ class SessionController extends GetxController {
       boxPrice.write(orderIdTrx, res.data?.pam?.id);
       Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
       Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+      btnControllerRegister.stop();
     }
   }
 
@@ -188,7 +191,7 @@ class SessionController extends GetxController {
     boxUser.write(emailGoogle, null);
     boxUser.write(uidGoogle, null);
     await googleSignOut();
-    Get.to(CommonErrorView());
+    Get.to(UnauthenticationView());
   }
 
   Future<void> googleSignOut() async {
@@ -210,6 +213,7 @@ class SessionController extends GetxController {
       uidPamController.text = currentUser!.id;
       logger.i('ini user ${currentUser?.email}, ini ID user ${currentUser?.id}');
     } catch (e) {
+      btnControllerLoginGoogle.stop();
       logger.e(e);
     } finally {
       emailPamController.text = currentUser!.email;

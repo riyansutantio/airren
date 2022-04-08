@@ -19,14 +19,14 @@ class MasterDataProvider extends GetConnect {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 
-  List<String>? pathSegmentPengelola() => ['api', HttpService.apiVersion, 'pam-user'];
+  List<String>? pathSegmentManage() => ['api', HttpService.apiVersion, 'pam-user'];
   List<String>? pathSegmentUpdatePengelola({String? id}) => ['api', HttpService.apiVersion, 'pam-user', '$id'];
   List<String>? pathSegmentBaseFee() => ['api', HttpService.apiVersion, 'base-fee'];
   List<String>? pathSegmentBaseFeeUpdate({String? id}) => ['api', HttpService.apiVersion, 'base-fee', '$id'];
 
   Future<PamUserModel?> getPamUser({String? path, String? bearer}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
-    Uri _getPamsUser = Uri.parse(baseUrl).replace(pathSegments: pathSegmentPengelola());
+    Uri _getPamsUser = Uri.parse(baseUrl).replace(pathSegments: pathSegmentManage());
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response = await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
     if (response.statusCode == 200) {
@@ -45,7 +45,7 @@ class MasterDataProvider extends GetConnect {
       required String? email,
       required List<String> roles}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
-    Uri _addPamManageUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentPengelola());
+    Uri _addPamManageUri = Uri.parse(baseUrl).replace(pathSegments: pathSegmentManage());
     logger.wtf(_addPamManageUri);
     final response = await http.post(_addPamManageUri,
         headers: bearerAuth(bearer: bearer),
@@ -137,6 +137,20 @@ class MasterDataProvider extends GetConnect {
       var jsonString = response.body;
       logger.wtf(jsonDecode(jsonString));
       return baseFeeModelFromJson(jsonString);
+    }
+    return null;
+  }
+
+  Future<PamUserModel?> getSearchManage({String? path, String? bearer, String? searchValue}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _getSearchBaseFee = Uri.parse(baseUrl).replace(pathSegments: pathSegmentManage(), queryParameters: {"search": searchValue});
+    logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
+    final response = await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return pamUserModelFromJson(jsonString);
     }
     return null;
   }
