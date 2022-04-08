@@ -1,4 +1,3 @@
-import 'package:airen/app/modules/account/controllers/account_controller.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:get/get.dart';
@@ -54,9 +53,9 @@ class HomeController extends GetxController {
       return '1';
     } else if (role.length == 2) {
       return '2';
-    } else if (role[0].name == 'Bendahara PAM') {
-      return '3';
     } else if (role[0].name == 'Catat Meter PAM') {
+      return '3';
+    } else if (role[0].name == 'Bendahara PAM') {
       return '4';
     }
     return null;

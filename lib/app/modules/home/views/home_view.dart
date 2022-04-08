@@ -223,7 +223,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 2
+                  child: controller.pageNavBottom.value == 0
                       ? const Icon(EvaIcons.editOutline)
                       : const Icon(
                           EvaIcons.editOutline,
@@ -237,7 +237,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3
+                  child: controller.pageNavBottom.value == 1
                       ? const Icon(EvaIcons.dropletOutline)
                       : const Icon(
                           EvaIcons.dropletOutline,
@@ -299,7 +299,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3
+                  child: controller.pageNavBottom.value == 0
                       ? const Icon(EvaIcons.editOutline)
                       : const Icon(
                           EvaIcons.editOutline,
@@ -313,7 +313,7 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor: Colors.white,
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: controller.pageNavBottom.value == 3
+                  child: controller.pageNavBottom.value == 1
                       ? const Icon(EvaIcons.dropletOutline)
                       : const Icon(
                           EvaIcons.dropletOutline,
