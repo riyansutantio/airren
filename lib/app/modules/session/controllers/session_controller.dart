@@ -224,7 +224,7 @@ class SessionController extends GetxController {
   }
 
   Future login() async {
-    final res = await sessionProvider.login(email: "tebar.development1@gmail.com", id: "1234");
+    final res = await sessionProvider.login(email: currentUser!.email, id: currentUser!.id);
     logger.i(res!.message!);
     if (res.message == "Please register first") {
       Get.to(RegisterView());

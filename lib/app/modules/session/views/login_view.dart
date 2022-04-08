@@ -54,7 +54,7 @@ class LoginView extends GetView<SessionController> {
                               blurRadius: 24,
                             ),
                           ],
-                          borderRadius: BorderRadius.circular(15), color: Colors.white),
+                          borderRadius: BorderRadius.circular(10), color: Colors.white),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

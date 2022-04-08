@@ -33,138 +33,141 @@ class DataMasterView extends GetView<DataMasterController> {
                   child: Column(
                     children: [
                       if (controller.isSearch.value == false)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                controller.toPengelola();
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                                height: 90,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(),
-                                      controller.masterData.value == 0
-                                          ? Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset('assets/pengelolaiconon.svg'),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Pengelola',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                        SizedBox(
+                          height: 80.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  controller.toPengelola();
+                                },
+                                child: Container(
+                                  color: Colors.transparent,
+                                  height: 90,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(),
+                                        controller.masterData.value == 0
+                                            ? Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset('assets/pengelolaiconon.svg'),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Pengelola',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                if (controller.masterData.value == 0)
-                                                  Container(
-                                                    width: 35,
-                                                    height: 5,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(100),
-                                                      color: Colors.white,
-                                                    ),
-                                                  )
-                                              ],
-                                            )
-                                          : Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset('assets/pengelolaiconoff.svg',
-                                                    color: Colors.white.withOpacity(0.5)),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Pengelola',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: Colors.white.withOpacity(0.5),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                                                  if (controller.masterData.value == 0)
+                                                    Container(
+                                                      width: 35,
+                                                      height: 5,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(100),
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                ],
+                                              )
+                                            : Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset('assets/pengelolaiconoff.svg',
+                                                      color: Colors.white.withOpacity(0.5)),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Pengelola',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: Colors.white.withOpacity(0.5),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                    ],
+                                                ],
+                                              ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                controller.toBaseFee();
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                                height: 90,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      controller.masterData.value == 1
-                                          ? Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset('assets/tarifdasariconon.svg', color: Colors.white),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Tarif Dasar Air',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                              GestureDetector(
+                                onTap: () {
+                                  controller.toBaseFee();
+                                },
+                                child: Container(
+                                  color: Colors.transparent,
+                                  height: 90,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        controller.masterData.value == 1
+                                            ? Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset('assets/tarifdasariconon.svg', color: Colors.white),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Tarif Dasar Air',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                if (controller.masterData.value == 1)
-                                                  Container(
-                                                    width: 35,
-                                                    height: 5,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(100),
-                                                      color: Colors.white,
-                                                    ),
-                                                  )
-                                              ],
-                                            )
-                                          : Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset('assets/tarifdasariconon.svg',
-                                                    color: Colors.white.withOpacity(0.5)),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Tarif Dasar Air',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: Colors.white.withOpacity(0.5),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                                                  if (controller.masterData.value == 1)
+                                                    Container(
+                                                      width: 35,
+                                                      height: 5,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(100),
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                ],
+                                              )
+                                            : Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset('assets/tarifdasariconon.svg',
+                                                      color: Colors.white.withOpacity(0.5)),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Tarif Dasar Air',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: Colors.white.withOpacity(0.5),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                      const SizedBox(),
-                                    ],
+                                                ],
+                                              ),
+                                        const SizedBox(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       const SizedBox(height: 20),
                       (controller.masterData.value == 0) ? buildExpandedPengelola() : buildExpandedBasePrice()

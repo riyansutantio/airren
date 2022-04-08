@@ -89,7 +89,7 @@ class AccountController extends GetxController {
     } else if (res.message == 'Profile successfully retrieved') {
       resultUser.value = res.data!.profile!;
       emailController.text = res.data!.profile!.email!;
-      displayName.value = res.data!.profile!.name!;
+      displayName.value = res.data!.profile!.pam!.name!;
       displayRegisterCreated.value = res.data!.profile!.createdAt!.toString();
       phoneNumberController.text = res.data!.profile!.phoneNumber!;
       addressDetailController.text = res.data!.profile!.pam!.detailAddress!;
