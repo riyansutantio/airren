@@ -27,3 +27,7 @@ String? idrFormatter({int? value}) {
 String? rpFormatter({int? value}) {
   return NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(double.parse('${value ?? 0}'));
 }
+
+String? rpFormatterWithOutSymbol({int? value}) {
+  return NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(double.parse('${value ?? 0}'));
+}

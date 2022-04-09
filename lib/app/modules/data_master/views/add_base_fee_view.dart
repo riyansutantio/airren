@@ -19,131 +19,148 @@ class AddBaseFeeView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        child: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(onPressed: () => Get.back(), icon: const Icon(EvaIcons.arrowBack), color: Colors.white),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        'Tambah tarif dasar air',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 20.0, top: 15, bottom: 19, right: 20),
+                        child: Icon(EvaIcons.arrowBack, color: Colors.white),
+                      ),
+                    ),
+                    Text(
+                      'Tambah tarif dasar air',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                        onTap: () {
-                          Get.to(ErrorHandlingView());
-                        },
-                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                    const SizedBox(width: 5),
-                    const Icon(EvaIcons.checkmark, color: Colors.white),
-                    const SizedBox(width: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 19, right: 16),
+                      child: GestureDetector(
+                          onTap: () {
+                            Get.to(ErrorHandlingView());
+                          },
+                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 19, right: 20),
+                      child: GestureDetector(
+                          onTap: () {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            } else {
+                              dataMasterController.addBaseFee();
+                            }
+                          },
+                          child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                    ),
                   ],
-                ),
+                )
               ],
             ),
+            decoration:
+            BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
           ),
-          decoration:
-              BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
+          preferredSize: Size.fromHeight(56),
         ),
-        preferredSize: Size.fromHeight(Get.height * 0.1),
-      ),
-      body: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
-        child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 25),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AirenTextFormFieldBase(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SvgPicture.asset('assets/tarif.svg'),
-                          ),
-                          textInputType: TextInputType.number,
-                          hintText: 'Nominal',
-                          obscureText: false,
-                          passwordVisibility: false,
-                          controller: dataMasterController,
-                          textEditingController: dataMasterController.amountController,
-                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
-                          prefixText: SizedBox(
-                            child: Center(
-                              widthFactor: 0.0,
-                              child: Text(
-                                'Rp',
-                                style: GoogleFonts.montserrat(
-                                  color: HexColor('#707793'),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+        body: Container(
+          decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+          child: Container(
+            height: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 25),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
+                          child: AirenTextFormFieldBase(
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset('assets/tarif.svg'),
+                            ),
+                            textInputType: TextInputType.number,
+                            hintText: 'Nominal',
+                            obscureText: false,
+                            passwordVisibility: false,
+                            controller: dataMasterController,
+                            textEditingController: dataMasterController.amountController,
+                            textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
+                            prefixText: SizedBox(
+                              child: Center(
+                                widthFactor: 0.0,
+                                child: Text(
+                                  'Rp',
+                                  style: GoogleFonts.montserrat(
+                                    color: HexColor('#707793'),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
                               ),
                             ),
+                            returnValidation: (val) {
+                              if (val!.isEmpty) {
+                                return "Nominal beban harus diisi";
+                              }
+                              return null;
+                            },
                           ),
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Nominal beban harus diisi";
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AirenTextFormFieldBase(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                          child: AirenTextFormFieldBase(
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
+                            ),
+                            textInputType: TextInputType.number,
+                            hintText: 'Pada posisi meter',
+                            obscureText: false,
+                            passwordVisibility: false,
+                            controller: dataMasterController,
+                            textEditingController: dataMasterController.meterPositionController,
+                            returnValidation: (val) {
+                              if (val!.isEmpty) {
+                                return "Posisi meter harus diisi";
+                              } else if (val.length > 10) {
+                                return "Posisi meter maksimal 9999999999";
+                              }
+                              return null;
+                            },
                           ),
-                          textInputType: TextInputType.number,
-                          hintText: 'Pada posisi meter',
-                          obscureText: false,
-                          passwordVisibility: false,
-                          controller: dataMasterController,
-                          textEditingController: dataMasterController.meterPositionController,
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Posisi meter harus diisi";
-                            } else if (val.length > 10) {
-                              return "Posisi meter maksimal 9999999999";
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: buildElevatedButtonCustom(),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                          child: buildElevatedButtonCustom(),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-                color: Colors.white)),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  color: Colors.white)),
+        ),
       ),
     );
   }

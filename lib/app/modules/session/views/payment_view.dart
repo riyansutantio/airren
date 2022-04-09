@@ -24,12 +24,12 @@ class PaymentView extends GetView {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () =>
-          willPopCallbackWithFunc(func: sessionController.googleDisconnect()).whenComplete(() => Get.offAllNamed(Routes.SESSION)),
+          willPopCallbackWithFunc(func: sessionController.googleDisconnect()).whenComplete(() => Get.back()),
       child: Scaffold(
         appBar: buildAppBarSession(
             buttonBack: GestureDetector(
               onTap: () async {
-                sessionController.googleDisconnect().whenComplete(() => Get.offAllNamed(Routes.SESSION));
+                sessionController.googleDisconnect().whenComplete(() => Get.back());
               },
               child: Row(
                 children: const [
@@ -89,7 +89,7 @@ class PaymentView extends GetView {
                                               style: GoogleFonts.montserrat(
                                                 color: HexColor('#707793'),
                                                 fontSize: 14,
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.normal,
                                               )),
                                         ],
                                       ),
@@ -124,13 +124,13 @@ class PaymentView extends GetView {
                                                   style: GoogleFonts.montserrat(
                                                     color: HexColor('#707793'),
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.normal,
                                                   )),
                                               Text('nomor rekening di bawah',
                                                   style: GoogleFonts.montserrat(
                                                     color: HexColor('#707793'),
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.normal,
                                                   )),
                                             ],
                                           ),
@@ -153,7 +153,7 @@ class PaymentView extends GetView {
                                                   style: GoogleFonts.montserrat(
                                                     color: HexColor('#707793'),
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.normal,
                                                   )),
                                             ],
                                           ),
@@ -176,7 +176,7 @@ class PaymentView extends GetView {
                                                   style: GoogleFonts.montserrat(
                                                     color: HexColor('#707793'),
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.normal,
                                                   )),
                                             ],
                                           ),
@@ -193,7 +193,7 @@ class PaymentView extends GetView {
                                                     style: GoogleFonts.montserrat(
                                                       color: HexColor('#707793'),
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight: FontWeight.normal,
                                                     ),
                                                   ),
                                                   TextSpan(
@@ -201,14 +201,14 @@ class PaymentView extends GetView {
                                                       style: GoogleFonts.montserrat(
                                                         color: HexColor('#707793'),
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight: FontWeight.normal,
                                                       )),
                                                   TextSpan(
                                                     text: 'lunas,',
                                                     style: GoogleFonts.montserrat(
                                                       color: HexColor('#05C270'),
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight: FontWeight.normal,
                                                     ),
                                                   ),
                                                   TextSpan(
@@ -216,7 +216,7 @@ class PaymentView extends GetView {
                                                       style: GoogleFonts.montserrat(
                                                         color: HexColor('#707793'),
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight: FontWeight.normal,
                                                       )),
                                                 ],
                                               ),

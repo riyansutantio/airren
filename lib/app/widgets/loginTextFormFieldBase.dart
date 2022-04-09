@@ -57,19 +57,19 @@ class AirenTextFormFieldBase extends StatelessWidget {
       controller: textEditingController,
       obscureText: obscureText,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 20.0),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
             width: 1,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         errorStyle: GoogleFonts.montserrat(
           color: Colors.red,
@@ -81,33 +81,33 @@ class AirenTextFormFieldBase extends StatelessWidget {
         labelStyle: GoogleFonts.montserrat(
           color: HexColor('#707793'),
           fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.normal,
         ),
         hintText: hintText,
         hintStyle: GoogleFonts.montserrat(
           color: HexColor('#707793'),
           fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.normal,
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 3,
             color: HexColor('#F0F5F9'),
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color: Colors.blue,
             width: 3,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         filled: true,
         fillColor: HexColor('#F0F5F9'),
@@ -118,7 +118,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       style: GoogleFonts.montserrat(
         color: HexColor('#707793'),
         fontSize: 14,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.normal,
       ),
     );
   }

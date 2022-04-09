@@ -1,5 +1,6 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,70 +20,75 @@ class ChargeView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        child: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(onPressed: () => Get.back(), icon: const Icon(EvaIcons.arrowBack), color: Colors.white),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        'Denda',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 20.0, top: 15, bottom: 19, right: 20),
+                        child: Icon(EvaIcons.arrowBack, color: Colors.white),
+                      ),
+                    ),
+                    Text(
+                      'Denda',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                        onTap: () {
-                          Get.to(ErrorHandlingView());
-                        },
-                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                        onTap: () {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          } else {
-                            // accountController.addCharge();
-                          }
-                        },
-                        child: const Icon(EvaIcons.checkmark, color: Colors.white)),
-                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 19, right: 16),
+                      child: GestureDetector(
+                          onTap: () {
+                            Get.to(ErrorHandlingView());
+                          },
+                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 19, right: 20),
+                      child: GestureDetector(
+                          onTap: () {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            } else {
+                              accountController.addCharge();
+                            }
+                          },
+                          child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                    ),
                   ],
                 )
               ],
             ),
+            decoration:
+                BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
           ),
-          decoration:
-              BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
+          preferredSize: Size.fromHeight(56),
         ),
-        preferredSize: Size.fromHeight(Get.height * 0.1),
-      ),
-      body: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
-        child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
+        body: Container(
+          decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+          child: Container(
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
                       child: AirenTextFormFieldBase(
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -102,7 +108,7 @@ class ChargeView extends GetView {
                               style: GoogleFonts.montserrat(
                                 color: HexColor('#707793'),
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
                           ),
@@ -116,22 +122,25 @@ class ChargeView extends GetView {
                         },
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Periode denda adalah bulanan',
-                          style: GoogleFonts.montserrat(
-                            color: HexColor('#707793'),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 12),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Periode denda adalah bulanan',
+                            style: GoogleFonts.montserrat(
+                              color: HexColor('#707793'),
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
                       child: AirenTextFormFieldBase(
                         suffixIcon: Icon(
                           EvaIcons.arrowIosDownwardOutline,
@@ -171,7 +180,7 @@ class ChargeView extends GetView {
                                         itemCount: 31,
                                         itemBuilder: (context, index) => GestureDetector(
                                               onTap: () {
-                                                accountController.dueDateController.text ='Tanggal ${index + 1}' ;
+                                                accountController.dueDateController.text = 'Tanggal ${index + 1}';
                                                 Get.until((route) => Get.isBottomSheetOpen == false);
                                               },
                                               child: ListTile(
@@ -193,16 +202,16 @@ class ChargeView extends GetView {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
                       child: buildElevatedButtonCustom(context),
                     )
                   ],
                 ),
               ),
-            ),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-                color: Colors.white)),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  color: Colors.white)),
+        ),
       ),
     );
   }
@@ -217,17 +226,13 @@ class ChargeView extends GetView {
           }
         },
         child: Ink(
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(0.0, 8.0),
-                color: Color.fromRGBO(0, 99, 248, 0.2),
-                blurRadius: 24,
-              ),
-            ],
-            gradient: LinearGradient(colors: gradientColorAirren),
-            borderRadius: BorderRadius.circular(10)
-          ),
+          decoration: BoxDecoration(boxShadow: const [
+            BoxShadow(
+              offset: Offset(0.0, 8.0),
+              color: Color.fromRGBO(0, 99, 248, 0.2),
+              blurRadius: 24,
+            ),
+          ], gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(10)),
           child: SizedBox(
             height: 48,
             width: double.infinity,

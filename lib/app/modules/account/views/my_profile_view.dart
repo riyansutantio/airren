@@ -17,142 +17,166 @@ class MyProfileView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        child: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(onPressed: () => Get.back(), icon: const Icon(EvaIcons.arrowBack), color: Colors.white),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        'Profil Saya',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 20.0, top: 15, bottom: 19, right: 20),
+                        child: Icon(EvaIcons.arrowBack, color: Colors.white),
+                      ),
+                    ),
+                    Text(
+                      'Profil Saya',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                        onTap: (){
-                          Get.to(ErrorHandlingView());
-                        },
-                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                        onTap: () {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          } else {
-                            accountController.updateProfile();
-                          }
-                        },
-                        child: const Icon(EvaIcons.checkmark, color: Colors.white)),
-                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 19, right: 16),
+                      child: GestureDetector(
+                          onTap: () {
+                            Get.to(ErrorHandlingView());
+                          },
+                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 19, right: 20),
+                      child: GestureDetector(
+                          onTap: () {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            } else {
+                              accountController.updatePamProfile();
+                            }
+                          },
+                          child: const Icon(EvaIcons.checkmark, color: Colors.white)),
+                    ),
                   ],
                 )
               ],
             ),
+            decoration:
+            BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
           ),
-          decoration:
-          BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
+          preferredSize: Size.fromHeight(56),
         ),
-        preferredSize: Size.fromHeight(Get.height * 0.1),
-      ),
-      body: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
-        child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.text,
-                        hintText: 'Nama',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: accountController,
-                        textEditingController: accountController.nameController,
-                        returnValidation: (val) {
-                          if (val!.isEmpty) {
-                            return "Nama harus diisi";
-                          }
-                          return null;
-                        },
+        body: Container(
+          decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+          child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
+                        child: AirenTextFormFieldBase(
+                          textInputType: TextInputType.text,
+                          hintText: 'Nama',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: accountController,
+                          textEditingController: accountController.nameController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nama harus diisi";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        textInputType: TextInputType.phone,
-                        hintText: 'Phone Number',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: accountController,
-                        textEditingController: accountController.phoneNumberController,
-                        prefixText: SizedBox(
-                          child: Center(
-                            widthFactor: 0.0,
-                            child: Text('62', style: GoogleFonts.montserrat(
-                              color: HexColor('#707793'),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          textInputType: TextInputType.phone,
+                          hintText: 'Phone Number',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: accountController,
+                          textEditingController: accountController.phoneNumberController,
+                          prefixText: SizedBox(
+                            child: Center(
+                              widthFactor: 0.0,
+                              child: Text('62', style: GoogleFonts.montserrat(
+                                color: HexColor('#707793'),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),),
+                            ),
+                          ),
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nomor HP harus diisi";
+                            } else if(val.length < 7){
+                              return "Nomor HP tidak valid";
+                            } else if(val.length > 14){
+                              return "Nomor HP tidak valid";
+                            } else if(val[0] == "0"){
+                              return "Nomor HP tidak valid";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          enabled: false,
+                          textInputType: TextInputType.emailAddress,
+                          hintText: 'email',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: accountController,
+                          textEditingController: accountController.emailController,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 12),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Email yang digunakan harus email dari Google',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#707793'),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                           ),
                         ),
-                        returnValidation: (val) {
-                          if (val!.isEmpty) {
-                            return "Nomor HP harus diisi";
-                          } else if(val.length < 7){
-                            return "Nomor HP tidak valid";
-                          } else if(val.length > 14){
-                            return "Nomor HP tidak valid";
-                          } else if(val[0] == "0"){
-                            return "Nomor HP tidak valid";
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AirenTextFormFieldBase(
-                        enabled: false,
-                        textInputType: TextInputType.emailAddress,
-                        hintText: 'email',
-                        obscureText: false,
-                        passwordVisibility: false,
-                        controller: accountController,
-                        textEditingController: accountController.emailController,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: buildElevatedButtonCustom(),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                        child: buildElevatedButtonCustom(),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-                color: Colors.white)),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  color: Colors.white)),
+        ),
       ),
     );
   }

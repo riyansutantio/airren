@@ -74,7 +74,6 @@ class TermConditionView extends GetView<AccountController> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10.0),
                       child: Html(
-                          customTextAlign: (_) => TextAlign.justify,
                           data: """${controller.resultTermCondition.value.content}""",
                           customTextStyle: (node, TextStyle baseStyle) {
                             return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));

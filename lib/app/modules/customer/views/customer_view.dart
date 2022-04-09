@@ -63,93 +63,32 @@ class CustomerView extends GetView<CustomerController> {
                               print(selectedValue);
                             },
                             itemBuilder: (BuildContext ctx) => [
-                              PopupMenuItem(child: Text('Bagikan QR Code'), value: '1'),
-                              PopupMenuItem(child: Text('Download QR Code'), value: '2'),
-                            ])
+                                  PopupMenuItem(child: Text('Bagikan QR Code'), value: '1'),
+                                  PopupMenuItem(child: Text('Download QR Code'), value: '2'),
+                                ])
                       ],
                     ),
                   ],
                 ),
               ),
-              decoration:
-              BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
             ),
             preferredSize: Size.fromHeight(Get.height * 0.1),
           ),
-          decoration:
-              BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
-        ),
-        preferredSize: Size.fromHeight(Get.height * 0.1),
-      ),
-      body: Container(
-        child: Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: ListView.builder(
-                itemCount: controller.menuItem.length,
-                itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8.0, right: 8.0),
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 5, bottom: 5),
-                          child: ListTile(
-                              dense: false,
-                              title: Text(
-                                '${controller.menuItem[index].title}',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "${controller.menuItem[index].id}",
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              leading: const CircleAvatar(backgroundColor: Colors.blue),
-                              trailing: SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SvgPicture.asset('assets/meter.svg'),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 2.0),
-                                      child: Text('25..',
-                                          style: GoogleFonts.montserrat(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                          )),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.amber,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
-                          decoration: const BoxDecoration(boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0.0, 8.0),
-                              color: Color.fromRGBO(0, 99, 248, 0.16),
-                              blurRadius: 24,
-                            ),
-                          ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
-                        ),
-                      ),
-                    )),
-              ),
+          body: Container(
+            child: Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  color: Colors.white),
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: controller.menuItem.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                    ),
+                  )),
             ),
             decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
           ),

@@ -98,6 +98,8 @@ class DataMasterController extends GetxController {
 
   final pamRoleResult = <RolePam>[].obs;
 
+  final rolesUser = <String>[].obs;
+
   void checkRole(List<RolePam>? role) {
     for (var i = 0; i < role!.length; i++) {
       if (role[i].name == "Bendahara PAM") {
@@ -154,10 +156,7 @@ class DataMasterController extends GetxController {
         email: emailPamDetailController.text,
         name: nameDetailController.text,
         phoneNumber: phoneNumberDetailPamController.text,
-        roles: [
-          if (checkBoxPembayaran.value == true) "Bendahara PAM",
-          if (checkBoxCatatMeter.value == true) "Catat Meter PAM",
-        ]);
+        roles: rolesUser);
     if (res!.status! == 'success') {
       await getPamUser();
       await clearCondition();
@@ -170,7 +169,7 @@ class DataMasterController extends GetxController {
 
   Future deleteManagePam() async {
     final res = await masterDataProvider.deletePamManage(id: idManagePamController.text, bearer: boxUser.read(tokenBearer));
-    if (res!.message! == 'Admin fee successfully updated') {
+    if (res!.message! == 'Pam user successfully deleted') {
       await getPamUser();
       await clearCondition();
       Get.back();

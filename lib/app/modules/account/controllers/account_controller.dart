@@ -4,11 +4,12 @@ import 'package:airen/app/modules/session/controllers/session_controller.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../model/account_settings/user_model.dart';
@@ -73,6 +74,7 @@ class AccountController extends GetxController {
   void onClose() async {
     await getUser();
   }
+
   void increment() => count.value++;
 
   final boxUser = GetStorage();
@@ -100,7 +102,10 @@ class AccountController extends GetxController {
       districtController.text = res.data!.profile!.pam!.district!.nameLocation!;
       namePamController.text = res.data!.profile!.pam!.name!;
       nameController.text = res.data!.profile!.name!;
-      amountChargeController.text = (res.data!.profile!.pam!.charge == null) ? "" : res.data!.profile!.pam!.charge.toString();
+      amountChargeController.text =
+          ((res.data!.profile!.pam!.charge == null) ? "" : rpFormatterWithOutSymbol(value: res.data!.profile!.pam!.charge!))!;
+      adminFeeController.text =
+          ((res.data!.profile!.pam!.adminFee == null) ? "" : rpFormatterWithOutSymbol(value: res.data!.profile!.pam!.adminFee!))!;
       dueDateController.text =
           (res.data!.profile!.pam!.chargeDueDate == null) ? "" : res.data!.profile!.pam!.chargeDueDate.toString();
       meterPositionController.text =
@@ -156,7 +161,6 @@ class AccountController extends GetxController {
     final res = await accountProvider.minUsage(bearer: boxUser.read(tokenBearer), meterPosition: meterPositionController.text);
     if (res!.status! == 'success') {
       Get.back();
-      clearCondition();
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
@@ -169,7 +173,6 @@ class AccountController extends GetxController {
         await accountProvider.adminFee(bearer: boxUser.read(tokenBearer), adminFee: adminFeeController.text.numericOnly());
     if (res!.status! == 'success') {
       Get.back();
-      clearCondition();
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
@@ -184,7 +187,6 @@ class AccountController extends GetxController {
         dueDate: dueDateController.text.numericOnly());
     if (res!.status! == 'success') {
       Get.back();
-      clearCondition();
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
       Get.back();
@@ -196,9 +198,8 @@ class AccountController extends GetxController {
     final res = await accountProvider.updatePamUserProfile(
         bearer: boxUser.read(tokenBearer), phoneNumber: phoneNumberController.text, name: nameController.text);
     if (res!.status! == 'success') {
-      Get.back();
       await getUser();
-      clearCondition();
+      Get.back();
       snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
@@ -215,8 +216,8 @@ class AccountController extends GetxController {
         pamDistrictId: selectedDistrict.value,
         detailAddress: addressDetailController.text);
     if (res!.status! == 'success') {
+      await getUser();
       Get.back();
-      clearCondition();
       snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
@@ -242,12 +243,27 @@ class AccountController extends GetxController {
       logger.wtf(selectedImagePath.value);
       await accountProvider.pushProfilePhoto(photoPath: selectedImagePath.value, bearer: boxUser.read(tokenBearer));
       await getUser();
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
-      Get.snackbar('file not found', 'choose your photo');
+      logger.i('file not found');
     }
   }
 
-  void clearCondition() {
-    // meterPositionController.clear();
+  getFromGallery() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    selectedImagePath.value = (image!.path.isEmpty) ? "" : image.path;
+    _cropImage(selectedImagePath.value);
+  }
+
+  Future _cropImage(filePath) async {
+    ImageCropper imageCropper = ImageCropper();
+    File? croppedImage = await imageCropper.cropImage(
+        sourcePath: filePath, maxWidth: 100, maxHeight: 100, aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
+    if (croppedImage!.path.isNotEmpty) {
+      await accountProvider.pushProfilePhoto(photoPath: selectedImagePath.value, bearer: boxUser.read(tokenBearer));
+      await getUser();
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
+    }
   }
 }

@@ -181,8 +181,25 @@ class DataMasterView extends GetView<DataMasterController> {
                       onPressed: () {
                         (controller.masterData.value == 0) ? Get.to(AddPamManageView()) : Get.to(AddBaseFeeView());
                       },
-                      child: const Icon(EvaIcons.plus),
-                      backgroundColor: HexColor('#0063F8')),
+                      backgroundColor: HexColor('#0063F8'),
+                      elevation: 0,
+                      child: Container(
+                        child: const Icon(EvaIcons.plus),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(100),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: HexColor('#0063F8').withOpacity(0.16),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
             ));
       },
     );
@@ -255,41 +272,43 @@ class DataMasterView extends GetView<DataMasterController> {
     return AppBar(
         elevation: 0,
         leadingWidth: 200,
-        leading: Center(
-          child: Text(
-            'Master data',
-            style: GoogleFonts.montserrat(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Center(
+            child: Text(
+              'Master data',
+              style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
         actions: [
-          GestureDetector(
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+                onTap: () {
+                  Get.to(ErrorHandlingView());
+                },
+                child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
               onTap: () {
-                Get.to(ErrorHandlingView());
+                controller.isSearch.value = true;
               },
-              child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-          const SizedBox(width: 20),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    controller.isSearch.value = true;
-                  },
-                  child: const Icon(
-                    EvaIcons.search,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 20),
-              ],
+              child: const Icon(
+                EvaIcons.search,
+                color: Colors.white,
+                size: 24,
+              ),
             ),
+          ),
         ],
         flexibleSpace: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
         ));
   }
@@ -297,6 +316,7 @@ class DataMasterView extends GetView<DataMasterController> {
   Expanded buildExpandedBasePrice() {
     return Expanded(
       child: Container(
+        padding: const EdgeInsets.only(top: 8.0),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
         child: (controller.baseFeeResult.isEmpty)
@@ -305,16 +325,16 @@ class DataMasterView extends GetView<DataMasterController> {
                 children: [
                   (controller.isSearch.value)
                       ? Padding(
-                          padding: const EdgeInsets.only(bottom: 50.0),
+                          padding: const EdgeInsets.only(bottom: 40.0),
                           child: SvgPicture.asset('assets/searchnofound.svg'),
                         )
                       : Padding(
-                          padding: const EdgeInsets.only(bottom: 50.0),
+                          padding: const EdgeInsets.only(bottom: 40.0),
                           child: SvgPicture.asset('assets/tarifkosong.svg'),
                         ),
                   (controller.isSearch.value)
                       ? Padding(
-                          padding: const EdgeInsets.only(left: 2.0),
+                          padding: const EdgeInsets.all(16),
                           child: Text('Tidak ditemukan',
                               style: GoogleFonts.montserrat(
                                 color: Colors.black,
@@ -323,7 +343,7 @@ class DataMasterView extends GetView<DataMasterController> {
                               )),
                         )
                       : Padding(
-                          padding: const EdgeInsets.only(left: 2.0),
+                          padding: const EdgeInsets.all(16),
                           child: Text('Belum ada tarif dasar',
                               style: GoogleFonts.montserrat(
                                 color: Colors.black,
@@ -334,47 +354,35 @@ class DataMasterView extends GetView<DataMasterController> {
                   (controller.isSearch.value)
                       ? Align(
                           alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text('Belum ada tagihan yang sesuai dengan',
-                                style: GoogleFonts.montserrat(
-                                  color: HexColor("#707793").withOpacity(0.7),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                )),
-                          ),
+                          child: Text('Belum ada tagihan yang sesuai dengan',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor("#707793").withOpacity(0.7),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              )),
                         )
                       : Align(
                           alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text('Tambahkan tarif dasar penggunaan air',
-                                style: GoogleFonts.montserrat(
-                                  color: HexColor('#707793').withOpacity(0.7),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                )),
-                          ),
-                        ),
-                  (controller.isSearch.value)
-                      ? Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text('kata kunci di atas.',
+                          child: Text('Tambahkan tarif dasar penggunaan air',
                               style: GoogleFonts.montserrat(
                                 color: HexColor('#707793').withOpacity(0.7),
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               )),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text('melalui tombol di bawah.',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              )),
                         ),
+                  (controller.isSearch.value)
+                      ? Text('kata kunci di atas.',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#707793').withOpacity(0.7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ))
+                      : Text('melalui tombol di bawah.',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#707793').withOpacity(0.7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          )),
                 ],
               )
             : ListView.builder(
@@ -382,7 +390,8 @@ class DataMasterView extends GetView<DataMasterController> {
                 itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
-                        controller.amountDetailController.text = controller.baseFeeResult[index].amount.toString();
+                        controller.amountDetailController.text =
+                            rpFormatterWithOutSymbol(value: controller.baseFeeResult[index].amount!)!;
                         controller.meterDetailPositionController.text = controller.baseFeeResult[index].meterPosition.toString();
                         Get.to(BaseFeeDetailView());
                       },
@@ -434,15 +443,13 @@ class DataMasterView extends GetView<DataMasterController> {
                                   ],
                                 ),
                               )),
-                          decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0.0, 8.0),
-                                color: Color.fromRGBO(0, 99, 248, 0.16),
-                                blurRadius: 24,
-                              ),
-                            ],
-                          borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                          decoration: const BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0.0, 8.0),
+                              color: Color.fromRGBO(0, 99, 248, 0.16),
+                              blurRadius: 24,
+                            ),
+                          ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
                         ),
                       ),
                     )),
@@ -453,6 +460,7 @@ class DataMasterView extends GetView<DataMasterController> {
   Expanded buildExpandedPengelola() {
     return Expanded(
       child: Container(
+        padding: const EdgeInsets.only(top: 8.0),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
         child: ListView.builder(
@@ -467,6 +475,7 @@ class DataMasterView extends GetView<DataMasterController> {
                         ? controller.radioValueActivated.value = 1
                         : controller.radioValueActivated.value = 0;
                     controller.checkRole(controller.pamUserResult[index].roles);
+                    controller.rolesUser.assignAll(controller.pamUserResult[index].roles!.map((e) => e.name!));
                     Get.to(PamManageDetailView(
                       admin: controller.pamUserResult[index].isOwner,
                       roles: controller.pamUserResult[index].roles!,
@@ -476,6 +485,7 @@ class DataMasterView extends GetView<DataMasterController> {
                     padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
                     child: Container(
                       child: ListTile(
+                          contentPadding: const EdgeInsets.all(10),
                           dense: false,
                           title: Text(
                             '${controller.pamUserResult[index].name}',
@@ -485,18 +495,17 @@ class DataMasterView extends GetView<DataMasterController> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: ListView.builder(
-                              padding: const EdgeInsets.only(top: 5),
-                              shrinkWrap: true,
-                              itemCount: controller.pamUserResult[index].roles!.length,
-                              itemBuilder: (context, indexRole) => Text(
-                                    controller.pamUserResult[index].roles![indexRole].name!,
-                                    style: GoogleFonts.montserrat(
-                                      color: HexColor('#707793'),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  )),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              controller.pamUserResult[index].roles!.map((e) => e.name).join(" & "),
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#707793'),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
                           leading: CircleAvatar(
                               maxRadius: 30,
                               backgroundColor: controller.pamUserResult[index].isOwner == 1

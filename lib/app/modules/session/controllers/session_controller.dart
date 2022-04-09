@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:airen/app/model/district_model.dart';
 import 'package:airen/app/model/province_model.dart';
 import 'package:airen/app/model/regency_model.dart';
 import 'package:airen/app/model/register_model.dart';
@@ -18,6 +17,7 @@ import 'package:otp_count_down/otp_count_down.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../model/district_model.dart';
 import '../../../utils/constant.dart';
 
 class SessionController extends GetxController {
@@ -88,16 +88,10 @@ class SessionController extends GetxController {
   final isLoadingRegency = false.obs;
 
   Future getRegency({String? id}) async {
-    try {
-      isLoadingRegency.value = true;
-      final res = await sessionProvider.getRegency(id: id);
-      // logger.wtf(res!.data!.data!.toList());
-      resultRegency.assignAll(res!.data!.regencies!);
-    } catch (e) {
-      logger.e(e);
-    } finally {
-      isLoadingRegency.value = false;
-    }
+    isLoadingRegency.value = true;
+    final res = await sessionProvider.getRegency(id: id);
+    // logger.wtf(res!.data!.data!.toList());
+    resultRegency.assignAll(res!.data!.regencies!);
   }
 
   /// Result Regency
@@ -131,8 +125,6 @@ class SessionController extends GetxController {
 
   final resultRegister = <RegisterModel>[].obs;
 
-  final resultError = <Errors>[].obs;
-
   Future register() async {
     isLoadingRegister.value = true;
     final res = await sessionProvider.register(
@@ -145,7 +137,7 @@ class SessionController extends GetxController {
         pamUserName: nameAdminPamController.text,
         pamUserPhoneNumber: phoneNumberController.text);
     if (res!.status == null) {
-      Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
+      // Get.snackbar(res.errors!.pamUserEmail![0], 'invalid value', backgroundColor: Colors.white);
       btnControllerRegister.stop();
     } else {
       boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
@@ -154,6 +146,7 @@ class SessionController extends GetxController {
       boxPrice.write(orderIdTrx, res.data?.pam?.id);
       // Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
       Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+      btnControllerRegister.stop();
     }
   }
 
@@ -225,16 +218,25 @@ class SessionController extends GetxController {
   }
 
   Future login() async {
-    final res = await sessionProvider.login(email: currentUser!.email, id: currentUser!.id);
-    logger.i(res!.message!);
-    if (res.message == "Please register first") {
-      Get.to(RegisterView());
-    } else if (res.message == "Please pay first") {
-      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
-    } else {
-      boxUser.write(tokenBearer, res.data?.token);
-      logger.i(boxUser.read(tokenBearer));
-      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.offAllNamed(Routes.HOME));
+    try {
+      final res = await sessionProvider.login(email: currentUser!.email, id: currentUser!.id);
+      logger.i(res!.message!);
+      if (res.message == "Please register first") {
+            await Get.to(RegisterView());
+            btnControllerLoginGoogle.stop();
+          } else if (res.message == "Please pay first") {
+            await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+            btnControllerLoginGoogle.stop();
+          } else {
+            boxUser.write(tokenBearer, res.data?.token);
+            logger.i(boxUser.read(tokenBearer));
+            await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.offAllNamed(Routes.HOME));
+            btnControllerLoginGoogle.stop();
+          }
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      btnControllerLoginGoogle.stop();
     }
   }
 
@@ -242,14 +244,17 @@ class SessionController extends GetxController {
     final res = await sessionProvider.logOut(
         email: boxUser.read(emailGoogle), id: boxUser.read(uidGoogle), bearer: boxUser.read(tokenBearer));
     logger.i(res!.message!);
-    if (res.status == "success") {
+    if (res.message == "Logout Successfully") {
+      await googleSignOut();
+      await Get.toNamed(Routes.SESSION);
       boxUser.write(tokenBearer, null);
       boxUser.write(emailGoogle, null);
       boxUser.write(uidGoogle, null);
-      googleSignOut();
-      Get.offAllNamed(Routes.SESSION);
     } else {
-      Get.snackbar('${res.message}', 'failed logOut');
+      boxUser.write(tokenBearer, null);
+      boxUser.write(emailGoogle, null);
+      boxUser.write(uidGoogle, null);
+      Get.to(UnauthenticationView());
     }
   }
 

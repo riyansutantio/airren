@@ -27,8 +27,8 @@ class RegisterStepTwoView extends GetView {
                     onTap: () {
                       Get.back();
                     },
-                    child: Icon(EvaIcons.arrowBack, color: Colors.white)),
-                SizedBox(
+                    child: const Icon(EvaIcons.arrowBack, color: Colors.white)),
+                const SizedBox(
                   width: 15,
                 )
               ],
@@ -80,7 +80,7 @@ class RegisterStepTwoView extends GetView {
                                   style: GoogleFonts.montserrat(
                                     color: HexColor('#707793'),
                                     fontSize: 14,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
                               ),

@@ -56,7 +56,6 @@ class AboutUsView extends GetView<AccountController> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: Column(
             children: [
@@ -76,7 +75,6 @@ class AboutUsView extends GetView<AccountController> {
               Padding(
                 padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
                 child: Html(
-                  customTextAlign: (_) => TextAlign.justify,
                     data: """${controller.resultAboutUs.value.content}""",
                     customTextStyle: (node, TextStyle baseStyle) {
                       return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));

@@ -6,83 +6,183 @@ class RegisterModel {
   RegisterModel({
     this.status,
     this.message,
-    this.errors,
     this.data,
   });
 
   final String? status;
   final String? message;
-  final Errors? errors;
-  final DataPam? data;
+  final Data? data;
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
-    errors: json["errors"] == null ? null : Errors.fromJson(json["errors"]),
-    data: json["data"] == null ? null : DataPam.fromJson(json["data"]),
+    data: json["data"] == null ? null : Data.fromJson(json["data"]),
   );
 }
 
-class DataPam {
-  DataPam({
+class Data {
+  Data({
     this.pam,
     this.trialPrice,
+    this.phoneNumber,
     this.transaction,
-    this.phoneNumber
   });
 
-  final PamResult? pam;
+  final Pam? pam;
   final int? trialPrice;
-  final PamResult? transaction;
   final String? phoneNumber;
+  final Transaction? transaction;
 
-  factory DataPam.fromJson(Map<String, dynamic> json) => DataPam(
-    pam: json["pam"] == null ? null : PamResult.fromJson(json["pam"]),
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    pam: json["pam"] == null ? null : Pam.fromJson(json["pam"]),
     trialPrice: json["trial_price"] == null ? null : json["trial_price"],
-    transaction: json["transaction"] == null ? null : json["transaction"],
     phoneNumber: json["phone_number"] == null ? null : json["phone_number"],
+    transaction: json["transaction"] == null ? null : Transaction.fromJson(json["transaction"]),
   );
 }
 
-class PamResult {
-  PamResult({
+class Pam {
+  Pam({
+    this.id,
     this.name,
+    this.photoName,
+    this.photoPath,
+    this.dateStart,
+    this.dateEnd,
     this.provinceId,
     this.regencyId,
     this.districtId,
     this.detailAddress,
+    this.blocked,
+    this.blockedAt,
+    this.charge,
+    this.chargeDueDate,
+    this.minUsage,
+    this.adminFee,
     this.isPostpaid,
-    this.updatedAt,
     this.createdAt,
-    this.trxId,
-    this.id,
+    this.updatedAt,
+    this.province,
+    this.regency,
+    this.district,
     this.pamUsers,
   });
 
+  final int? id;
   final String? name;
+  final dynamic photoName;
+  final String? photoPath;
+  final dynamic dateStart;
+  final dynamic dateEnd;
   final int? provinceId;
   final int? regencyId;
   final int? districtId;
   final String? detailAddress;
+  final int? blocked;
+  final dynamic blockedAt;
+  final dynamic charge;
+  final dynamic chargeDueDate;
+  final String? minUsage;
+  final int? adminFee;
   final int? isPostpaid;
-  final DateTime? updatedAt;
   final DateTime? createdAt;
-  final String? trxId ;
-  final int? id;
+  final DateTime? updatedAt;
+  final RegisterProvince? province;
+  final RegisterRegency? regency;
+  final RegisterDistrict? district;
   final List<PamUser>? pamUsers;
 
-  factory PamResult.fromJson(Map<String, dynamic> json) => PamResult(
+  factory Pam.fromJson(Map<String, dynamic> json) => Pam(
+    id: json["id"] == null ? null : json["id"],
     name: json["name"] == null ? null : json["name"],
+    photoName: json["photo_name"],
+    photoPath: json["photo_path"] == null ? null : json["photo_path"],
+    dateStart: json["date_start"],
+    dateEnd: json["date_end"],
     provinceId: json["province_id"] == null ? null : json["province_id"],
     regencyId: json["regency_id"] == null ? null : json["regency_id"],
     districtId: json["district_id"] == null ? null : json["district_id"],
     detailAddress: json["detail_address"] == null ? null : json["detail_address"],
+    blocked: json["blocked"] == null ? null : json["blocked"],
+    blockedAt: json["blocked_at"],
+    charge: json["charge"],
+    chargeDueDate: json["charge_due_date"],
+    minUsage: json["min_usage"] == null ? null : json["min_usage"],
+    adminFee: json["admin_fee"] == null ? null : json["admin_fee"],
     isPostpaid: json["is_postpaid"] == null ? null : json["is_postpaid"],
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    trxId: json["transaction_id"] == null ? null : json["transaction_id"],
-    id: json["id"] == null ? null : json["id"],
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    province: json["province"] == null ? null : RegisterProvince.fromJson(json["province"]),
+    regency: json["regency"] == null ? null : RegisterRegency.fromJson(json["regency"]),
+    district: json["district"] == null ? null : RegisterDistrict.fromJson(json["district"]),
     pamUsers: json["pam_users"] == null ? null : List<PamUser>.from(json["pam_users"].map((x) => PamUser.fromJson(x))),
+  );
+}
+
+class RegisterDistrict {
+  RegisterDistrict({
+    this.id,
+    this.regencyId,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  final int? id;
+  final int? regencyId;
+  final String? name;
+  final dynamic createdAt;
+  final dynamic updatedAt;
+
+  factory RegisterDistrict.fromJson(Map<String, dynamic> json) => RegisterDistrict(
+    id: json["id"] == null ? null : json["id"],
+    regencyId: json["regency_id"] == null ? null : json["regency_id"],
+    name: json["name"] == null ? null : json["name"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+  );
+}
+class RegisterRegency {
+  RegisterRegency({
+    this.id,
+    this.provinceId,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  final int? id;
+  final int? provinceId;
+  final String? name;
+  final dynamic createdAt;
+  final dynamic updatedAt;
+
+  factory RegisterRegency.fromJson(Map<String, dynamic> json) => RegisterRegency(
+    id: json["id"] == null ? null : json["id"],
+    provinceId: json["province_id"] == null ? null : json["province_id"],
+    name: json["name"] == null ? null : json["name"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+  );
+}
+class RegisterProvince {
+  RegisterProvince({
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  final int? id;
+  final String? name;
+  final dynamic createdAt;
+  final dynamic updatedAt;
+
+  factory RegisterProvince.fromJson(Map<String, dynamic> json) => RegisterProvince(
+    id: json["id"] == null ? null : json["id"],
+    name: json["name"] == null ? null : json["name"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
   );
 }
 
@@ -185,35 +285,86 @@ class Pivot {
   );
 }
 
-class Errors {
-  Errors({
+class Transaction {
+  Transaction({
+    this.id,
+    this.pamId,
     this.pamName,
-    this.pamProvinceId,
-    this.pamRegencyId,
-    this.pamDistrictId,
-    this.pamDetailAddress,
-    this.pamUserName,
-    this.pamUserPhoneNumber,
-    this.pamUserEmail,
+    this.ownerName,
+    this.ownerPhoneNumber,
+    this.ownerEmail,
+    this.transactionId,
+    this.description,
+    this.status,
+    this.dateStart,
+    this.dateEnd,
+    this.price,
+    this.totalAmount,
+    this.accountFrom,
+    this.accountOnBehalfOfFrom,
+    this.accountTo,
+    this.accountNumberTo,
+    this.accountOnBehalfOfTo,
+    this.paymentAmount,
+    this.paymentMethod,
+    this.paymentDate,
+    this.paymentAttachment,
+    this.paymentAttachmentName,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  final List<String>? pamName;
-  final List<String>? pamProvinceId;
-  final List<String>? pamRegencyId;
-  final List<String>? pamDistrictId;
-  final List<String>? pamDetailAddress;
-  final List<String>? pamUserName;
-  final List<String>? pamUserPhoneNumber;
-  final List<String>? pamUserEmail;
+  final int? id;
+  final int? pamId;
+  final String? pamName;
+  final String? ownerName;
+  final String? ownerPhoneNumber;
+  final String? ownerEmail;
+  final String? transactionId;
+  final String? description;
+  final String? status;
+  final dynamic dateStart;
+  final dynamic dateEnd;
+  final int? price;
+  final int? totalAmount;
+  final dynamic accountFrom;
+  final dynamic accountOnBehalfOfFrom;
+  final dynamic accountTo;
+  final dynamic accountNumberTo;
+  final dynamic accountOnBehalfOfTo;
+  final dynamic paymentAmount;
+  final dynamic paymentMethod;
+  final dynamic paymentDate;
+  final dynamic paymentAttachment;
+  final dynamic paymentAttachmentName;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
-  factory Errors.fromJson(Map<String, dynamic> json) => Errors(
-    pamName: json["pam_name"] == null ? null : List<String>.from(json["pam_name"].map((x) => x)),
-    pamProvinceId: json["pam_province_id"] == null ? null : List<String>.from(json["pam_province_id"].map((x) => x)),
-    pamRegencyId: json["pam_regency_id"] == null ? null : List<String>.from(json["pam_regency_id"].map((x) => x)),
-    pamDistrictId: json["pam_district_id"] == null ? null : List<String>.from(json["pam_district_id"].map((x) => x)),
-    pamDetailAddress: json["pam_detail_address"] == null ? null : List<String>.from(json["pam_detail_address"].map((x) => x)),
-    pamUserName: json["pam_user_name"] == null ? null : List<String>.from(json["pam_user_name"].map((x) => x)),
-    pamUserPhoneNumber: json["pam_user_phone_number"] == null ? null : List<String>.from(json["pam_user_phone_number"].map((x) => x)),
-    pamUserEmail: json["pam_user_email"] == null ? null : List<String>.from(json["pam_user_email"].map((x) => x)),
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+    id: json["id"] == null ? null : json["id"],
+    pamId: json["pam_id"] == null ? null : json["pam_id"],
+    pamName: json["pam_name"] == null ? null : json["pam_name"],
+    ownerName: json["owner_name"] == null ? null : json["owner_name"],
+    ownerPhoneNumber: json["owner_phone_number"] == null ? null : json["owner_phone_number"],
+    ownerEmail: json["owner_email"] == null ? null : json["owner_email"],
+    transactionId: json["transaction_id"] == null ? null : json["transaction_id"],
+    description: json["description"] == null ? null : json["description"],
+    status: json["status"] == null ? null : json["status"],
+    dateStart: json["date_start"],
+    dateEnd: json["date_end"],
+    price: json["price"] == null ? null : json["price"],
+    totalAmount: json["total_amount"] == null ? null : json["total_amount"],
+    accountFrom: json["account_from"],
+    accountOnBehalfOfFrom: json["account_on_behalf_of_from"],
+    accountTo: json["account_to"],
+    accountNumberTo: json["account_number_to"],
+    accountOnBehalfOfTo: json["account_on_behalf_of_to"],
+    paymentAmount: json["payment_amount"],
+    paymentMethod: json["payment_method"],
+    paymentDate: json["payment_date"],
+    paymentAttachment: json["payment_attachment"],
+    paymentAttachmentName: json["payment_attachment_name"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 }

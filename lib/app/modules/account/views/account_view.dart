@@ -15,6 +15,7 @@ import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/account_controller.dart';
 
 class AccountView extends GetView<AccountController> {
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AccountController>(
@@ -23,92 +24,93 @@ class AccountView extends GetView<AccountController> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(250.0),
+            preferredSize: const Size.fromHeight(295),
             child: Container(
               color: Colors.white,
               child: Stack(
                 children: [
                   buildBackground(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 40.0, right: 8.0, left: 8.0),
+                    padding: const EdgeInsets.only(top: 40),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      'Akun',
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.white,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          Get.to(ErrorHandlingView());
-                                        },
-                                        child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                                  )
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  controller.getFileFromDevice();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 30.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0, top: 24),
+                                  child: Text(
+                                    'Akun',
+                                    style: GoogleFonts.montserrat(
                                       color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [BoxShadow(blurRadius: 9, color: Colors.blue.withOpacity(0.2), spreadRadius: 1)],
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    child: Obx(() => CircleAvatar(
-                                        maxRadius: 45,
-                                        backgroundColor: Colors.white,
-                                        child: (controller.photoName.value == "")
-                                            ? CircleAvatar(
-                                                maxRadius: 40,
-                                                child: SvgPicture.asset('assets/photo.svg'),
-                                                backgroundColor: HexColor('#0063F8'),
-                                              )
-                                            : CircleAvatar(
-                                                maxRadius: 40,
-                                                child: ClipOval(
-                                                  child: AspectRatio(
-                                                      aspectRatio: 1 / 1,
-                                                      child: Image.network(
-                                                        controller.photoPath.value,
-                                                        fit: BoxFit.cover,
-                                                      )),
-                                                ),
-                                                backgroundColor: HexColor('#0063F8'),
-                                              ))),
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(),
+                                      GestureDetector(
+                                          onTap: () {
+                                            Get.to(ErrorHandlingView());
+                                          },
+                                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                controller.getFromGallery();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 30.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [BoxShadow(blurRadius: 9, color: Colors.blue.withOpacity(0.2), spreadRadius: 1)],
+                                  ),
+                                  child: Obx(() => CircleAvatar(
+                                      maxRadius: 45,
+                                      backgroundColor: Colors.white,
+                                      child: (controller.photoName.value == "")
+                                          ? CircleAvatar(
+                                              maxRadius: 40,
+                                              child: SvgPicture.asset('assets/photo.svg'),
+                                              backgroundColor: HexColor('#0063F8'),
+                                            )
+                                          : CircleAvatar(
+                                              maxRadius: 40,
+                                              child: ClipOval(
+                                                child: AspectRatio(
+                                                    aspectRatio: 1 / 1,
+                                                    child: Image.network(
+                                                      controller.photoPath.value,
+                                                      fit: BoxFit.cover,
+                                                    )),
+                                              ),
+                                              backgroundColor: HexColor('#0063F8'),
+                                            ))),
+                                ),
                               ),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Obx(() => Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
+                        Obx(() => Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 34.0, bottom: 16),
+                                  child: Text(
                                     controller.displayName.value,
                                     style: GoogleFonts.montserrat(
                                       color: HexColor('#3C3F58'),
@@ -116,10 +118,10 @@ class AccountView extends GetView<AccountController> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: Text(
                                     (controller.displayRegisterCreated.value.isEmpty)
                                         ? ""
                                         : "Terdaftar pada ${controller.displayRegisterToDateTime()}",
@@ -129,9 +131,9 @@ class AccountView extends GetView<AccountController> {
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                ],
-                              )),
-                        ),
+                                ),
+                              ],
+                            )),
                       ],
                     ),
                   ),
@@ -253,7 +255,7 @@ class TileAccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(left: 8.0, top: 2.0, bottom: 2.0),
       child: Theme(
         data: Theme.of(context).copyWith(
           splashColor: Colors.transparent,

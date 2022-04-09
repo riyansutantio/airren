@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:airen/app/modules/session/controllers/session_controller.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/modules/session/views/otp_view.dart';
+import 'package:airen/app/utils/willPopCallBack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,26 +20,28 @@ class LoginView extends GetView<SessionController> {
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBarSession(
-          title: 'Autentikasi',
-          firstSubtitle: 'Silakan masuk atau daftar ke aplikasi ',
-          secondSubtitle: 'dengan akun Google Anda'),
-      body: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
-        child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: SvgPicture.asset('assets/airrenof.svg'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15.0, left: 15.0),
-                  child: GestureDetector(
-                    onTap: () {},
+    return WillPopScope(
+      onWillPop: ()=> willPopWithFuncOnly(func: exit(0)),
+      child: Scaffold(
+        appBar: buildAppBarSession(
+            title: 'Autentikasi',
+            firstSubtitle: 'Silakan masuk atau daftar ke aplikasi ',
+            secondSubtitle: 'dengan akun Google Anda'),
+        body: Container(
+          decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+          child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: SvgPicture.asset('assets/airrenof.svg'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15.0, left: 15.0),
                     child: RoundedLoadingButton(
+                      elevation: 0,
+                      height: 48,
                       color: Colors.white,
                       valueColor: Colors.blue,
                       key: const Key('buttonLoginGoogle'),
@@ -45,12 +50,12 @@ class LoginView extends GetView<SessionController> {
                         sessionController.signInWithGoogle();
                       },
                       child: Container(
-                        height: 50,
+                        height: 48,
                         decoration: BoxDecoration(
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
-                              offset: Offset(0.0, 8.0),
-                              color: Color.fromRGBO(0, 99, 248, 0.2),
+                              offset: const Offset(0.0, 8.0),
+                              color: HexColor('#0063F8').withOpacity(0.2),
                               blurRadius: 24,
                             ),
                           ],
@@ -71,19 +76,19 @@ class LoginView extends GetView<SessionController> {
                         ),
                     ),
                   ),
-                ),
-                Image.asset(
-                  'assets/wavebottom.png',
-                  width: double.infinity,
-                ),
-              ],
-            ),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-                color: Colors.white)),
+                  Image.asset(
+                    'assets/wavebottom.png',
+                    width: double.infinity,
+                  ),
+                ],
+              ),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  color: Colors.white)),
+        ),
+        // bottomNavigationBar:
+        //     buildBottomNav(firstText: 'Belum punya akun?', secondText: 'Daftar sekarang', function: () => Get.to(RegisterView())),
       ),
-      // bottomNavigationBar:
-      //     buildBottomNav(firstText: 'Belum punya akun?', secondText: 'Daftar sekarang', function: () => Get.to(RegisterView())),
     );
   }
 

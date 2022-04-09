@@ -17,6 +17,7 @@ import '../../account/views/account_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  final HomeController homeController = Get.put(HomeController(homeProvider: HomeProvider()));
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
