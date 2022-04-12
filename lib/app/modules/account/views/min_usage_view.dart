@@ -90,10 +90,7 @@ class MinUsageView extends GetView<AccountController> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
                         child: AirenTextFormFieldBase(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
-                          ),
+                          suffixIcon: Icon(EvaIcons.compassOutline, color: HexColor('#0063F8').withOpacity(0.5),),
                           textInputType: TextInputType.number,
                           hintText: 'Posisi meter',
                           obscureText: false,

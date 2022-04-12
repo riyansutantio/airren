@@ -90,6 +90,7 @@ class MyProfileView extends GetView {
                         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
                         child: AirenTextFormFieldBase(
                           textInputType: TextInputType.text,
+                          suffixIcon: Icon(EvaIcons.personOutline, color: HexColor('#0063F8').withOpacity(0.5),),
                           hintText: 'Nama',
                           obscureText: false,
                           passwordVisibility: false,
@@ -107,6 +108,7 @@ class MyProfileView extends GetView {
                         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
                           textInputType: TextInputType.phone,
+                          suffixIcon: Icon(EvaIcons.phoneOutline, color: HexColor('#0063F8').withOpacity(0.5),),
                           hintText: 'Phone Number',
                           obscureText: false,
                           passwordVisibility: false,
@@ -139,6 +141,7 @@ class MyProfileView extends GetView {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
+                          suffixIcon: Icon(EvaIcons.emailOutline, color: HexColor('#0063F8').withOpacity(0.5),),
                           enabled: false,
                           textInputType: TextInputType.emailAddress,
                           hintText: 'email',

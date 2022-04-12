@@ -90,10 +90,7 @@ class ChargeView extends GetView {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
                       child: AirenTextFormFieldBase(
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SvgPicture.asset('assets/tarif.svg'),
-                        ),
+                        suffixIcon: Icon(EvaIcons.pricetagsOutline, color: HexColor('#0063F8').withOpacity(0.5),),
                         textInputType: TextInputType.number,
                         hintText: 'Nominal',
                         obscureText: false,
@@ -131,7 +128,7 @@ class ChargeView extends GetView {
                           child: Text(
                             'Periode denda adalah bulanan',
                             style: GoogleFonts.montserrat(
-                              color: HexColor('#707793'),
+                              color: HexColor('#0063F8'),
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
                             ),
@@ -144,7 +141,7 @@ class ChargeView extends GetView {
                       child: AirenTextFormFieldBase(
                         suffixIcon: Icon(
                           EvaIcons.arrowIosDownwardOutline,
-                          color: HexColor('#0063F8'),
+                          color: HexColor('#0063F8').withOpacity(0.5),
                         ),
                         textInputType: TextInputType.none,
                         hintText: 'Jatuh Tempo',

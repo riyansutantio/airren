@@ -84,12 +84,12 @@ class SettingsView extends GetView {
             Container(
               height: double.infinity,
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(25), topLeft: Radius.circular(25)),
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
                   color: Colors.white),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 43),
+                    const SizedBox(height: 40),
                     if (accountController.boxUser.read(roleUser) == '1')
                       buildListTile(
                           title: 'Denda',

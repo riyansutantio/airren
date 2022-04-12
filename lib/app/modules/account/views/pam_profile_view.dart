@@ -96,6 +96,7 @@ class PamProfileView extends GetView {
                           padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
                           child: AirenTextFormFieldBase(
                             textInputType: TextInputType.text,
+                            suffixIcon: Icon(EvaIcons.dropletOutline, color: HexColor('#0063F8').withOpacity(0.5),),
                             hintText: 'Nama PAMS',
                             obscureText: false,
                             passwordVisibility: false,
@@ -115,8 +116,8 @@ class PamProfileView extends GetView {
                             enabled: true,
                             textInputType: TextInputType.none,
                             suffixIcon: Icon(
-                              EvaIcons.chevronDown,
-                              color: HexColor('#0063F8'),
+                              EvaIcons.arrowIosDownwardOutline,
+                              color: HexColor('#0063F8').withOpacity(0.5),
                             ),
                             hintText: 'Provinsi',
                             obscureText: false,
@@ -165,8 +166,8 @@ class PamProfileView extends GetView {
                             enabled: true,
                             textInputType: TextInputType.none,
                             suffixIcon: Icon(
-                              EvaIcons.chevronDown,
-                              color: HexColor('#0063F8'),
+                              EvaIcons.arrowIosDownwardOutline,
+                              color: HexColor('#0063F8').withOpacity(0.5),
                             ),
                             hintText: 'Kabupaten',
                             obscureText: false,
@@ -216,8 +217,8 @@ class PamProfileView extends GetView {
                             enabled: true,
                             textInputType: TextInputType.none,
                             suffixIcon: Icon(
-                              EvaIcons.chevronDown,
-                              color: HexColor('#0063F8'),
+                              EvaIcons.arrowIosDownwardOutline,
+                              color: HexColor('#0063F8').withOpacity(0.5),
                             ),
                             hintText: 'Kecamatan',
                             obscureText: false,

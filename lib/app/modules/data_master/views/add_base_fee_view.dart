@@ -83,30 +83,30 @@ class AddBaseFeeView extends GetView {
           decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
           child: Container(
             height: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 25),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
-                          child: AirenTextFormFieldBase(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset('assets/tarif.svg'),
-                            ),
-                            textInputType: TextInputType.number,
-                            hintText: 'Nominal',
-                            obscureText: false,
-                            passwordVisibility: false,
-                            controller: dataMasterController,
-                            textEditingController: dataMasterController.amountController,
-                            textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
-                            prefixText: SizedBox(
-                              child: Center(
-                                widthFactor: 0.0,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset('assets/tarif.svg'),
+                          ),
+                          textInputType: TextInputType.number,
+                          hintText: 'Nominal',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataMasterController,
+                          textEditingController: dataMasterController.amountController,
+                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
+                          prefixText: SizedBox(
+                            child: Center(
+                              widthFactor: 0.0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   'Rp',
                                   style: GoogleFonts.montserrat(
@@ -117,43 +117,43 @@ class AddBaseFeeView extends GetView {
                                 ),
                               ),
                             ),
-                            returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Nominal beban harus diisi";
-                              }
-                              return null;
-                            },
                           ),
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nominal beban harus diisi";
+                            }
+                            return null;
+                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
-                          child: AirenTextFormFieldBase(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
-                            ),
-                            textInputType: TextInputType.number,
-                            hintText: 'Pada posisi meter',
-                            obscureText: false,
-                            passwordVisibility: false,
-                            controller: dataMasterController,
-                            textEditingController: dataMasterController.meterPositionController,
-                            returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Posisi meter harus diisi";
-                              } else if (val.length > 10) {
-                                return "Posisi meter maksimal 9999999999";
-                              }
-                              return null;
-                            },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
                           ),
+                          textInputType: TextInputType.number,
+                          hintText: 'Pada posisi meter',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataMasterController,
+                          textEditingController: dataMasterController.meterPositionController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Posisi meter harus diisi";
+                            } else if (val.length > 10) {
+                              return "Posisi meter maksimal 9999999999";
+                            }
+                            return null;
+                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
-                          child: buildElevatedButtonCustom(),
-                        )
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                        child: buildElevatedButtonCustom(),
+                      )
+                    ],
                   ),
                 ),
               ),

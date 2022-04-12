@@ -13,9 +13,9 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/account_controller.dart';
+import 'image_galery_picker_view.dart';
 
 class AccountView extends GetView<AccountController> {
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AccountController>(
@@ -41,7 +41,7 @@ class AccountView extends GetView<AccountController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20.0, top: 24),
+                                  padding: const EdgeInsets.only(left: 20.0, top: 16),
                                   child: Text(
                                     'Akun',
                                     style: GoogleFonts.montserrat(
@@ -52,24 +52,24 @@ class AccountView extends GetView<AccountController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const SizedBox(),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Get.to(ErrorHandlingView());
-                                          },
-                                          child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                                    ],
-                                  ),
+                                  padding: const EdgeInsets.only(right: 20.0, top: 10),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        Get.to(ErrorHandlingView());
+                                      },
+                                      child: Column(
+                                        children: const [
+                                          Icon(EvaIcons.bellOutline, color: Colors.white),
+                                          SizedBox(height: 10)
+                                        ],
+                                      )),
                                 )
                               ],
                             ),
                             GestureDetector(
                               onTap: () {
                                 controller.getFromGallery();
+                                // Get.to(Galery());
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 30.0),

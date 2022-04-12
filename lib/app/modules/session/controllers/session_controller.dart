@@ -57,6 +57,7 @@ class SessionController extends GetxController {
   void onClose() {
     logger.w('close');
   }
+
   void increment() => count.value++;
 
   /// Result Province
@@ -141,7 +142,7 @@ class SessionController extends GetxController {
       btnControllerRegister.stop();
     } else {
       boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
-      boxPrice.write(priceInit, res.data?.trialPrice);
+      boxPrice.write(priceInit, res.data?.transaction!.price!);
       boxPrice.write(orderIdTrxCreated, res.data?.pam?.createdAt.toString());
       boxPrice.write(orderIdTrx, res.data?.pam?.id);
       // Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
@@ -222,19 +223,26 @@ class SessionController extends GetxController {
       final res = await sessionProvider.login(email: currentUser!.email, id: currentUser!.id);
       logger.i(res!.message!);
       if (res.message == "Please register first") {
-            await Get.to(RegisterView());
-            btnControllerLoginGoogle.stop();
-          } else if (res.message == "Please pay first") {
-            await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
-            btnControllerLoginGoogle.stop();
-          } else {
-            boxUser.write(tokenBearer, res.data?.token);
-            logger.i(boxUser.read(tokenBearer));
-            await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.offAllNamed(Routes.HOME));
-            btnControllerLoginGoogle.stop();
-          }
+        await Get.to(RegisterView());
+        btnControllerLoginGoogle.stop();
+      } else if (res.message == "Please pay first") {
+        await boxUser.write(priceInit, (res.data?.transaction?.totalAmount == null) ? 0 : res.data?.transaction!.totalAmount!);
+        await boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
+        await boxPrice.write(orderIdTrx, res.data?.transaction!.transactionId!);
+        logger.i("ini harga ${boxUser.read(priceInit)}");
+        logger.i("ini trx order ${boxUser.read(orderIdTrx)}");
+        logger.i("ini phone ${boxUser.read(phoneNumberVerification)}");
+        await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+        btnControllerLoginGoogle.stop();
+      } else {
+        boxUser.write(tokenBearer, res.data?.token);
+        logger.i(boxUser.read('ini harga $priceInit'));
+        await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.offAllNamed(Routes.HOME));
+        btnControllerLoginGoogle.stop();
+      }
     } catch (e) {
-      logger.e(e);
+      logger.w(e);
+      btnControllerLoginGoogle.stop();
     } finally {
       btnControllerLoginGoogle.stop();
     }
@@ -266,7 +274,7 @@ class SessionController extends GetxController {
 
   void sendWhatsAppConfirm({String? time}) async {
     var url =
-        """https://api.whatsapp.com/send?phone=62${boxUser.read(phoneNumberVerification)}&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20${boxUser.read(orderIdTrx)}%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20${rpFormatter(value: boxUser.read(priceInit))}%0ATanggal%20:%20${boxUser.read(orderIdTrxCreated)}%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
+        """https://api.whatsapp.com/send?phone=62${boxUser.read(phoneNumberVerification)}&text=Kami%20telah%20melakukan%20pendaftaran%20aplikasi%20Airren%20sekaligus%20melakukan%20pembayaran%20via%20bank%20dengan%20keterangan%20sbb%20:%0ANomor%20Order%20:%20${boxUser.read(orderIdTrx)}%0ADari%20Bank%20:%0AKe%20Bank%20:%0AJumlah%20:%20${rpFormatter(value: boxUser.read(priceInit))}%0ATanggal%20:%20%0AMohon%20diperiksa%20dan%20diaktifkan%20akun%20kami%20Terimakasih""";
     await launch(url);
   }
 }

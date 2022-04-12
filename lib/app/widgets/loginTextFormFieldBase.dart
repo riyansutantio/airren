@@ -57,7 +57,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       controller: textEditingController,
       obscureText: obscureText,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 20.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),

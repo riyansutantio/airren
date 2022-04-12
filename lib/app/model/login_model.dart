@@ -24,14 +24,20 @@ class Data {
   Data({
     this.pamUser,
     this.token,
+    this.transaction,
+    this.phoneNumber
   });
 
   final PamUser? pamUser;
   final String? token;
+  final String? phoneNumber;
+  final Transaction? transaction;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     pamUser: json["pamUser"] == null ? null : PamUser.fromJson(json["pamUser"]),
     token: json["token"] == null ? null : json["token"],
+    phoneNumber: json["phone_number"] == null ? null : json["phone_number"],
+    transaction: json["transaction"] == null ? null : Transaction.fromJson(json["transaction"]),
   );
 }
 
@@ -131,5 +137,89 @@ class Pivot {
     modelId: json["model_id"] == null ? null : json["model_id"],
     roleId: json["role_id"] == null ? null : json["role_id"],
     modelType: json["model_type"] == null ? null : json["model_type"],
+  );
+}
+
+class Transaction {
+  Transaction({
+    this.id,
+    this.pamId,
+    this.pamName,
+    this.ownerName,
+    this.ownerPhoneNumber,
+    this.ownerEmail,
+    this.transactionId,
+    this.description,
+    this.status,
+    this.dateStart,
+    this.dateEnd,
+    this.price,
+    this.totalAmount,
+    this.accountFrom,
+    this.accountOnBehalfOfFrom,
+    this.accountTo,
+    this.accountNumberTo,
+    this.accountOnBehalfOfTo,
+    this.paymentAmount,
+    this.paymentMethod,
+    this.paymentDate,
+    this.paymentAttachment,
+    this.paymentAttachmentName,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  final int? id;
+  final int? pamId;
+  final String? pamName;
+  final String? ownerName;
+  final String? ownerPhoneNumber;
+  final String? ownerEmail;
+  final String? transactionId;
+  final String? description;
+  final String? status;
+  final dynamic dateStart;
+  final dynamic dateEnd;
+  final int? price;
+  final int? totalAmount;
+  final dynamic accountFrom;
+  final dynamic accountOnBehalfOfFrom;
+  final dynamic accountTo;
+  final dynamic accountNumberTo;
+  final dynamic accountOnBehalfOfTo;
+  final dynamic paymentAmount;
+  final dynamic paymentMethod;
+  final dynamic paymentDate;
+  final dynamic paymentAttachment;
+  final dynamic paymentAttachmentName;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+    id: json["id"] == null ? null : json["id"],
+    pamId: json["pam_id"] == null ? null : json["pam_id"],
+    pamName: json["pam_name"] == null ? null : json["pam_name"],
+    ownerName: json["owner_name"] == null ? null : json["owner_name"],
+    ownerPhoneNumber: json["owner_phone_number"] == null ? null : json["owner_phone_number"],
+    ownerEmail: json["owner_email"] == null ? null : json["owner_email"],
+    transactionId: json["transaction_id"] == null ? null : json["transaction_id"],
+    description: json["description"] == null ? null : json["description"],
+    status: json["status"] == null ? null : json["status"],
+    dateStart: json["date_start"],
+    dateEnd: json["date_end"],
+    price: json["price"] == null ? null : json["price"],
+    totalAmount: json["total_amount"] == null ? null : json["total_amount"],
+    accountFrom: json["account_from"],
+    accountOnBehalfOfFrom: json["account_on_behalf_of_from"],
+    accountTo: json["account_to"],
+    accountNumberTo: json["account_number_to"],
+    accountOnBehalfOfTo: json["account_on_behalf_of_to"],
+    paymentAmount: json["payment_amount"],
+    paymentMethod: json["payment_method"],
+    paymentDate: json["payment_date"],
+    paymentAttachment: json["payment_attachment"],
+    paymentAttachmentName: json["payment_attachment_name"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 }

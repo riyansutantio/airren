@@ -83,30 +83,30 @@ class BaseFeeDetailView extends GetView {
           decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
           child: Container(
             height: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 25),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
-                          child: AirenTextFormFieldBase(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset('assets/tarif.svg'),
-                            ),
-                            textInputType: TextInputType.number,
-                            hintText: 'Nominal',
-                            obscureText: false,
-                            passwordVisibility: false,
-                            controller: dataMasterController,
-                            textEditingController: dataMasterController.amountDetailController,
-                            textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
-                            prefixText: SizedBox(
-                              child: Center(
-                                widthFactor: 0.0,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 40),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset('assets/tarif.svg'),
+                          ),
+                          textInputType: TextInputType.number,
+                          hintText: 'Nominal',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataMasterController,
+                          textEditingController: dataMasterController.amountDetailController,
+                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
+                          prefixText: SizedBox(
+                            child: Center(
+                              widthFactor: 0.0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   'Rp',
                                   style: GoogleFonts.montserrat(
@@ -117,83 +117,86 @@ class BaseFeeDetailView extends GetView {
                                 ),
                               ),
                             ),
-                            returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Nominal harus diisi";
-                              }
-                              return null;
-                            },
                           ),
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nominal harus diisi";
+                            }
+                            return null;
+                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
-                          child: AirenTextFormFieldBase(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
-                            ),
-                            textInputType: TextInputType.number,
-                            hintText: 'Pada posisi meter',
-                            obscureText: false,
-                            passwordVisibility: false,
-                            controller: dataMasterController,
-                            textEditingController: dataMasterController.meterDetailPositionController,
-                            returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Meter harus diisi";
-                              } else if (val.length >= 10) {
-                                return "Posisi meter maksimal 9999999999";
-                              }
-                              return null;
-                            },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset('assets/meter.svg', color: Colors.blue),
                           ),
+                          textInputType: TextInputType.number,
+                          hintText: 'Pada posisi meter',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataMasterController,
+                          textEditingController: dataMasterController.meterDetailPositionController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Meter harus diisi";
+                            } else if (val.length >= 10) {
+                              return "Posisi meter maksimal 9999999999";
+                            }
+                            return null;
+                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20.0, left: 20, top: 32),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                  onTap: () {
-                                    Get.bottomSheet(Container(
-                                      decoration: const BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-                                        color: Colors.white,
-                                      ),
-                                      child: Wrap(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  width: 70,
-                                                  height: 5,
-                                                  decoration: const BoxDecoration(
-                                                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                                                    color: Colors.amber,
-                                                  ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0, left: 20, top: 32),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Get.bottomSheet(Container(
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                      color: Colors.white,
+                                    ),
+                                    child: Wrap(
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 12.0),
+                                              child: Container(
+                                                width: 70,
+                                                height: 5,
+                                                decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                                                  color: Colors.amber,
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: SvgPicture.asset('assets/deletemanage.svg'),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  'Anda Yakin ?',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#3C3F58'),
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 32.0),
+                                              child: SvgPicture.asset('assets/deletemanage.svg'),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 24.0),
+                                              child: Text(
+                                                'Anda Yakin ?',
+                                                style: GoogleFonts.montserrat(
+                                                  color: HexColor('#3C3F58'),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text(
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 16.0),
+                                              child: Text(
                                                 'Data akan dihapus secara permanen.',
                                                 style: GoogleFonts.montserrat(
                                                   color: HexColor('#707793'),
@@ -201,78 +204,78 @@ class BaseFeeDetailView extends GetView {
                                                   fontWeight: FontWeight.normal,
                                                 ),
                                               ),
-                                              Text(
-                                                'Benarkah ingin menghapusnya?',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#707793'),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
+                                            ),
+                                            Text(
+                                              'Benarkah ingin menghapusnya?',
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#707793'),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Container(
-                                                          child: Text('Batal',
-                                                              style: GoogleFonts.montserrat(
-                                                                color: HexColor('#0063F8'),
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight.bold,
-                                                              )),
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(10),
-                                                            color: HexColor('#0063F8').withOpacity(0.2),
-                                                          ),
-                                                          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 32.0, bottom: 40),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Container(
+                                                        child: Text('Batal',
+                                                            style: GoogleFonts.montserrat(
+                                                              color: HexColor('#0063F8'),
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.bold,
+                                                            )),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          color: HexColor('#0063F8').withOpacity(0.2),
                                                         ),
+                                                        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                                                       ),
                                                     ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        dataMasterController.deleteBaseFee();
-                                                        Get.back();
-                                                      },
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Container(
-                                                          child: Text('Ya, hapus',
-                                                              style: GoogleFonts.montserrat(
-                                                                color: Colors.white,
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight.bold,
-                                                              )),
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(10),
-                                                            color: Colors.red,
-                                                          ),
-                                                          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      dataMasterController.deleteBaseFee();
+                                                      Get.back();
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Container(
+                                                        child: Text('Ya, hapus',
+                                                            style: GoogleFonts.montserrat(
+                                                              color: Colors.white,
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.bold,
+                                                            )),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          color: Colors.red,
                                                         ),
+                                                        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ));
-                                  },
-                                  child: SvgPicture.asset('assets/delete.svg')),
-                              buildElevatedButtonCustom()
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                                },
+                                child: SvgPicture.asset('assets/delete.svg')),
+                            buildElevatedButtonCustom()
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),

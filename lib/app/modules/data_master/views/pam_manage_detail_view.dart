@@ -40,7 +40,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Get.back();
                         },
                         child: const Padding(
@@ -103,6 +103,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                               child: AirenTextFormFieldBase(
                                 textInputType: TextInputType.text,
                                 hintText: 'Nama Pengelola',
+                                suffixIcon: Icon(EvaIcons.personOutline, color: HexColor('#0063F8')),
                                 obscureText: false,
                                 passwordVisibility: false,
                                 controller: dataMasterController,
@@ -119,6 +120,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                               padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
                               child: AirenTextFormFieldBase(
                                 textInputType: TextInputType.phone,
+                                suffixIcon: Icon(EvaIcons.phoneOutline, color: HexColor('#0063F8')),
                                 hintText: 'Nomor HP',
                                 obscureText: false,
                                 passwordVisibility: false,
@@ -155,6 +157,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                               padding: const EdgeInsets.only(left: 20.0, right: 20, top: 24),
                               child: AirenTextFormFieldBase(
                                 textInputType: TextInputType.emailAddress,
+                                suffixIcon: Icon(EvaIcons.emailOutline, color: HexColor('#0063F8')),
                                 hintText: 'email',
                                 obscureText: false,
                                 passwordVisibility: false,
@@ -177,15 +180,42 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                   style: GoogleFonts.montserrat(
                                     color: HexColor('#707793'),
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
                               ),
                             ),
+                            if (dataMasterController.checkBoxPembayaran.value == false &&
+                                dataMasterController.checkBoxCatatMeter.value == false)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 23),
+                                child: Container(
+                                  height: 39,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                    color: HexColor('#FF3B3B').withOpacity(0.1),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'Anda harus menentukan rolenya',
+                                        style: GoogleFonts.montserrat(
+                                          color: HexColor('#FF3B3B'),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             (admin == 1)
                                 ? Padding(
-                                  padding: const EdgeInsets.only(right: 20.0, left: 20, bottom: 16),
-                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 20.0, left: 20, bottom: 16),
+                                    child: Container(
                                       decoration: BoxDecoration(boxShadow: const [
                                         BoxShadow(
                                           offset: Offset(0.0, 8.0),
@@ -231,9 +261,9 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                         ],
                                       ),
                                     ),
-                                )
+                                  )
                                 : Padding(
-                              padding: const EdgeInsets.only(right: 20.0, left: 20, bottom: 16),
+                                    padding: const EdgeInsets.only(right: 20.0, left: 20, bottom: 16),
                                     child: GestureDetector(
                                       onTap: () {
                                         Get.bottomSheet(Container(
@@ -247,7 +277,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                               Obx(() => Column(
                                                     children: [
                                                       Padding(
-                                                        padding: const EdgeInsets.all(8.0),
+                                                        padding: const EdgeInsets.only(top: 12.0),
                                                         child: Container(
                                                           width: 70,
                                                           height: 5,
@@ -257,29 +287,53 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                           ),
                                                         ),
                                                       ),
-                                                      Text(
-                                                        'Tentukan Role',
-                                                        style: GoogleFonts.montserrat(
-                                                          color: HexColor('#3C3F58'),
-                                                          fontSize: 18,
-                                                          fontWeight: FontWeight.bold,
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top: 30.0),
+                                                        child: Text(
+                                                          'Tentukan Role',
+                                                          style: GoogleFonts.montserrat(
+                                                            color: HexColor('#3C3F58'),
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.bold,
+                                                          ),
                                                         ),
                                                       ),
+                                                      if (dataMasterController.checkBoxPembayaran.value == false &&
+                                                          dataMasterController.checkBoxCatatMeter.value == false)
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 24),
+                                                          child: Container(
+                                                            height: 39,
+                                                            width: double.infinity,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                                              color: HexColor('#FF3B3B').withOpacity(0.1),
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 16.0),
+                                                              child: Align(
+                                                                alignment: Alignment.centerLeft,
+                                                                child: Text(
+                                                                  'Anda harus menentukan rolenya',
+                                                                  style: GoogleFonts.montserrat(
+                                                                    color: HexColor('#FF3B3B'),
+                                                                    fontSize: 12,
+                                                                    fontWeight: FontWeight.normal,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
                                                       Theme(
                                                         data: ThemeData(
                                                             checkboxTheme: CheckboxThemeData(
                                                                 shape: RoundedRectangleBorder(
                                                                     borderRadius: BorderRadius.circular(5)))),
-                                                        child: CheckboxListTile(
-                                                          controlAffinity: ListTileControlAffinity.leading,
-                                                          value: dataMasterController.checkBoxCatatMeter.value,
-                                                          onChanged: (val) {
-                                                            dataMasterController.checkBoxCatatMeter.value = val!;
-                                                            (val == true)
-                                                                ? controller.rolesUser.add('Catat Meter PAM')
-                                                                : controller.rolesUser.remove('Catat Meter PAM');
-                                                            logger.i(dataMasterController.checkBoxCatatMeter.value);
-                                                          },
+                                                        child: ListTile(
+                                                          leading: (dataMasterController.checkBoxCatatMeter.value == true)
+                                                              ? SvgPicture.asset('assets/addcheck.svg')
+                                                              : SvgPicture.asset('assets/removecheck.svg'),
                                                           title: Text(
                                                             'Entry meter',
                                                             style: GoogleFonts.montserrat(
@@ -296,6 +350,16 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                               fontWeight: FontWeight.normal,
                                                             ),
                                                           ),
+                                                          onTap: () {
+                                                           if (dataMasterController.checkBoxCatatMeter.value == true){
+                                                             controller.rolesUser.remove('Catat Meter PAM');
+                                                             dataMasterController.checkBoxCatatMeter.toggle();
+                                                           } else {
+                                                             controller.rolesUser.add('Catat Meter PAM');
+                                                             dataMasterController.checkBoxCatatMeter.toggle();
+                                                           }
+                                                            logger.i(dataMasterController.checkBoxCatatMeter.value);
+                                                          },
                                                         ),
                                                       ),
                                                       Theme(
@@ -303,18 +367,12 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                             checkboxTheme: CheckboxThemeData(
                                                                 shape: RoundedRectangleBorder(
                                                                     borderRadius: BorderRadius.circular(5)))),
-                                                        child: CheckboxListTile(
-                                                          controlAffinity: ListTileControlAffinity.leading,
-                                                          value: dataMasterController.checkBoxPembayaran.value,
-                                                          onChanged: (val) {
-                                                            dataMasterController.checkBoxPembayaran.value = val!;
-                                                            (val == true)
-                                                                ? controller.rolesUser.add('Bendahara PAM')
-                                                                : controller.rolesUser.remove('Bendahara PAM');
-                                                            logger.i(dataMasterController.checkBoxPembayaran.value);
-                                                          },
+                                                        child: ListTile(
+                                                          leading: (dataMasterController.checkBoxPembayaran.value == true)
+                                                              ? SvgPicture.asset('assets/addcheck.svg')
+                                                              : SvgPicture.asset('assets/removecheck.svg'),
                                                           title: Text(
-                                                            'Pembayaran',
+                                                            'Bendahara',
                                                             style: GoogleFonts.montserrat(
                                                               color: HexColor('#707793'),
                                                               fontSize: 14,
@@ -329,59 +387,72 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                               fontWeight: FontWeight.normal,
                                                             ),
                                                           ),
+                                                          onTap: (){
+                                                           if  (dataMasterController.checkBoxPembayaran.value == true){
+                                                             controller.rolesUser.remove('Bendahara PAM');
+                                                             dataMasterController.checkBoxPembayaran.toggle();
+                                                           } else {
+                                                             controller.rolesUser.add('Bendahara PAM');
+                                                             dataMasterController.checkBoxPembayaran.toggle();
+                                                           }
+                                                            logger.i(dataMasterController.checkBoxPembayaran.value);
+                                                          },
                                                         ),
                                                       ),
                                                     ],
                                                   )),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.back();
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Container(
-                                                        child: Text('Batal',
-                                                            style: GoogleFonts.montserrat(
-                                                              color: HexColor('#0063F8'),
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.bold,
-                                                            )),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          color: HexColor('#0063F8').withOpacity(0.2),
-                                                        ),
-                                                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.back();
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Container(
-                                                        child: Text('Simpan',
-                                                            style: GoogleFonts.montserrat(
-                                                              color: Colors.white,
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.bold,
-                                                            )),
-                                                        decoration: BoxDecoration(boxShadow: const [
-                                                          BoxShadow(
-                                                            offset: Offset(0.0, 8.0),
-                                                            color: Color.fromRGBO(0, 99, 248, 0.2),
-                                                            blurRadius: 24,
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 40.0, top: 32),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Container(
+                                                          child: Text('Batal',
+                                                              style: GoogleFonts.montserrat(
+                                                                color: HexColor('#0063F8'),
+                                                                fontSize: 16,
+                                                                fontWeight: FontWeight.bold,
+                                                              )),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            color: HexColor('#0063F8').withOpacity(0.2),
                                                           ),
-                                                        ], color: HexColor('#0063F8'), borderRadius: BorderRadius.circular(10)),
-                                                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                          padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Container(
+                                                          child: Text('Simpan',
+                                                              style: GoogleFonts.montserrat(
+                                                                color: Colors.white,
+                                                                fontSize: 16,
+                                                                fontWeight: FontWeight.bold,
+                                                              )),
+                                                          decoration: BoxDecoration(boxShadow: const [
+                                                            BoxShadow(
+                                                              offset: Offset(0.0, 8.0),
+                                                              color: Color.fromRGBO(0, 99, 248, 0.2),
+                                                              blurRadius: 24,
+                                                            ),
+                                                          ], color: HexColor('#0063F8'), borderRadius: BorderRadius.circular(10)),
+                                                          padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -503,7 +574,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                           Obx(() => Column(
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding: const EdgeInsets.only(top: 12.0),
                                                     child: Container(
                                                       width: 70,
                                                       height: 5,
@@ -513,23 +584,21 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Text(
-                                                    'Status Pengelola',
-                                                    style: GoogleFonts.montserrat(
-                                                      color: HexColor('#3C3F58'),
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 30.0),
+                                                    child: Text(
+                                                      'Status Pengelola',
+                                                      style: GoogleFonts.montserrat(
+                                                        color: HexColor('#3C3F58'),
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                     ),
                                                   ),
                                                   ListTile(
-                                                    leading: Transform.scale(
-                                                      scale: 1.3,
-                                                      child: Radio(
-                                                          fillColor: MaterialStateProperty.all(HexColor('#0063F8')),
-                                                          value: 0,
-                                                          groupValue: controller.radioValueActivated.value,
-                                                          onChanged: controller.handleRadioValueChangeActivated),
-                                                    ),
+                                                    leading: controller.radioValueActivatedActiveDp.value == true
+                                                        ? SvgPicture.asset('assets/activecustomer.svg')
+                                                        : SvgPicture.asset('assets/deactivecustomer.svg'),
                                                     title: Text(
                                                       'Aktif',
                                                       style: GoogleFonts.montserrat(
@@ -546,16 +615,20 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                         fontWeight: FontWeight.normal,
                                                       ),
                                                     ),
+                                                    onTap: () {
+                                                      controller.radioValueActivatedActiveDp.toggle();
+                                                      if (controller.radioValueActivated.value == 0) {
+                                                        controller.radioValueActivated.value = 1;
+                                                      } else {
+                                                        controller.radioValueActivated.value = 0;
+                                                      }
+                                                      logger.w(controller.radioValueActivated.value);
+                                                    },
                                                   ),
                                                   ListTile(
-                                                    leading: Transform.scale(
-                                                      scale: 1.3,
-                                                      child: Radio(
-                                                          fillColor: MaterialStateProperty.all(HexColor('#0063F8')),
-                                                          value: 1,
-                                                          groupValue: controller.radioValueActivated.value,
-                                                          onChanged: controller.handleRadioValueChangeActivated),
-                                                    ),
+                                                    leading: controller.radioValueActivatedActiveDp.value == true
+                                                        ? SvgPicture.asset('assets/deactivecustomer.svg')
+                                                        : SvgPicture.asset('assets/activecustomer.svg'),
                                                     title: Text(
                                                       'Nonaktif',
                                                       style: GoogleFonts.montserrat(
@@ -572,58 +645,70 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                         fontWeight: FontWeight.normal,
                                                       ),
                                                     ),
+                                                    onTap: () {
+                                                      controller.radioValueActivatedActiveDp.toggle();
+                                                      if (controller.radioValueActivated.value == 0) {
+                                                        controller.radioValueActivated.value = 1;
+                                                      } else {
+                                                        controller.radioValueActivated.value = 0;
+                                                      }
+                                                      logger.w(controller.radioValueActivated.value);
+                                                    },
                                                   ),
                                                 ],
                                               )),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    child: Text('Batal',
-                                                        style: GoogleFonts.montserrat(
-                                                          color: HexColor('#0063F8'),
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.bold,
-                                                        )),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: HexColor('#0063F8').withOpacity(0.2),
-                                                    ),
-                                                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                                                  ),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    child: Text('Simpan',
-                                                        style: GoogleFonts.montserrat(
-                                                          color: Colors.white,
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.bold,
-                                                        )),
-                                                    decoration: BoxDecoration(boxShadow: const [
-                                                      BoxShadow(
-                                                        offset: Offset(0.0, 8.0),
-                                                        color: Color.fromRGBO(0, 99, 248, 0.2),
-                                                        blurRadius: 24,
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 40.0, top: 32),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Container(
+                                                      child: Text('Batal',
+                                                          style: GoogleFonts.montserrat(
+                                                            color: HexColor('#0063F8'),
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.bold,
+                                                          )),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        color: HexColor('#0063F8').withOpacity(0.2),
                                                       ),
-                                                    ], color: HexColor('#0063F8'), borderRadius: BorderRadius.circular(10)),
-                                                    padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Container(
+                                                      child: Text('Simpan',
+                                                          style: GoogleFonts.montserrat(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.bold,
+                                                          )),
+                                                      decoration: BoxDecoration(boxShadow: const [
+                                                        BoxShadow(
+                                                          offset: Offset(0.0, 8.0),
+                                                          color: Color.fromRGBO(0, 99, 248, 0.2),
+                                                          blurRadius: 24,
+                                                        ),
+                                                      ], color: HexColor('#0063F8'), borderRadius: BorderRadius.circular(10)),
+                                                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -680,9 +765,48 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                 ),
                               ),
                             (admin == 1)
-                                ? const SizedBox()
+                                ? Padding(
+                                    padding: const EdgeInsets.only(right: 20.0, left: 20, top: 32),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SvgPicture.asset('assets/deletedisable.svg'),
+                                        ElevatedButton(
+                                            onPressed: () {},
+                                            child: Ink(
+                                              padding: const EdgeInsets.only(right: 15, left: 15),
+                                              decoration: BoxDecoration(
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      offset: Offset(0.0, 8.0),
+                                                      color: Color.fromRGBO(0, 99, 248, 0.2),
+                                                      blurRadius: 24,
+                                                    ),
+                                                  ],
+                                                  gradient: LinearGradient(colors: gradientColorAirren),
+                                                  borderRadius: BorderRadius.circular(10)),
+                                              child: SizedBox(
+                                                height: 48,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Simpan',
+                                                    style: GoogleFonts.montserrat(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.zero,
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))
+                                      ],
+                                    ),
+                                  )
                                 : Padding(
-                              padding: const EdgeInsets.only(right: 20.0, left: 20, top: 32),
+                                    padding: const EdgeInsets.only(right: 20.0, left: 20, top: 32),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -701,7 +825,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
                                                         Padding(
-                                                          padding: const EdgeInsets.all(8.0),
+                                                          padding: const EdgeInsets.only(top: 12.0),
                                                           child: Container(
                                                             width: 70,
                                                             height: 5,
@@ -712,11 +836,11 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                           ),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets.all(8.0),
+                                                          padding: const EdgeInsets.only(top: 30.0),
                                                           child: SvgPicture.asset('assets/deletemanage.svg'),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets.all(8.0),
+                                                          padding: const EdgeInsets.only(top: 24.0),
                                                           child: Text(
                                                             'Anda Yakin ?',
                                                             style: GoogleFonts.montserrat(
@@ -726,12 +850,15 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                             ),
                                                           ),
                                                         ),
-                                                        Text(
-                                                          'Data akan dihapus secara permanen.',
-                                                          style: GoogleFonts.montserrat(
-                                                            color: HexColor('#707793'),
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.normal,
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 16.0),
+                                                          child: Text(
+                                                            'Data akan dihapus secara permanen.',
+                                                            style: GoogleFonts.montserrat(
+                                                              color: HexColor('#707793'),
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.normal,
+                                                            ),
                                                           ),
                                                         ),
                                                         Text(
@@ -743,7 +870,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                           ),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets.all(8.0),
+                                                          padding: const EdgeInsets.only(top: 32.0, bottom: 40),
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
@@ -764,7 +891,7 @@ class PamManageDetailView extends GetView<DataMasterController> {
                                                                       borderRadius: BorderRadius.circular(10),
                                                                       color: HexColor('#0063F8').withOpacity(0.2),
                                                                     ),
-                                                                    padding: EdgeInsets.only(
+                                                                    padding: const EdgeInsets.only(
                                                                         left: 20, right: 20, bottom: 10, top: 10),
                                                                   ),
                                                                 ),

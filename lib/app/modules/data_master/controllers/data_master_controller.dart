@@ -133,10 +133,7 @@ class DataMasterController extends GetxController {
         email: emailPamController.text,
         name: nameController.text,
         phoneNumber: phoneNumberPamController.text,
-        roles: [
-          if (checkBoxPembayaran.value == true) "Bendahara PAM",
-          if (checkBoxCatatMeter.value == true) "Catat Meter PAM",
-        ]);
+        roles: rolesUser);
     logger.i(emailPamController.text);
     if (res!.status! == 'success') {
       await getPamUser();
@@ -272,6 +269,7 @@ class DataMasterController extends GetxController {
   }
 
   var radioValueActivated = 0.obs;
+  var radioValueActivatedActiveDp = false.obs;
 
   void handleRadioValueChangeActivated(var value) {
     radioValueActivated.value = value;

@@ -1,9 +1,13 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:airen/app/model/term_about_help_model.dart';
 import 'package:airen/app/modules/account/providers/account_provider.dart';
 import 'package:airen/app/modules/session/controllers/session_controller.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:get/get.dart';
@@ -161,10 +165,10 @@ class AccountController extends GetxController {
     final res = await accountProvider.minUsage(bearer: boxUser.read(tokenBearer), meterPosition: meterPositionController.text);
     if (res!.status! == 'success') {
       Get.back();
-      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
-      snackBarNotificationFailed(title: 'Gagal ditambahkan');
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 
@@ -173,10 +177,10 @@ class AccountController extends GetxController {
         await accountProvider.adminFee(bearer: boxUser.read(tokenBearer), adminFee: adminFeeController.text.numericOnly());
     if (res!.status! == 'success') {
       Get.back();
-      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
-      snackBarNotificationFailed(title: 'Gagal ditambahkan');
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 
@@ -187,10 +191,10 @@ class AccountController extends GetxController {
         dueDate: dueDateController.text.numericOnly());
     if (res!.status! == 'success') {
       Get.back();
-      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
     } else {
       Get.back();
-      snackBarNotificationFailed(title: 'Gagal ditambahkan');
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 
@@ -253,17 +257,23 @@ class AccountController extends GetxController {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     selectedImagePath.value = (image!.path.isEmpty) ? "" : image.path;
-    _cropImage(selectedImagePath.value);
+    logger.i(selectedImagePath.value);
+    cropImage(selectedImagePath.value);
   }
 
-  Future _cropImage(filePath) async {
+  Future cropImage(filePath) async {
     ImageCropper imageCropper = ImageCropper();
     File? croppedImage = await imageCropper.cropImage(
         sourcePath: filePath, maxWidth: 100, maxHeight: 100, aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
     if (croppedImage!.path.isNotEmpty) {
-      await accountProvider.pushProfilePhoto(photoPath: selectedImagePath.value, bearer: boxUser.read(tokenBearer));
-      await getUser();
-      snackBarNotificationSuccess(title: 'Berhasil diubah');
+      if (croppedImage.lengthSync() > 6520) {
+        logger.i(croppedImage.lengthSync());
+        snackBarNotificationFailed(title: 'Gagal diubah');
+      } else {
+        await accountProvider.pushProfilePhoto(photoPath: croppedImage.path, bearer: boxUser.read(tokenBearer));
+        await getUser();
+        snackBarNotificationSuccess(title: 'Berhasil diubah');
+      }
     }
   }
 }

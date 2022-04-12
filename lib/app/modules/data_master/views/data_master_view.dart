@@ -168,7 +168,7 @@ class DataMasterView extends GetView<DataMasterController> {
                             ],
                           ),
                         ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 5),
                       (controller.masterData.value == 0) ? buildExpandedPengelola() : buildExpandedBasePrice()
                     ],
                   ),
@@ -354,7 +354,7 @@ class DataMasterView extends GetView<DataMasterController> {
                   (controller.isSearch.value)
                       ? Align(
                           alignment: Alignment.center,
-                          child: Text('Belum ada tagihan yang sesuai dengan',
+                          child: Text('Belum ada tarif dasar air yang sesuai ',
                               style: GoogleFonts.montserrat(
                                 color: HexColor("#707793").withOpacity(0.7),
                                 fontSize: 14,
@@ -371,12 +371,15 @@ class DataMasterView extends GetView<DataMasterController> {
                               )),
                         ),
                   (controller.isSearch.value)
-                      ? Text('kata kunci di atas.',
-                          style: GoogleFonts.montserrat(
-                            color: HexColor('#707793').withOpacity(0.7),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          ))
+                      ? Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text('kata kunci di atas.',
+                            style: GoogleFonts.montserrat(
+                              color: HexColor('#707793').withOpacity(0.7),
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            )),
+                      )
                       : Text('melalui tombol di bawah.',
                           style: GoogleFonts.montserrat(
                             color: HexColor('#707793').withOpacity(0.7),
@@ -463,7 +466,76 @@ class DataMasterView extends GetView<DataMasterController> {
         padding: const EdgeInsets.only(top: 8.0),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
-        child: ListView.builder(
+        child: (controller.pamUserResult.isEmpty)
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            (controller.isSearch.value)
+                ? Padding(
+              padding: const EdgeInsets.only(bottom: 40.0),
+              child: SvgPicture.asset('assets/searchnofound.svg'),
+            )
+                : Padding(
+              padding: const EdgeInsets.only(bottom: 40.0),
+              child: SvgPicture.asset('assets/tarifkosong.svg'),
+            ),
+            (controller.isSearch.value)
+                ? Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text('Tidak ditemukan',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  )),
+            )
+                : Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text('Belum ada tarif dasar',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+            (controller.isSearch.value)
+                ? Align(
+              alignment: Alignment.center,
+              child: Text('Belum ada pengelola pams yang sesuai ',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor("#707793").withOpacity(0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  )),
+            )
+                : Align(
+              alignment: Alignment.center,
+              child: Text('Tambahkan tarif dasar penggunaan air',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor('#707793').withOpacity(0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  )),
+            ),
+            (controller.isSearch.value)
+                ? Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text('kata kunci di atas.',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor('#707793').withOpacity(0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  )),
+                )
+                : Text('melalui tombol di bawah.',
+                style: GoogleFonts.montserrat(
+                  color: HexColor('#707793').withOpacity(0.7),
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                )),
+          ],
+        )
+            : ListView.builder(
             itemCount: controller.pamUserResult.length,
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
@@ -471,10 +543,14 @@ class DataMasterView extends GetView<DataMasterController> {
                     controller.phoneNumberDetailPamController.text = controller.pamUserResult[index].phoneNumber!;
                     controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
                     controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
-                    (controller.pamUserResult[index].blocked! == 1)
-                        ? controller.radioValueActivated.value = 1
-                        : controller.radioValueActivated.value = 0;
-                    controller.checkRole(controller.pamUserResult[index].roles);
+                   if (controller.pamUserResult[index].blocked! == 1){
+                     controller.radioValueActivated.value = 1;
+                     controller.radioValueActivatedActiveDp.value = false;
+                   } else {
+                     controller.radioValueActivated.value = 0;
+                     controller.radioValueActivatedActiveDp.value = true;
+                   }
+                   controller.checkRole(controller.pamUserResult[index].roles);
                     controller.rolesUser.assignAll(controller.pamUserResult[index].roles!.map((e) => e.name!));
                     Get.to(PamManageDetailView(
                       admin: controller.pamUserResult[index].isOwner,
@@ -510,7 +586,7 @@ class DataMasterView extends GetView<DataMasterController> {
                               maxRadius: 30,
                               backgroundColor: controller.pamUserResult[index].isOwner == 1
                                   ? HexColor('#FF8801').withOpacity(0.1)
-                                  : (controller.pamUserResult[index].roles!.length == 2)
+                                  : (controller.pamUserResult[index].blocked == 1)
                                       ? Colors.red.withOpacity(0.1)
                                       : Colors.green.withOpacity(0.1),
                               child: Text(
@@ -518,7 +594,7 @@ class DataMasterView extends GetView<DataMasterController> {
                                 style: GoogleFonts.montserrat(
                                   color: controller.pamUserResult[index].isOwner == 1
                                       ? HexColor('#FF8801')
-                                      : (controller.pamUserResult[index].roles!.length == 2)
+                                      : (controller.pamUserResult[index].blocked == 1)
                                           ? Colors.red
                                           : Colors.green,
                                   fontSize: 16,
