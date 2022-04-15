@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "786176078358",
+    "project_id": "airren-3ea2c",
+    "storage_bucket": "airren-3ea2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786176078358:android:127c33d339c82d5f1b3b37",
+        "android_client_info": {
+          "package_name": "com.airren.airren"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786176078358-resp5mkgb7aduduv6q3ej9nhqcljs7gp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.airren.airren",
+            "certificate_hash": "d195ae874ca9392c35548292e7113d95a170c3d1"
+          }
+        },
+        {
+          "client_id": "786176078358-oqk27vtvc8boriaaimmiafhdp3pg3p0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMWrD_azPBOGDPavdGPhZOcMrkYv9FXNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786176078358-oqk27vtvc8boriaaimmiafhdp3pg3p0s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

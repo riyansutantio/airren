@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Layer_2" data-name="Layer 2" opacity="0.7">
+    <g id="compass">
+      <rect id="Rectangle_4908" data-name="Rectangle 4908" width="24" height="24" fill="#05c270" opacity="0"/>
+      <path id="Path_1256" data-name="Path 1256" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" fill="#05c270"/>
+      <path id="Path_1257" data-name="Path 1257" d="M15.68,8.32a1,1,0,0,0-1.1-.25l-4.21,1.7a1,1,0,0,0-.55.55L8.07,14.58a1,1,0,0,0,.18,1H8.3A1,1,0,0,0,9,16a1,1,0,0,0,.38-.07l4.21-1.7a1,1,0,0,0,.55-.55l1.75-4.26a1,1,0,0,0-.21-1.1ZM10.8,13.21l.71-1.74,1.69-.68-.71,1.74Z" fill="#05c270"/>
+    </g>
+  </g>
+</svg>

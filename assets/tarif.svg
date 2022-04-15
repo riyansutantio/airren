@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Layer_2" data-name="Layer 2" opacity="0.5">
+    <g id="pricetags">
+      <rect id="Rectangle_4901" data-name="Rectangle 4901" width="24" height="24" fill="#0063f8" opacity="0"/>
+      <g id="Group_8654" data-name="Group 8654" transform="translate(-0.999 -0.998)">
+        <path id="Path_1254" data-name="Path 1254" d="M12.87,22a1.84,1.84,0,0,1-1.29-.53L5.17,15.05a1,1,0,0,1-.29-.61L4,5.09A1,1,0,0,1,5.09,4l9.35.88a1,1,0,0,1,.61.29l6.42,6.41a1.82,1.82,0,0,1,0,2.57l-7.32,7.32a1.82,1.82,0,0,1-1.28.53Zm-6-8.11,6,6,7.05-7.05-6-6L6.11,6.11Z" fill="#0063f8"/>
+        <circle id="Ellipse_633" data-name="Ellipse 633" cx="1.5" cy="1.5" r="1.5" transform="translate(9 9)" fill="#0063f8"/>
+      </g>
+    </g>
+  </g>
+</svg>
