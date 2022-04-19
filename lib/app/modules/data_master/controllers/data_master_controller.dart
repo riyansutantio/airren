@@ -18,7 +18,8 @@ class DataMasterController extends GetxController {
 
   DataMasterController({required this.masterDataProvider});
 
-  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+  final SessionController sessionController =
+      Get.put(SessionController(sessionProvider: SessionProvider()));
 
   final count = 0.obs;
   final searchValue = ''.obs;
@@ -71,9 +72,12 @@ class DataMasterController extends GetxController {
   void onClose() async {
     await getPamUser();
   }
+
   void increment() => count.value++;
 
-  String getInitials(String name) => name.isNotEmpty ? name.trim().split(' ').map((e) => e[0]).take(2).join() : '';
+  String getInitials(String name) => name.isNotEmpty
+      ? name.trim().split(' ').map((e) => e[0]).take(2).join()
+      : '';
 
   void toPengelola() {
     masterData.value = 0;
@@ -113,7 +117,8 @@ class DataMasterController extends GetxController {
   Future getPamUser() async {
     try {
       isLoadingPamUser.value = true;
-      final res = await masterDataProvider.getPamUser(bearer: boxUser.read(tokenBearer));
+      final res = await masterDataProvider.getPamUser(
+          bearer: boxUser.read(tokenBearer));
       // logger.wtf(res!.data!.data!.toList());
       if (res == null) {
         Get.to(UnauthenticationView());
@@ -165,7 +170,8 @@ class DataMasterController extends GetxController {
   }
 
   Future deleteManagePam() async {
-    final res = await masterDataProvider.deletePamManage(id: idManagePamController.text, bearer: boxUser.read(tokenBearer));
+    final res = await masterDataProvider.deletePamManage(
+        id: idManagePamController.text, bearer: boxUser.read(tokenBearer));
     if (res!.message! == 'Pam user successfully deleted') {
       await getPamUser();
       await clearCondition();
@@ -185,7 +191,8 @@ class DataMasterController extends GetxController {
 
   Future getBaseFee() async {
     isLoadingBaseFee.value = true;
-    final res = await masterDataProvider.getBaseFee(bearer: boxUser.read(tokenBearer));
+    final res =
+        await masterDataProvider.getBaseFee(bearer: boxUser.read(tokenBearer));
     // logger.wtf(res!.data!.data!.toList());
     if (res == null) {
       Get.to(UnauthenticationView());
@@ -197,7 +204,8 @@ class DataMasterController extends GetxController {
   Future searchBaseFee() async {
     try {
       isLoadingBaseFee.value = true;
-      final res = await masterDataProvider.getSearchBaseFee(bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
+      final res = await masterDataProvider.getSearchBaseFee(
+          bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
       // logger.wtf(res!.data!.data!.toList());
       baseFeeResult.assignAll(res!.data!.baseFees!);
     } catch (e) {
@@ -209,7 +217,8 @@ class DataMasterController extends GetxController {
 
   Future searchManage() async {
     isLoadingPamUser.value = true;
-    final res = await masterDataProvider.getSearchManage(bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
+    final res = await masterDataProvider.getSearchManage(
+        bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
     // logger.wtf(res!.data!.data!.toList());
     pamUserResult.assignAll(res!.data!.pamsUsers!);
   }
@@ -247,7 +256,8 @@ class DataMasterController extends GetxController {
   }
 
   Future deleteBaseFee() async {
-    final res = await masterDataProvider.deleteBaseFee(id: idBaseFeeController.text, bearer: boxUser.read(tokenBearer));
+    final res = await masterDataProvider.deleteBaseFee(
+        id: idBaseFeeController.text, bearer: boxUser.read(tokenBearer));
     if (res!.status! == 'success') {
       await getBaseFee();
       await clearCondition();

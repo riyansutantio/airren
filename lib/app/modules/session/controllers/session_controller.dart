@@ -39,8 +39,10 @@ class SessionController extends GetxController {
 
   var countDownOtp = "".obs;
 
-  final RoundedLoadingButtonController btnControllerLoginGoogle = RoundedLoadingButtonController();
-  final RoundedLoadingButtonController btnControllerRegister = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btnControllerLoginGoogle =
+      RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btnControllerRegister =
+      RoundedLoadingButtonController();
 
   @override
   void onInit() async {
@@ -146,7 +148,8 @@ class SessionController extends GetxController {
       boxPrice.write(orderIdTrxCreated, res.data?.pam?.createdAt.toString());
       boxPrice.write(orderIdTrx, res.data?.pam?.id);
       // Get.snackbar('${res.message}', 'trial price ${idrFormatter(value: res.data?.trialPrice)}', backgroundColor: Colors.white);
-      Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+      Future.delayed(const Duration(seconds: 2))
+          .whenComplete(() => Get.to(PaymentView()));
       btnControllerRegister.stop();
     }
   }
@@ -206,7 +209,8 @@ class SessionController extends GetxController {
       nameAdminPamController.text = currentUser!.displayName!;
       emailPamController.text = currentUser!.email;
       uidPamController.text = currentUser!.id;
-      logger.i('ini user ${currentUser?.email}, ini ID user ${currentUser?.id}');
+      logger
+          .i('ini user ${currentUser?.email}, ini ID user ${currentUser?.id}');
     } catch (e) {
       btnControllerLoginGoogle.stop();
       logger.e(e);
@@ -220,24 +224,31 @@ class SessionController extends GetxController {
 
   Future login() async {
     try {
-      final res = await sessionProvider.login(email: currentUser!.email, id: currentUser!.id);
+      final res = await sessionProvider.login(
+          email: currentUser!.email, id: currentUser!.id);
       logger.i(res!.message!);
       if (res.message == "Please register first") {
         await Get.to(RegisterView());
         btnControllerLoginGoogle.stop();
       } else if (res.message == "Please pay first") {
-        await boxUser.write(priceInit, (res.data?.transaction?.totalAmount == null) ? 0 : res.data?.transaction!.totalAmount!);
+        await boxUser.write(
+            priceInit,
+            (res.data?.transaction?.totalAmount == null)
+                ? 0
+                : res.data?.transaction!.totalAmount!);
         await boxPrice.write(phoneNumberVerification, res.data?.phoneNumber);
         await boxPrice.write(orderIdTrx, res.data?.transaction!.transactionId!);
         logger.i("ini harga ${boxUser.read(priceInit)}");
         logger.i("ini trx order ${boxUser.read(orderIdTrx)}");
         logger.i("ini phone ${boxUser.read(phoneNumberVerification)}");
-        await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(PaymentView()));
+        await Future.delayed(const Duration(seconds: 2))
+            .whenComplete(() => Get.to(PaymentView()));
         btnControllerLoginGoogle.stop();
       } else {
         boxUser.write(tokenBearer, res.data?.token);
         logger.i(boxUser.read('ini harga $priceInit'));
-        await Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.offAllNamed(Routes.HOME));
+        await Future.delayed(const Duration(seconds: 2))
+            .whenComplete(() => Get.offAllNamed(Routes.HOME));
         btnControllerLoginGoogle.stop();
       }
     } catch (e) {
@@ -250,7 +261,9 @@ class SessionController extends GetxController {
 
   Future logOut() async {
     final res = await sessionProvider.logOut(
-        email: boxUser.read(emailGoogle), id: boxUser.read(uidGoogle), bearer: boxUser.read(tokenBearer));
+        email: boxUser.read(emailGoogle),
+        id: boxUser.read(uidGoogle),
+        bearer: boxUser.read(tokenBearer));
     logger.i(res!.message!);
     if (res.message == "Logout Successfully") {
       await googleSignOut();

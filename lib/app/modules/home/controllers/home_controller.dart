@@ -14,10 +14,11 @@ class HomeController extends GetxController {
 
   HomeController({required this.homeProvider});
 
-  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
-
+  final SessionController sessionController =
+      Get.put(SessionController(sessionProvider: SessionProvider()));
 
   final pageNavBottom = 0.obs;
+  final page = 0.obs;
   final userLocal = "".obs;
 
   @override
@@ -37,12 +38,18 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() {}
+  void increment() {
+    pageNavBottom.value++;
+    page.value++;
   }
-  void increment() => pageNavBottom.value++;
 
   void onItemTapPage(int index) {
     pageNavBottom.value = index;
+  }
+
+  void onItemTapPages(int index) {
+    page.value = index;
   }
 
   final isLoadingUser = false.obs;
@@ -72,7 +79,11 @@ class HomeController extends GetxController {
       sessionController.authError();
     } else if (res.message == 'Profile successfully retrieved') {
       resultUser.value = res.data!.profile!;
-      boxUser.write(roleUser, roleUserData(isOwner: res.data!.profile!.isOwner!, role: res.data!.profile!.roles!));
+      boxUser.write(
+          roleUser,
+          roleUserData(
+              isOwner: res.data!.profile!.isOwner!,
+              role: res.data!.profile!.roles!));
       logger.i('ini adalah user sebagai ${boxUser.read(roleUser)}');
     }
   }
