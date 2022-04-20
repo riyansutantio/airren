@@ -39,7 +39,6 @@ class CustomerController extends GetxController {
   final activeDetailCusController = TextEditingController();
   final uniqueIdDetailCusController = TextEditingController();
   RxInt isRadio = 1.obs;
-  RxInt isRadiovP = 1.obs;
   var menuItem = <MenuItemModel>[
     MenuItemModel(
         title: 'Catat meter', assets: 'catatmetericon.svg', id: '01234'),
@@ -104,6 +103,27 @@ class CustomerController extends GetxController {
     }
   }
 
+  Future updateManageCus({ required String name,
+      required String phoneNumber,
+      required String address,
+      required String meter}) async {
+    final res = await p!.updateCusManage(
+        bearer: boxUser.read(tokenBearer),
+        address: address,
+        name: name,
+        phoneNumber:phoneNumber,active: isRadio.value,
+        meter: meter);
+    logger.i(nameController.text);
+    if (res!.status! == 'success') {
+      await getCusUsers();
+      await clearCondition();
+      Get.back();
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
+    } else {
+      snackBarNotificationFailed(title: 'Gagal diubah');
+    }
+  }
+
   Future getCusUsers() async {
     try {
       isLoadingCusUser.value = true;
@@ -133,23 +153,33 @@ class CustomerController extends GetxController {
   }
 
   void increment() => count.value++;
-  void getPdf(String uniqueId) async {
+  void getPdf(String uniqueId, String name) async {
     final pdf = pw.Document();
 
-    pdf.addPage(pw.Page(
+    pdf.addPage(pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
-          return  pw.Container(
-            width: 200,
-            height: 200,
-            child: pw.Column(children: [
-            pw.BarcodeWidget(
-                data: uniqueId,
-                barcode: pw.Barcode.qrCode(),
-                ),
-            pw.Text('${uniqueId}')
-          ]));
-        })); // Page
+          return [
+            pw.GridView(
+                crossAxisCount: 5,
+                childAspectRatio: 1,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 7,
+                children: [
+                  pw.Column(children: [
+                    pw.BarcodeWidget(
+                        data: uniqueId,
+                        barcode: pw.Barcode.qrCode(),
+                        height: 55,
+                        width: 55),
+                    pw.Text('$name',
+                        style: pw.TextStyle(
+                            fontSize: 14, fontWeight: pw.FontWeight.bold)),
+                    pw.Text('$uniqueId'),
+                  ])
+                ])
+          ]; // Center
+        }));
 
     Uint8List bytes = await pdf.save();
 
@@ -157,7 +187,6 @@ class CustomerController extends GetxController {
     final file = File('${dir.path}/airrenQR-$formatted.pdf');
     await file.writeAsBytes(bytes);
     await OpenFile.open(file.path);
-
   }
 
   void getPdfAll() async {

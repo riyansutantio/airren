@@ -55,4 +55,37 @@ class CustomerProviders extends GetConnect {
     logger.wtf(response.statusCode);
     return CusUserModelFromJson(jsonString);
   }
+
+  Future<CusUserModel?> updateCusManage(
+      {required String bearer,
+      required String name,
+      required String phoneNumber,
+      required String address,
+      required int active,
+      required String meter}) async {
+    Uri _updatePamManageUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer/2");
+    logger.wtf(_updatePamManageUri);
+    final response = await http.post(_updatePamManageUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "_method": "PATCH",
+          "name": name,
+          "phone_number": phoneNumber,
+          "full_address": address,
+          "start_meter": meter,
+          "is_active": active,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "_method": "PATCH",
+      "name": name,
+      "phone_number": phoneNumber,
+      "full_address": address,
+      "start_meter": meter,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return CusUserModelFromJson(jsonString);
+  }
 }

@@ -79,7 +79,15 @@ class CustomerDetailView extends GetView<CustomerController> {
                               if (!_formKey.currentState!.validate()) {
                                 return;
                               } else {
-                                // dataCustomerController.updateManagePam();
+                                dataCustomerController.updateManageCus(
+                                    name: dataCustomerController
+                                        .nameDetailController.text,
+                                    phoneNumber: dataCustomerController
+                                        .phoneDetailNumberCusController.text,
+                                    address: dataCustomerController
+                                        .addressDetailCusController.text,
+                                    meter: dataCustomerController
+                                        .meterDetailCusController.text);
                               }
                             },
                             child: const Icon(EvaIcons.checkmark,
@@ -118,7 +126,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                   suffixIcon: Icon(EvaIcons.gridOutline,
                                       color: HexColor('#0063F8')),
                                   textInputType: TextInputType.text,
-                                  hintText: 'Nama Pengelola',
+                                  hintText: 'Nama Invoice',
                                   obscureText: false,
                                   passwordVisibility: false,
                                   controller: dataCustomerController,
@@ -136,16 +144,21 @@ class CustomerDetailView extends GetView<CustomerController> {
                               ),
                             ),
                             GestureDetector(
-                              onTap:(){
-                                dataCustomerController.getPdf(dataCustomerController
-                                      .uniqueIdDetailCusController.text);
+                              onTap: () {
+                                dataCustomerController.getPdf(
+                                  dataCustomerController
+                                      .uniqueIdDetailCusController.text,
+                                  dataCustomerController
+                                      .nameDetailController.text,
+                                );
                               },
                               child: Container(
                                   decoration: BoxDecoration(
                                       boxShadow: const [
                                         BoxShadow(
                                           offset: Offset(0.0, 8.0),
-                                          color: Color.fromRGBO(0, 99, 248, 0.2),
+                                          color:
+                                              Color.fromRGBO(0, 99, 248, 0.2),
                                           blurRadius: 24,
                                         ),
                                       ],
@@ -169,7 +182,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             suffixIcon: Icon(EvaIcons.personOutline,
                                 color: HexColor('#0063F8')),
                             textInputType: TextInputType.text,
-                            hintText: 'Nama Pengelola',
+                            hintText: 'Nama Pelanggan',
                             obscureText: false,
                             passwordVisibility: false,
                             controller: dataCustomerController,
@@ -323,24 +336,26 @@ class CustomerDetailView extends GetView<CustomerController> {
                                           ),
                                         ),
                                       ),
-                                  Obx(()=>    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, bottom: 8.0, left: 25.0),
-                                        child: Text(
-                                          controller.isRadio.value == 0
-                                              ? 'Aktif'
-                                              : 'Nonaktif',
-                                          style: GoogleFonts.montserrat(
-                                            color: dataCustomerController
-                                                        .isRadio.value ==
-                                                    0
-                                                ? HexColor('#05C270')
-                                                : HexColor('#FF3B3B'),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ))
+                                      Obx(() => Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.0,
+                                                bottom: 8.0,
+                                                left: 25.0),
+                                            child: Text(
+                                              controller.isRadio.value == 1
+                                                  ? 'Aktif'
+                                                  : 'Nonaktif',
+                                              style: GoogleFonts.montserrat(
+                                                color: dataCustomerController
+                                                            .isRadio.value ==
+                                                        1
+                                                    ? HexColor('#05C270')
+                                                    : HexColor('#FF3B3B'),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ))
                                     ],
                                   ),
                                   Padding(
@@ -404,7 +419,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                                 ListTile(
                                                   leading: dataCustomerController
                                                               .isRadio.value ==
-                                                          0
+                                                          1
                                                       ? SvgPicture.asset(
                                                           'assets/activecustomer.svg')
                                                       : SvgPicture.asset(
@@ -433,7 +448,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                                   ),
                                                   onTap: () {
                                                     dataCustomerController
-                                                        .isRadio.value = 1;
+                                                        .isRadio.value = 0;
 
                                                     if (dataCustomerController
                                                             .isRadio.value ==
@@ -452,7 +467,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                                 ListTile(
                                                   leading: dataCustomerController
                                                               .isRadio.value ==
-                                                          1
+                                                          0
                                                       ? SvgPicture.asset(
                                                           'assets/activecustomer.svg')
                                                       : SvgPicture.asset(
@@ -481,7 +496,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                                   ),
                                                   onTap: () {
                                                     dataCustomerController
-                                                        .isRadio.value = 0;
+                                                        .isRadio.value = 1;
 
                                                     if (dataCustomerController
                                                             .isRadio.value ==
@@ -545,7 +560,6 @@ class CustomerDetailView extends GetView<CustomerController> {
                                                   ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                     
                                                       Get.back();
                                                     },
                                                     child: Padding(
@@ -636,26 +650,31 @@ class CustomerDetailView extends GetView<CustomerController> {
                                               ),
                                             ),
                                           ),
-                                        Obx(()=>  Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0,
-                                                bottom: 8.0,
-                                                left: 25.0),
-                                            child: Text(
-                                              controller.isRadio.value == 0
-                                                  ? 'Aktif'
-                                                  : 'Nonaktif',
-                                              style: GoogleFonts.montserrat(
-                                                color: dataCustomerController
-                                                            .isRadio.value ==
-                                                        0
-                                                    ? HexColor('#05C270')
-                                                    : HexColor('#FF3B3B'),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                            ),
-                                          ))
+                                          Obx(() => Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0,
+                                                    bottom: 8.0,
+                                                    left: 25.0),
+                                                child: Text(
+                                                  controller.isRadio.value == 1
+                                                      ? 'Aktif'
+                                                      : 'Nonaktif',
+                                                  style: GoogleFonts.montserrat(
+                                                    color:
+                                                        dataCustomerController
+                                                                    .isRadio
+                                                                    .value ==
+                                                                1
+                                                            ? HexColor(
+                                                                '#05C270')
+                                                            : HexColor(
+                                                                '#FF3B3B'),
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ))
                                         ],
                                       ),
                                       Padding(
@@ -679,8 +698,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                         'assets/deletedisable.svg'),
                                     ElevatedButton(
                                         onPressed: () {
-                                          dataCustomerController
-                                                  .isRadio.value =
+                                          dataCustomerController.isRadio.value =
                                               dataCustomerController
                                                   .isRadio.value;
                                         },
@@ -751,7 +769,12 @@ class CustomerDetailView extends GetView<CustomerController> {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            // dataCustomerController.addCustomers();
+            dataCustomerController.updateManageCus(
+                name: dataCustomerController.nameDetailController.text,
+                phoneNumber:
+                    dataCustomerController.phoneDetailNumberCusController.text,
+                address: dataCustomerController.addressDetailCusController.text,
+                meter: dataCustomerController.meterDetailCusController.text);
           }
         },
         child: Ink(

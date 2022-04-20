@@ -130,7 +130,7 @@ class CustomerView extends GetView<CustomerController> {
                                             .cusUserResult[index].address!;
                                     int v = controller.isRadio.value =
                                         controller.cusUserResult[index].active!;
-                                    int v2 = controller.isRadiovP.value =
+                                    int v2 = controller.isRadio.value =
                                         controller.cusUserResult[index].active!;
                                     print(v);
                                     controller.meterDetailCusController.text =
@@ -310,7 +310,7 @@ class CustomerView extends GetView<CustomerController> {
           Text(
             "Tambahkan pelanggan baru melalui\n tombol biru di bawah.",
             style: GoogleFonts.montserrat(
-                fontSize: 12, color: Colors.black, fontWeight: FontWeight.w300),
+                fontSize: 12, color: HexColor('#707793'), fontWeight: FontWeight.w300),
             textAlign: TextAlign.center,
           )
         ],
