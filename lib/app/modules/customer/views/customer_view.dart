@@ -58,7 +58,7 @@ class CustomerView extends GetView<CustomerController> {
                             const Padding(
                               padding: EdgeInsets.only(left: 10.0, right: 5.0),
                               child:
-                                  Icon(EvaIcons.checkmark, color: Colors.white),
+                                  Icon(EvaIcons.searchOutline, color: Colors.white),
                             ),
                             PopupMenuButton(
                                 shape: RoundedRectangleBorder(
