@@ -75,23 +75,53 @@ class CustomerView extends GetView<CustomerController> {
                                     ),
                                   ),
                                   PopupMenuButton(
-                                      shape: RoundedRectangleBorder(
+                                      shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(20.0),
                                         ),
                                       ),
-                                      padding: EdgeInsets.only(right: 8),
-                                      icon: Icon(EvaIcons.moreVertical,
+                                      padding: const EdgeInsets.only(right: 8),
+                                      icon: const Icon(EvaIcons.moreVertical,
                                           color: Colors.white),
-                                      onSelected: (selectedValue) {
+                                      onSelected: (String selectedValue) {
                                         print(selectedValue);
+                                        if (selectedValue == '2') {
+                                          controller.getPdfAll();
+                                        }
                                       },
                                       itemBuilder: (BuildContext ctx) => [
                                             PopupMenuItem(
-                                                child: Text('Bagikan QR Code'),
+                                                child: Row(
+                                                  children: [
+                                                    const Text(
+                                                        'Bagikan QR Code'),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Icon(
+                                                      EvaIcons.shareOutline,
+                                                      color:
+                                                          HexColor('#0063F8'),
+                                                    )
+                                                  ],
+                                                ),
                                                 value: '1'),
                                             PopupMenuItem(
-                                                child: Text('Download QR Code'),
+                                                child: Row(
+                                                  children: [
+                                                    const Text(
+                                                        'Download QR Code'),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Icon(
+                                                      EvaIcons
+                                                          .cloudDownloadOutline,
+                                                      color:
+                                                          HexColor('#FF3B3B'),
+                                                    )
+                                                  ],
+                                                ),
                                                 value: '2'),
                                           ])
                                 ],

@@ -175,24 +175,23 @@ class CustomerController extends GetxController {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
-        margin: pw.EdgeInsets.all(20),
+        margin: pw.EdgeInsets.all(10),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
             pw.GridView(
                 crossAxisCount: 5,
                 childAspectRatio: 1,
-                padding: pw.EdgeInsets.all(10),
                 crossAxisSpacing: 1,
                 mainAxisSpacing: 7,
                 children: [
                   pw.Container(
-                      height: 120,
-                      width: 120,
+                      padding: pw.EdgeInsets.only(
+                          left: 15, right: 15, bottom: 6, top: 6),
                       decoration: pw.BoxDecoration(
-                          border: pw.Border.all(
-                              color: PdfColor.fromHex('#000'), width: 1),
-                          borderRadius: pw.BorderRadius.circular(8)),
+                        border: pw.Border.all(
+                            color: PdfColor.fromHex('#000'), width: 1),
+                      ),
                       child: pw.Column(children: [
                         pw.BarcodeWidget(
                             padding: pw.EdgeInsets.only(top: 10),
@@ -200,7 +199,10 @@ class CustomerController extends GetxController {
                             barcode: pw.Barcode.qrCode(),
                             height: 70,
                             width: 70),
-                        pw.Text('$name',
+                        pw.Text(
+                            name.length <= 9
+                                ? name
+                                : name.substring(0, 9) + '..',
                             style: pw.TextStyle(
                                 fontSize: 14, fontWeight: pw.FontWeight.bold)),
                         pw.Text('$uniqueId'),
@@ -221,23 +223,39 @@ class CustomerController extends GetxController {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
+        margin: pw.EdgeInsets.all(10),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
             pw.GridView(
                 crossAxisCount: 5,
                 childAspectRatio: 1,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 7,
                 children: cusUserResult
-                    .map((e) => pw.Column(children: [
+                    .map((e) => pw.Container(
+                        padding: pw.EdgeInsets.only(
+                            left: 15, right: 15, bottom: 6, top: 6),
+                        decoration: pw.BoxDecoration(
+                          border: pw.Border.all(
+                              color: PdfColor.fromHex('#000'), width: 1),
+                        ),
+                        child: pw.Column(children: [
                           pw.BarcodeWidget(
+                              padding: pw.EdgeInsets.only(top: 10),
                               data: e.uniqueId!,
                               barcode: pw.Barcode.qrCode(),
-                              height: 30,
-                              width: 30),
+                              height: 70,
+                              width: 70),
+                          pw.Text(
+                              e.name!.length <= 9
+                                  ? '${e.name}'
+                                  : '${e.name!.substring(0, 9)}' + '..',
+                              style: pw.TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: pw.FontWeight.bold)),
                           pw.Text('${e.uniqueId}'),
-                        ]))
+                        ])))
                     .toList())
           ]; // Center
         })); // Page
