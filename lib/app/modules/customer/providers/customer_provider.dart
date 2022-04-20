@@ -88,4 +88,19 @@ class CustomerProviders extends GetConnect {
     logger.wtf(response.statusCode);
     return CusUserModelFromJson(jsonString);
   }
+
+  Future<CusUserModel?> getSearchCus(
+      {String? path, String? bearer, String? searchValue}) async {
+    Uri _getSearchBaseFee = Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer?search=$searchValue");
+    logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
+    final response =
+        await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return CusUserModelFromJson(jsonString);
+    }
+    return null;
+  }
 }

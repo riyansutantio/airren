@@ -24,10 +24,15 @@ class CustomerController extends GetxController {
   CustomerProviders? p;
   final boxUser = GetStorage();
   final isLoadingCusUser = false.obs;
+  RxInt isRadio = 1.obs;
+  final searchValue = ''.obs;
+  final isSearch = false.obs;
   final cusUserResult = <CustomerModel>[].obs;
   String getInitials(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((e) => e[0]).take(2).join()
       : '';
+
+  final searchController = TextEditingController();
   final nameController = TextEditingController();
   final phoneNumberCusController = TextEditingController();
   final addressCusController = TextEditingController();
@@ -38,7 +43,7 @@ class CustomerController extends GetxController {
   final meterDetailCusController = TextEditingController();
   final activeDetailCusController = TextEditingController();
   final uniqueIdDetailCusController = TextEditingController();
-  RxInt isRadio = 1.obs;
+
   var menuItem = <MenuItemModel>[
     MenuItemModel(
         title: 'Catat meter', assets: 'catatmetericon.svg', id: '01234'),
@@ -103,7 +108,8 @@ class CustomerController extends GetxController {
     }
   }
 
-  Future updateManageCus({ required String name,
+  Future updateManageCus(
+      {required String name,
       required String phoneNumber,
       required String address,
       required String meter}) async {
@@ -111,7 +117,8 @@ class CustomerController extends GetxController {
         bearer: boxUser.read(tokenBearer),
         address: address,
         name: name,
-        phoneNumber:phoneNumber,active: isRadio.value,
+        phoneNumber: phoneNumber,
+        active: isRadio.value,
         meter: meter);
     logger.i(nameController.text);
     if (res!.status! == 'success') {
@@ -142,9 +149,20 @@ class CustomerController extends GetxController {
     }
   }
 
+  Future searchManage() async {
+    isLoadingCusUser.value = true;
+    final res = await p!.getSearchCus(
+        bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
+    // logger.wtf(res!.data!.data!.toList());
+    cusUserResult.assignAll(res!.data!.cusMs!);
+  }
+
   @override
   void onReady() {
     super.onReady();
+    debounce(searchValue, (val) {
+      return searchManage();
+    }, time: 500.milliseconds);
   }
 
   @override
@@ -157,26 +175,36 @@ class CustomerController extends GetxController {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
+        margin: pw.EdgeInsets.all(20),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
             pw.GridView(
                 crossAxisCount: 5,
                 childAspectRatio: 1,
-                crossAxisSpacing: 10,
+                padding: pw.EdgeInsets.all(10),
+                crossAxisSpacing: 1,
                 mainAxisSpacing: 7,
                 children: [
-                  pw.Column(children: [
-                    pw.BarcodeWidget(
-                        data: uniqueId,
-                        barcode: pw.Barcode.qrCode(),
-                        height: 55,
-                        width: 55),
-                    pw.Text('$name',
-                        style: pw.TextStyle(
-                            fontSize: 14, fontWeight: pw.FontWeight.bold)),
-                    pw.Text('$uniqueId'),
-                  ])
+                  pw.Container(
+                      height: 120,
+                      width: 120,
+                      decoration: pw.BoxDecoration(
+                          border: pw.Border.all(
+                              color: PdfColor.fromHex('#000'), width: 1),
+                          borderRadius: pw.BorderRadius.circular(8)),
+                      child: pw.Column(children: [
+                        pw.BarcodeWidget(
+                            padding: pw.EdgeInsets.only(top: 10),
+                            data: uniqueId,
+                            barcode: pw.Barcode.qrCode(),
+                            height: 70,
+                            width: 70),
+                        pw.Text('$name',
+                            style: pw.TextStyle(
+                                fontSize: 14, fontWeight: pw.FontWeight.bold)),
+                        pw.Text('$uniqueId'),
+                      ]))
                 ])
           ]; // Center
         }));

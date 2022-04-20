@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../utils/utils.dart';
+import '../../../widgets/loginTextFormFieldBase.dart';
 import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/customer_controller.dart';
 import '../providers/customer_provider.dart';
@@ -19,80 +21,93 @@ class CustomerView extends GetView<CustomerController> {
       init: CustomerController(p: CustomerProviders()),
       builder: (controller) {
         return Obx(() => Scaffold(
-              appBar: PreferredSize(
-                child: Container(
-                  padding:
-                      EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () => Get.back(),
-                                icon: const Icon(EvaIcons.arrowBack),
-                                color: Colors.white),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0),
-                              child: Text(
-                                'Pelanggan',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  Get.to(ErrorHandlingView());
-                                },
-                                child: const Icon(EvaIcons.bellOutline,
-                                    color: Colors.white)),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 10.0, right: 5.0),
-                              child: Icon(EvaIcons.searchOutline,
-                                  color: Colors.white),
-                            ),
-                            PopupMenuButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20.0),
+              appBar: (controller.isSearch.value)
+                  ? buildAppBarSearch(context, controller)
+                  : PreferredSize(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).padding.top),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () => Get.back(),
+                                      icon: const Icon(EvaIcons.arrowBack),
+                                      color: Colors.white),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Text(
+                                      'Pelanggan',
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                padding: EdgeInsets.only(right: 8),
-                                icon: Icon(EvaIcons.moreVertical,
-                                    color: Colors.white),
-                                onSelected: (selectedValue) {
-                                  print(selectedValue);
-                                },
-                                itemBuilder: (BuildContext ctx) => [
-                                      PopupMenuItem(
-                                          child: Text('Bagikan QR Code'),
-                                          value: '1'),
-                                      PopupMenuItem(
-                                          child: Text('Download QR Code'),
-                                          value: '2'),
-                                    ])
-                          ],
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(ErrorHandlingView());
+                                      },
+                                      child: const Icon(EvaIcons.bellOutline,
+                                          color: Colors.white)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10.0, right: 5.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        controller.isSearch.value = true;
+                                      },
+                                      child: const Icon(
+                                        EvaIcons.search,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                    ),
+                                  ),
+                                  PopupMenuButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0),
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.only(right: 8),
+                                      icon: Icon(EvaIcons.moreVertical,
+                                          color: Colors.white),
+                                      onSelected: (selectedValue) {
+                                        print(selectedValue);
+                                      },
+                                      itemBuilder: (BuildContext ctx) => [
+                                            PopupMenuItem(
+                                                child: Text('Bagikan QR Code'),
+                                                value: '1'),
+                                            PopupMenuItem(
+                                                child: Text('Download QR Code'),
+                                                value: '2'),
+                                          ])
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              HexColor('#5433FF'),
+                              HexColor('#0063F8')
+                            ]),
+                            boxShadow: const []),
+                      ),
+                      preferredSize: Size.fromHeight(Get.height * 0.1),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
-                      boxShadow: const []),
-                ),
-                preferredSize: Size.fromHeight(Get.height * 0.1),
-              ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Get.to(AddCustomer());
@@ -289,6 +304,75 @@ class CustomerView extends GetView<CustomerController> {
     );
   }
 
+  PreferredSize buildAppBarSearch(
+      BuildContext context, CustomerController controller) {
+    return PreferredSize(
+      child: Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  controller.isSearch.value = false;
+                  controller.searchValue.value = '';
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                child: AirenTextFormFieldBase(
+                  onSubmit: (val) {
+                    controller.searchController.clear();
+                    logger.i(val!);
+                    return null;
+                  },
+                  onChange: (val) {
+                    controller.searchValue.value = val!;
+                    return null;
+                  },
+                  suffixIcon: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Icon(EvaIcons.search),
+                  ),
+                  textInputType: TextInputType.text,
+                  hintText: 'Cari..',
+                  obscureText: false,
+                  passwordVisibility: false,
+                  controller: controller,
+                  textEditingController: controller.searchController,
+                  returnValidation: (val) {
+                    if (val!.isEmpty) {
+                      return "Tarif dasar harus terisi";
+                    }
+                    return null;
+                  },
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white),
+              ))
+            ],
+          ),
+        ),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
+            boxShadow: const []),
+      ),
+      preferredSize: Size.fromHeight(Get.height * 0.1),
+    );
+  }
+
   Widget noListCustomer() {
     return Center(
       child: Column(
@@ -310,7 +394,9 @@ class CustomerView extends GetView<CustomerController> {
           Text(
             "Tambahkan pelanggan baru melalui\n tombol biru di bawah.",
             style: GoogleFonts.montserrat(
-                fontSize: 12, color: HexColor('#707793'), fontWeight: FontWeight.w300),
+                fontSize: 12,
+                color: HexColor('#707793'),
+                fontWeight: FontWeight.w300),
             textAlign: TextAlign.center,
           )
         ],
