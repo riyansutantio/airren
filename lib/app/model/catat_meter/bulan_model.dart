@@ -1,0 +1,75 @@
+import 'dart:convert';
+
+MeterMonthModel meterMonthModelFromJson(String str) =>
+    MeterMonthModel.fromJson(json.decode(str));
+
+class MeterMonthModel {
+  MeterMonthModel({
+    this.status,
+    this.message,
+    this.data,
+  });
+
+  String? status;
+  String? message;
+  Data? data;
+
+  factory MeterMonthModel.fromJson(Map<String, dynamic> json) =>
+      MeterMonthModel(
+        status: json["status"] == null ? null : json["status"],
+        message: json["message"] == null ? null : json["message"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      );
+}
+
+class Data {
+  Data({this.monthMeters});
+
+  final List<MonthMeterResult>? monthMeters;
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+      monthMeters: json['monthMeters'] == null
+          ? null
+          : List<MonthMeterResult>.from(
+              json['monthMeters'].map((x) => MonthMeterResult.fromJson(x))));
+}
+
+class MonthMeterResult {
+  MonthMeterResult({
+    this.id,
+    this.month_of,
+    this.year_of,
+    this.number_of_customer,
+    this.number_of_recorded_consumer,
+    this.number_of_meter_transaction,
+    this.number_of_paid_meter_transaction,
+  });
+
+  final int? id;
+  final int? month_of;
+  final int? year_of;
+  final int? number_of_customer;
+  final int? number_of_recorded_consumer;
+  final int? number_of_meter_transaction;
+  final int? number_of_paid_meter_transaction;
+
+  factory MonthMeterResult.fromJson(Map<String, dynamic> json) =>
+      MonthMeterResult(
+        id: json["id"] == null ? null : json["id"],
+        month_of: json["month_of"] == null ? null : json["month_of"],
+        year_of: json["year_of"] == null ? null : json["year_of"],
+        number_of_customer: json["number_of_customer"] == null
+            ? null
+            : json["number_of_customer"],
+        number_of_recorded_consumer: json["number_of_recorded_consumer"] == null
+            ? null
+            : json["number_of_recorded_consumer"],
+        number_of_meter_transaction: json["number_of_meter_transaction"] == null
+            ? null
+            : json["number_of_meter_transaction"],
+        number_of_paid_meter_transaction:
+            json["number_of_paid_meter_transaction"] == null
+                ? null
+                : json["number_of_paid_meter_transaction"],
+      );
+}

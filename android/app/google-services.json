@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "786176078358-32sp3k08qf66efgfskcifmss9229ldq0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.airren.airren",
+            "certificate_hash": "323d30454f0d87ddb52d47bb2ea434593c06f858"
+          }
+        },
+        {
           "client_id": "786176078358-resp5mkgb7aduduv6q3ej9nhqcljs7gp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.airren.airren",
             "certificate_hash": "d195ae874ca9392c35548292e7113d95a170c3d1"
+          }
+        },
+        {
+          "client_id": "786176078358-uc16bgjugt1gium098mdvlm8rvqjb5he.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.airren.airren",
+            "certificate_hash": "ac6dc2daba1a6596200b4cf954875eb0ba269c7d"
           }
         },
         {

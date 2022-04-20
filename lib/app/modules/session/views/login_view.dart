@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:airen/app/modules/home/views/home_view.dart';
 import 'package:airen/app/modules/session/controllers/session_controller.dart';
 import 'package:airen/app/modules/session/providers/session_provider.dart';
 import 'package:airen/app/modules/session/views/otp_view.dart';
@@ -17,18 +18,20 @@ import '../../../widgets/snack_bar_notification.dart';
 import 'widget_appbar_session.dart';
 
 class LoginView extends GetView<SessionController> {
-  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
+  final SessionController sessionController =
+      Get.put(SessionController(sessionProvider: SessionProvider()));
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()=> willPopWithFuncOnly(func: exit(0)),
+      onWillPop: () => willPopWithFuncOnly(func: exit(0)),
       child: Scaffold(
         appBar: buildAppBarSession(
             title: 'Autentikasi',
             firstSubtitle: 'Silakan masuk atau daftar ke aplikasi ',
             secondSubtitle: 'dengan akun Google Anda'),
         body: Container(
-          decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren)),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: gradientColorAirren)),
           child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,16 +53,17 @@ class LoginView extends GetView<SessionController> {
                         sessionController.signInWithGoogle();
                       },
                       child: Container(
-                        height: 48,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              offset: const Offset(0.0, 8.0),
-                              color: HexColor('#0063F8').withOpacity(0.2),
-                              blurRadius: 24,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10), color: Colors.white),
+                          height: 48,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: const Offset(0.0, 8.0),
+                                  color: HexColor('#0063F8').withOpacity(0.2),
+                                  blurRadius: 24,
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -72,8 +76,7 @@ class LoginView extends GetView<SessionController> {
                                     fontWeight: FontWeight.w600,
                                   ))
                             ],
-                          )
-                        ),
+                          )),
                     ),
                   ),
                   Image.asset(
@@ -83,7 +86,9 @@ class LoginView extends GetView<SessionController> {
                 ],
               ),
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40)),
                   color: Colors.white)),
         ),
         // bottomNavigationBar:
@@ -98,8 +103,9 @@ class LoginView extends GetView<SessionController> {
           Get.to(OtpView());
         },
         child: Ink(
-          decoration:
-              BoxDecoration(gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(15)),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: gradientColorAirren),
+              borderRadius: BorderRadius.circular(15)),
           child: SizedBox(
             height: 48,
             width: double.infinity,
@@ -116,6 +122,8 @@ class LoginView extends GetView<SessionController> {
           ),
         ),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20))));
   }
 }

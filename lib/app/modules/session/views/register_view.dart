@@ -14,7 +14,7 @@ import '../../../widgets/loginTextFormFieldBase.dart';
 import '../controllers/session_controller.dart';
 import '../providers/session_provider.dart';
 
-class RegisterView extends GetView {
+class RegisterView extends GetView { 
   final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override

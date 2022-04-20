@@ -1,3 +1,4 @@
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
@@ -17,60 +18,70 @@ import '../../account/views/account_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  final HomeController homeController = Get.put(HomeController(homeProvider: HomeProvider()));
+  final HomeController homeController =
+      Get.put(HomeController(homeProvider: HomeProvider()));
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       init: HomeController(homeProvider: HomeProvider()),
       builder: (controller) {
-        return Obx(()=>Scaffold(
-          appBar: (controller.pageNavBottom.value == 0 && controller.userLocal.value == '1')
-              ? PreferredSize(
-            child: Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        'Beranda',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+        return Obx(() => Scaffold(
+              appBar: (controller.pageNavBottom.value == 0 &&
+                      controller.userLocal.value == '1')
+                  ? PreferredSize(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).padding.top),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Text(
+                                  'Beranda',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(ErrorHandlingView());
+                                      },
+                                      child: const Icon(EvaIcons.bellOutline,
+                                          color: Colors.white)),
+                                  const SizedBox(width: 20),
+                                  const CircleAvatar(
+                                    maxRadius: 20,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          HexColor('#5433FF'),
+                          HexColor('#0063F8')
+                        ])),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Get.to(ErrorHandlingView());
-                            },
-                            child: const Icon(EvaIcons.bellOutline, color: Colors.white)),
-                        const SizedBox(width: 20),
-                        const CircleAvatar(
-                          maxRadius: 20,
-                        ),
-                      ],
+                      preferredSize: Size.fromHeight(Get.height * 0.1),
                     )
-                  ],
-                ),
-              ),
-              decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
-            ),
-            preferredSize: Size.fromHeight(Get.height * 0.1),
-          )
-              : null,
-          body: pageByRole(context),
-          bottomNavigationBar: navBarByRole(context),
-        ));
+                  : null,
+              body: pageByRole(context),
+              bottomNavigationBar: navBarByRole(context),
+            ));
       },
     );
   }
+
   ///
 
   Stack buildNavBarAdminPam() {
@@ -84,11 +95,11 @@ class HomeView extends GetView<HomeController> {
               topRight: Radius.circular(15.0),
             ),
             boxShadow: <BoxShadow>[
-            BoxShadow(
-              offset: Offset(0.0, -8.0),
-              color: Color.fromRGBO(0, 99, 248, 0.16),
-              blurRadius: 24,
-            ),
+              BoxShadow(
+                offset: Offset(0.0, -8.0),
+                color: Color.fromRGBO(0, 99, 248, 0.16),
+                blurRadius: 24,
+              ),
             ],
           ),
         ),
@@ -192,7 +203,10 @@ class HomeView extends GetView<HomeController> {
               topRight: Radius.circular(15.0),
             ),
             boxShadow: <BoxShadow>[
-              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+              BoxShadow(
+                  color: HexColor('#0063F8').withOpacity(0.2),
+                  blurRadius: 8,
+                  offset: const Offset(3, 0)),
             ],
           ),
         ),
@@ -268,7 +282,10 @@ class HomeView extends GetView<HomeController> {
               topRight: Radius.circular(15.0),
             ),
             boxShadow: <BoxShadow>[
-              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+              BoxShadow(
+                  color: HexColor('#0063F8').withOpacity(0.2),
+                  blurRadius: 8,
+                  offset: const Offset(3, 0)),
             ],
           ),
         ),
@@ -344,7 +361,10 @@ class HomeView extends GetView<HomeController> {
               topRight: Radius.circular(15.0),
             ),
             boxShadow: <BoxShadow>[
-              BoxShadow(color: HexColor('#0063F8').withOpacity(0.2), blurRadius: 8, offset: const Offset(3, 0)),
+              BoxShadow(
+                  color: HexColor('#0063F8').withOpacity(0.2),
+                  blurRadius: 8,
+                  offset: const Offset(3, 0)),
             ],
           ),
         ),
@@ -444,10 +464,13 @@ class HomeView extends GetView<HomeController> {
                         controller.pageNavBottom.value = 2;
                       } else if (controller.menuItem[index].id == "3") {
                         controller.pageNavBottom.value = 1;
+                      } else if (controller.menuItem[index].id == "0") {
+                        Get.to(()=> CatatMeterView());
                       }
                     },
                     child: containerItemMenu(
-                        title: '${controller.menuItem[index].title}', assets: '${controller.menuItem[index].assets}'),
+                        title: '${controller.menuItem[index].title}',
+                        assets: '${controller.menuItem[index].assets}'),
                   );
                 },
               ),
@@ -455,14 +478,16 @@ class HomeView extends GetView<HomeController> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Container(
-                  decoration: BoxDecoration(boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                      offset: Offset(0.0, 8.0),
-                      color: Color.fromRGBO(0, 99, 248, 0.16),
-                      blurRadius: 24,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(16), color: Colors.white),
+                  decoration: BoxDecoration(
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          offset: Offset(0.0, 8.0),
+                          color: Color.fromRGBO(0, 99, 248, 0.16),
+                          blurRadius: 24,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -474,50 +499,51 @@ class HomeView extends GetView<HomeController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 10,
-                              child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Pengaturan',
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Tentukan denda, minimum penggunaan dan lainnya.',
+                                flex: 10,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Pengaturan',
                                           style: GoogleFonts.montserrat(
-                                            color: HexColor('#707793'),
+                                            color: Colors.black,
                                             fontSize: 14,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ]
-                              )
-                            ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8.0, bottom: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Tentukan denda, minimum penggunaan dan lainnya.',
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#707793'),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ])),
                             const Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
-                                child: Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.amber,
-                                ),
-                              )
-                            )
+                                flex: 2,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.amber,
+                                  ),
+                                ))
                           ],
                         ),
                       ),
@@ -536,7 +562,9 @@ class HomeView extends GetView<HomeController> {
                       blurRadius: 24,
                     ),
                   ],
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40)),
                   color: Colors.white,
                 ),
                 child: SingleChildScrollView(
@@ -554,7 +582,8 @@ class HomeView extends GetView<HomeController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  padding: const EdgeInsets.only(
+                                      top: 10.0, bottom: 10.0),
                                   child: Text(
                                     'Masa aktif akun sampai dengan tanggal',
                                     style: GoogleFonts.montserrat(
@@ -577,12 +606,11 @@ class HomeView extends GetView<HomeController> {
                           ),
                           Expanded(
                             flex: 2,
-                            child: Image.asset(
-                              'assets/license.png',
-                              width: 50,
-                              height: 50,
-                              opacity: const AlwaysStoppedAnimation<double>(0.5)
-                            ),
+                            child: Image.asset('assets/license.png',
+                                width: 50,
+                                height: 50,
+                                opacity:
+                                    const AlwaysStoppedAnimation<double>(0.5)),
                           )
                         ],
                       ),
@@ -605,7 +633,8 @@ class HomeView extends GetView<HomeController> {
                             height: 60,
                             decoration: BoxDecoration(
                               color: HexColor("#FF8801").withOpacity(0.1),
-                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
                             )),
                       ),
                       Padding(
@@ -642,7 +671,8 @@ class HomeView extends GetView<HomeController> {
 
   Widget containerItemMenu({String? assets, String? title}) {
     return Container(
-          decoration: BoxDecoration(boxShadow: const <BoxShadow>[
+        decoration: BoxDecoration(
+          boxShadow: const <BoxShadow>[
             BoxShadow(
               offset: Offset(0.0, 8.0),
               color: Color.fromRGBO(0, 99, 248, 0.16),
@@ -690,7 +720,9 @@ class HomeView extends GetView<HomeController> {
     var command = '${controller.pageNavBottom.value}';
     switch (command) {
       case '0':
-        return Container(child: Center(child: const Text('Catat Meter')),);
+        return Container(
+          child: Center(child: const Text('Catat Meter')),
+        );
       case '1':
         return Center(child: Center(child: Text('Pembayaran')));
       case '2':
@@ -705,7 +737,9 @@ class HomeView extends GetView<HomeController> {
     var command = '${controller.pageNavBottom.value}';
     switch (command) {
       case '0':
-        return Container(child: const Center(child: Text('Catat Meter')),);
+        return Container(
+          child: const Center(child: Text('Catat Meter')),
+        );
       case '1':
         return AccountView();
       default:
@@ -718,7 +752,9 @@ class HomeView extends GetView<HomeController> {
     var command = '${controller.pageNavBottom.value}';
     switch (command) {
       case '0':
-        return Container(child: const Center(child: Text('Pembayaran')),);
+        return Container(
+          child: const Center(child: Text('Pembayaran')),
+        );
       case '1':
         return AccountView();
       default:
@@ -757,5 +793,4 @@ class HomeView extends GetView<HomeController> {
         return Container();
     }
   }
-
 }

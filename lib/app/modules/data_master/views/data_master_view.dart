@@ -25,9 +25,12 @@ class DataMasterView extends GetView<DataMasterController> {
       builder: (controller) {
         return Obx(() => Scaffold(
               backgroundColor: Colors.blue,
-              appBar: (controller.isSearch.value) ? buildAppBarSearch(context, controller) : buildAppBarDefault(context),
+              appBar: (controller.isSearch.value)
+                  ? buildAppBarSearch(context, controller)
+                  : buildAppBarDefault(context),
               body: WillPopScope(
-                onWillPop: () => willPopWithFuncOnly(func: controller.closeSearchAppBar()),
+                onWillPop: () =>
+                    willPopWithFuncOnly(func: controller.closeSearchAppBar()),
                 child: Container(
                   child: Column(
                     children: [
@@ -51,46 +54,66 @@ class DataMasterView extends GetView<DataMasterController> {
                                         const SizedBox(),
                                         controller.masterData.value == 0
                                             ? Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  SvgPicture.asset('assets/pengelolaiconon.svg'),
+                                                  SvgPicture.asset(
+                                                      'assets/pengelolaiconon.svg'),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Text(
                                                       'Pengelola',
-                                                      style: GoogleFonts.montserrat(
+                                                      style: GoogleFonts
+                                                          .montserrat(
                                                         color: Colors.white,
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight:
+                                                            FontWeight.normal,
                                                       ),
                                                     ),
                                                   ),
-                                                  if (controller.masterData.value == 0)
+                                                  if (controller
+                                                          .masterData.value ==
+                                                      0)
                                                     Container(
                                                       width: 35,
                                                       height: 5,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(100),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
                                                         color: Colors.white,
                                                       ),
                                                     )
                                                 ],
                                               )
                                             : Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  SvgPicture.asset('assets/pengelolaiconoff.svg',
-                                                      color: Colors.white.withOpacity(0.5)),
+                                                  SvgPicture.asset(
+                                                      'assets/pengelolaiconoff.svg',
+                                                      color: Colors.white
+                                                          .withOpacity(0.5)),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Text(
                                                       'Pengelola',
-                                                      style: GoogleFonts.montserrat(
-                                                        color: Colors.white.withOpacity(0.5),
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                        color: Colors.white
+                                                            .withOpacity(0.5),
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight:
+                                                            FontWeight.normal,
                                                       ),
                                                     ),
                                                   ),
@@ -114,46 +137,67 @@ class DataMasterView extends GetView<DataMasterController> {
                                       children: [
                                         controller.masterData.value == 1
                                             ? Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  SvgPicture.asset('assets/tarifdasariconon.svg', color: Colors.white),
+                                                  SvgPicture.asset(
+                                                      'assets/tarifdasariconon.svg',
+                                                      color: Colors.white),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Text(
                                                       'Tarif Dasar Air',
-                                                      style: GoogleFonts.montserrat(
+                                                      style: GoogleFonts
+                                                          .montserrat(
                                                         color: Colors.white,
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight:
+                                                            FontWeight.normal,
                                                       ),
                                                     ),
                                                   ),
-                                                  if (controller.masterData.value == 1)
+                                                  if (controller
+                                                          .masterData.value ==
+                                                      1)
                                                     Container(
                                                       width: 35,
                                                       height: 5,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(100),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
                                                         color: Colors.white,
                                                       ),
                                                     )
                                                 ],
                                               )
                                             : Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  SvgPicture.asset('assets/tarifdasariconon.svg',
-                                                      color: Colors.white.withOpacity(0.5)),
+                                                  SvgPicture.asset(
+                                                      'assets/tarifdasariconon.svg',
+                                                      color: Colors.white
+                                                          .withOpacity(0.5)),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Text(
                                                       'Tarif Dasar Air',
-                                                      style: GoogleFonts.montserrat(
-                                                        color: Colors.white.withOpacity(0.5),
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                        color: Colors.white
+                                                            .withOpacity(0.5),
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight:
+                                                            FontWeight.normal,
                                                       ),
                                                     ),
                                                   ),
@@ -169,17 +213,23 @@ class DataMasterView extends GetView<DataMasterController> {
                           ),
                         ),
                       const SizedBox(height: 5),
-                      (controller.masterData.value == 0) ? buildExpandedPengelola() : buildExpandedBasePrice()
+                      (controller.masterData.value == 0)
+                          ? buildExpandedPengelola()
+                          : buildExpandedBasePrice()
                     ],
                   ),
-                  decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
                 ),
               ),
               floatingActionButton: (controller.isSearch.value)
                   ? const SizedBox()
                   : FloatingActionButton(
                       onPressed: () {
-                        (controller.masterData.value == 0) ? Get.to(AddPamManageView()) : Get.to(AddBaseFeeView());
+                        (controller.masterData.value == 0)
+                            ? Get.to(AddPamManageView())
+                            : Get.to(AddBaseFeeView());
                       },
                       backgroundColor: HexColor('#0063F8'),
                       elevation: 0,
@@ -205,12 +255,14 @@ class DataMasterView extends GetView<DataMasterController> {
     );
   }
 
-  PreferredSize buildAppBarSearch(BuildContext context, DataMasterController controller) {
+  PreferredSize buildAppBarSearch(
+      BuildContext context, DataMasterController controller) {
     return PreferredSize(
       child: Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Padding(
-          padding: const EdgeInsets.only(left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+          padding: const EdgeInsets.only(
+              left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -256,13 +308,17 @@ class DataMasterView extends GetView<DataMasterController> {
                     return null;
                   },
                 ),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white),
               ))
             ],
           ),
         ),
-        decoration:
-            BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')]), boxShadow: const []),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
+            boxShadow: const []),
       ),
       preferredSize: Size.fromHeight(Get.height * 0.1),
     );
@@ -309,7 +365,9 @@ class DataMasterView extends GetView<DataMasterController> {
           ),
         ],
         flexibleSpace: Container(
-          decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
         ));
   }
 
@@ -318,7 +376,9 @@ class DataMasterView extends GetView<DataMasterController> {
       child: Container(
         padding: const EdgeInsets.only(top: 8.0),
         decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+            color: Colors.white),
         child: (controller.baseFeeResult.isEmpty)
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -372,14 +432,14 @@ class DataMasterView extends GetView<DataMasterController> {
                         ),
                   (controller.isSearch.value)
                       ? Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text('kata kunci di atas.',
-                            style: GoogleFonts.montserrat(
-                              color: HexColor('#707793').withOpacity(0.7),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                            )),
-                      )
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text('kata kunci di atas.',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#707793').withOpacity(0.7),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              )),
+                        )
                       : Text('melalui tombol di bawah.',
                           style: GoogleFonts.montserrat(
                             color: HexColor('#707793').withOpacity(0.7),
@@ -392,14 +452,20 @@ class DataMasterView extends GetView<DataMasterController> {
                 itemCount: controller.baseFeeResult.length,
                 itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
-                        controller.idBaseFeeController.text = controller.baseFeeResult[index].id.toString();
+                        controller.idBaseFeeController.text =
+                            controller.baseFeeResult[index].id.toString();
                         controller.amountDetailController.text =
-                            rpFormatterWithOutSymbol(value: controller.baseFeeResult[index].amount!)!;
-                        controller.meterDetailPositionController.text = controller.baseFeeResult[index].meterPosition.toString();
+                            rpFormatterWithOutSymbol(
+                                value:
+                                    controller.baseFeeResult[index].amount!)!;
+                        controller.meterDetailPositionController.text =
+                            controller.baseFeeResult[index].meterPosition
+                                .toString();
                         Get.to(BaseFeeDetailView());
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 16.0, right: 16.0),
                         child: Container(
                           padding: const EdgeInsets.only(top: 5, bottom: 5),
                           child: ListTile(
@@ -413,21 +479,26 @@ class DataMasterView extends GetView<DataMasterController> {
                                 ),
                               ),
                               leading: CircleAvatar(
-                                  backgroundColor: HexColor('#0063F8').withOpacity(0.1),
+                                  backgroundColor:
+                                      HexColor('#0063F8').withOpacity(0.1),
                                   maxRadius: 25,
-                                  child: Icon(EvaIcons.dropletOutline, color: HexColor('#0063F8'))),
+                                  child: Icon(EvaIcons.dropletOutline,
+                                      color: HexColor('#0063F8'))),
                               trailing: SizedBox(
                                 width: 100,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset('assets/meter.svg'),
+                                      child:
+                                          SvgPicture.asset('assets/meter.svg'),
                                     ),
                                     Flexible(
                                       child: SizedBox(
-                                        child: Text('${controller.baseFeeResult[index].meterPosition}',
+                                        child: Text(
+                                            '${controller.baseFeeResult[index].meterPosition}',
                                             overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.montserrat(
                                               color: Colors.black,
@@ -446,13 +517,17 @@ class DataMasterView extends GetView<DataMasterController> {
                                   ],
                                 ),
                               )),
-                          decoration: const BoxDecoration(boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0.0, 8.0),
-                              color: Color.fromRGBO(0, 99, 248, 0.16),
-                              blurRadius: 24,
-                            ),
-                          ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0.0, 8.0),
+                                  color: Color.fromRGBO(0, 99, 248, 0.16),
+                                  blurRadius: 24,
+                                ),
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              color: Colors.white),
                         ),
                       ),
                     )),
@@ -465,159 +540,185 @@ class DataMasterView extends GetView<DataMasterController> {
       child: Container(
         padding: const EdgeInsets.only(top: 8.0),
         decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), color: Colors.white),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+            color: Colors.white),
         child: (controller.pamUserResult.isEmpty)
             ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            (controller.isSearch.value)
-                ? Padding(
-              padding: const EdgeInsets.only(bottom: 40.0),
-              child: SvgPicture.asset('assets/searchnofound.svg'),
-            )
-                : Padding(
-              padding: const EdgeInsets.only(bottom: 40.0),
-              child: SvgPicture.asset('assets/tarifkosong.svg'),
-            ),
-            (controller.isSearch.value)
-                ? Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text('Tidak ditemukan',
-                  style: GoogleFonts.montserrat(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  )),
-            )
-                : Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text('Belum ada tarif dasar',
-                  style: GoogleFonts.montserrat(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
-            (controller.isSearch.value)
-                ? Align(
-              alignment: Alignment.center,
-              child: Text('Belum ada pengelola pams yang sesuai ',
-                  style: GoogleFonts.montserrat(
-                    color: HexColor("#707793").withOpacity(0.7),
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  )),
-            )
-                : Align(
-              alignment: Alignment.center,
-              child: Text('Tambahkan tarif dasar penggunaan air',
-                  style: GoogleFonts.montserrat(
-                    color: HexColor('#707793').withOpacity(0.7),
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  )),
-            ),
-            (controller.isSearch.value)
-                ? Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Text('kata kunci di atas.',
-                  style: GoogleFonts.montserrat(
-                    color: HexColor('#707793').withOpacity(0.7),
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  )),
-                )
-                : Text('melalui tombol di bawah.',
-                style: GoogleFonts.montserrat(
-                  color: HexColor('#707793').withOpacity(0.7),
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                )),
-          ],
-        )
-            : ListView.builder(
-            itemCount: controller.pamUserResult.length,
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    controller.nameDetailController.text = controller.pamUserResult[index].name!;
-                    controller.phoneNumberDetailPamController.text = controller.pamUserResult[index].phoneNumber!;
-                    controller.emailPamDetailController.text = controller.pamUserResult[index].email!;
-                    controller.idManagePamController.text = controller.pamUserResult[index].id.toString();
-                   if (controller.pamUserResult[index].blocked! == 1){
-                     controller.radioValueActivated.value = 1;
-                     controller.radioValueActivatedActiveDp.value = false;
-                   } else {
-                     controller.radioValueActivated.value = 0;
-                     controller.radioValueActivatedActiveDp.value = true;
-                   }
-                   controller.checkRole(controller.pamUserResult[index].roles);
-                    controller.rolesUser.assignAll(controller.pamUserResult[index].roles!.map((e) => e.name!));
-                    Get.to(PamManageDetailView(
-                      admin: controller.pamUserResult[index].isOwner,
-                      roles: controller.pamUserResult[index].roles!,
-                    ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
-                    child: Container(
-                      child: ListTile(
-                          contentPadding: const EdgeInsets.all(10),
-                          dense: false,
-                          title: Text(
-                            '${controller.pamUserResult[index].name}',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              controller.pamUserResult[index].roles!.map((e) => e.name).join(" & "),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  (controller.isSearch.value)
+                      ? Padding(
+                          padding: const EdgeInsets.only(bottom: 40.0),
+                          child: SvgPicture.asset('assets/searchnofound.svg'),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 40.0),
+                          child: SvgPicture.asset('assets/tarifkosong.svg'),
+                        ),
+                  (controller.isSearch.value)
+                      ? Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text('Tidak ditemukan',
                               style: GoogleFonts.montserrat(
-                                color: HexColor('#707793'),
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text('Belum ada tarif dasar',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                  (controller.isSearch.value)
+                      ? Align(
+                          alignment: Alignment.center,
+                          child: Text('Belum ada pengelola pams yang sesuai ',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor("#707793").withOpacity(0.7),
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          leading: CircleAvatar(
-                              maxRadius: 30,
-                              backgroundColor: controller.pamUserResult[index].isOwner == 1
-                                  ? HexColor('#FF8801').withOpacity(0.1)
-                                  : (controller.pamUserResult[index].blocked == 1)
-                                      ? Colors.red.withOpacity(0.1)
-                                      : Colors.green.withOpacity(0.1),
-                              child: Text(
-                                controller.getInitials(controller.pamUserResult[index].name!.toUpperCase()),
+                              )),
+                        )
+                      : Align(
+                          alignment: Alignment.center,
+                          child: Text('Tambahkan tarif dasar penggunaan air',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#707793').withOpacity(0.7),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              )),
+                        ),
+                  (controller.isSearch.value)
+                      ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text('kata kunci di atas.',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#707793').withOpacity(0.7),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              )),
+                        )
+                      : Text('melalui tombol di bawah.',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#707793').withOpacity(0.7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          )),
+                ],
+              )
+            : ListView.builder(
+                itemCount: controller.pamUserResult.length,
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        controller.nameDetailController.text =
+                            controller.pamUserResult[index].name!;
+                        controller.phoneNumberDetailPamController.text =
+                            controller.pamUserResult[index].phoneNumber!;
+                        controller.emailPamDetailController.text =
+                            controller.pamUserResult[index].email!;
+                        controller.idManagePamController.text =
+                            controller.pamUserResult[index].id.toString();
+                        if (controller.pamUserResult[index].blocked! == 1) {
+                          controller.radioValueActivated.value = 1;
+                          controller.radioValueActivatedActiveDp.value = false;
+                        } else {
+                          controller.radioValueActivated.value = 0;
+                          controller.radioValueActivatedActiveDp.value = true;
+                        }
+                        controller
+                            .checkRole(controller.pamUserResult[index].roles);
+                        controller.rolesUser.assignAll(controller
+                            .pamUserResult[index].roles!
+                            .map((e) => e.name!));
+                        Get.to(PamManageDetailView(
+                          admin: controller.pamUserResult[index].isOwner,
+                          roles: controller.pamUserResult[index].roles!,
+                        ));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 16.0, right: 16.0),
+                        child: Container(
+                          child: ListTile(
+                              contentPadding: const EdgeInsets.all(10),
+                              dense: false,
+                              title: Text(
+                                '${controller.pamUserResult[index].name}',
                                 style: GoogleFonts.montserrat(
-                                  color: controller.pamUserResult[index].isOwner == 1
-                                      ? HexColor('#FF8801')
-                                      : (controller.pamUserResult[index].blocked == 1)
-                                          ? Colors.red
-                                          : Colors.green,
-                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(
+                                  controller.pamUserResult[index].roles!
+                                      .map((e) => e.name)
+                                      .join(" & "),
+                                  style: GoogleFonts.montserrat(
+                                    color: HexColor('#707793'),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              leading: CircleAvatar(
+                                  maxRadius: 30,
+                                  backgroundColor:
+                                      controller.pamUserResult[index].isOwner ==
+                                              1
+                                          ? HexColor('#FF8801').withOpacity(0.1)
+                                          : (controller.pamUserResult[index]
+                                                      .blocked ==
+                                                  1)
+                                              ? Colors.red.withOpacity(0.1)
+                                              : Colors.green.withOpacity(0.1),
+                                  child: Text(
+                                    controller.getInitials(controller
+                                        .pamUserResult[index].name!
+                                        .toUpperCase()),
+                                    style: GoogleFonts.montserrat(
+                                      color: controller.pamUserResult[index]
+                                                  .isOwner ==
+                                              1
+                                          ? HexColor('#FF8801')
+                                          : (controller.pamUserResult[index]
+                                                      .blocked ==
+                                                  1)
+                                              ? Colors.red
+                                              : Colors.green,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                              trailing: const Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.amber,
+                                ),
                               )),
-                          trailing: const Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.amber,
-                            ),
-                          )),
-                      decoration: const BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0.0, 8.0),
-                          color: Color.fromRGBO(0, 99, 248, 0.16),
-                          blurRadius: 24,
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0.0, 8.0),
+                                  color: Color.fromRGBO(0, 99, 248, 0.16),
+                                  blurRadius: 24,
+                                ),
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              color: Colors.white),
                         ),
-                      ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
-                    ),
-                  ),
-                )),
+                      ),
+                    )),
       ),
     );
   }
