@@ -13,7 +13,6 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/account_controller.dart';
-import 'image_galery_picker_view.dart';
 
 class AccountView extends GetView<AccountController> {
   @override
