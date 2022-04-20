@@ -186,26 +186,26 @@ class CustomerView extends GetView<CustomerController> {
                                                 color: HexColor('#0063F8'),
                                               ),
                                               const SizedBox(
-                                                width: 4,
+                                                width: 6,
                                               ),
                                               Container(
-                                                width: 26,
+                                                width: 24,
                                                 child: Text(
                                                   controller
                                                               .cusUserResult[
                                                                   index]
-                                                              .pamId
+                                                              .meter
                                                               .toString()
                                                               .length <=
                                                           3
                                                       ? controller
                                                           .cusUserResult[index]
-                                                          .pamId
+                                                          .meter
                                                           .toString()
                                                       : controller
                                                               .cusUserResult[
                                                                   index]
-                                                              .pamId
+                                                              .meter
                                                               .toString()
                                                               .substring(0, 3) +
                                                           '..',
