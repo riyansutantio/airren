@@ -32,7 +32,14 @@ class CustomerController extends GetxController {
   final phoneNumberCusController = TextEditingController();
   final addressCusController = TextEditingController();
   final meterCusController = TextEditingController();
-
+  final nameDetailController = TextEditingController();
+  final phoneDetailNumberCusController = TextEditingController();
+  final addressDetailCusController = TextEditingController();
+  final meterDetailCusController = TextEditingController();
+  final activeDetailCusController = TextEditingController();
+  final uniqueIdDetailCusController = TextEditingController();
+  RxInt isRadio = 1.obs;
+  RxInt isRadiovP = 1.obs;
   var menuItem = <MenuItemModel>[
     MenuItemModel(
         title: 'Catat meter', assets: 'catatmetericon.svg', id: '01234'),
@@ -78,7 +85,8 @@ class CustomerController extends GetxController {
     logger.i('test');
     await getCusUsers();
   }
-Future addCustomers() async {
+
+  Future addCustomers() async {
     final res = await p!.addCusManage(
         bearer: boxUser.read(tokenBearer),
         address: addressCusController.text,
@@ -95,6 +103,7 @@ Future addCustomers() async {
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
+
   Future getCusUsers() async {
     try {
       isLoadingCusUser.value = true;
@@ -124,8 +133,34 @@ Future addCustomers() async {
   }
 
   void increment() => count.value++;
+  void getPdf(String uniqueId) async {
+    final pdf = pw.Document();
 
-  void getPdf() async {
+    pdf.addPage(pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return  pw.Container(
+            width: 200,
+            height: 200,
+            child: pw.Column(children: [
+            pw.BarcodeWidget(
+                data: uniqueId,
+                barcode: pw.Barcode.qrCode(),
+                ),
+            pw.Text('${uniqueId}')
+          ]));
+        })); // Page
+
+    Uint8List bytes = await pdf.save();
+
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/airrenQR-$formatted.pdf');
+    await file.writeAsBytes(bytes);
+    await OpenFile.open(file.path);
+
+  }
+
+  void getPdfAll() async {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
@@ -137,14 +172,14 @@ Future addCustomers() async {
                 childAspectRatio: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                children: menuItem
+                children: cusUserResult
                     .map((e) => pw.Column(children: [
                           pw.BarcodeWidget(
-                              data: e.id!,
+                              data: e.uniqueId!,
                               barcode: pw.Barcode.qrCode(),
                               height: 30,
                               width: 30),
-                          pw.Text('${e.title}'),
+                          pw.Text('${e.uniqueId}'),
                         ]))
                     .toList())
           ]; // Center
@@ -157,7 +192,8 @@ Future addCustomers() async {
     await file.writeAsBytes(bytes);
     await OpenFile.open(file.path);
   }
-   Future<void> clearCondition() async {
+
+  Future<void> clearCondition() async {
     nameController.clear();
     addressCusController.clear();
     phoneNumberCusController.clear();

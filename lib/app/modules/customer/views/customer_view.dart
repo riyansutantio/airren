@@ -10,6 +10,7 @@ import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/customer_controller.dart';
 import '../providers/customer_provider.dart';
 import 'add_customer.dart';
+import 'detail_customer.dart';
 
 class CustomerView extends GetView<CustomerController> {
   @override
@@ -57,8 +58,8 @@ class CustomerView extends GetView<CustomerController> {
                                     color: Colors.white)),
                             const Padding(
                               padding: EdgeInsets.only(left: 10.0, right: 5.0),
-                              child:
-                                  Icon(EvaIcons.searchOutline, color: Colors.white),
+                              child: Icon(EvaIcons.searchOutline,
+                                  color: Colors.white),
                             ),
                             PopupMenuButton(
                                 shape: RoundedRectangleBorder(
@@ -116,130 +117,165 @@ class CustomerView extends GetView<CustomerController> {
                               itemCount: controller.cusUserResult.length,
                               itemBuilder: (context, index) {
                                 var menu = controller.cusUserResult[index].obs;
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, left: 16.0, right: 16.0),
-                                  child: Container(
-                                    child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.all(10),
-                                        dense: false,
-                                        title: Text(
-                                          controller.cusUserResult[index].pamId
-                                                      .toString()
-                                                      .length <=
-                                                  9
-                                              ? '${controller.cusUserResult[index].name}'
-                                              : '${controller.cusUserResult[index].name!.substring(0, 9)}+..',
-                                          style: GoogleFonts.montserrat(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        subtitle: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                            controller
-                                                .cusUserResult[index].uniqueId!,
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.nameDetailController.text =
+                                        controller.cusUserResult[index].name!;
+                                    controller.phoneDetailNumberCusController
+                                            .text =
+                                        controller
+                                            .cusUserResult[index].phoneNumber!;
+                                    controller.addressDetailCusController.text =
+                                        controller
+                                            .cusUserResult[index].address!;
+                                    int v = controller.isRadio.value =
+                                        controller.cusUserResult[index].active!;
+                                    int v2 = controller.isRadiovP.value =
+                                        controller.cusUserResult[index].active!;
+                                    print(v);
+                                    controller.meterDetailCusController.text =
+                                        controller.cusUserResult[index].meter
+                                            .toString();
+                                    controller
+                                            .uniqueIdDetailCusController.text =
+                                        controller
+                                            .cusUserResult[index].uniqueId!;
+                                    Get.to(CustomerDetailView(
+                                      admin: 0,
+                                    ));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, left: 16.0, right: 16.0),
+                                    child: Container(
+                                      child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
+                                          dense: false,
+                                          title: Text(
+                                            controller.cusUserResult[index]
+                                                        .pamId
+                                                        .toString()
+                                                        .length <=
+                                                    9
+                                                ? '${controller.cusUserResult[index].name}'
+                                                : '${controller.cusUserResult[index].name!.substring(0, 9)}+..',
                                             style: GoogleFonts.montserrat(
-                                              color: HexColor('#707793'),
+                                              color: Colors.black,
                                               fontSize: 14,
-                                              fontWeight: FontWeight.normal,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
-                                        ),
-                                        leading: CircleAvatar(
-                                            maxRadius: 30,
-                                            backgroundColor: controller
-                                                        .cusUserResult[index]
-                                                        .active ==
-                                                    1
-                                                ? HexColor('#05C270')
-                                                    .withOpacity(0.1)
-                                                : HexColor('#FF3B3B')
-                                                    .withOpacity(0.1),
+                                          subtitle: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              controller.getInitials(controller
-                                                  .cusUserResult[index].name!
-                                                  .toUpperCase()),
+                                              controller.cusUserResult[index]
+                                                  .uniqueId!,
                                               style: GoogleFonts.montserrat(
-                                                color: controller
+                                                color: HexColor('#707793'),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ),
+                                          leading: CircleAvatar(
+                                              maxRadius: 30,
+                                              backgroundColor: controller
+                                                          .cusUserResult[index]
+                                                          .active ==
+                                                      1
+                                                  ? HexColor('#05C270')
+                                                      .withOpacity(0.1)
+                                                  : HexColor('#FF3B3B')
+                                                      .withOpacity(0.1),
+                                              child: Text(
+                                                controller.getInitials(
+                                                    controller
+                                                        .cusUserResult[index]
+                                                        .name!
+                                                        .toUpperCase()),
+                                                style: GoogleFonts.montserrat(
+                                                  color: controller
+                                                              .cusUserResult[
+                                                                  index]
+                                                              .active ==
+                                                          1
+                                                      ? HexColor('#05C270')
+                                                      : HexColor('#FF3B3B'),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )),
+                                          trailing: SizedBox(
+                                            width: 86,
+                                            height: 25,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  EvaIcons.compassOutline,
+                                                  color: HexColor('#0063F8'),
+                                                ),
+                                                const SizedBox(
+                                                  width: 6,
+                                                ),
+                                                Container(
+                                                  width: 24,
+                                                  child: Text(
+                                                    controller
+                                                                .cusUserResult[
+                                                                    index]
+                                                                .meter
+                                                                .toString()
+                                                                .length <=
+                                                            3
+                                                        ? controller
                                                             .cusUserResult[
                                                                 index]
-                                                            .active ==
-                                                        1
-                                                    ? HexColor('#05C270')
-                                                    : HexColor('#FF3B3B'),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            )),
-                                        trailing: SizedBox(
-                                          width: 86,
-                                          height: 25,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                EvaIcons.compassOutline,
-                                                color: HexColor('#0063F8'),
-                                              ),
-                                              const SizedBox(
-                                                width: 6,
-                                              ),
-                                              Container(
-                                                width: 24,
-                                                child: Text(
-                                                  controller
-                                                              .cusUserResult[
-                                                                  index]
-                                                              .meter
-                                                              .toString()
-                                                              .length <=
-                                                          3
-                                                      ? controller
-                                                          .cusUserResult[index]
-                                                          .meter
-                                                          .toString()
-                                                      : controller
-                                                              .cusUserResult[
-                                                                  index]
-                                                              .meter
-                                                              .toString()
-                                                              .substring(0, 3) +
-                                                          '..',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793'),
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.normal,
+                                                            .meter
+                                                            .toString()
+                                                        : controller
+                                                                .cusUserResult[
+                                                                    index]
+                                                                .meter
+                                                                .toString()
+                                                                .substring(
+                                                                    0, 3) +
+                                                            '..',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color:
+                                                          HexColor('#707793'),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 8.0),
-                                                child: Icon(
-                                                  Icons.arrow_forward,
-                                                  color: Colors.amber,
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.0),
+                                                  child: Icon(
+                                                    Icons.arrow_forward,
+                                                    color: Colors.amber,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        )),
-                                    decoration: const BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: Offset(0.0, 8.0),
-                                            color: Color.fromRGBO(
-                                                0, 99, 248, 0.16),
-                                            blurRadius: 24,
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(16)),
-                                        color: Colors.white),
+                                              ],
+                                            ),
+                                          )),
+                                      decoration: const BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: Offset(0.0, 8.0),
+                                              color: Color.fromRGBO(
+                                                  0, 99, 248, 0.16),
+                                              blurRadius: 24,
+                                            ),
+                                          ],
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(16)),
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 );
                               })),
