@@ -156,20 +156,28 @@ class CustomerView extends GetView<CustomerController> {
                                                         .cusUserResult[index]
                                                         .active ==
                                                     1
-                                                ? Colors.green.withOpacity(0.1)
-                                                : Colors.red.withOpacity(0.1),
+                                                ? HexColor('#05C270')
+                                                    .withOpacity(0.1)
+                                                : HexColor('#FF3B3B')
+                                                    .withOpacity(0.1),
                                             child: Text(
                                               controller.getInitials(controller
                                                   .cusUserResult[index].name!
                                                   .toUpperCase()),
                                               style: GoogleFonts.montserrat(
-                                                color: HexColor('#FF8801'),
+                                                color: controller
+                                                            .cusUserResult[
+                                                                index]
+                                                            .active ==
+                                                        1
+                                                    ? HexColor('#05C270')
+                                                    : HexColor('#FF3B3B'),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             )),
                                         trailing: SizedBox(
-                                          width: 88,
+                                          width: 86,
                                           height: 25,
                                           child: Row(
                                             children: [
@@ -181,7 +189,7 @@ class CustomerView extends GetView<CustomerController> {
                                                 width: 4,
                                               ),
                                               Container(
-                                                width: 30,
+                                                width: 26,
                                                 child: Text(
                                                   controller
                                                               .cusUserResult[
