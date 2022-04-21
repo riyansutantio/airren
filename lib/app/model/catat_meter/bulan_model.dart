@@ -10,9 +10,9 @@ class MeterMonthModel {
     this.data,
   });
 
-  String? status;
-  String? message;
-  Data? data;
+  final String? status;
+  final String? message;
+  final Data? data;
 
   factory MeterMonthModel.fromJson(Map<String, dynamic> json) =>
       MeterMonthModel(
@@ -23,15 +23,16 @@ class MeterMonthModel {
 }
 
 class Data {
-  Data({this.monthMeters});
+  Data({this.meterMonths});
 
-  final List<MonthMeterResult>? monthMeters;
+  final List<MonthMeterResult>? meterMonths;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-      monthMeters: json['monthMeters'] == null
-          ? null
-          : List<MonthMeterResult>.from(
-              json['monthMeters'].map((x) => MonthMeterResult.fromJson(x))));
+        meterMonths: json['meterMonths'] == null
+            ? null
+            : List<MonthMeterResult>.from(
+                json['meterMonths'].map((x) => MonthMeterResult.fromJson(x))),
+      );
 }
 
 class MonthMeterResult {
@@ -39,6 +40,8 @@ class MonthMeterResult {
     this.id,
     this.month_of,
     this.year_of,
+    this.created_at,
+    this.updated_at,
     this.number_of_customer,
     this.number_of_recorded_consumer,
     this.number_of_meter_transaction,
@@ -48,6 +51,8 @@ class MonthMeterResult {
   final int? id;
   final int? month_of;
   final int? year_of;
+  final DateTime? created_at;
+  final DateTime? updated_at;
   final int? number_of_customer;
   final int? number_of_recorded_consumer;
   final int? number_of_meter_transaction;
@@ -55,21 +60,25 @@ class MonthMeterResult {
 
   factory MonthMeterResult.fromJson(Map<String, dynamic> json) =>
       MonthMeterResult(
-        id: json["id"] == null ? null : json["id"],
-        month_of: json["month_of"] == null ? null : json["month_of"],
-        year_of: json["year_of"] == null ? null : json["year_of"],
+        id: json["id"] == null ? null : json['id'],
+        month_of: json["month_of"] == null ? null : json['month_of'],
+        year_of: json["year_of"] == null ? null : json['year_of'],
+        created_at:
+            json["year_of"] == null ? null : DateTime.parse(json["created_at"]),
+        updated_at:
+            json["year_of"] == null ? null : DateTime.parse(json["updated_at"]),
         number_of_customer: json["number_of_customer"] == null
             ? null
-            : json["number_of_customer"],
+            : json['number_of_customer'],
         number_of_recorded_consumer: json["number_of_recorded_consumer"] == null
             ? null
-            : json["number_of_recorded_consumer"],
+            : json['number_of_recorded_consumer'],
         number_of_meter_transaction: json["number_of_meter_transaction"] == null
             ? null
-            : json["number_of_meter_transaction"],
+            : json['number_of_meter_transaction'],
         number_of_paid_meter_transaction:
             json["number_of_paid_meter_transaction"] == null
                 ? null
-                : json["number_of_paid_meter_transaction"],
+                : json['number_of_paid_meter_transaction'],
       );
 }

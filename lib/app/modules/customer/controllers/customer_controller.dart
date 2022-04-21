@@ -49,7 +49,7 @@ class CustomerController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    logger.i('test');
+    //logger.i('test');
   }
 
   @override
