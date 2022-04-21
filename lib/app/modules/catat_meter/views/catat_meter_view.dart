@@ -1,6 +1,8 @@
 import 'package:airen/app/model/catat_meter/add_catat_meter_bulan_model.dart';
+import 'package:airen/app/model/catat_meter/bulan_model.dart';
 import 'package:airen/app/modules/catat_meter/controllers/catat_meter_controller.dart';
 import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_bulan_view.dart';
 import 'package:airen/app/modules/catat_meter/views/month_picker.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:group_list_view/group_list_view.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -77,19 +80,21 @@ class CatatMeterView extends GetView<CatatMeterController> {
           ),
           body: Container(
             child: Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
                         topRight: Radius.circular(40)),
                     color: Colors.white),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
                     //listview bulan
-                    Center(
+                    Expanded(
                       child: (controller.meterMonthResult.isEmpty)
                           ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 40.0),
@@ -107,28 +112,9 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                 ),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: Text('Tambahkan bulan terlebih dahulu',
-                                      style: GoogleFonts.montserrat(
-                                        color: HexColor('#707793')
-                                            .withOpacity(0.7),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      )),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
                                   child: Text(
-                                      'kemudian baru lakukan pencatatan pada setiap',
-                                      style: GoogleFonts.montserrat(
-                                        color: HexColor('#707793')
-                                            .withOpacity(0.7),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      )),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text('pelanggan.',
+                                      'Tambahkan bulan terlebih dahulu\n kemudian baru lakukan pencatatan pada setiap\n pelanggan',
+                                      textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
                                         color: HexColor('#707793')
                                             .withOpacity(0.7),
@@ -138,80 +124,9 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                 ),
                               ],
                             )
-                          : ListView.separated(
-                              padding: const EdgeInsets.only(top: 10),
-                              itemCount: controller.meterMonthResult.length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 10.0, left: 10.0, right: 10.0),
-                                    decoration: const BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: Offset(0.0, 8.0),
-                                            color: Color.fromRGBO(
-                                                0, 99, 248, 0.16),
-                                            blurRadius: 24,
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(16)),
-                                        color: Colors.white),
-                                    child: ListTile(
-                                      contentPadding: const EdgeInsets.all(10),
-                                      dense: false,
-                                      title: Text(
-                                        penentuBulan(controller
-                                                .meterMonthResult[index]
-                                                .month_of) +
-                                            " " +
-                                            controller
-                                                .meterMonthResult[index].year_of
-                                                .toString(),
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      subtitle: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: Text(
-                                          "0 dari 18 pelanggan",
-                                          style: GoogleFonts.montserrat(
-                                            color: HexColor('#707793')
-                                                .withOpacity(0.7),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      leading: CircleAvatar(
-                                        maxRadius: 30,
-                                        //background leading pict ada 3 jenis clear, touble, masalah
-                                        backgroundColor:
-                                            HexColor('#FF801').withOpacity(0.1),
-                                        // child: Icon(icon),
-                                      ),
-                                      trailing: GestureDetector(
-                                        onTap: () => {},
-                                        child: Icon(
-                                          EvaIcons.arrowForward,
-                                          color: HexColor('#FFCC00'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const Divider(),
-                            ),
+                          :
+                          // groupedListView(controller),
+                          catatBulanBuilder(controller),
                     ),
                   ],
                 )),
@@ -245,16 +160,9 @@ class CatatMeterView extends GetView<CatatMeterController> {
                   controller.month_Of.value = month;
                   controller.year_Of.value = year;
                   logger.d(year.toString() + "-" + month.toString());
-                  //penentuBulan(month);
                   catatMeterBulanController.addCatatMeterBulan();
                 },
-                onChanged: (dates) {
-                  // var yearRaw = DateFormat('yyyy').format(dates);
-                  // var monthRaw = DateFormat('MM').format(dates);
-                  // int year = int.parse(yearRaw);
-                  // int month = int.parse(monthRaw);
-                  // logger.i(month.toString() + "-" + year.toString());
-                },
+                onChanged: (dates) {},
               );
             },
             backgroundColor: HexColor('#0063F8'),
@@ -274,6 +182,107 @@ class CatatMeterView extends GetView<CatatMeterController> {
                   ),
                 ],
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ListView catatBulanBuilder(CatatMeterController controller) {
+    DateTime raw = DateTime(now.year);
+    String year = DateFormat('yyyy').format(raw).toString();
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 10),
+      itemCount: controller.meterMonthResult.length,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        var totalPelanggan =
+            (controller.meterMonthResult[index].number_of_customer == null)
+                ? "0"
+                : '1';
+        var x = penentuBulan(controller.meterMonthResult[index].month_of) +
+            " " +
+            controller.meterMonthResult[index].year_of.toString();
+        return GestureDetector(
+          onTap: () {
+            String judul = controller.judul.value = x;
+            int bulan =
+                controller.bulan.value = controller.meterMonthResult[index].id!;
+            catatMeterBulanController.getCatatMeter();
+            Get.to(CatatBulanView());
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+            child: Column(
+              children: [
+                Text(
+                  (controller.meterMonthResult[index].year_of.toString() ==
+                          year)
+                      ? "Tahun Sekarang"
+                      : controller.meterMonthResult[index].year_of.toString(),
+                ),
+                Container(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(10),
+                    dense: false,
+                    title: Text(
+                      penentuBulan(
+                              controller.meterMonthResult[index].month_of) +
+                          " " +
+                          controller.meterMonthResult[index].year_of
+                              .toString() +
+                          " " +
+                          controller.meterMonthResult[index].id.toString(),
+                      style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        controller.meterMonthResult[index]
+                                .number_of_recorded_consumer
+                                .toString() +
+                            " dari " +
+                            totalPelanggan +
+                            " pelanggan",
+                        style: GoogleFonts.montserrat(
+                          color: HexColor('#707793').withOpacity(0.7),
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                    leading: CircleAvatar(
+                      maxRadius: 30,
+                      //background leading pict ada 3 jenis clear, touble, masalah
+                      backgroundColor: HexColor('#FF801').withOpacity(0.1),
+                      // child: Icon(icon),
+                    ),
+                    trailing: GestureDetector(
+                      onTap: () => {},
+                      child: Icon(
+                        EvaIcons.arrowForward,
+                        color: HexColor('#FFCC00'),
+                      ),
+                    ),
+                  ),
+                  decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0.0, 8.0),
+                          color: Color.fromRGBO(0, 99, 248, 0.16),
+                          blurRadius: 24,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      color: Colors.white),
+                ),
+              ],
             ),
           ),
         );

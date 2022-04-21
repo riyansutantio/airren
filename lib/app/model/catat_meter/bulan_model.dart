@@ -35,6 +35,7 @@ class Data {
       );
 }
 
+
 class MonthMeterResult {
   MonthMeterResult({
     this.id,
@@ -80,5 +81,19 @@ class MonthMeterResult {
             json["number_of_paid_meter_transaction"] == null
                 ? null
                 : json['number_of_paid_meter_transaction'],
+      );
+}
+
+class YearAvailable {
+  YearAvailable({
+    // this.id_catat,
+    this.year_of,
+  });
+  // final int? id_catat;
+  final int? year_of;
+
+  factory YearAvailable.fromJson(Map<String, dynamic> json) => YearAvailable(
+        // id_catat: json['id_catat'] == null ? null : json['id_catat'],
+        year_of: json['year_of'] == null ? null : json['year_of'],
       );
 }

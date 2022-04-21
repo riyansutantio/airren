@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:airen/app/model/catat_meter/bulan_model.dart';
+import 'package:airen/app/model/catat_meter/catat_meter_model.dart';
+import 'package:airen/app/model/common_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:get/get.dart';
 
 import '../../../data/http_service.dart';
-import '../../../model/account_settings/user_model.dart';
 import '../../../model/catat_meter/add_catat_meter_bulan_model.dart';
+import '../../../model/customer/customerModel.dart';
 import '../../../utils/utils.dart';
 
 class CatatMeterProvider extends GetConnect {
@@ -19,6 +21,8 @@ class CatatMeterProvider extends GetConnect {
 
   List<String>? pathSegmentGetMeterMonth({String? path}) =>
       ['api', HttpService.apiVersion, 'meter-month'];
+  
+  List<String>? pathSegmentUpdateCatatMeter({String? id}) => ['api', HttpService.apiVersion, 'meter-month', '$id'];
 
   Future<MeterMonthModel?> getMeterMonth({String? bearer}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
@@ -67,5 +71,50 @@ class CatatMeterProvider extends GetConnect {
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
     return addCatatMeterBulanModelFromJson(jsonString);
+  }
+
+  Future<CatatMeterModel?> getCatatMeter({String? bearer, int? bulan}) async {
+    Uri _getCatatMeter = Uri.parse(
+        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$bulan/meter");
+    logger.wtf('ini adalah baseUrl $_getCatatMeter');
+    final response =
+        await http.get(_getCatatMeter, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.d(jsonDecode(jsonString));
+      return catatMeterModelFromJson(jsonString);
+    }
+    return null;
+  }
+
+  Future<CusUserModel?> getSearchCus(
+      {String? path, String? bearer, String? searchValue}) async {
+    Uri _getSearchBaseFee = Uri.parse(
+        "https://api.airren.tbrdev.my.id/api/v1/consumer?search=$searchValue");
+    logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
+    final response =
+        await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return CusUserModelFromJson(jsonString);
+    }
+    return null;
+  }
+
+  Future<CommonModel?> deleteMeterBulan(
+      {required String? bearer, required String? id}) async {
+    var baseUrl = FlavorConfig.instance.variables["baseUrl"];
+    Uri _delMeterBulan = Uri.parse(baseUrl)
+        .replace(pathSegments: pathSegmentUpdateCatatMeter(id: id));
+    logger.wtf(_delMeterBulan);
+    final response = await http.delete(_delMeterBulan,
+        headers: bearerAuth(bearer: bearer),);
+    var jsonString = response.body;
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return commonPamManageModelFromJson(jsonString);
   }
 }

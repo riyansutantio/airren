@@ -7,6 +7,7 @@ environment:
 
 dependencies: 
   month_picker_dialog: ^0.4.0
+  group_list_view: ^1.1.1
   cupertino_icons: ^1.0.2
   flutter_beautiful_popup: ^1.4.0
   hexcolor:
