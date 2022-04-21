@@ -1,3 +1,5 @@
+import 'package:airen/app/modules/transaction/views/expense/add_expense.dart';
+import 'package:airen/app/modules/transaction/views/income/add_income.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +13,7 @@ import '../../../widgets/loginTextFormFieldBase.dart';
 import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/transaction_controller.dart';
 import '../provider/transaction_provider.dart';
+import 'income/detail_income.dart';
 
 class TransactionView extends GetView<TransactionController> {
   @override
@@ -73,14 +76,66 @@ class TransactionView extends GetView<TransactionController> {
               ),
               preferredSize: Size.fromHeight(Get.height * 0.1),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                // Get.to(AddCustomer());
-              },
-              child: Icon(
-                Icons.add,
-                color: HexColor('#ffffff'),
-              ),
+            floatingActionButton: Container(
+              height: 100,
+              child: FloatingActionButton(
+                  onPressed: () {
+                    // Get.to(AddCustomer());
+                  },
+                  child: PopupMenuButton(
+                      offset: Offset(0, -50),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20.0),
+                        ),
+                      ),
+                      padding: const EdgeInsets.only(right: 100),
+                      onSelected: (String selectedValue) {
+                        if (selectedValue == '1') {
+                          Get.to(AddIncome());
+                        } else {
+                          Get.to(AddExpense());
+                        }
+                        print(selectedValue);
+                      },
+                      child: Container(
+                        child: const Icon(EvaIcons.fileAddOutline,
+                            color: Colors.white),
+                      ),
+                      itemBuilder: (BuildContext ctx) => [
+                            PopupMenuItem(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Pemasukan'),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Icon(
+                                      EvaIcons.arrowCircleDownOutline,
+                                      color: HexColor('#05C270'),
+                                    )
+                                  ],
+                                ),
+                                value: '1'),
+                            PopupMenuItem(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Pengeluaran'),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Icon(
+                                      EvaIcons.arrowCircleUpOutline,
+                                      color: HexColor('#FF3B3B'),
+                                    )
+                                  ],
+                                ),
+                                value: '2'),
+                          ])),
             ),
             body: Obx(
               () => Container(
@@ -109,7 +164,10 @@ class TransactionView extends GetView<TransactionController> {
                                     Text("Rp ",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 32, color: Colors.white)),
-                                    Text("${controller.total_balance}",
+                                    Text(
+                                        controller.total_balance == null
+                                            ? '0'
+                                            : "${rupiah(controller.total_balance)}",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 32,
                                             color: Colors.white,
@@ -127,54 +185,13 @@ class TransactionView extends GetView<TransactionController> {
                                 const SizedBox(
                                   height: 24,
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    child: Ink(
-                                      decoration: BoxDecoration(
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              offset: Offset(0.0, 8.0),
-                                              color: Color.fromRGBO(
-                                                  0, 99, 248, 0.2),
-                                              blurRadius: 24,
-                                            ),
-                                          ],
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: SizedBox(
-                                        height: 48,
-                                        width: 170,
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                EvaIcons.plusCircleOutline,
-                                                color: HexColor('#0063F8'),
-                                              ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              Text(
-                                                'Saldo awal',
-                                                style: GoogleFonts.montserrat(
-                                                  color: HexColor('#0063F8'),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))))
+                                controller.total_balance
+                                        .toString()
+                                        .contains('-')
+                                    ? btnSaldo()
+                                    : controller.total_balance == null
+                                        ? btnSaldo()
+                                        : const SizedBox()
                               ],
                             ))
                       ]),
@@ -198,140 +215,169 @@ class TransactionView extends GetView<TransactionController> {
                                     padding: EdgeInsets.zero,
                                     itemCount: controller.pamTransResult.length,
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, left: 16.0, right: 16.0),
-                                        child: Container(
-                                          child: ListTile(
-                                              contentPadding:
-                                                  const EdgeInsets.all(10),
-                                              dense: false,
-                                              title: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    controller
-                                                                .pamTransResult[
-                                                                    index]
-                                                                .name
-                                                                .toString()
-                                                                .length <=
-                                                            12
-                                                        ? '${controller.pamTransResult[index].name}'
-                                                        : '${controller.pamTransResult[index].name!.substring(0, 12)}..',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 4.0),
-                                                    child: Text(
-                                                      '${controller.pamTransResult[index].amount}',
+                                      return GestureDetector(
+                                        onTap: () {
+                                          controller.nameDetailController.text =
+                                              controller
+                                                  .pamTransResult[index].name!;
+                                          controller.deskriptionDetailController
+                                                  .text =
+                                              controller.pamTransResult[index]
+                                                  .description!;
+                                          controller.nominalDetailController
+                                                  .text =
+                                              controller
+                                                  .pamTransResult[index].amount
+                                                  .toString();
+                                          // controller.pamTransResult[index]
+                                          //             .type ==
+                                          //         'income'
+                                          //     ? Get.to(DetailIncome())
+                                          //     : 1;
+                                          Get.to(DetailIncome());
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0,
+                                              left: 16.0,
+                                              right: 16.0),
+                                          child: Container(
+                                            child: ListTile(
+                                                contentPadding:
+                                                    const EdgeInsets.all(10),
+                                                dense: false,
+                                                title: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      controller
+                                                                  .pamTransResult[
+                                                                      index]
+                                                                  .name
+                                                                  .toString()
+                                                                  .length <=
+                                                              12
+                                                          ? '${controller.pamTransResult[index].name}'
+                                                          : '${controller.pamTransResult[index].name!.substring(0, 12)}..',
                                                       style: GoogleFonts
                                                           .montserrat(
-                                                        color:
-                                                            HexColor('#FF8801'),
+                                                        color: Colors.black,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              subtitle: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 4.0),
-                                                child: Text(
-                                                  controller
-                                                      .pamTransResult[index]
-                                                      .description
-                                                      .toString(),
-                                                  style: GoogleFonts.montserrat(
-                                                    color: HexColor('#707793')
-                                                        .withOpacity(0.7),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 4.0),
+                                                      child: Text(
+                                                        '${rupiah(controller.pamTransResult[index].amount)}',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          color: HexColor(
+                                                              '#FF8801'),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                subtitle: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 4.0),
+                                                  child: Text(
+                                                    controller
+                                                        .pamTransResult[index]
+                                                        .description
+                                                        .toString(),
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color: HexColor('#707793')
+                                                          .withOpacity(0.7),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              leading: CircleAvatar(
-                                                  maxRadius: 30,
-                                                  backgroundColor:
-                                                      HexColor('##0063F8')
-                                                          .withOpacity(0.05),
-                                                  child: Text(
+                                                leading: CircleAvatar(
+                                                    maxRadius: 30,
+                                                    backgroundColor:
+                                                        HexColor('##0063F8')
+                                                            .withOpacity(0.05),
+                                                    child: Text(
+                                                      controller
+                                                                  .pamTransResult[
+                                                                      index]
+                                                                  .createdAt!
+                                                                  .month <=
+                                                              9
+                                                          ? '0' +
+                                                              controller
+                                                                  .pamTransResult[
+                                                                      index]
+                                                                  .createdAt!
+                                                                  .month
+                                                                  .toString()
+                                                                  .toUpperCase()
+                                                          : controller
+                                                              .pamTransResult[
+                                                                  index]
+                                                              .createdAt!
+                                                              .month
+                                                              .toString()
+                                                              .toUpperCase(),
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                        color: HexColor(
+                                                                '#0063F8')
+                                                            .withOpacity(0.8),
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )),
+                                                trailing: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0),
+                                                  child: Icon(
                                                     controller
                                                                 .pamTransResult[
                                                                     index]
-                                                                .createdAt!
-                                                                .month <=
-                                                            9
-                                                        ? '0' +
-                                                            controller
+                                                                .type ==
+                                                            "expense"
+                                                        ? EvaIcons
+                                                            .arrowCircleUpOutline
+                                                        : EvaIcons
+                                                            .arrowCircleDownOutline,
+                                                    color: controller
                                                                 .pamTransResult[
                                                                     index]
-                                                                .createdAt!
-                                                                .month
-                                                                .toString()
-                                                                .toUpperCase()
-                                                        : controller
-                                                            .pamTransResult[
-                                                                index]
-                                                            .createdAt!
-                                                            .month
-                                                            .toString()
-                                                            .toUpperCase(),
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      color: HexColor('#0063F8')
-                                                          .withOpacity(0.8),
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  )),
-                                              trailing: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0),
-                                                child: Icon(
-                                                  controller
-                                                              .pamTransResult[
-                                                                  index]
-                                                              .type ==
-                                                          "expense"
-                                                      ? EvaIcons
-                                                          .arrowCircleUpOutline
-                                                      : EvaIcons
-                                                          .arrowCircleDownOutline,
-                                                  color: controller
-                                                              .pamTransResult[
-                                                                  index]
-                                                              .type ==
-                                                          "expense"
-                                                      ? HexColor('#FF3B3B'): HexColor('#05C270'),
-                                                ),
-                                              )),
-                                          decoration: const BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: Offset(0.0, 8.0),
-                                                  color: Color.fromRGBO(
-                                                      0, 99, 248, 0.16),
-                                                  blurRadius: 24,
-                                                ),
-                                              ],
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(16)),
-                                              color: Colors.white),
+                                                                .type ==
+                                                            "expense"
+                                                        ? HexColor('#FF3B3B')
+                                                        : HexColor('#05C270'),
+                                                  ),
+                                                )),
+                                            decoration: const BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    offset: Offset(0.0, 8.0),
+                                                    color: Color.fromRGBO(
+                                                        0, 99, 248, 0.16),
+                                                    blurRadius: 24,
+                                                  ),
+                                                ],
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(16)),
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       );
                                     })),
@@ -346,6 +392,50 @@ class TransactionView extends GetView<TransactionController> {
             ));
       },
     );
+  }
+
+  Widget btnSaldo() {
+    return ElevatedButton(
+        onPressed: () {},
+        child: Ink(
+          decoration: BoxDecoration(boxShadow: const [
+            BoxShadow(
+              offset: Offset(0.0, 8.0),
+              color: Color.fromRGBO(0, 99, 248, 0.2),
+              blurRadius: 24,
+            ),
+          ], color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child: SizedBox(
+            height: 48,
+            width: 170,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    EvaIcons.plusCircleOutline,
+                    color: HexColor('#0063F8'),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    'Saldo awal',
+                    style: GoogleFonts.montserrat(
+                      color: HexColor('#0063F8'),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10))));
   }
 
   Widget noListTransaksi() {

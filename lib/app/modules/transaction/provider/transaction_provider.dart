@@ -28,4 +28,59 @@ class TransactionProvider extends GetConnect {
     }
     return null;
   }
+
+  Future<PamTransUserModel?> addIncomeTrans(
+      {required String? bearer,
+      required String? name,
+      required int? amount,
+      required String? description}) async {
+    Uri _addPamManageUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/pam-transaction");
+    logger.wtf(_addPamManageUri);
+    final response = await http.post(_addPamManageUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "name": name,
+          "amount": amount,
+          "type": "income",
+          "description": description,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "name": name,
+      "amount": amount,
+      "type": "income",
+      "description": description,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return pamTransModelFromJson(jsonString);
+  }
+  Future<PamTransUserModel?> addExpenseTrans(
+      {required String? bearer,
+      required String? name,
+      required int? amount,
+      required String? description}) async {
+    Uri _addPamManageUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/pam-transaction");
+    logger.wtf(_addPamManageUri);
+    final response = await http.post(_addPamManageUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "name": name,
+          "amount": amount,
+          "type": "expense",
+          "description": description,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "name": name,
+      "amount": amount,
+      "type": "income",
+      "description": description,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return pamTransModelFromJson(jsonString);
+  }
 }
