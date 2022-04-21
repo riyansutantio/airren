@@ -226,7 +226,7 @@ class TransactionView extends GetView<TransactionController> {
           ),
           const SizedBox(height: 8),
           Text(
-            "Gunakan tombol di bawah untuk menambahkan transaksi baru.",
+            "Gunakan tombol di bawah untuk\nmenambahkan transaksi baru.",
             style: GoogleFonts.montserrat(
                 fontSize: 12,
                 color: HexColor('#707793'),
