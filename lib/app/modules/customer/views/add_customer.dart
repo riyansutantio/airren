@@ -98,143 +98,135 @@ class AddCustomer extends GetView<CustomerController> {
               child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20, top: 40),
-                            child: AirenTextFormFieldBase(
-                              suffixIcon: Icon(EvaIcons.personOutline,
-                                  color: HexColor('#0063F8')),
-                              textInputType: TextInputType.text,
-                              hintText: 'Nama Pengelola',
-                              obscureText: false,
-                              passwordVisibility: false,
-                              controller: dataCustomerController,
-                              textEditingController:
-                                  dataCustomerController.nameController,
-                              returnValidation: (val) {
-                                if (val!.isEmpty) {
-                                  return "Nama administrator PAM harus diisi";
-                                } else if (val.length < 3) {
-                                  return "Nama administrator PAM harus lebih dari 3";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20, top: 24),
-                            child: AirenTextFormFieldBase(
-                             
-                               suffixIcon: Icon(EvaIcons.pinOutline,
-                                  color: HexColor('#0063F8')),
-                              hintText: 'Alamat',
-                              obscureText: false,
-                              passwordVisibility: false,
-                              controller: dataCustomerController,
-                              textEditingController:
-                                  dataCustomerController.addressCusController,
-                              returnValidation: (val) {
-                                if (val!.isEmpty) {
-                                  return "Alamat tidak valid";
-                                } else if (val.isEmpty) {
-                                  return "Alamat harus diisi";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20, top: 24),
-                            child: AirenTextFormFieldBase(
-                              textInputType: TextInputType.phone,
-                              suffixIcon: Icon(EvaIcons.phoneOutline,
-                                  color: HexColor('#0063F8')),
-                              hintText: 'Nomor HP',
-                              obscureText: false,
-                              passwordVisibility: false,
-                              controller: dataCustomerController,
-                              textEditingController: dataCustomerController
-                                  .phoneNumberCusController,
-                              prefixText: SizedBox(
-                                child: Center(
-                                  widthFactor: 0.0,
-                                  child: Text(
-                                    '62',
-                                    style: GoogleFonts.montserrat(
-                                      color: HexColor('#707793'),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              returnValidation: (val) {
-                                if (val!.isEmpty) {
-                                  return "Nomor HP harus diisi";
-                                } else if (val.length < 7) {
-                                  return "Nomor HP tidak valid";
-                                } else if (val.length > 14) {
-                                  return "Nomor HP tidak valid";
-                                } else if (val[0] == "0") {
-                                  return "Nomor HP tidak valid";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                            Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20, top: 24),
-                            child: AirenTextFormFieldBase(
-                          
-                              suffixIcon: Icon(EvaIcons.compassOutline,
-                                  color: HexColor('#0063F8')),
-                              hintText: 'Posisi  Meter',
-                              obscureText: false,
-                              passwordVisibility: false,
-                              controller: dataCustomerController,
-                              textEditingController:
-                                  dataCustomerController.meterCusController,
-                              returnValidation: (val) {
-                                if (val!.isEmpty) {
-                                  return "Meter tidak valid";
-                                } else if (val.isEmpty) {
-                                  return "Meter harus diisi";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20, top: 12),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 40),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Icon(EvaIcons.personOutline,
+                              color: HexColor('#0063F8')),
+                          textInputType: TextInputType.text,
+                          hintText: 'Nama Pelanggan',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataCustomerController,
+                          textEditingController:
+                              dataCustomerController.nameController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nama  harus diisi";
+                            } else if (val.length < 3) {
+                              return "Nama  harus lebih dari 3 karakter";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Icon(EvaIcons.pinOutline,
+                              color: HexColor('#0063F8')),
+                          hintText: 'Alamat',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataCustomerController,
+                          textEditingController:
+                              dataCustomerController.addressCusController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Alamat harus diisi";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          textInputType: TextInputType.phone,
+                          suffixIcon: Icon(EvaIcons.phoneOutline,
+                              color: HexColor('#0063F8')),
+                          hintText: 'Nomor HP',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataCustomerController,
+                          textEditingController:
+                              dataCustomerController.phoneNumberCusController,
+                          prefixText: SizedBox(
+                            child: Center(
+                              widthFactor: 0.0,
                               child: Text(
-                                'Posisi meter saat pertama kali pelanggan akan ditambahkan',
+                                '62',
                                 style: GoogleFonts.montserrat(
                                   color: HexColor('#707793'),
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
                             ),
                           ),
-                          
-                          const SizedBox(height: 10),
-                       
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, right: 20, left: 20, bottom: 8.0),
-                              child: buildElevatedButtonCustom(),
-                            ),
-                        ],
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Nomor HP harus diisi";
+                            } else if (val.length < 7) {
+                              return "Nomor HP tidak valid";
+                            } else if (val.length > 14) {
+                              return "Nomor HP tidak valid";
+                            } else if (val[0] == "0") {
+                              return "Nomor HP tidak valid";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 24),
+                        child: AirenTextFormFieldBase(
+                          suffixIcon: Icon(EvaIcons.compassOutline,
+                              color: HexColor('#0063F8')),
+                          hintText: 'Posisi  Meter',
+                          obscureText: false,
+                          passwordVisibility: false,
+                          controller: dataCustomerController,
+                          textEditingController:
+                              dataCustomerController.meterCusController,
+                          returnValidation: (val) {
+                            if (val!.isEmpty) {
+                              return "Meter harus diisi";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 12),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Posisi meter saat pertama kali pelanggan akan ditambahkan',
+                            style: GoogleFonts.montserrat(
+                              color: HexColor('#707793'),
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, right: 20, left: 20, bottom: 8.0),
+                        child: buildElevatedButtonCustom(),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(

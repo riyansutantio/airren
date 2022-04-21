@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -26,6 +27,9 @@ class CustomerDetailView extends GetView<CustomerController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor:  HexColor('#5433FF'), //or set color with: Color(0xFF0000FF)
+));
     return WillPopScope(
       onWillPop: () =>
           willPopCallbackWithFunc(func: controller.clearCondition()),
@@ -46,7 +50,8 @@ class CustomerDetailView extends GetView<CustomerController> {
                         child: const Padding(
                           padding: EdgeInsets.only(
                               left: 20.0, top: 15, bottom: 19, right: 20),
-                          child: Icon(EvaIcons.arrowBack, color: Colors.white),
+                          child:
+                              Icon(EvaIcons.arrowBack, color: Colors.white),
                         ),
                       ),
                       Text(
@@ -80,6 +85,8 @@ class CustomerDetailView extends GetView<CustomerController> {
                                 return;
                               } else {
                                 dataCustomerController.updateManageCus(
+                                    id: dataCustomerController
+                                        .idDetailController.text,
                                     name: dataCustomerController
                                         .nameDetailController.text,
                                     phoneNumber: dataCustomerController
@@ -98,11 +105,12 @@ class CustomerDetailView extends GetView<CustomerController> {
                 ],
               ),
               decoration: BoxDecoration(
+                color: HexColor('#5433FF'),
                   gradient: LinearGradient(
                       colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                   boxShadow: const []),
             ),
-            preferredSize: Size.fromHeight(56),
+               preferredSize: Size.fromHeight(56),
           ),
           body: Container(
             height: double.infinity,
@@ -126,6 +134,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                   suffixIcon: Icon(EvaIcons.gridOutline,
                                       color: HexColor('#0063F8')),
                                   textInputType: TextInputType.text,
+                                  enabled: false,
                                   hintText: 'Nama Invoice',
                                   obscureText: false,
                                   passwordVisibility: false,
@@ -190,9 +199,9 @@ class CustomerDetailView extends GetView<CustomerController> {
                                 dataCustomerController.nameDetailController,
                             returnValidation: (val) {
                               if (val!.isEmpty) {
-                                return "Nama administrator PAM harus diisi";
+                                return "Nama  harus diisi";
                               } else if (val.length < 3) {
-                                return "Nama administrator PAM harus lebih dari 3";
+                                return "Nama  harus lebih dari 3";
                               }
                               return null;
                             },
@@ -211,9 +220,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             textEditingController: dataCustomerController
                                 .addressDetailCusController,
                             returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Alamat tidak valid";
-                              } else if (val.isEmpty) {
+                             if (val!.isEmpty) {
                                 return "Alamat harus diisi";
                               }
                               return null;
@@ -273,9 +280,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             textEditingController:
                                 dataCustomerController.meterDetailCusController,
                             returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Meter tidak valid";
-                              } else if (val.isEmpty) {
+                            if (val!.isEmpty) {
                                 return "Meter harus diisi";
                               }
                               return null;
@@ -405,7 +410,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                                                       const EdgeInsets.only(
                                                           top: 30.0),
                                                   child: Text(
-                                                    'Status Pengelola',
+                                                    'Status Pelanggan',
                                                     style:
                                                         GoogleFonts.montserrat(
                                                       color:
@@ -770,6 +775,7 @@ class CustomerDetailView extends GetView<CustomerController> {
             return;
           } else {
             dataCustomerController.updateManageCus(
+                id: dataCustomerController.idDetailController.text,
                 name: dataCustomerController.nameDetailController.text,
                 phoneNumber:
                     dataCustomerController.phoneDetailNumberCusController.text,
