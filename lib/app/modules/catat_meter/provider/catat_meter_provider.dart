@@ -30,7 +30,7 @@ class CatatMeterProvider extends GetConnect {
     if (response.statusCode == 200) {
       logger.wtf(response.statusCode);
       var jsonString = response.body;
-      logger.wtf(jsonDecode(jsonString));
+      logger.d(jsonDecode(jsonString));
       return meterMonthModelFromJson(jsonString);
     }
     return null;
@@ -38,8 +38,8 @@ class CatatMeterProvider extends GetConnect {
 
   Future<AddCatatMeterBulanModel> addCatatMeterBulan({
     required String? bearer,
-    required int month_of,
-    required int year_of,
+    required int monthOf,
+    required int yearOf,
   }) async {
     var baseUrl = FlavorConfig.instance.variables['baseUrl'];
     Uri _addCatatMeterUri =
@@ -50,8 +50,8 @@ class CatatMeterProvider extends GetConnect {
       headers: bearerAuth(bearer: bearer),
       body: jsonEncode(
         {
-          "month_of": month_of,
-          "year_of": year_of,
+          "month_of": monthOf,
+          "year_of": yearOf,
         },
       ),
     );
@@ -59,8 +59,8 @@ class CatatMeterProvider extends GetConnect {
     logger.wtf(
       jsonEncode(
         {
-          "month_of": month_of,
-          "year_of": year_of,
+          "month_of": monthOf,
+          "year_of": yearOf,
         },
       ),
     );

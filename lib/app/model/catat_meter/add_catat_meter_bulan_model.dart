@@ -34,8 +34,8 @@ class Data {
 
 class CatatMeterBulan {
   CatatMeterBulan({
-    this.month_of,
-    this.year_of,
+  this.month_of,
+  this.year_of,
   });
 
   
