@@ -24,14 +24,25 @@ class CustomerController extends GetxController {
   CustomerProviders? p;
   final boxUser = GetStorage();
   final isLoadingCusUser = false.obs;
+  RxInt isRadio = 1.obs;
+  final searchValue = ''.obs;
+  final isSearch = false.obs;
   final cusUserResult = <CustomerModel>[].obs;
   String getInitials(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((e) => e[0]).take(2).join()
       : '';
+
+  final searchController = TextEditingController();
   final nameController = TextEditingController();
   final phoneNumberCusController = TextEditingController();
   final addressCusController = TextEditingController();
   final meterCusController = TextEditingController();
+  final nameDetailController = TextEditingController();
+  final phoneDetailNumberCusController = TextEditingController();
+  final addressDetailCusController = TextEditingController();
+  final meterDetailCusController = TextEditingController();
+  final activeDetailCusController = TextEditingController();
+  final uniqueIdDetailCusController = TextEditingController();
 
   var menuItem = <MenuItemModel>[
     MenuItemModel(
@@ -78,7 +89,8 @@ class CustomerController extends GetxController {
     logger.i('test');
     await getCusUsers();
   }
-Future addCustomers() async {
+
+  Future addCustomers() async {
     final res = await p!.addCusManage(
         bearer: boxUser.read(tokenBearer),
         address: addressCusController.text,
@@ -95,6 +107,30 @@ Future addCustomers() async {
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
+
+  Future updateManageCus(
+      {required String name,
+      required String phoneNumber,
+      required String address,
+      required String meter}) async {
+    final res = await p!.updateCusManage(
+        bearer: boxUser.read(tokenBearer),
+        address: address,
+        name: name,
+        phoneNumber: phoneNumber,
+        active: isRadio.value,
+        meter: meter);
+    logger.i(nameController.text);
+    if (res!.status! == 'success') {
+      await getCusUsers();
+      await clearCondition();
+      Get.back();
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
+    } else {
+      snackBarNotificationFailed(title: 'Gagal diubah');
+    }
+  }
+
   Future getCusUsers() async {
     try {
       isLoadingCusUser.value = true;
@@ -113,9 +149,20 @@ Future addCustomers() async {
     }
   }
 
+  Future searchManage() async {
+    isLoadingCusUser.value = true;
+    final res = await p!.getSearchCus(
+        bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
+    // logger.wtf(res!.data!.data!.toList());
+    cusUserResult.assignAll(res!.data!.cusMs!);
+  }
+
   @override
   void onReady() {
     super.onReady();
+    debounce(searchValue, (val) {
+      return searchManage();
+    }, time: 500.milliseconds);
   }
 
   @override
@@ -124,28 +171,91 @@ Future addCustomers() async {
   }
 
   void increment() => count.value++;
-
-  void getPdf() async {
+  void getPdf(String uniqueId, String name) async {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
+        margin: pw.EdgeInsets.all(10),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
             pw.GridView(
                 crossAxisCount: 5,
                 childAspectRatio: 1,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: menuItem
-                    .map((e) => pw.Column(children: [
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 7,
+                children: [
+                  pw.Container(
+                      padding: pw.EdgeInsets.only(
+                          left: 15, right: 15, bottom: 6, top: 6),
+                      decoration: pw.BoxDecoration(
+                        border: pw.Border.all(
+                            color: PdfColor.fromHex('#000'), width: 1),
+                      ),
+                      child: pw.Column(children: [
+                        pw.BarcodeWidget(
+                            padding: pw.EdgeInsets.only(top: 10),
+                            data: uniqueId,
+                            barcode: pw.Barcode.qrCode(),
+                            height: 70,
+                            width: 70),
+                        pw.Text(
+                            name.length <= 9
+                                ? name
+                                : name.substring(0, 9) + '..',
+                            style: pw.TextStyle(
+                                fontSize: 14, fontWeight: pw.FontWeight.bold)),
+                        pw.Text('$uniqueId'),
+                      ]))
+                ])
+          ]; // Center
+        }));
+
+    Uint8List bytes = await pdf.save();
+
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/airrenQR-$formatted.pdf');
+    await file.writeAsBytes(bytes);
+    await OpenFile.open(file.path);
+  }
+
+  void getPdfAll() async {
+    final pdf = pw.Document();
+
+    pdf.addPage(pw.MultiPage(
+        margin: pw.EdgeInsets.all(10),
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.GridView(
+                crossAxisCount: 5,
+                childAspectRatio: 1,
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 7,
+                children: cusUserResult
+                    .map((e) => pw.Container(
+                        padding: pw.EdgeInsets.only(
+                            left: 15, right: 15, bottom: 6, top: 6),
+                        decoration: pw.BoxDecoration(
+                          border: pw.Border.all(
+                              color: PdfColor.fromHex('#000'), width: 1),
+                        ),
+                        child: pw.Column(children: [
                           pw.BarcodeWidget(
-                              data: e.id!,
+                              padding: pw.EdgeInsets.only(top: 10),
+                              data: e.uniqueId!,
                               barcode: pw.Barcode.qrCode(),
-                              height: 30,
-                              width: 30),
-                          pw.Text('${e.title}'),
-                        ]))
+                              height: 70,
+                              width: 70),
+                          pw.Text(
+                              e.name!.length <= 9
+                                  ? '${e.name}'
+                                  : '${e.name!.substring(0, 9)}' + '..',
+                              style: pw.TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: pw.FontWeight.bold)),
+                          pw.Text('${e.uniqueId}'),
+                        ])))
                     .toList())
           ]; // Center
         })); // Page
@@ -157,7 +267,8 @@ Future addCustomers() async {
     await file.writeAsBytes(bytes);
     await OpenFile.open(file.path);
   }
-   Future<void> clearCondition() async {
+
+  Future<void> clearCondition() async {
     nameController.clear();
     addressCusController.clear();
     phoneNumberCusController.clear();
