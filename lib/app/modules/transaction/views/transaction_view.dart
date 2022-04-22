@@ -13,7 +13,7 @@ import '../../../widgets/loginTextFormFieldBase.dart';
 import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/transaction_controller.dart';
 import '../provider/transaction_provider.dart';
-import 'income/detail_income.dart';
+import 'income/first_blance.dart';
 
 class TransactionView extends GetView<TransactionController> {
   @override
@@ -99,7 +99,7 @@ class TransactionView extends GetView<TransactionController> {
                         print(selectedValue);
                       },
                       child: Container(
-                        child: const Icon(EvaIcons.fileAddOutline,
+                        child: const Icon(Icons.add,
                             color: Colors.white),
                       ),
                       itemBuilder: (BuildContext ctx) => [
@@ -678,7 +678,9 @@ class TransactionView extends GetView<TransactionController> {
 
   Widget btnSaldo() {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(FirstBlance());
+        },
         child: Ink(
           decoration: BoxDecoration(boxShadow: const [
             BoxShadow(

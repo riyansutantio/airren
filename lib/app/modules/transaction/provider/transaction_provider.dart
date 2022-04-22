@@ -83,4 +83,24 @@ class TransactionProvider extends GetConnect {
     logger.wtf(response.statusCode);
     return pamTransModelFromJson(jsonString);
   }
+  Future<PamTransUserModel?> addFirstBlance(
+      {required String? bearer,
+      required int? amount,}) async {
+    Uri _addPamManageUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/first-balance");
+    logger.wtf(_addPamManageUri);
+    final response = await http.post(_addPamManageUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+              "_method": "PATCH",
+          "first_balance": amount,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "first_balance": amount,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return pamTransModelFromJson(jsonString);
+  }
 }

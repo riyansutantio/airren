@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import '../../../model/pam_transaction.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
@@ -20,14 +21,20 @@ class TransactionController extends GetxController {
   final nameController = TextEditingController();
   final nominalController = TextEditingController();
   final deskriptionController = TextEditingController();
-   final nameDetailController = TextEditingController();
+  final nameDetailController = TextEditingController();
   final nominalDetailController = TextEditingController();
+  final nominalFirstBlanceController = TextEditingController();
   final deskriptionDetailController = TextEditingController();
-
 
   final nameExpenseController = TextEditingController();
   final nominalExpenseController = TextEditingController();
   final deskriptionExpenseController = TextEditingController();
+
+  String formatNumber(String s) =>
+      NumberFormat.decimalPattern('id').format(int.parse(s));
+  String get currency =>
+      NumberFormat.compactSimpleCurrency(locale: 'id').currencySymbol;
+
   @override
   void onInit() async {
     super.onInit();
@@ -38,7 +45,7 @@ class TransactionController extends GetxController {
   Future addIncomes() async {
     final res = await p!.addIncomeTrans(
       bearer: boxUser.read(tokenBearer),
-      amount: int.parse(nominalController.text),
+      amount: int.parse(nominalController.text.replaceAll('.','')),
       name: nameController.text,
       description: deskriptionController.text,
     );
@@ -52,14 +59,30 @@ class TransactionController extends GetxController {
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
+
   Future addExpensesTran() async {
     final res = await p!.addExpenseTrans(
       bearer: boxUser.read(tokenBearer),
-      amount: int.parse(nominalExpenseController.text),
+      amount: int.parse(nominalExpenseController.text.replaceAll('.','')),
       name: nameExpenseController.text,
       description: deskriptionExpenseController.text,
     );
     logger.i(nameController.text);
+    if (res!.status! == 'success') {
+      await getPamTransactions();
+      await clearCondition();
+      Get.back();
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+    } else {
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
+    }
+  }
+
+  Future addFirstBlances() async {
+    final res = await p!.addFirstBlance(
+      bearer: boxUser.read(tokenBearer),
+      amount: int.parse(nominalFirstBlanceController.text.replaceAll('.','')),
+    );
     if (res!.status! == 'success') {
       await getPamTransactions();
       await clearCondition();

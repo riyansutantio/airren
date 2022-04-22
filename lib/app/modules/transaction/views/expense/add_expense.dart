@@ -19,9 +19,10 @@ class AddExpense extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  statusBarColor:  HexColor('#5433FF'), statusBarBrightness: Brightness.dark,
-  systemNavigationBarDividerColor:  HexColor('#5433FF'), 
-));
+      statusBarColor: HexColor('#5433FF'),
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarDividerColor: HexColor('#5433FF'),
+    ));
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -87,7 +88,7 @@ class AddExpense extends GetView<TransactionController> {
                     colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                 boxShadow: const []),
           ),
-        preferredSize: Size.fromHeight(56),
+          preferredSize: Size.fromHeight(56),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -103,6 +104,7 @@ class AddExpense extends GetView<TransactionController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 40),
                         child: AirenTextFormFieldBase(
+                        
                           suffixIcon: Icon(EvaIcons.editOutline,
                               color: HexColor('#0063F8')),
                           textInputType: TextInputType.text,
@@ -125,7 +127,12 @@ class AddExpense extends GetView<TransactionController> {
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
-                        child: AirenTextFormFieldBase(
+                        child: AirenTextFormFieldBase(textInputFormatter: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            // Fit the validating format.
+                            //fazer o formater para dinheiro
+                            CurrencyInputFormatter()
+                          ],
                           textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.pricetagsOutline,
                               color: HexColor('#0063F8')),
@@ -166,8 +173,8 @@ class AddExpense extends GetView<TransactionController> {
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataCustomerController,
-                          textEditingController:
-                              dataCustomerController.deskriptionExpenseController,
+                          textEditingController: dataCustomerController
+                              .deskriptionExpenseController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
                               return "Deskripsi harus diisi";
@@ -176,7 +183,6 @@ class AddExpense extends GetView<TransactionController> {
                           },
                         ),
                       ),
-                      
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.only(
