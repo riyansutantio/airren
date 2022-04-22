@@ -31,3 +31,10 @@ String? rpFormatter({int? value}) {
 String? rpFormatterWithOutSymbol({int? value}) {
   return NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(double.parse('${value ?? 0}'));
 }
+
+String rupiah(value, {String separator = '.', String trailing = ''}) {
+  return value
+          .toString()
+          .replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}${separator}') +
+      trailing;
+}

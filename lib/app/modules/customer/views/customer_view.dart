@@ -1,6 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -91,7 +90,7 @@ class CustomerView extends GetView<CustomerController> {
                                       },
                                       itemBuilder: (BuildContext ctx) => [
                                             PopupMenuItem(
-                                                child: Row(
+                                                child: Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     const Text(
                                                         'Bagikan QR Code'),
@@ -108,6 +107,7 @@ class CustomerView extends GetView<CustomerController> {
                                                 value: '1'),
                                             PopupMenuItem(
                                                 child: Row(
+                                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     const Text(
                                                         'Download QR Code'),
@@ -156,14 +156,16 @@ class CustomerView extends GetView<CustomerController> {
                       color: Colors.white),
                   child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: (controller.cusUserResult.isEmpty)
-                          ? noListCustomer()
+                      child: (controller.cusUserResult.isEmpty&& controller.cusUserResult.length<=0)
+                          ? controller.noListCustomer()
                           : ListView.builder(
                               itemCount: controller.cusUserResult.length,
                               itemBuilder: (context, index) {
                                 var menu = controller.cusUserResult[index].obs;
                                 return GestureDetector(
                                   onTap: () {
+                                    controller.idDetailController.text =
+                                        controller.cusUserResult[index].id.toString();
                                     controller.nameDetailController.text =
                                         controller.cusUserResult[index].name!;
                                     controller.phoneDetailNumberCusController
@@ -199,12 +201,12 @@ class CustomerView extends GetView<CustomerController> {
                                           dense: false,
                                           title: Text(
                                             controller.cusUserResult[index]
-                                                        .pamId
+                                                        .name
                                                         .toString()
                                                         .length <=
-                                                    9
+                                                  12
                                                 ? '${controller.cusUserResult[index].name}'
-                                                : '${controller.cusUserResult[index].name!.substring(0, 9)}+..',
+                                                : '${controller.cusUserResult[index].name!.substring(0, 12)}'+'..',
                                             style: GoogleFonts.montserrat(
                                               color: Colors.black,
                                               fontSize: 14,
@@ -253,7 +255,7 @@ class CustomerView extends GetView<CustomerController> {
                                                 ),
                                               )),
                                           trailing: SizedBox(
-                                            width: 86,
+                                            width: 94,
                                             height: 25,
                                             child: Row(
                                               children: [
@@ -265,7 +267,7 @@ class CustomerView extends GetView<CustomerController> {
                                                   width: 6,
                                                 ),
                                                 Container(
-                                                  width: 24,
+                                                  width: 30,
                                                   child: Text(
                                                     controller
                                                                 .cusUserResult[
@@ -403,34 +405,5 @@ class CustomerView extends GetView<CustomerController> {
     );
   }
 
-  Widget noListCustomer() {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            "assets/emptylist.png",
-            width: 77,
-            height: 90,
-          ),
-          const SizedBox(height: 30),
-          Text(
-            "Belum ada pelanggan",
-            style: GoogleFonts.montserrat(
-                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "Tambahkan pelanggan baru melalui\n tombol biru di bawah.",
-            style: GoogleFonts.montserrat(
-                fontSize: 12,
-                color: HexColor('#707793'),
-                fontWeight: FontWeight.w300),
-            textAlign: TextAlign.center,
-          )
-        ],
-      ),
-    );
-  }
+  
 }

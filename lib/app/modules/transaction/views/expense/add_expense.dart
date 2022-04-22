@@ -1,31 +1,26 @@
-import 'package:airen/app/modules/data_master/controllers/data_master_controller.dart';
-import 'package:airen/app/modules/data_master/providers/master_data_provider.dart';
-import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../../utils/constant.dart';
-import '../../../widgets/loginTextFormFieldBase.dart';
-import '../../error_handling/views/error_handling_view.dart';
-import '../controllers/customer_controller.dart';
-import '../providers/customer_provider.dart';
+import '../../../../utils/constant.dart';
+import '../../../../widgets/loginTextFormFieldBase.dart';
+import '../../controllers/transaction_controller.dart';
+import '../../provider/transaction_provider.dart';
 
-class AddCustomer extends GetView<CustomerController> {
+class AddExpense extends GetView<TransactionController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final CustomerController dataCustomerController = Get.put(
-    CustomerController(p: CustomerProviders()),
+  final TransactionController dataCustomerController = Get.put(
+    TransactionController(p: TransactionProvider()),
   );
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  statusBarColor:  HexColor('#5433FF'), //or set color with: Color(0xFF0000FF)
+  statusBarColor:  HexColor('#5433FF'), statusBarBrightness: Brightness.dark,
+  systemNavigationBarDividerColor:  HexColor('#5433FF'), 
 ));
     return SafeArea(
       child: Scaffold(
@@ -48,7 +43,7 @@ class AddCustomer extends GetView<CustomerController> {
                       ),
                     ),
                     Text(
-                      'Tambah Pelanggan',
+                      'Tambah Pengeluaran',
                       style: GoogleFonts.montserrat(
                         color: Colors.white,
                         fontSize: 14,
@@ -77,7 +72,7 @@ class AddCustomer extends GetView<CustomerController> {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             } else {
-                              dataCustomerController.addCustomers();
+                              dataCustomerController.addExpensesTran();
                             }
                           },
                           child: const Icon(EvaIcons.checkmark,
@@ -92,13 +87,13 @@ class AddCustomer extends GetView<CustomerController> {
                     colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                 boxShadow: const []),
           ),
-          preferredSize: Size.fromHeight(56),
+        preferredSize: Size.fromHeight(56),
         ),
         body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: gradientColorAirren)),
           child: Container(
-              height: double.infinity,
+              height: MediaQuery.of(context).size.width,
               child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(
@@ -108,15 +103,15 @@ class AddCustomer extends GetView<CustomerController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 40),
                         child: AirenTextFormFieldBase(
-                          suffixIcon: Icon(EvaIcons.personOutline,
+                          suffixIcon: Icon(EvaIcons.editOutline,
                               color: HexColor('#0063F8')),
                           textInputType: TextInputType.text,
-                          hintText: 'Nama Pelanggan',
+                          hintText: 'Nama',
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataCustomerController,
                           textEditingController:
-                              dataCustomerController.nameController,
+                              dataCustomerController.nameExpenseController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
                               return "Nama  harus diisi";
@@ -131,40 +126,20 @@ class AddCustomer extends GetView<CustomerController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
-                          suffixIcon: Icon(EvaIcons.pinOutline,
+                          textInputType: TextInputType.number,
+                          suffixIcon: Icon(EvaIcons.pricetagsOutline,
                               color: HexColor('#0063F8')),
-                          hintText: 'Alamat',
+                          hintText: 'Nominal',
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataCustomerController,
                           textEditingController:
-                              dataCustomerController.addressCusController,
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Alamat harus diisi";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 24),
-                        child: AirenTextFormFieldBase(
-                          textInputType: TextInputType.phone,
-                          suffixIcon: Icon(EvaIcons.phoneOutline,
-                              color: HexColor('#0063F8')),
-                          hintText: 'Nomor HP',
-                          obscureText: false,
-                          passwordVisibility: false,
-                          controller: dataCustomerController,
-                          textEditingController:
-                              dataCustomerController.phoneNumberCusController,
+                              dataCustomerController.nominalExpenseController,
                           prefixText: SizedBox(
                             child: Center(
                               widthFactor: 0.0,
                               child: Text(
-                                '62',
+                                'Rp',
                                 style: GoogleFonts.montserrat(
                                   color: HexColor('#707793'),
                                   fontSize: 14,
@@ -175,13 +150,7 @@ class AddCustomer extends GetView<CustomerController> {
                           ),
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "Nomor HP harus diisi";
-                            } else if (val.length < 7) {
-                              return "Nomor HP tidak valid";
-                            } else if (val.length > 14) {
-                              return "Nomor HP tidak valid";
-                            } else if (val[0] == "0") {
-                              return "Nomor HP tidak valid";
+                              return "Nominal harus diisi";
                             }
                             return null;
                           },
@@ -191,37 +160,23 @@ class AddCustomer extends GetView<CustomerController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
-                          suffixIcon: Icon(EvaIcons.compassOutline,
+                          suffixIcon: Icon(EvaIcons.fileTextOutline,
                               color: HexColor('#0063F8')),
-                          hintText: 'Posisi  Meter',
+                          hintText: 'Catatan Singkat',
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataCustomerController,
                           textEditingController:
-                              dataCustomerController.meterCusController,
+                              dataCustomerController.deskriptionExpenseController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "Meter harus diisi";
+                              return "Deskripsi harus diisi";
                             }
                             return null;
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 12),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Posisi meter saat pertama kali pelanggan akan ditambahkan',
-                            style: GoogleFonts.montserrat(
-                              color: HexColor('#707793'),
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                      ),
+                      
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -248,7 +203,7 @@ class AddCustomer extends GetView<CustomerController> {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            dataCustomerController.addCustomers();
+            dataCustomerController.addExpensesTran();
           }
         },
         child: Ink(

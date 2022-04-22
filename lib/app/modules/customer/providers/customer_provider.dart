@@ -62,9 +62,10 @@ class CustomerProviders extends GetConnect {
       required String phoneNumber,
       required String address,
       required int active,
+      required String id,
       required String meter}) async {
     Uri _updatePamManageUri =
-        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer/2");
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer/$id");
     logger.wtf(_updatePamManageUri);
     final response = await http.post(_updatePamManageUri,
         headers: bearerAuth(bearer: bearer),

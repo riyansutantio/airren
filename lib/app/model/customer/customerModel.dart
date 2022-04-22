@@ -38,7 +38,9 @@ class Data {
 
 class CustomerModel {
   CustomerModel(
-      {this.name,
+      {
+        this.id,
+        this.name,
       this.uniqueId,
       this.pamId,
       this.address,
@@ -49,6 +51,7 @@ class CustomerModel {
       this.updatedAt});
 
   final String? name;
+  final int? id;
   final String? uniqueId;
   final String? address;
   final String? phoneNumber;
@@ -59,6 +62,7 @@ class CustomerModel {
   final DateTime? updatedAt;
   factory CustomerModel.fromJson(Map<String, dynamic> json) => CustomerModel(
         name: json["name"] == null ? null : json["name"],
+        id: json["id"] == null ? null : json["id"],
         uniqueId: json["unique_id"] == null ? null : json["unique_id"],
         address: json["full_address"] == null ? null : json["full_address"],
         meter: json["start_meter"] == null ? null : json["start_meter"],

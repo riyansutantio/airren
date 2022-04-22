@@ -15,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../account/views/account_view.dart';
+import '../../transaction/views/transaction_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -466,6 +467,8 @@ class HomeView extends GetView<HomeController> {
                         controller.pageNavBottom.value = 1;
                       } else if (controller.menuItem[index].id == "0") {
                         Get.to(()=> CatatMeterView());
+                      } else if (controller.menuItem[index].id == "1") {
+                        Get.to(TransactionView());
                       }
                     },
                     child: containerItemMenu(
@@ -753,7 +756,7 @@ class HomeView extends GetView<HomeController> {
     switch (command) {
       case '0':
         return Container(
-          child: const Center(child: Text('Pembayaran')),
+          child: Center(child: TransactionView()),
         );
       case '1':
         return AccountView();

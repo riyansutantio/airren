@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:get/get.dart';
@@ -34,10 +36,12 @@ class CustomerController extends GetxController {
 
   final searchController = TextEditingController();
   final nameController = TextEditingController();
+  final idController = TextEditingController();
   final phoneNumberCusController = TextEditingController();
   final addressCusController = TextEditingController();
   final meterCusController = TextEditingController();
   final nameDetailController = TextEditingController();
+  final idDetailController = TextEditingController();
   final phoneDetailNumberCusController = TextEditingController();
   final addressDetailCusController = TextEditingController();
   final meterDetailCusController = TextEditingController();
@@ -112,6 +116,7 @@ class CustomerController extends GetxController {
       {required String name,
       required String phoneNumber,
       required String address,
+      required String id,
       required String meter}) async {
     final res = await p!.updateCusManage(
         bearer: boxUser.read(tokenBearer),
@@ -119,6 +124,7 @@ class CustomerController extends GetxController {
         name: name,
         phoneNumber: phoneNumber,
         active: isRadio.value,
+        id: id,
         meter: meter);
     logger.i(nameController.text);
     if (res!.status! == 'success') {
@@ -154,7 +160,8 @@ class CustomerController extends GetxController {
     final res = await p!.getSearchCus(
         bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
     // logger.wtf(res!.data!.data!.toList());
-    cusUserResult.assignAll(res!.data!.cusMs!);
+
+   cusUserResult.assignAll(res!.data!.cusMs!);
   }
 
   @override
@@ -163,6 +170,37 @@ class CustomerController extends GetxController {
     debounce(searchValue, (val) {
       return searchManage();
     }, time: 500.milliseconds);
+  }
+
+  Widget noListCustomer() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/emptylist.png",
+            width: 77,
+            height: 90,
+          ),
+          const SizedBox(height: 30),
+          Text(
+            "Belum ada pelanggan",
+            style: GoogleFonts.montserrat(
+                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "Tambahkan pelanggan baru melalui\n tombol biru di bawah.",
+            style: GoogleFonts.montserrat(
+                fontSize: 12,
+                color: HexColor('#707793'),
+                fontWeight: FontWeight.w300),
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
   }
 
   @override
