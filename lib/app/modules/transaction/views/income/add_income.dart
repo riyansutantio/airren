@@ -125,7 +125,12 @@ class AddIncome extends GetView<TransactionController> {
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
-                        child: AirenTextFormFieldBase(
+                        child: AirenTextFormFieldBase(textInputFormatter: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            // Fit the validating format.
+                            //fazer o formater para dinheiro
+                            CurrencyInputFormatter()
+                          ],
                           textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.pricetagsOutline,
                               color: HexColor('#0063F8')),

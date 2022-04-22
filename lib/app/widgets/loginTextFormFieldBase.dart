@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class AirenTextFormFieldBase extends StatelessWidget {
   const AirenTextFormFieldBase(
@@ -13,6 +14,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       this.hintText,
       required this.passwordVisibility,
       this.suffixIcon,
+      this.prefixText2,
       this.textInputFormatter,
       this.returnValidation,
       this.logic,
@@ -33,6 +35,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
   final bool passwordVisibility;
   final Widget? suffixIcon;
   final Widget? prefix;
+  final String? prefixText2;
   final Widget? suffix;
   final List<TextInputFormatter>? textInputFormatter;
   final String? Function(String? val)? returnValidation;
@@ -56,7 +59,7 @@ class AirenTextFormFieldBase extends StatelessWidget {
       inputFormatters: textInputFormatter,
       controller: textEditingController,
       obscureText: obscureText,
-      decoration: InputDecoration(
+      decoration: InputDecoration(prefixText:prefixText2 ,
         contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -122,4 +125,24 @@ class AirenTextFormFieldBase extends StatelessWidget {
       ),
     );
   }
+}
+class CurrencyInputFormatter extends TextInputFormatter {
+
+    TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+
+        if(newValue.selection.baseOffset == 0){
+            print(true);
+            return newValue;
+        }
+
+        double value = double.parse(newValue.text);
+
+        final formatter = NumberFormat.simpleCurrency(locale: "id",decimalDigits: 0);
+
+        String newText = formatter.format(value/100);
+
+        return newValue.copyWith(
+            text: newText.replaceAll('Rp', ''),
+            selection: new TextSelection.collapsed(offset: newText.length));
+    }
 }

@@ -10,7 +10,34 @@ DateTime dateFormat({DateTime? date}){
 String dateFormatMonth({DateTime? date}){
   return DateFormat.yMMMd().format(date!);
 }
-
+ List<String> months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'Sept',
+    'Octo',
+    'Nov',
+    'Dec'
+  ];
+ List<String> monthsAll = [
+    'Januari',
+    'Febuari',
+    'Maret',
+    'April',
+    'May',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'October',
+    'November',
+    'Desember'
+  ];
 final DateTime now = DateTime.now();
 final DateFormat formatter = DateFormat('dd-MM-yyyy');
 final DateFormat formatterYear = DateFormat('yyyy-MM-dd');

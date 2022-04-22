@@ -10,7 +10,7 @@ import '../../../../widgets/loginTextFormFieldBase.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../provider/transaction_provider.dart';
 
-class DetailIncome extends GetView<TransactionController> {
+class FirstBlance extends GetView<TransactionController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TransactionController dataCustomerController = Get.put(
     TransactionController(p: TransactionProvider()),
@@ -19,9 +19,10 @@ class DetailIncome extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  statusBarColor:  HexColor('#5433FF'), statusBarBrightness: Brightness.dark,
-  systemNavigationBarDividerColor:  HexColor('#5433FF'), 
-));
+      statusBarColor: HexColor('#5433FF'),
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarDividerColor: HexColor('#5433FF'),
+    ));
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -43,7 +44,7 @@ class DetailIncome extends GetView<TransactionController> {
                       ),
                     ),
                     Text(
-                      'Tambah Pemasukan',
+                      'Tambah Saldo Awal',
                       style: GoogleFonts.montserrat(
                         color: Colors.white,
                         fontSize: 14,
@@ -72,7 +73,7 @@ class DetailIncome extends GetView<TransactionController> {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             } else {
-                              // dataCustomerController.addIncomes();
+                              dataCustomerController.addFirstBlances();
                             }
                           },
                           child: const Icon(EvaIcons.checkmark,
@@ -87,7 +88,7 @@ class DetailIncome extends GetView<TransactionController> {
                     colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                 boxShadow: const []),
           ),
-        preferredSize: Size.fromHeight(56),
+          preferredSize: Size.fromHeight(56),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -101,31 +102,14 @@ class DetailIncome extends GetView<TransactionController> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 40),
-                        child: AirenTextFormFieldBase(
-                          suffixIcon: Icon(EvaIcons.editOutline,
-                              color: HexColor('#0063F8')),
-                          textInputType: TextInputType.text,
-                          hintText: 'Nama',
-                          obscureText: false,
-                          passwordVisibility: false,
-                          controller: dataCustomerController,
-                          textEditingController:
-                              dataCustomerController.nameDetailController,
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Nama  harus diisi";
-                            } else if (val.length < 3) {
-                              return "Nama  harus lebih dari 3 karakter";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
+                          textInputFormatter: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            // Fit the validating format.
+                            //fazer o formater para dinheiro
+                            CurrencyInputFormatter()
+                          ],
                           textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.pricetagsOutline,
                               color: HexColor('#0063F8')),
@@ -133,8 +117,8 @@ class DetailIncome extends GetView<TransactionController> {
                           obscureText: false,
                           passwordVisibility: false,
                           controller: dataCustomerController,
-                          textEditingController:
-                              dataCustomerController.nominalDetailController,
+                          textEditingController: dataCustomerController
+                              .nominalFirstBlanceController,
                           prefixText: SizedBox(
                             child: Center(
                               widthFactor: 0.0,
@@ -148,6 +132,7 @@ class DetailIncome extends GetView<TransactionController> {
                               ),
                             ),
                           ),
+                          onChange: (s) {},
                           returnValidation: (val) {
                             if (val!.isEmpty) {
                               return "Nominal harus diisi";
@@ -156,27 +141,6 @@ class DetailIncome extends GetView<TransactionController> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 24),
-                        child: AirenTextFormFieldBase(
-                          suffixIcon: Icon(EvaIcons.fileTextOutline,
-                              color: HexColor('#0063F8')),
-                          hintText: 'Catatan Singkat',
-                          obscureText: false,
-                          passwordVisibility: false,
-                          controller: dataCustomerController,
-                          textEditingController:
-                              dataCustomerController.deskriptionDetailController,
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Deskripsi harus diisi";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -203,7 +167,7 @@ class DetailIncome extends GetView<TransactionController> {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            // dataCustomerController.addIncomes();
+            dataCustomerController.addFirstBlances();
           }
         },
         child: Ink(
