@@ -23,7 +23,11 @@ class AirenTextFormFieldBase extends StatelessWidget {
       this.prefix,
       this.prefixText,
       this.enabled,
-      this.onChange, this.onTap, this.suffix, this.onSubmit})
+      this.onChange,
+      this.onTap,
+      this.suffix,
+      this.autofocus=false,
+      this.onSubmit})
       : super(key: key);
 
   final TextEditingController textEditingController;
@@ -45,10 +49,11 @@ class AirenTextFormFieldBase extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
   final VoidCallback? onTap;
-
+  final bool autofocus;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autofocus,
       onFieldSubmitted: onSubmit,
       onTap: onTap,
       onChanged: onChange,
@@ -59,8 +64,10 @@ class AirenTextFormFieldBase extends StatelessWidget {
       inputFormatters: textInputFormatter,
       controller: textEditingController,
       obscureText: obscureText,
-      decoration: InputDecoration(prefixText:prefixText2 ,
-        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+      decoration: InputDecoration(
+        prefixText: prefixText2,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: HexColor('#F0F5F9'),
@@ -126,23 +133,24 @@ class AirenTextFormFieldBase extends StatelessWidget {
     );
   }
 }
+
 class CurrencyInputFormatter extends TextInputFormatter {
-
-    TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-
-        if(newValue.selection.baseOffset == 0){
-            print(true);
-            return newValue;
-        }
-
-        double value = double.parse(newValue.text);
-
-        final formatter = NumberFormat.simpleCurrency(locale: "id",decimalDigits: 0);
-
-        String newText = formatter.format(value/100);
-
-        return newValue.copyWith(
-            text: newText.replaceAll('Rp', ''),
-            selection: new TextSelection.collapsed(offset: newText.length));
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      print(true);
+      return newValue;
     }
+
+    double value = double.parse(newValue.text);
+
+    final formatter =
+        NumberFormat.simpleCurrency(locale: "id", decimalDigits: 0);
+
+    String newText = formatter.format(value / 100);
+
+    return newValue.copyWith(
+        text: newText.replaceAll('Rp', ''),
+        selection: new TextSelection.collapsed(offset: newText.length));
+  }
 }
