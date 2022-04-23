@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:airen/app/model/catat_meter/add_catat_meter.dart';
 import 'package:airen/app/model/catat_meter/bulan_model.dart';
 import 'package:airen/app/model/catat_meter/catat_meter_model.dart';
 import 'package:airen/app/model/common_model.dart';
+import 'package:airen/app/widgets/snack_bar_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:get/get.dart';
@@ -21,8 +23,9 @@ class CatatMeterProvider extends GetConnect {
 
   List<String>? pathSegmentGetMeterMonth({String? path}) =>
       ['api', HttpService.apiVersion, 'meter-month'];
-  
-  List<String>? pathSegmentUpdateCatatMeter({String? id}) => ['api', HttpService.apiVersion, 'meter-month', '$id'];
+
+  List<String>? pathSegmentUpdateCatatMeter({String? id}) =>
+      ['api', HttpService.apiVersion, 'meter-month', '$id'];
 
   Future<MeterMonthModel?> getMeterMonth({String? bearer}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
@@ -40,10 +43,10 @@ class CatatMeterProvider extends GetConnect {
     return null;
   }
 
-  Future<AddCatatMeterBulanModel> addCatatMeterBulan({
+  Future<AddCatatMeterBulanModel?> addCatatMeterBulan({
     required String? bearer,
-    required int monthOf,
-    required int yearOf,
+    required int? monthOf,
+    required int? yearOf,
   }) async {
     var baseUrl = FlavorConfig.instance.variables['baseUrl'];
     Uri _addCatatMeterUri =
@@ -110,11 +113,62 @@ class CatatMeterProvider extends GetConnect {
     Uri _delMeterBulan = Uri.parse(baseUrl)
         .replace(pathSegments: pathSegmentUpdateCatatMeter(id: id));
     logger.wtf(_delMeterBulan);
-    final response = await http.delete(_delMeterBulan,
-        headers: bearerAuth(bearer: bearer),);
+    final response = await http.delete(
+      _delMeterBulan,
+      headers: bearerAuth(bearer: bearer),
+    );
     var jsonString = response.body;
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
     return commonPamManageModelFromJson(jsonString);
+  }
+
+  Future<AddCatatMeter?> addCatatMeter(
+      {required String? bearer,
+      required String? consumer_unique_id,
+      required String? meter_now,
+      required int? bulan}) async {
+    Uri _addCatatMeterUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/$bulan/meter");
+    logger.wtf(_addCatatMeterUri);
+    final response = await http.post(_addCatatMeterUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "consumer_unique_id": consumer_unique_id,
+          "meter_now": meter_now,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "consumer_unique_id": consumer_unique_id,
+      "meter_now": meter_now,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return addCatatMeterModelFromJson(jsonString);
+  }
+
+  Future<AddCatatMeter?> updateCatatMeter({
+    required String bearer,
+    required String id,
+    required String meter_now,
+    required int month,
+  }) async {
+    Uri _updatePamManageUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/$month/meter/$id");
+    logger.wtf(_updatePamManageUri);
+    final response = await http.post(_updatePamManageUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "_method": "PATCH",
+          "meter_now": meter_now,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+      "_method": "PATCH",
+      "meter_now": meter_now,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return addCatatMeterModelFromJson(jsonString);
   }
 }

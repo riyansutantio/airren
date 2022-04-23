@@ -44,6 +44,8 @@ dependencies:
   filesize: ^2.0.1
   flutter:
     sdk: flutter
+  qr_code_scanner: ^0.7.0
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies: 
   flutter_lints: ^1.0.0

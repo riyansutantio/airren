@@ -7,6 +7,7 @@ import 'package:airen/app/modules/customer/controllers/customer_controller.dart'
 import 'package:airen/app/modules/customer/providers/customer_provider.dart';
 import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,9 +18,10 @@ import '../../../utils/utils.dart';
 import '../../session/controllers/session_controller.dart';
 import '../../session/providers/session_provider.dart';
 import '../provider/catat_meter_provider.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class CatatMeterController extends GetxController {
-  CatatMeterProvider catatmeterProvider;
+  CatatMeterProvider? catatmeterProvider;
 
   CatatMeterController({required this.catatmeterProvider});
   CustomerController? CC;
@@ -33,9 +35,7 @@ class CatatMeterController extends GetxController {
   void onInit() async {
     super.onInit();
     await getMeterMonth();
-    if (searchValue.value != '') {
-      // await CC!.getCusUsers();
-    }
+    await getCusUsers();
   }
 
   @override
@@ -59,32 +59,43 @@ class CatatMeterController extends GetxController {
   final cusUserResult = <CustomerModel>[].obs;
   RxInt isRadio = 1.obs;
   final idManageCatatBulan = 0.obs;
-  final searchValue = ''.obs;
   final judul = ''.obs;
-  final isSearch = false.obs;
   final bulan = 0.obs;
   final searchController = TextEditingController();
+  final isSearch = false.obs;
+  final searchValue = ''.obs;
+  String scannedQrCode = '';
 
+  //Detail catat Meter
+  final statusDetail = false.obs;
+  final idManageDetailCatatBulan = ''.obs;
+  final nameManageDetailCatatBulan = ''.obs;
+  final uniqueIdManageDetailCatatBulan = ''.obs;
+  final alamatManageDetailCatatBulan = ''.obs;
+  final meterNowManageDetailCatatBulan = ''.obs;
+  final meterLastManageDetailCatatBulan = ''.obs;
+  final meterNowController = TextEditingController();
+  final updateMeterController = TextEditingController();
+  final volume = ''.obs;
   //manage bulan
   final month_Of = 0.obs;
   final year_Of = 0.obs;
 
+  Future<void> clearCondition() async {
+    meterNowController.clear();
+  }
+
   Future getMeterMonth() async {
     try {
       isLoadingMeterMonth.value = true;
-      final res = await catatmeterProvider.getMeterMonth(
-          bearer: boxUser.read(tokenBearer));
+      final res = await catatmeterProvider!
+          .getMeterMonth(bearer: boxUser.read(tokenBearer));
       if (res == null) {
         Get.to(UnauthenticationView());
         logger.e("Error,There is no data");
       } else {
         if (res.message == "Meter months retrieved successfully") {
-          meterMonthResult.addAll(res.data!.meterMonths!);
-          // List result = meterMonthResult.fold({}, (previousValue, element) {
-          //   Map val = previousValue as Map;
-          //   String date = element['year_of'];
-
-          // });
+          meterMonthResult.assignAll(res.data!.meterMonths!);
           update();
         } else {
           logger.e("salah disini");
@@ -98,13 +109,14 @@ class CatatMeterController extends GetxController {
   }
 
   Future addCatatMeterBulan() async {
-    final res = await catatmeterProvider.addCatatMeterBulan(
+    final res = await catatmeterProvider!.addCatatMeterBulan(
       bearer: boxUser.read(tokenBearer),
       monthOf: month_Of.toInt(),
       yearOf: year_Of.toInt(),
     );
-    logger.e(res.status);
-    if (res.status! == 'success') {
+    logger.e(res!.message!);
+    if (res.message! == 'Meter months successfully created' ||
+        res.status == 'success') {
       await getMeterMonth();
       logger.d(res.status! + " menambahkan catat meter bulanan");
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
@@ -118,17 +130,15 @@ class CatatMeterController extends GetxController {
   Future getCatatMeter() async {
     try {
       isLoadingCatatMeter.value = true;
-      final res = await catatmeterProvider.getCatatMeter(
-          bearer: boxUser.read(tokenBearer), bulan: bulan.value);
+      final res = await catatmeterProvider!
+          .getCatatMeter(bearer: boxUser.read(tokenBearer), bulan: bulan.value);
       // logger.wtf(res!.data!.data!.toList());
       if (res == null) {
-        //Get.to(UnauthenticationView());
         logger.i('kosong');
+        logger.i(idManageCatatBulan);
         logger.d(catatMeterresult);
       } else {
-        catatMeterresult.addAll(res.data!.meters!);
-        //logger.d(catatMeterresult);
-        //logger.wtf(res.data!.meters!);
+        catatMeterresult.assignAll(res.data!.meters!);
         update();
       }
     } catch (e) {
@@ -149,14 +159,32 @@ class CatatMeterController extends GetxController {
 
   Future searchManage() async {
     isLoadingCatatMeter.value = true;
-    final res = await catatmeterProvider.getSearchCus(
+    final res = await catatmeterProvider!.getSearchCus(
         bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
     // logger.wtf(res!.data!.data!.toList());
     cusUserResult.assignAll(res!.data!.cusMs!);
   }
 
+  Future getCusUsers() async {
+    try {
+      isLoadingCatatMeter.value = true;
+      final res = await CP!.getCusUser(bearer: boxUser.read(tokenBearer));
+      // logger.wtf(res!.data!.data!.toList());
+      if (res == null) {
+        Get.to(UnauthenticationView());
+        logger.i('kosong');
+      } else {
+        cusUserResult.assignAll(res.data!.cusMs!);
+      }
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      isLoadingCatatMeter.value = false;
+    }
+  }
+
   Future deleteMeterBulan() async {
-    final res = await catatmeterProvider.deleteMeterBulan(
+    final res = await catatmeterProvider!.deleteMeterBulan(
         bearer: boxUser.read(tokenBearer),
         id: idManageCatatBulan.value.toString());
     if (res!.message! == 'Meter month successfully deleted') {
@@ -166,6 +194,65 @@ class CatatMeterController extends GetxController {
     } else {
       snackBarNotificationFailed(title: 'Gagal dihapus');
       sessionController.authError();
+    }
+  }
+
+  Future<void> scanQR() async {
+    try {
+      scannedQrCode = await FlutterBarcodeScanner.scanBarcode(
+        '#FF6666',
+        'Cancle',
+        false,
+        ScanMode.QR,
+      );
+      // ignore: unrelated_type_equality_checks
+      if (scannedQrCode != -1) {
+        snackBarNotificationSuccess(
+            title: 'Berhasil melakukan scan - id : $scannedQrCode');
+      } else {
+        snackBarNotificationFailed(title: 'Gagal melakukan scan');
+      }
+      // ignore: empty_catches
+    } on PlatformException {}
+  }
+
+  Future addCatatMeter() async {
+    final res = await catatmeterProvider!.addCatatMeter(
+      bearer: boxUser.read(tokenBearer),
+      consumer_unique_id: uniqueIdManageDetailCatatBulan.value,
+      meter_now: meterNowManageDetailCatatBulan.value,
+      bulan: bulan.value,
+    );
+    logger.i(res!.status);
+    if (res.status == 'success') {
+      await getCatatMeter();
+      Get.back();
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+    } else {
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
+    }
+  }
+
+  Future updateCatatMeter({
+    required String id,
+    required String meter_now,
+    required int month,
+  }) async {
+    final res = await catatmeterProvider!.updateCatatMeter(
+      bearer: boxUser.read(tokenBearer),
+      meter_now: meterNowManageDetailCatatBulan.value,
+      id: idManageDetailCatatBulan.value,
+      month: bulan.value,
+    );
+    logger.i(res!.status);
+    if (res.message == 'Meter successfully updated') {
+      await getCatatMeter();
+      await clearCondition();
+      Get.back();
+      snackBarNotificationSuccess(title: 'Berhasil diubah');
+    } else {
+      Get.back();
+      snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
 }

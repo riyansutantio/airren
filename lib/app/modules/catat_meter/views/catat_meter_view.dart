@@ -198,19 +198,24 @@ class CatatMeterView extends GetView<CatatMeterController> {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemBuilder: (context, index) {
+        controller.idManageCatatBulan.value =
+            controller.meterMonthResult[index].id!;
         var totalPelanggan =
             (controller.meterMonthResult[index].number_of_customer == null)
                 ? "0"
-                : '1';
+                : controller.meterMonthResult[index].number_of_customer;
         var x = penentuBulan(controller.meterMonthResult[index].month_of) +
             " " +
             controller.meterMonthResult[index].year_of.toString();
         return GestureDetector(
           onTap: () {
-            String judul = controller.judul.value = x;
-            int bulan =
-                controller.bulan.value = controller.meterMonthResult[index].id!;
+            controller.bulan.value = controller.meterMonthResult[index].id!;
             catatMeterBulanController.getCatatMeter();
+            controller.judul.value =
+                penentuBulan(controller.meterMonthResult[index].month_of)
+                        .toString() +
+                    " " +
+                    controller.meterMonthResult[index].year_of.toString();
             Get.to(CatatBulanView());
           },
           child: Padding(
@@ -248,7 +253,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                 .number_of_recorded_consumer
                                 .toString() +
                             " dari " +
-                            totalPelanggan +
+                            totalPelanggan.toString() +
                             " pelanggan",
                         style: GoogleFonts.montserrat(
                           color: HexColor('#707793').withOpacity(0.7),
