@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="clockoff" opacity="0.6">
+    <g id="clock">
+      <rect id="Rectangle_5286" data-name="Rectangle 5286" width="24" height="24" transform="translate(24 24) rotate(180)" fill="#fff" opacity="0"/>
+      <path id="Path_1703" data-name="Path 1703" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" fill="#fff"/>
+      <path id="Path_1704" data-name="Path 1704" d="M16,11H13V8a1,1,0,0,0-2,0v4a1,1,0,0,0,1,1h4a1,1,0,0,0,0-2Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

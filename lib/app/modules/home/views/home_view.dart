@@ -2,6 +2,7 @@ import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
 import 'package:airen/app/modules/home/providers/home_provider.dart';
+import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -14,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../account/views/account_view.dart';
+import '../../payment/views/payment_data_view.dart';
 import '../../transaction/views/transaction_view.dart';
 import '../controllers/home_controller.dart';
 
@@ -460,12 +462,14 @@ class HomeView extends GetView<HomeController> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      if (controller.menuItem[index].id == "4") {
+                      if (controller.menuItem[index].id == "5") {
                         controller.pageNavBottom.value = 2;
-                      } else if (controller.menuItem[index].id == "3") {
+                      } else if (controller.menuItem[index].id == "4") {
                         controller.pageNavBottom.value = 1;
-                      } else if (controller.menuItem[index].id == "1") {
+                      } else if (controller.menuItem[index].id == "2") {
                         Get.to(TransactionView());
+                      }else if (controller.menuItem[index].id == "1") {
+                        Get.to(PaymentDataViews());
                       }
                     },
                     child: containerItemMenu(
