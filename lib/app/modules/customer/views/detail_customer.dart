@@ -90,9 +90,9 @@ class CustomerDetailView extends GetView<CustomerController> {
                                     name: dataCustomerController
                                         .nameDetailController.text,
                                     phoneNumber: dataCustomerController
-                                        .phoneDetailNumberCusController.text,
+                                        .phoneDetailNumberCusController!.text,
                                     address: dataCustomerController
-                                        .addressDetailCusController.text,
+                                        .addressDetailCusController!.text,
                                     meter: dataCustomerController
                                         .meterDetailCusController.text);
                               }
@@ -218,7 +218,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             passwordVisibility: false,
                             controller: dataCustomerController,
                             textEditingController: dataCustomerController
-                                .addressDetailCusController,
+                                .addressDetailCusController!,
                            
                           ),
                         ),
@@ -234,7 +234,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             passwordVisibility: false,
                             controller: dataCustomerController,
                             textEditingController: dataCustomerController
-                                .phoneDetailNumberCusController,
+                                .phoneDetailNumberCusController!,
                             prefixText: SizedBox(
                               child: Center(
                                 widthFactor: 0.0,
@@ -763,8 +763,8 @@ class CustomerDetailView extends GetView<CustomerController> {
                 id: dataCustomerController.idDetailController.text,
                 name: dataCustomerController.nameDetailController.text,
                 phoneNumber:
-                    dataCustomerController.phoneDetailNumberCusController.text,
-                address: dataCustomerController.addressDetailCusController.text,
+                    dataCustomerController.phoneDetailNumberCusController!.text,
+                address: dataCustomerController.addressDetailCusController!.text,
                 meter: dataCustomerController.meterDetailCusController.text);
           }
         },

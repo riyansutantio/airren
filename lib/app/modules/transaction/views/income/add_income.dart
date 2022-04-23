@@ -174,9 +174,7 @@ class AddIncome extends GetView<TransactionController> {
                           textEditingController:
                               dataCustomerController.deskriptionController,
                           returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Deskripsi harus diisi";
-                            }
+                            
                             return null;
                           },
                         ),

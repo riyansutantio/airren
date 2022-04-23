@@ -169,12 +169,12 @@ class CustomerView extends GetView<CustomerController> {
                                     controller.nameDetailController.text =
                                         controller.cusUserResult[index].name!;
                                     controller.phoneDetailNumberCusController
-                                            .text =
+                                            ?.text =
                                         controller
-                                            .cusUserResult[index].phoneNumber!;
-                                    controller.addressDetailCusController.text =
+                                            .cusUserResult[index].phoneNumber??'';
+                                    controller.addressDetailCusController?.text =
                                         controller
-                                            .cusUserResult[index].address!;
+                                            .cusUserResult[index].address??'';
                                     int v = controller.isRadio.value =
                                         controller.cusUserResult[index].active!;
                                     int v2 = controller.isRadio.value =

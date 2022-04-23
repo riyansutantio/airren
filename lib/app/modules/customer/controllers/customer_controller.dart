@@ -42,8 +42,8 @@ class CustomerController extends GetxController {
   final meterCusController = TextEditingController();
   final nameDetailController = TextEditingController();
   final idDetailController = TextEditingController();
-  final phoneDetailNumberCusController = TextEditingController();
-  final addressDetailCusController = TextEditingController();
+  TextEditingController? phoneDetailNumberCusController = TextEditingController();
+  TextEditingController? addressDetailCusController = TextEditingController();
   final meterDetailCusController = TextEditingController();
   final activeDetailCusController = TextEditingController();
   final uniqueIdDetailCusController = TextEditingController();
