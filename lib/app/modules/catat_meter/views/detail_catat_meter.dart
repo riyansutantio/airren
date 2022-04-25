@@ -315,10 +315,6 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                               validator: (text) {
                                                 if (text == null ||
                                                     text.isEmpty ||
-                                                    int.parse(text) <
-                                                        int.parse(controller
-                                                            .meterLastManageDetailCatatBulan
-                                                            .value) ||
                                                     int.parse(text) == 0) {
                                                   snackBarNotificationFailed(
                                                       title:
