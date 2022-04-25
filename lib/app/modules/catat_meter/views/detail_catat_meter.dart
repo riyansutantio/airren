@@ -1,5 +1,6 @@
 import 'package:airen/app/modules/catat_meter/controllers/catat_meter_controller.dart';
 import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_bulan_view.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,10 +20,12 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
     return GetBuilder<CatatMeterController>(
       init: CatatMeterController(catatmeterProvider: CatatMeterProvider()),
       builder: (controller) {
-        int? now = int.parse(
-            controller.meterNowManageDetailCatatBulan.value.toString());
-        int? last = int.parse(
-            controller.meterLastManageDetailCatatBulan.value.toString());
+        int? now = int.tryParse(
+                controller.meterNowManageDetailCatatBulan.value.toString()) ??
+            0;
+        int? last = int.tryParse(
+                controller.meterLastManageDetailCatatBulan.value.toString()) ??
+            0;
         int volume = now - last;
         var id = controller.idManageDetailCatatBulan.value;
         return Scaffold(
@@ -195,6 +198,7 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                                               .substring(
                                                                   0, 12) +
                                                           '..',
+                                                  textAlign: TextAlign.left,
                                                   style: GoogleFonts.montserrat(
                                                     color: Colors.black,
                                                     fontSize: 14,
@@ -206,8 +210,9 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                                 ),
                                                 Text(
                                                   controller
-                                                      .alamatManageDetailCatatBulan
+                                                      .addressManageDetailCatatBulan
                                                       .toString(),
+                                                  textAlign: TextAlign.left,
                                                   style: GoogleFonts.montserrat(
                                                     color: Colors.black,
                                                     fontSize: 14,
@@ -250,7 +255,7 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              "Awal",
+                                              "Bulan lalu",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 15,
                                                   color: Colors.white,
@@ -303,6 +308,8 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                                     .toString(),
                                                 border: InputBorder.none,
                                               ),
+                                              controller:
+                                                  controller.meterNowController,
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 15,
                                                   color: Colors.grey,
@@ -368,14 +375,15 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
   ElevatedButton buildElevatedButtonCustom(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-          (controller.statusDetail.value == true)
-              ? catatMeterBulanController.addCatatMeter()
-              : catatMeterBulanController.updateCatatMeter(
-                  id: controller.idManageCatatBulan.toString(),
-                  meter_now:
-                      controller.meterNowManageDetailCatatBulan.toString(),
-                  month: controller.bulan.value,
-                );
+          if (controller.statusDetail.value == true) {
+            catatMeterBulanController.addCatatMeter();
+          } else {
+            catatMeterBulanController.updateCatatMeter(
+              id: controller.idManageCatatBulan.toString(),
+              meter_now: controller.meterNowManageDetailCatatBulan.toString(),
+              month: controller.bulan.value,
+            );
+          }
         },
         child: Ink(
           decoration: BoxDecoration(

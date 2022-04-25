@@ -3,10 +3,14 @@ import 'dart:convert';
 import 'package:airen/app/model/catat_meter/bulan_model.dart';
 import 'package:airen/app/model/catat_meter/catat_meter_model.dart';
 import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_bulan_view.dart';
+import 'package:airen/app/modules/catat_meter/views/detail_catat_meter.dart';
 import 'package:airen/app/modules/customer/controllers/customer_controller.dart';
 import 'package:airen/app/modules/customer/providers/customer_provider.dart';
 import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
+import 'package:esc_pos_printer/esc_pos_printer.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -35,7 +39,7 @@ class CatatMeterController extends GetxController {
   void onInit() async {
     super.onInit();
     await getMeterMonth();
-    await getCusUsers();
+    //await getCusUsers();
   }
 
   @override
@@ -49,6 +53,7 @@ class CatatMeterController extends GetxController {
   @override
   void onClose() async {
     await getMeterMonth();
+    await getCusUsers();
   }
 
   void increment() => count.value++;
@@ -74,12 +79,16 @@ class CatatMeterController extends GetxController {
   final alamatManageDetailCatatBulan = ''.obs;
   final meterNowManageDetailCatatBulan = ''.obs;
   final meterLastManageDetailCatatBulan = ''.obs;
+  final addressManageDetailCatatBulan = ''.obs;
   final meterNowController = TextEditingController();
   final updateMeterController = TextEditingController();
   final volume = ''.obs;
+  final statusPenerbitanInvoice = false.obs;
+
   //manage bulan
   final month_Of = 0.obs;
   final year_Of = 0.obs;
+  final deleteState = false.obs;
 
   Future<void> clearCondition() async {
     meterNowController.clear();
@@ -175,6 +184,7 @@ class CatatMeterController extends GetxController {
         logger.i('kosong');
       } else {
         cusUserResult.assignAll(res.data!.cusMs!);
+        logger.d(cusUserResult);
       }
     } catch (e) {
       logger.e(e);
@@ -189,8 +199,8 @@ class CatatMeterController extends GetxController {
         id: idManageCatatBulan.value.toString());
     if (res!.message! == 'Meter month successfully deleted') {
       await getCatatMeter();
-      Get.back();
       snackBarNotificationSuccess(title: 'Berhasil dihapus');
+      update();
     } else {
       snackBarNotificationFailed(title: 'Gagal dihapus');
       sessionController.authError();
@@ -200,15 +210,24 @@ class CatatMeterController extends GetxController {
   Future<void> scanQR() async {
     try {
       scannedQrCode = await FlutterBarcodeScanner.scanBarcode(
-        '#FF6666',
-        'Cancle',
+        '#FFCC00',
+        'Back',
         false,
         ScanMode.QR,
       );
       // ignore: unrelated_type_equality_checks
       if (scannedQrCode != -1) {
         snackBarNotificationSuccess(
-            title: 'Berhasil melakukan scan - id : $scannedQrCode');
+            title:
+                'Berhasil melakukan scan - id : $scannedQrCode di ke $bulan');
+        //statusDetail.value = true;
+        isSearch.value = true;
+        uniqueIdManageDetailCatatBulan.value = scannedQrCode;
+        searchController.text = scannedQrCode;
+        searchValue.value = scannedQrCode;
+        Get.to(CatatBulanView());
+        logger.e(scannedQrCode);
+        // Get.to(DetailCatatMeter());
       } else {
         snackBarNotificationFailed(title: 'Gagal melakukan scan');
       }
@@ -220,15 +239,18 @@ class CatatMeterController extends GetxController {
     final res = await catatmeterProvider!.addCatatMeter(
       bearer: boxUser.read(tokenBearer),
       consumer_unique_id: uniqueIdManageDetailCatatBulan.value,
-      meter_now: meterNowManageDetailCatatBulan.value,
+      meter_now: meterNowController.text,
       bulan: bulan.value,
     );
     logger.i(res!.status);
     if (res.status == 'success') {
       await getCatatMeter();
+      await clearCondition();
       Get.back();
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
     } else {
+      Get.back();
+      await clearCondition();
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
@@ -240,7 +262,7 @@ class CatatMeterController extends GetxController {
   }) async {
     final res = await catatmeterProvider!.updateCatatMeter(
       bearer: boxUser.read(tokenBearer),
-      meter_now: meterNowManageDetailCatatBulan.value,
+      meter_now: meterNowController.text,
       id: idManageDetailCatatBulan.value,
       month: bulan.value,
     );
@@ -254,5 +276,15 @@ class CatatMeterController extends GetxController {
       Get.back();
       snackBarNotificationFailed(title: 'Gagal diubah');
     }
+  }
+
+  printInvoice() async {
+    List<int> bytes = [];
+    // Using default profile
+    final profile = await CapabilityProfile.load();
+    final generator = Generator(PaperSize.mm80, profile);
+
+    bytes += generator.text('Align center',
+        styles: PosStyles(align: PosAlign.center));
   }
 }

@@ -128,8 +128,8 @@ class CatatMeterProvider extends GetConnect {
       required String? consumer_unique_id,
       required String? meter_now,
       required int? bulan}) async {
-    Uri _addCatatMeterUri =
-        Uri.parse("https://api.airren.tbrdev.my.id/api/$bulan/meter");
+    Uri _addCatatMeterUri = Uri.parse(
+        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$bulan/meter");
     logger.wtf(_addCatatMeterUri);
     final response = await http.post(_addCatatMeterUri,
         headers: bearerAuth(bearer: bearer),
@@ -153,8 +153,8 @@ class CatatMeterProvider extends GetConnect {
     required String meter_now,
     required int month,
   }) async {
-    Uri _updatePamManageUri =
-        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/$month/meter/$id");
+    Uri _updatePamManageUri = Uri.parse(
+        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$month/meter/$id");
     logger.wtf(_updatePamManageUri);
     final response = await http.post(_updatePamManageUri,
         headers: bearerAuth(bearer: bearer),

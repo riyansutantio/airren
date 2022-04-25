@@ -27,160 +27,164 @@ class CatatMeterView extends GetView<CatatMeterController> {
     return GetBuilder<CatatMeterController>(
       init: CatatMeterController(catatmeterProvider: CatatMeterProvider()),
       builder: (controller) {
-        return Scaffold(
-          appBar: PreferredSize(
-            child: Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Catat Meter',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+        return Obx(
+          () => Scaffold(
+            appBar: PreferredSize(
+              child: Container(
+                padding:
+                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Catat Meter',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Get.to(ErrorHandlingView());
-                              },
-                              child: const Icon(EvaIcons.bellOutline,
-                                  color: Colors.white)),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Get.to(ErrorHandlingView());
+                                },
+                                child: const Icon(EvaIcons.bellOutline,
+                                    color: Colors.white)),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
+                    boxShadow: const []),
               ),
+              preferredSize: Size.fromHeight(Get.height * 0.1),
+            ),
+            body: Container(
+              child: Container(
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40)),
+                      color: Colors.white),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      //listview bulan
+                      Expanded(
+                        child: (controller.meterMonthResult.isEmpty)
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 40.0),
+                                    child: SvgPicture.asset(
+                                        'assets/belumadapencatatan.svg'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Text('Belum ada data Pencatatan',
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                        'Tambahkan bulan terlebih dahulu\n kemudian baru lakukan pencatatan pada setiap\n pelanggan',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                          color: HexColor('#707793')
+                                              .withOpacity(0.7),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        )),
+                                  ),
+                                ],
+                              )
+                            :
+                            // groupedListView(controller),
+                            catatBulanBuilder(controller),
+                      ),
+                    ],
+                  )),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
-                  boxShadow: const []),
+                      colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
             ),
-            preferredSize: Size.fromHeight(Get.height * 0.1),
-          ),
-          body: Container(
-            child: Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40)),
-                    color: Colors.white),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    //listview bulan
-                    Expanded(
-                      child: (controller.meterMonthResult.isEmpty)
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 40.0),
-                                  child: SvgPicture.asset(
-                                      'assets/belumadapencatatan.svg'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Text('Belum ada data Pencatatan',
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                      'Tambahkan bulan terlebih dahulu\n kemudian baru lakukan pencatatan pada setiap\n pelanggan',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                        color: HexColor('#707793')
-                                            .withOpacity(0.7),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      )),
-                                ),
-                              ],
-                            )
-                          :
-                          // groupedListView(controller),
-                          catatBulanBuilder(controller),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                DatePicker.showPicker(
+                  context,
+                  pickerModel: CustomMonthPicker(
+                    minTime: DateTime(2020, 1, 1),
+                    maxTime: DateTime.now(),
+                    currentTime: DateTime.now(),
+                  ),
+                  theme: DatePickerTheme(
+                      headerColor: HexColor('#FFCC00'),
+                      backgroundColor: Colors.white,
+                      itemStyle: TextStyle(
+                          color: HexColor('#0063F8'),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                      doneStyle:
+                          const TextStyle(color: Colors.white, fontSize: 16)),
+                  onConfirm: (dates) {
+                    var yearRaw = DateFormat('yyyy').format(dates);
+                    var monthRaw = DateFormat('MM').format(dates);
+                    int year = int.parse(yearRaw);
+                    int month = int.parse(monthRaw);
+                    controller.month_Of.value = month;
+                    controller.year_Of.value = year;
+                    logger.d(year.toString() + "-" + month.toString());
+                    catatMeterBulanController.addCatatMeterBulan();
+                  },
+                  onChanged: (dates) {},
+                );
+              },
+              backgroundColor: HexColor('#0063F8'),
+              elevation: 0,
+              child: Container(
+                child: const Icon(EvaIcons.plus),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(100),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: HexColor('#0063F8').withOpacity(0.16),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
                     ),
                   ],
-                )),
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              DatePicker.showPicker(
-                context,
-                pickerModel: CustomMonthPicker(
-                  minTime: DateTime(2020, 1, 1),
-                  maxTime: DateTime.now(),
-                  currentTime: DateTime.now(),
                 ),
-                theme: DatePickerTheme(
-                    headerColor: HexColor('#FFCC00'),
-                    backgroundColor: Colors.white,
-                    itemStyle: TextStyle(
-                        color: HexColor('#0063F8'),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                    doneStyle:
-                        const TextStyle(color: Colors.white, fontSize: 16)),
-                onConfirm: (dates) {
-                  var yearRaw = DateFormat('yyyy').format(dates);
-                  var monthRaw = DateFormat('MM').format(dates);
-                  int year = int.parse(yearRaw);
-                  int month = int.parse(monthRaw);
-                  controller.month_Of.value = month;
-                  controller.year_Of.value = year;
-                  logger.d(year.toString() + "-" + month.toString());
-                  catatMeterBulanController.addCatatMeterBulan();
-                },
-                onChanged: (dates) {},
-              );
-            },
-            backgroundColor: HexColor('#0063F8'),
-            elevation: 0,
-            child: Container(
-              child: const Icon(EvaIcons.plus),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(100),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: HexColor('#0063F8').withOpacity(0.16),
-                    blurRadius: 6,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
             ),
           ),
@@ -210,6 +214,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
         return GestureDetector(
           onTap: () {
             controller.bulan.value = controller.meterMonthResult[index].id!;
+            logger.d(controller.bulan.value);
             catatMeterBulanController.getCatatMeter();
             controller.judul.value =
                 penentuBulan(controller.meterMonthResult[index].month_of)

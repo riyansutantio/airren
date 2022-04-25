@@ -1,14 +1,16 @@
-import 'package:airen/app/modules/catat_meter/controllers/catat_meter_controller.dart';
-import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
-import 'package:airen/app/modules/catat_meter/views/detail_catat_meter.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import 'package:airen/app/modules/catat_meter/controllers/catat_meter_controller.dart';
+import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
+import 'package:airen/app/modules/catat_meter/views/detail_catat_meter.dart';
+
+import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../../../utils/willPopCallBack.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
@@ -29,64 +31,65 @@ class CatatBulanView extends GetView<CatatMeterController> {
             appBar: (controller.isSearch.value)
                 ? buildAppBarSearch(context, controller)
                 : BuildCatatMeterApp(context, controller),
-            body: WillPopScope(
-              onWillPop: () =>
-                  willPopWithFuncOnly(func: controller.closeSearchAppBar()),
-              child: Container(
-                child: Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40)),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: (controller.isSearch.value == true)
-                        ? searchNoFound(controller, context)
-                        : (controller.catatMeterresult.isEmpty)
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 40.0),
-                                    child: SvgPicture.asset(
-                                        'assets/belumadapencatatan.svg'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text('Belum ada data Pencatatan',
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                        'Tambahkan pencatatandengan mencari \n data pelanggannya terlebih dahulu.',
-                                        style: GoogleFonts.montserrat(
-                                          color: HexColor('#707793')
-                                              .withOpacity(0.7),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        )),
+            body: Stack(
+              children: [
+                WillPopScope(
+                  onWillPop: () =>
+                      willPopWithFuncOnly(func: controller.closeSearchAppBar()),
+                  child: Container(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40)),
+                          color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: (controller.isSearch.value == true)
+                            ? searchNoFound(controller, context)
+                            : (controller.catatMeterresult.isEmpty)
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 40.0),
+                                        child: SvgPicture.asset(
+                                            'assets/belumadapencatatan.svg'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Text('Belum ada data Pencatatan',
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                            'Tambahkan pencatatandengan mencari \n data pelanggannya terlebih dahulu.',
+                                            style: GoogleFonts.montserrat(
+                                              color: HexColor('#707793')
+                                                  .withOpacity(0.7),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            )),
+                                      )
+                                    ],
                                   )
-                                ],
-                              )
-                            : PelangganBuilder(controller),
-                    // child: (controller.catatMeterresult.isEmpty)
-                    //     ? noDataFound()
-                    //     : (controller.isSearch.value == false)
-                    //         ? PelangganBuilder(controller) //false
-                    //         : searchPelanggan(context, controller), //true
+                                : PelangganBuilder(controller),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                      HexColor('#5433FF'),
+                      HexColor('#0063F8')
+                    ])),
                   ),
                 ),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
-              ),
+              ],
             ),
           ),
         );
@@ -96,7 +99,6 @@ class CatatBulanView extends GetView<CatatMeterController> {
 
   Column searchNoFound(CatatMeterController controller, BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           decoration: const BoxDecoration(
@@ -104,34 +106,38 @@ class CatatBulanView extends GetView<CatatMeterController> {
                   topLeft: Radius.circular(40), topRight: Radius.circular(40)),
               color: Colors.white),
           child: (controller.cusUserResult.isEmpty)
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 40.0),
-                      child: SvgPicture.asset('assets/searchnofound.svg'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text('Tidak ditemukan',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                          'Belum ada tagihan yang sesuai dengan \n kata kunci',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.montserrat(
-                            color: HexColor('#707793').withOpacity(0.7),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          )),
-                    ),
-                  ],
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.2,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 40.0),
+                        child: SvgPicture.asset('assets/searchnofound.svg'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text('Tidak ditemukan',
+                            style: GoogleFonts.montserrat(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                            'Belum ada tagihan yang sesuai dengan \n kata kunci',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.montserrat(
+                              color: HexColor('#707793').withOpacity(0.7),
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            )),
+                      ),
+                    ],
+                  ),
                 )
               : ListView.builder(
                   itemCount: controller.cusUserResult.length,
@@ -144,6 +150,12 @@ class CatatBulanView extends GetView<CatatMeterController> {
                               controller.cusUserResult[index].uniqueId!;
                           controller.meterNowManageDetailCatatBulan.value =
                               0.toString();
+                          controller.meterLastManageDetailCatatBulan.value =
+                              controller.meterLastManageDetailCatatBulan.value;
+                          controller.nameManageDetailCatatBulan.value =
+                              controller.cusUserResult[index].name!;
+                          controller.addressManageDetailCatatBulan.value =
+                              controller.cusUserResult[index].address!;
                           Get.to(DetailCatatMeter());
                         },
                         child: Padding(
@@ -474,9 +486,199 @@ class CatatBulanView extends GetView<CatatMeterController> {
                         onSelected: (String selectedValue) {
                           print(selectedValue);
                           if (selectedValue == '1') {
-                            catatMeterBulanController.deleteMeterBulan();
-                            logger.e(controller.idManageCatatBulan.value);
+                            controller.deleteState.value = true;
                           }
+                          (controller.deleteState.value == true)
+                              ? showModalBottomSheet(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(40),
+                                        topRight: Radius.circular(40)),
+                                  ),
+                                  context: context,
+                                  builder: (context) {
+                                    return Container(
+                                      color: Colors.white.withOpacity(0.0),
+                                      constraints: BoxConstraints(
+                                          minHeight: MediaQuery.of(context)
+                                              .size
+                                              .height),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                150, 20, 150, 20),
+                                            child: Container(
+                                              height: 6,
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.amber,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 20.0, top: 20.0),
+                                            child: SvgPicture.asset(
+                                                'assets/confirmDelete.svg'),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Text('Konfirmasi',
+                                                style: GoogleFonts.montserrat(
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                                'Tagihan yang sudah diterbitkan, \n posisi meter tidak bisa diubah lagi.',
+                                                style: GoogleFonts.montserrat(
+                                                  color: HexColor('#707793')
+                                                      .withOpacity(0.7),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                )),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      controller.deleteState
+                                                          .value = false;
+                                                      Get.back();
+                                                    },
+                                                    child: Ink(
+                                                      decoration: BoxDecoration(
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                              offset: Offset(
+                                                                  0.0, 8.0),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      0,
+                                                                      99,
+                                                                      248,
+                                                                      0.2),
+                                                              blurRadius: 24,
+                                                            ),
+                                                          ],
+                                                          color: Colors.grey
+                                                              .withOpacity(0.1),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: SizedBox(
+                                                        height: 48,
+                                                        width: 96,
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Batal",
+                                                            style: GoogleFonts
+                                                                .montserrat(
+                                                              color: HexColor(
+                                                                  '#0063F8'),
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ElevatedButton.styleFrom(
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)))),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      controller.deleteState
+                                                          .value = false;
+                                                      controller
+                                                          .deleteMeterBulan();
+                                                      Get.to(CatatMeterView());
+                                                    },
+                                                    child: Ink(
+                                                      decoration: BoxDecoration(
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                              offset: Offset(
+                                                                  0.0, 8.0),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      0,
+                                                                      99,
+                                                                      248,
+                                                                      0.2),
+                                                              blurRadius: 24,
+                                                            ),
+                                                          ],
+                                                          gradient: LinearGradient(
+                                                              colors:
+                                                                  gradientColorAirren),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: SizedBox(
+                                                        height: 48,
+                                                        width: 96,
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Ya, benar",
+                                                            style: GoogleFonts
+                                                                .montserrat(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ElevatedButton.styleFrom(
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)))),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Container();
                         },
                         itemBuilder: (BuildContext ctx) => [
                           PopupMenuItem(
@@ -539,7 +741,9 @@ class CatatBulanView extends GetView<CatatMeterController> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => controller.scanQR(),
+                      onTap: () {
+                        controller.scanQR();
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(0.8),
                         child: SvgPicture.asset("assets/qrCam.svg"),
@@ -590,9 +794,12 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8),
                                   child: Text(
-                                      controller
-                                          .catatMeterresult[index].consumer_name
-                                          .toString(),
+                                      controller.catatMeterresult[index]
+                                              .consumer_name
+                                              .toString() +
+                                          " " +
+                                          controller.catatMeterresult[index].id
+                                              .toString(),
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.montserrat(
@@ -629,9 +836,6 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                 GestureDetector(
                                   onTap: () {
                                     controller.statusDetail.value = false;
-                                    controller.bulan.value = int.parse(
-                                        controller.catatMeterresult[index]
-                                            .meter_month_of!);
                                     controller.idManageDetailCatatBulan.value =
                                         controller.catatMeterresult[index].id
                                             .toString();

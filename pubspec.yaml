@@ -22,7 +22,7 @@ dependencies:
   intl: any
   get_storage: any
   get: 4.6.1
-  flutter_html:
+  flutter_html: ^2.2.1
   flutter_launcher_icons:
   device_preview:
   eva_icons_flutter:
@@ -46,6 +46,7 @@ dependencies:
     sdk: flutter
   qr_code_scanner: ^0.7.0
   flutter_barcode_scanner: ^2.0.0
+  esc_pos_printer: ^4.1.0
 
 dev_dependencies: 
   flutter_lints: ^1.0.0
