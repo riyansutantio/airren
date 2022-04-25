@@ -42,8 +42,8 @@ class CustomerController extends GetxController {
   final meterCusController = TextEditingController();
   final nameDetailController = TextEditingController();
   final idDetailController = TextEditingController();
-  final phoneDetailNumberCusController = TextEditingController();
-  final addressDetailCusController = TextEditingController();
+  TextEditingController? phoneDetailNumberCusController = TextEditingController();
+  TextEditingController? addressDetailCusController = TextEditingController();
   final meterDetailCusController = TextEditingController();
   final activeDetailCusController = TextEditingController();
   final uniqueIdDetailCusController = TextEditingController();
@@ -213,7 +213,7 @@ class CustomerController extends GetxController {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
-        margin: pw.EdgeInsets.all(10),
+         margin: pw.EdgeInsets.all(5),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
@@ -225,18 +225,18 @@ class CustomerController extends GetxController {
                 children: [
                   pw.Container(
                       padding: pw.EdgeInsets.only(
-                          left: 15, right: 15, bottom: 6, top: 6),
+                           left: 6, right: 6, bottom: 2, top: 2),
                       decoration: pw.BoxDecoration(
                         border: pw.Border.all(
                             color: PdfColor.fromHex('#000'), width: 1),
                       ),
                       child: pw.Column(children: [
                         pw.BarcodeWidget(
-                            padding: pw.EdgeInsets.only(top: 10),
+                            padding: pw.EdgeInsets.only(top: 4),
                             data: uniqueId,
                             barcode: pw.Barcode.qrCode(),
-                            height: 70,
-                            width: 70),
+                            height: 80,
+                            width: 80),
                         pw.Text(
                             name.length <= 9
                                 ? name
@@ -261,7 +261,7 @@ class CustomerController extends GetxController {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
-        margin: pw.EdgeInsets.all(10),
+        margin: pw.EdgeInsets.all(5),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
@@ -273,18 +273,18 @@ class CustomerController extends GetxController {
                 children: cusUserResult
                     .map((e) => pw.Container(
                         padding: pw.EdgeInsets.only(
-                            left: 15, right: 15, bottom: 6, top: 6),
+                            left: 6, right: 6, bottom: 2, top: 2),
                         decoration: pw.BoxDecoration(
                           border: pw.Border.all(
                               color: PdfColor.fromHex('#000'), width: 1),
                         ),
                         child: pw.Column(children: [
                           pw.BarcodeWidget(
-                              padding: pw.EdgeInsets.only(top: 10),
+                              padding: pw.EdgeInsets.only(top: 4),
                               data: e.uniqueId!,
                               barcode: pw.Barcode.qrCode(),
-                              height: 70,
-                              width: 70),
+                              height: 80,
+                              width: 80),
                           pw.Text(
                               e.name!.length <= 9
                                   ? '${e.name}'

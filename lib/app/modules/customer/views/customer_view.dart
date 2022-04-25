@@ -89,22 +89,22 @@ class CustomerView extends GetView<CustomerController> {
                                         }
                                       },
                                       itemBuilder: (BuildContext ctx) => [
-                                            PopupMenuItem(
-                                                child: Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    const Text(
-                                                        'Bagikan QR Code'),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    Icon(
-                                                      EvaIcons.shareOutline,
-                                                      color:
-                                                          HexColor('#0063F8'),
-                                                    )
-                                                  ],
-                                                ),
-                                                value: '1'),
+                                            // PopupMenuItem(
+                                            //     child: Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                            //       children: [
+                                            //         const Text(
+                                            //             'Bagikan QR Code'),
+                                            //         const SizedBox(
+                                            //           width: 8,
+                                            //         ),
+                                            //         Icon(
+                                            //           EvaIcons.shareOutline,
+                                            //           color:
+                                            //               HexColor('#0063F8'),
+                                            //         )
+                                            //       ],
+                                            //     ),
+                                            //     value: '1'),
                                             PopupMenuItem(
                                                 child: Row(
                                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -169,12 +169,12 @@ class CustomerView extends GetView<CustomerController> {
                                     controller.nameDetailController.text =
                                         controller.cusUserResult[index].name!;
                                     controller.phoneDetailNumberCusController
-                                            .text =
+                                            ?.text =
                                         controller
-                                            .cusUserResult[index].phoneNumber!;
-                                    controller.addressDetailCusController.text =
+                                            .cusUserResult[index].phoneNumber??'';
+                                    controller.addressDetailCusController?.text =
                                         controller
-                                            .cusUserResult[index].address!;
+                                            .cusUserResult[index].address??'';
                                     int v = controller.isRadio.value =
                                         controller.cusUserResult[index].active!;
                                     int v2 = controller.isRadio.value =
@@ -375,7 +375,7 @@ class CustomerView extends GetView<CustomerController> {
                   suffixIcon: const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Icon(EvaIcons.search),
-                  ),
+                  ),autofocus: true,
                   textInputType: TextInputType.text,
                   hintText: 'Cari..',
                   obscureText: false,

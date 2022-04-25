@@ -139,12 +139,7 @@ class AddCustomer extends GetView<CustomerController> {
                           controller: dataCustomerController,
                           textEditingController:
                               dataCustomerController.addressCusController,
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Alamat harus diisi";
-                            }
-                            return null;
-                          },
+                          
                         ),
                       ),
                       Padding(
@@ -173,24 +168,13 @@ class AddCustomer extends GetView<CustomerController> {
                               ),
                             ),
                           ),
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Nomor HP harus diisi";
-                            } else if (val.length < 7) {
-                              return "Nomor HP tidak valid";
-                            } else if (val.length > 14) {
-                              return "Nomor HP tidak valid";
-                            } else if (val[0] == "0") {
-                              return "Nomor HP tidak valid";
-                            }
-                            return null;
-                          },
+                          
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
-                        child: AirenTextFormFieldBase(
+                        child: AirenTextFormFieldBase(textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.compassOutline,
                               color: HexColor('#0063F8')),
                           hintText: 'Posisi  Meter',

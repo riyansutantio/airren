@@ -28,8 +28,9 @@ class CustomerDetailView extends GetView<CustomerController> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  statusBarColor:  HexColor('#5433FF'), //or set color with: Color(0xFF0000FF)
-));
+      statusBarColor:
+          HexColor('#5433FF'), //or set color with: Color(0xFF0000FF)
+    ));
     return WillPopScope(
       onWillPop: () =>
           willPopCallbackWithFunc(func: controller.clearCondition()),
@@ -50,8 +51,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                         child: const Padding(
                           padding: EdgeInsets.only(
                               left: 20.0, top: 15, bottom: 19, right: 20),
-                          child:
-                              Icon(EvaIcons.arrowBack, color: Colors.white),
+                          child: Icon(EvaIcons.arrowBack, color: Colors.white),
                         ),
                       ),
                       Text(
@@ -90,9 +90,9 @@ class CustomerDetailView extends GetView<CustomerController> {
                                     name: dataCustomerController
                                         .nameDetailController.text,
                                     phoneNumber: dataCustomerController
-                                        .phoneDetailNumberCusController.text,
+                                        .phoneDetailNumberCusController!.text,
                                     address: dataCustomerController
-                                        .addressDetailCusController.text,
+                                        .addressDetailCusController!.text,
                                     meter: dataCustomerController
                                         .meterDetailCusController.text);
                               }
@@ -105,12 +105,12 @@ class CustomerDetailView extends GetView<CustomerController> {
                 ],
               ),
               decoration: BoxDecoration(
-                color: HexColor('#5433FF'),
+                  color: HexColor('#5433FF'),
                   gradient: LinearGradient(
                       colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                   boxShadow: const []),
             ),
-               preferredSize: Size.fromHeight(56),
+            preferredSize: Size.fromHeight(56),
           ),
           body: Container(
             height: double.infinity,
@@ -218,13 +218,8 @@ class CustomerDetailView extends GetView<CustomerController> {
                             passwordVisibility: false,
                             controller: dataCustomerController,
                             textEditingController: dataCustomerController
-                                .addressDetailCusController,
-                            returnValidation: (val) {
-                             if (val!.isEmpty) {
-                                return "Alamat harus diisi";
-                              }
-                              return null;
-                            },
+                                .addressDetailCusController!,
+                           
                           ),
                         ),
                         Padding(
@@ -239,7 +234,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             passwordVisibility: false,
                             controller: dataCustomerController,
                             textEditingController: dataCustomerController
-                                .phoneDetailNumberCusController,
+                                .phoneDetailNumberCusController!,
                             prefixText: SizedBox(
                               child: Center(
                                 widthFactor: 0.0,
@@ -253,24 +248,14 @@ class CustomerDetailView extends GetView<CustomerController> {
                                 ),
                               ),
                             ),
-                            returnValidation: (val) {
-                              if (val!.isEmpty) {
-                                return "Nomor HP harus diisi";
-                              } else if (val.length < 7) {
-                                return "Nomor HP tidak valid";
-                              } else if (val.length > 14) {
-                                return "Nomor HP tidak valid";
-                              } else if (val[0] == "0") {
-                                return "Nomor HP tidak valid";
-                              }
-                              return null;
-                            },
+                          
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 20.0, right: 20, top: 24),
                           child: AirenTextFormFieldBase(
+                            textInputType: TextInputType.number,
                             suffixIcon: Icon(EvaIcons.compassOutline,
                                 color: HexColor('#0063F8')),
                             hintText: 'Posisi  Meter',
@@ -280,7 +265,7 @@ class CustomerDetailView extends GetView<CustomerController> {
                             textEditingController:
                                 dataCustomerController.meterDetailCusController,
                             returnValidation: (val) {
-                            if (val!.isEmpty) {
+                              if (val!.isEmpty) {
                                 return "Meter harus diisi";
                               }
                               return null;
@@ -778,8 +763,8 @@ class CustomerDetailView extends GetView<CustomerController> {
                 id: dataCustomerController.idDetailController.text,
                 name: dataCustomerController.nameDetailController.text,
                 phoneNumber:
-                    dataCustomerController.phoneDetailNumberCusController.text,
-                address: dataCustomerController.addressDetailCusController.text,
+                    dataCustomerController.phoneDetailNumberCusController!.text,
+                address: dataCustomerController.addressDetailCusController!.text,
                 meter: dataCustomerController.meterDetailCusController.text);
           }
         },
