@@ -80,10 +80,12 @@ class CatatMeterController extends GetxController {
   final meterNowManageDetailCatatBulan = ''.obs;
   final meterLastManageDetailCatatBulan = ''.obs;
   final addressManageDetailCatatBulan = ''.obs;
+  final phoneNumberManageDetailCatatBulan = ''.obs;
   final meterNowController = TextEditingController();
   final updateMeterController = TextEditingController();
   final volume = ''.obs;
   final statusPenerbitanInvoice = false.obs;
+  final statusTagihan = false.obs;
 
   //manage bulan
   final month_Of = 0.obs;
@@ -216,7 +218,7 @@ class CatatMeterController extends GetxController {
         ScanMode.QR,
       );
       // ignore: unrelated_type_equality_checks
-      if (scannedQrCode != -1) {
+      if (scannedQrCode != '-1') {
         snackBarNotificationSuccess(
             title:
                 'Berhasil melakukan scan - id : $scannedQrCode di ke $bulan');
@@ -275,6 +277,30 @@ class CatatMeterController extends GetxController {
     } else {
       Get.back();
       snackBarNotificationFailed(title: 'Gagal diubah');
+    }
+  }
+
+  Future addTagihan() async {
+    final res = await catatmeterProvider!.addTagihan(
+      bearer: boxUser.read(tokenBearer),
+      consumer_unique_id: uniqueIdManageDetailCatatBulan.value,
+      meter_now: meterNowManageDetailCatatBulan.value,
+      meter_last: meterLastManageDetailCatatBulan.value,
+      consumer_full_address: addressManageDetailCatatBulan.value,
+      consumer_phone_number: phoneNumberManageDetailCatatBulan.value,
+      consumer_name: nameManageDetailCatatBulan.value,
+      bulan: bulan.value,
+    );
+    logger.i(res!.status);
+    if (res.status == 'success') {
+      await getCatatMeter();
+      await clearCondition();
+      Get.back();
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+    } else {
+      Get.back();
+      await clearCondition();
+      snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
   }
 

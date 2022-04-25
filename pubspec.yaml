@@ -48,6 +48,7 @@ dependencies:
   qr_code_scanner: ^0.7.0
   flutter_barcode_scanner: ^2.0.0
   esc_pos_printer: ^4.1.0
+  esc_pos_bluetooth: ^0.4.1
 
 dev_dependencies: 
   flutter_lints: ^1.0.0

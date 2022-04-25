@@ -876,15 +876,112 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                 const SizedBox(
                                   width: 15,
                                 ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                                  child: SvgPicture.asset("assets/options.svg"),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.orange,
-                                  ),
-                                ),
+                                PopupMenuButton(
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 10, 15, 10),
+                                      child: SvgPicture.asset(
+                                          "assets/options.svg"),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.orange,
+                                      ),
+                                    ),
+                                    onSelected: (String selectedValue) {
+                                      print(selectedValue);
+                                      if (selectedValue == '1') {
+                                        controller
+                                                .meterLastManageDetailCatatBulan
+                                                .value =
+                                            controller.catatMeterresult[index]
+                                                .meter_last!;
+                                        controller
+                                                .meterNowManageDetailCatatBulan
+                                                .value =
+                                            controller.catatMeterresult[index]
+                                                .meter_now!;
+                                        controller
+                                                .uniqueIdManageDetailCatatBulan
+                                                .value =
+                                            controller.catatMeterresult[index]
+                                                .consumer_unique_id!;
+                                        controller.nameManageDetailCatatBulan
+                                                .value =
+                                            controller.catatMeterresult[index]
+                                                .consumer_name!;
+                                        controller.addressManageDetailCatatBulan
+                                                .value =
+                                            controller.catatMeterresult[index]
+                                                .consumer_full_address!;
+                                        controller
+                                                .phoneNumberManageDetailCatatBulan
+                                                .value =
+                                            controller.catatMeterresult[index]
+                                                .consumer_phone_number!;
+                                        controller.statusTagihan.value = true;
+                                        controller.addTagihan();
+                                      } else {
+                                        //print
+
+                                      }
+                                    },
+                                    itemBuilder: (BuildContext ctx) => [
+                                          PopupMenuItem(
+                                              enabled: (controller.statusTagihan
+                                                          .value ==
+                                                      false)
+                                                  ? true
+                                                  : false,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                      'Terbitkan Tagihan'),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  SvgPicture.asset((controller
+                                                              .statusTagihan
+                                                              .value ==
+                                                          false)
+                                                      ? 'assets/terbitkanTagihan.svg'
+                                                      : 'assets/terbitkanTagihanFalse.svg'),
+                                                ],
+                                              ),
+                                              value: '1'),
+                                          PopupMenuItem(
+                                              enabled: (controller.statusTagihan
+                                                          .value ==
+                                                      false)
+                                                  ? false
+                                                  : true,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text('Print tagihan'),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  SvgPicture.asset((controller
+                                                              .statusTagihan
+                                                              .value ==
+                                                          false)
+                                                      ? 'assets/printTagihanFalse.svg'
+                                                      : 'assets/printTagihan.svg'),
+                                                ],
+                                              ),
+                                              value: '2'),
+                                        ])
                               ],
                             )
                           ],

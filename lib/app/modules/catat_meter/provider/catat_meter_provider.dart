@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:airen/app/model/catat_meter/add_catat_meter.dart';
+import 'package:airen/app/model/catat_meter/add_tagihan.dart';
 import 'package:airen/app/model/catat_meter/bulan_model.dart';
 import 'package:airen/app/model/catat_meter/catat_meter_model.dart';
 import 'package:airen/app/model/common_model.dart';
@@ -94,7 +95,7 @@ class CatatMeterProvider extends GetConnect {
   Future<CusUserModel?> getSearchCus(
       {String? path, String? bearer, String? searchValue}) async {
     Uri _getSearchBaseFee = Uri.parse(
-        "https://api.airren.tbrdev.my.id/api/v1/consumer?search=$searchValue");
+        "https://api.airren.tbrdev.my.id/api/v1/consumer?status=active&search=$searchValue");
     logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
     final response =
         await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
@@ -170,5 +171,41 @@ class CatatMeterProvider extends GetConnect {
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
     return addCatatMeterModelFromJson(jsonString);
+  }
+
+  Future<AddTagihan?> addTagihan(
+      {required String? bearer,
+      required String? consumer_unique_id,
+      required String? meter_now,
+      required String? meter_last,
+      required String? consumer_name,
+      required String? consumer_full_address,
+      required String? consumer_phone_number,
+      required int? bulan}) async {
+    Uri _addTagihan = Uri.parse(
+        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$bulan/meter-transaction");
+    logger.wtf(_addTagihan);
+    final response = await http.post(_addTagihan,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+          "consumer_unique_id": consumer_unique_id,
+          "meter_now": meter_now,
+          "meter_last": meter_last,
+          "consumer_name": consumer_name,
+          "consumer_full_address": consumer_full_address,
+          "consumer_phone_number": consumer_phone_number,
+        }));
+    var jsonString = response.body;
+    logger.wtf(jsonEncode({
+          "consumer_unique_id": consumer_unique_id,
+          "meter_now": meter_now,
+          "meter_last": meter_last,
+          "consumer_name": consumer_name,
+          "consumer_full_address": consumer_full_address,
+          "consumer_phone_number": consumer_phone_number,
+    }));
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return addTagihanModelFromJson(jsonString);
   }
 }
