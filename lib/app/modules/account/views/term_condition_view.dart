@@ -75,9 +75,10 @@ class TermConditionView extends GetView<AccountController> {
                       padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10.0),
                       child: Html(
                           data: """${controller.resultTermCondition.value.content}""",
-                          customTextStyle: (node, TextStyle baseStyle) {
-                            return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));
-                          }),
+                          // customTextStyle: (node, TextStyle baseStyle) {
+                          //   return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));
+                          // }
+                          ),
                     ),
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(topRight: Radius.circular(25), topLeft: Radius.circular(25)),
