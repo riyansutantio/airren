@@ -25,11 +25,10 @@ class InvoiceModel {
 }
 
 class DataInvoice {
-  DataInvoice({this.pam, this.tm, this.cusMs, this.fee});
+  DataInvoice({this.pam, this.tm, this.cusMs,});
 
   final Pam? pam;
   final TransactionAllModel? tm;
-  final int? fee;
   final List<CostDetail>? cusMs;
 
   factory DataInvoice.fromJson(Map<String, dynamic> json) => DataInvoice(
@@ -41,7 +40,6 @@ class DataInvoice {
             ? null
             : List<CostDetail>.from(
                 json["costDetails"].map((x) => CostDetail.fromJson(x))),
-        fee: json["adminFeeAmount"] == null ? null : json["adminFeeAmount"],
       );
 }
 

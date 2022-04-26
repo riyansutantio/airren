@@ -181,23 +181,37 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                               fontSize: 14,
                                               color: HexColor('#3C3F58'),
                                               fontWeight: FontWeight.bold)),
-                                      Container(
-                                        child: Text(
-                                          controller.tm!.value.status == null
-                                              ? ''
-                                              : "${controller.tm!.value.status}",
-                                          style: GoogleFonts.montserrat(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: HexColor('#FF3B3B')),
-                                        ),
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            color: HexColor('#FF3B3B')
-                                                .withOpacity(0.1)),
-                                      )
+                                      controller.tm!.value.status == "unpaid"
+                                          ? Container(
+                                              child: Text(
+                                                "Belum Lunas",
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: HexColor('#FF3B3B')),
+                                              ),
+                                              padding: const EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  color: HexColor('#FF3B3B')
+                                                      .withOpacity(0.1)),
+                                            )
+                                          : Container(
+                                              child: Text(
+                                                "Lunas",
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: HexColor('#05C270')),
+                                              ),
+                                              padding: const EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  color: HexColor('#05C270')
+                                                      .withOpacity(0.1)),
+                                            )
                                     ],
                                   ),
                                   Container(
@@ -472,7 +486,9 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                             color: HexColor('#707793')),
                                       ),
                                       Text(
-                                        'Rp 0',
+                                        'Rp ' +
+                                            rupiah(controller.charge!.value
+                                                .toString()),
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -492,7 +508,7 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                             color: HexColor('#707793')),
                                       ),
                                       Text(
-                                        'Rp' +
+                                        'Rp ' +
                                             rupiah(
                                                 controller.totalResult!.value),
                                         style: GoogleFonts.montserrat(
@@ -572,9 +588,17 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                   ),
                                   ElevatedButton(
                                       onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (_) => Print()));
+                                        Get.to(Print(
+                                          charge: controller.charge!.value,
+                                          resultTotal:
+                                              controller.totalResult!.value,
+                                          pam: controller.dataPam!.value,
+                                          tm: controller.tm!.value,
+                                          result: controller.result!.value,
+                                          fee: controller.fee!.value,
+                                          totalPrice:
+                                              controller.totalPrice!.value,
+                                        ));
                                       },
                                       child: Ink(
                                         decoration: BoxDecoration(

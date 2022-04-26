@@ -54,7 +54,6 @@ class TransactionAllModel {
       this.phoneNumber,
       this.starMeter,
       this.dueDate,
-      this.publishedAt,
       this.createdAt,
       this.updatedAt});
 
@@ -72,8 +71,7 @@ class TransactionAllModel {
   final String? address;
   final String? phoneNumber;
   final String? starMeter;
-  final String? dueDate;
-  final DateTime? publishedAt;
+  final DateTime? dueDate;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   factory TransactionAllModel.fromJson(Map<String, dynamic> json) =>
@@ -107,13 +105,12 @@ class TransactionAllModel {
         address: json["consumer_full_address"] == null ? null : json["consumer_full_address"],
         phoneNumber: json["consumer_phone_number"] == null ? null : json["consumer_phone_number"],
         starMeter: json["consumer_start_meter"] == null ? null : json["consumer_start_meter"],
-        dueDate: json["due_date"] == null ? null : json["due_date"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
-        publishedAt: json["published_at"] == null
+        dueDate: json["due_date"] == null
             ? null
-            : DateTime.parse(json["published_at"]),
+            : DateTime.parse(json["due_date"]),
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),

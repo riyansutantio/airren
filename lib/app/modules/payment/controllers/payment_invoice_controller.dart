@@ -1,5 +1,6 @@
 import 'package:airen/app/model/register_model.dart';
 import 'package:airen/app/modules/session/views/payment_view.dart';
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -23,10 +24,13 @@ class PaymentInvoiceController extends GetxController {
   Rx<Pam>? dataPam = Pam().obs;
   Rx<TransactionAllModel>? tm = TransactionAllModel().obs;
   RxInt? fee = 0.obs;
+  RxInt? charge = 0.obs;
   RxInt? totalResult = 0.obs;
   RxList<CostDetail>? result = <CostDetail>[].obs;
   final isloading = false.obs;
   final boxUser = GetStorage();
+
+  @override
   void onInit() async {
     super.onInit();
     logger.i('test');
@@ -48,11 +52,12 @@ class PaymentInvoiceController extends GetxController {
         tm?.value = res.data!.tm!;
         dataPam?.value = res.data!.pam!;
         result?.assignAll(res.data!.cusMs!);
-        fee?.value = res.data!.fee!;
+        fee?.value = res.data!.pam!.adminFee!;
+        charge?.value = res.data!.pam!.charge!;
         result!.value.forEach((element) {
           totalPrice = totalPrice! + int.parse(element.total!);
         });
-        totalResult!.value = fee!.value + totalPrice!.value;
+        totalResult!.value = fee!.value + totalPrice!.value+charge!.value;
         // result.assignAll(res.data!.cusMs!);
       }
     } catch (e) {
@@ -62,11 +67,10 @@ class PaymentInvoiceController extends GetxController {
     }
   }
 
-  Future updateTransaction(
-      {
-      required int idInvoice,
-      required int id,
-     }) async {
+  Future updateTransaction({
+    required int idInvoice,
+    required int id,
+  }) async {
     final res = await p!.updatePeymentMonth(
       bearer: boxUser.read(tokenBearer),
       id: id,
@@ -79,4 +83,6 @@ class PaymentInvoiceController extends GetxController {
       snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
+
+  
 }

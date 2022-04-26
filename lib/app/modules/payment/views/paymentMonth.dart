@@ -134,7 +134,7 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           Text(
-                                            rupiah(controller
+                                          'Rp '+  rupiah(controller
                                                 .result[index].amount),
                                             style: GoogleFonts.montserrat(
                                                 fontSize: 14,
@@ -174,9 +174,9 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                 ),
                                               ],
                                             ),
-                                            Container(
+                                         controller.result[index].status=="unpaid"?    Container(
                                               child: Text(
-                                                "${controller.result[index].status}",
+                                               "Belum Lunas",
                                                 style: GoogleFonts.montserrat(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w400,
@@ -187,6 +187,20 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                   borderRadius:
                                                       BorderRadius.circular(6),
                                                   color: HexColor('#FF3B3B')
+                                                      .withOpacity(0.1)),
+                                            ):Container(
+                                              child: Text(
+                                               "Lunas",
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: HexColor('#05C270')),
+                                              ),
+                                              padding: const EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  color: HexColor('#05C270')
                                                       .withOpacity(0.1)),
                                             )
                                           ],
@@ -219,7 +233,7 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    "${controller.result[index].publishedAt!.day} ${months[controller.result[index].publishedAt!.month - 1]} ${controller.result[index].publishedAt!.year}",
+                                                    "${controller.result[index].dueDate!.day} ${months[controller.result[index].dueDate!.month - 1]} ${controller.result[index].dueDate!.year}",
                                                     style:
                                                         GoogleFonts.montserrat(
                                                             fontSize: 14,
