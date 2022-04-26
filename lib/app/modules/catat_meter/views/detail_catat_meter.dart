@@ -1,6 +1,7 @@
 import 'package:airen/app/modules/catat_meter/controllers/catat_meter_controller.dart';
 import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
 import 'package:airen/app/modules/catat_meter/views/catat_meter_bulan_view.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -319,6 +320,7 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                                   snackBarNotificationFailed(
                                                       title:
                                                           "Data yang diinput salah");
+                                                  Get.off(CatatMeterView());
                                                 } else {
                                                   logger.e("error");
                                                 }
@@ -391,28 +393,36 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
   ElevatedButton buildElevatedButtonCustom(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-          if (controller.statusDetail.value == true) {
-            if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
-                int.parse(controller.meterNowController.text)) {
-              logger.e("masuk sini");
-              Get.back();
-              snackBarNotificationFailed(title: "Nilai input data tidak valid");
+          if (controller.meterNowController.text != '') {
+            if (controller.statusDetail.value == true) {
+              if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
+                  int.parse(controller.meterNowController.text)) {
+                logger.e("masuk sini");
+                Get.back();
+                snackBarNotificationFailed(
+                    title: "Nilai input data tidak valid");
+              } else {
+                catatMeterBulanController.addCatatMeter();
+              }
             } else {
-              catatMeterBulanController.addCatatMeter();
+              if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
+                  int.parse(controller.meterNowController.text)) {
+                logger.e("masuk sini");
+                Get.back();
+                snackBarNotificationFailed(
+                    title: "Nilai input data tidak valid");
+              } else {
+                catatMeterBulanController.updateCatatMeter(
+                  id: controller.idManageCatatBulan.toString(),
+                  meter_now:
+                      controller.meterNowManageDetailCatatBulan.toString(),
+                  month: controller.bulan.value,
+                );
+              }
             }
           } else {
-            if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
-                int.parse(controller.meterNowController.text)) {
-              logger.e("masuk sini");
-              Get.back();
-              snackBarNotificationFailed(title: "Nilai input data tidak valid");
-            } else {
-              catatMeterBulanController.updateCatatMeter(
-                id: controller.idManageCatatBulan.toString(),
-                meter_now: controller.meterNowManageDetailCatatBulan.toString(),
-                month: controller.bulan.value,
-              );
-            }
+            Get.back();
+            snackBarNotificationFailed(title: "Nilai input tidak valid");
           }
         },
         child: Ink(

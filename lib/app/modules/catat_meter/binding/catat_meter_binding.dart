@@ -7,7 +7,7 @@ class CatatMeterBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<CatatMeterController>(
-      () => CatatMeterController(catatmeterProvider: CatatMeterProvider()),
-    );
+        () => CatatMeterController(catatmeterProvider: CatatMeterProvider()),
+        fenix: true);
   }
 }

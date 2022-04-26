@@ -1,3 +1,5 @@
+import 'package:airen/app/modules/catat_meter/binding/catat_meter_binding.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:get/get.dart';
 
 import 'package:airen/app/modules/account/bindings/account_binding.dart';
@@ -58,6 +60,11 @@ class AppPages {
       name: _Paths.ERROR_HANDLING,
       page: () => ErrorHandlingView(),
       binding: ErrorHandlingBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATAT_METER,
+      page: () => CatatMeterView(),
+      binding: CatatMeterBinding(),
     ),
   ];
 }

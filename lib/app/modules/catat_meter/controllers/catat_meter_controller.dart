@@ -9,8 +9,7 @@ import 'package:airen/app/modules/customer/controllers/customer_controller.dart'
 import 'package:airen/app/modules/customer/providers/customer_provider.dart';
 import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
-import 'package:esc_pos_printer/esc_pos_printer.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -70,6 +69,7 @@ class CatatMeterController extends GetxController {
   final isSearch = false.obs;
   final searchValue = ''.obs;
   String scannedQrCode = '';
+  final now = new DateTime.now().obs;
 
   //Detail catat Meter
   final statusDetail = false.obs;
@@ -91,6 +91,13 @@ class CatatMeterController extends GetxController {
   final month_Of = 0.obs;
   final year_Of = 0.obs;
   final deleteState = false.obs;
+
+  //pengaturan printer
+  RxBool switchBluetooth = false.obs;
+  final switchAutoConnect = false.obs;
+  List<BluetoothDevice> device = [];
+  BluetoothDevice? selectedDevice;
+  BlueThermalPrinter printer = BlueThermalPrinter.instance;
 
   Future<void> clearCondition() async {
     meterNowController.clear();
@@ -125,7 +132,7 @@ class CatatMeterController extends GetxController {
       monthOf: month_Of.toInt(),
       yearOf: year_Of.toInt(),
     );
-    logger.e(res!.message!);
+    logger.d(res!.message!);
     if (res.message! == 'Meter months successfully created' ||
         res.status == 'success') {
       await getMeterMonth();
@@ -295,22 +302,45 @@ class CatatMeterController extends GetxController {
     if (res.status == 'success') {
       await getCatatMeter();
       await clearCondition();
-      Get.back();
-      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+      snackBarNotificationSuccess(title: 'Tagihan berhasil diterbitkan');
     } else {
-      Get.back();
       await clearCondition();
-      snackBarNotificationFailed(title: 'Gagal ditambahkan');
+      snackBarNotificationFailed(title: 'Tagihan gagal diterbitkan');
     }
   }
 
-  printInvoice() async {
-    List<int> bytes = [];
-    // Using default profile
-    final profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm80, profile);
+  getDevice() async {
+    device = await printer.getBondedDevices();
+  }
 
-    bytes += generator.text('Align center',
-        styles: PosStyles(align: PosAlign.center));
+  Future<void> toggleBluetooth() async {
+    // if (switchBluetooth.value == false) {
+    //   BluetoothEnable.enableBluetooth.then((value) async {
+    //     if (value == "true") {
+    //       //Bluetooth has been enabled
+    //       logger.d('Bluetooth error');
+    //       await getDevice();
+    //       switchBluetooth.value = true;
+    //     } else if (value == "false") {
+    //       //Bluetooth has not been enabled
+    //       logger.d('Bluetooth error');
+    //     }
+    //   });
+    // } else {
+    //   switchBluetooth.value = false;
+    // }
+  }
+
+  void toggleAuto() =>
+      switchAutoConnect.value = switchAutoConnect.value ? false : true;
+
+  printInvoice() async {
+    //   List<int> bytes = [];
+    //   // Using default profile
+    //   final profile = await CapabilityProfile.load();
+    //   final generator = Generator(PaperSize.mm80, profile);
+
+    //   bytes += generator.text('Align center',
+    //       styles: PosStyles(align: PosAlign.center));
   }
 }
