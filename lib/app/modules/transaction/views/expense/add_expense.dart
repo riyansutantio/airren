@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -104,7 +105,6 @@ class AddExpense extends GetView<TransactionController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 40),
                         child: AirenTextFormFieldBase(
-                        
                           suffixIcon: Icon(EvaIcons.editOutline,
                               color: HexColor('#0063F8')),
                           textInputType: TextInputType.text,
@@ -127,11 +127,10 @@ class AddExpense extends GetView<TransactionController> {
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
-                        child: AirenTextFormFieldBase(textInputFormatter: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Fit the validating format.
-                            //fazer o formater para dinheiro
-                            CurrencyInputFormatter()
+                        child: AirenTextFormFieldBase(
+                          textInputFormatter: [
+                            CurrencyTextInputFormatter(
+                                locale: 'id', symbol: '', decimalDigits: 0)
                           ],
                           textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.pricetagsOutline,
@@ -175,12 +174,6 @@ class AddExpense extends GetView<TransactionController> {
                           controller: dataCustomerController,
                           textEditingController: dataCustomerController
                               .deskriptionExpenseController,
-                          returnValidation: (val) {
-                            if (val!.isEmpty) {
-                              return "Deskripsi harus diisi";
-                            }
-                            return null;
-                          },
                         ),
                       ),
                       const SizedBox(height: 10),
