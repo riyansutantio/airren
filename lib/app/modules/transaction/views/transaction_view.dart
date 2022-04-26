@@ -381,12 +381,7 @@ class TransactionView extends GetView<TransactionController> {
                                                                                                   Container(
                                                                                                     padding: EdgeInsets.all(6),
                                                                                                     decoration: BoxDecoration(
-                                                                                                      color: controller
-                                                                .pamTransResult[
-                                                                    index]
-                                                                .type ==
-                                                            'income'
-                                                        ? HexColor('#05C270'):HexColor('#FF3B3B'),
+                                                                                                      color: controller.pamTransResult[index].type == 'income' ? HexColor('#05C270') : HexColor('#FF3B3B'),
                                                                                                       borderRadius: BorderRadius.circular(4),
                                                                                                     ),
                                                                                                     child: Text(
@@ -422,7 +417,7 @@ class TransactionView extends GetView<TransactionController> {
                                                                                       ),
                                                                                     ),
                                                                                     Text(
-                                                                                      'Bulan ' + monthsAll[controller.pamTransResult[index].createdAt!.month + 1],
+                                                                                      'Bulan ' + monthsAll[controller.pamTransResult[index].createdAt!.month - 1],
                                                                                       style: GoogleFonts.montserrat(
                                                                                         color: HexColor('#707793'),
                                                                                         fontSize: 12,
@@ -457,7 +452,7 @@ class TransactionView extends GetView<TransactionController> {
                                                                                             ),
                                                                                           ),
                                                                                           Text(
-                                                                                            months[controller.pamTransResult[index].createdAt!.month + 1],
+                                                                                            months[controller.pamTransResult[index].createdAt!.month - 1],
                                                                                             style: GoogleFonts.montserrat(
                                                                                               color: HexColor('#FFFFFF').withOpacity(0.8),
                                                                                               fontSize: 12,
@@ -591,7 +586,7 @@ class TransactionView extends GetView<TransactionController> {
                                                                               ),
                                                                             ),
                                                                             Text(
-                                                                              months[controller.pamTransResult[index].createdAt!.month + 1],
+                                                                              months[controller.pamTransResult[index].createdAt!.month - 1],
                                                                               style: GoogleFonts.montserrat(
                                                                                 color: HexColor('#0063F8').withOpacity(0.8),
                                                                                 fontSize: 12,

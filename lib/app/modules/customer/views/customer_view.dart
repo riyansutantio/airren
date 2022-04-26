@@ -156,8 +156,8 @@ class CustomerView extends GetView<CustomerController> {
                       color: Colors.white),
                   child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: (controller.cusUserResult.isEmpty&& controller.cusUserResult.length<=0)
-                          ? controller.noListCustomer()
+                      child: (controller.cusUserResult.isEmpty)
+                          ? controller.isLoadingSearch.value?controller.noListSearch(): controller.noListCustomer()
                           : ListView.builder(
                               itemCount: controller.cusUserResult.length,
                               itemBuilder: (context, index) {

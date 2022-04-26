@@ -87,7 +87,7 @@ class AddIncome extends GetView<TransactionController> {
                     colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                 boxShadow: const []),
           ),
-        preferredSize: Size.fromHeight(56),
+        preferredSize: Size.fromHeight(Get.height * 0.1),
         ),
         body: Container(
           decoration: BoxDecoration(
