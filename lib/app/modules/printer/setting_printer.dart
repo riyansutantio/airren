@@ -256,7 +256,7 @@ class Print extends GetView<PrintController> {
                                               color: HexColor('#0063F8')
                                                   .withOpacity(0.7)),
                                           child:
-                                              DropdownButton<BluetoothDevice>(
+                                              DropdownButton<BluetoothDevice?>(
                                             underline: SizedBox(),
                                             hint: Padding(
                                               padding:
@@ -271,10 +271,10 @@ class Print extends GetView<PrintController> {
                                             isExpanded: true,
                                             items: controller.getDeviceItems(),
                                             onChanged: (value) {
-                                              controller.device!.value = value!;
-                                              print(controller.device!.value);
+                                              controller.device.value = value!;
+                                              print(controller.device.value);
                                             },
-                                            value: controller.device?.value,
+                                            value: controller.device.value,
                                           ),
                                         ),
                                         Container(

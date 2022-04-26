@@ -22,7 +22,7 @@ class PrintController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   AppPrint? _appPrint;
   final devices = <BluetoothDevice>[].obs;
-  Rx<BluetoothDevice>? device;
+  final device=Rxn<BluetoothDevice>();
   RxBool? connected = false.obs, onBluetooth = false.obs;
 
   late SharedPreferences preferences;
@@ -135,7 +135,7 @@ void tesPrint(
     } else {
       bluetooth.isConnected.then((isConnected) {
         if (!isConnected!) {
-          bluetooth.connect(device!.value).catchError((error) {
+          bluetooth.connect(device.value!).catchError((error) {
             connected!.value = false;
           });
           connected!.value = true;
