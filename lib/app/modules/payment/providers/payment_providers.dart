@@ -45,7 +45,20 @@ class PaymentProviders extends GetConnect {
     }
     return null;
   }
-
+Future<MeterTransMonthModel?> getSearchMeter(
+      {String? path, String? bearer, String? searchValue,int? id}) async {
+    Uri _getSearchBaseFee = Uri.parse("https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction?search=$searchValue");
+    logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
+    final response =
+        await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return MeterTransModelAllFromJson(jsonString);
+    }
+    return null;
+  }
   Future<MeterTransMonthModel?> updatePeymentMonth(
       {String? path, String? bearer, int? id,int? idInvoice}) async {
     Uri _getPamsUser = Uri.parse(

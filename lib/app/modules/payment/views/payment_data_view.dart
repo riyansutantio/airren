@@ -84,7 +84,7 @@ class PaymentDataViews extends GetView<PaymentController> {
                                               controller.paymentData.value = 0;
                                               controller.status!.value =
                                                   'unpaid';
-                                                  controller.getPeyments();
+                                              controller.getPeyments();
                                             },
                                             child: Column(
                                               mainAxisAlignment:
@@ -292,7 +292,6 @@ class PaymentDataViews extends GetView<PaymentController> {
                     gradient: LinearGradient(
                         colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
               ),
-              
             ));
       },
     );
@@ -407,14 +406,33 @@ class PaymentDataViews extends GetView<PaymentController> {
                         elevation: 8.0,
                         child: Container(
                           child: ListTile(
-                            leading: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor:
-                                    HexColor('#FF8801').withOpacity(0.1),
-                                child: Icon(
-                                  EvaIcons.alertTriangleOutline,
-                                  color: HexColor('#FF3B3B'),
-                                )),
+                            leading: element.numberOfPaidMeterTransaction ==
+                                    element.numberofmetertransaction
+                                ? element.monthof == DateTime.now().month
+                                    ? CircleAvatar(
+                                        maxRadius: 30,
+                                        backgroundColor: HexColor('#FF8801')
+                                            .withOpacity(0.1),
+                                        child: Icon(
+                                          EvaIcons.clockOutline,
+                                          color: HexColor('#FF8801'),
+                                        )): CircleAvatar(
+                                        maxRadius: 30,
+                                        backgroundColor: HexColor('#05C270')
+                                            .withOpacity(0.1),
+                                        child: Icon(
+                                          EvaIcons.checkmark,
+                                          color: HexColor('#05C270'),
+                                        ))
+                                    
+                                : CircleAvatar(
+                                    maxRadius: 30,
+                                    backgroundColor:
+                                        HexColor('#05C270').withOpacity(0.1),
+                                    child: Icon(
+                                      EvaIcons.alertTriangleOutline,
+                                      color: HexColor('#FF3B3B'),
+                                    )),
                             contentPadding: const EdgeInsets.all(10),
                             title: Text(
                               monthsAll[element.monthof! - 1],

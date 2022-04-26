@@ -98,226 +98,270 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                       color: Colors.white),
                   child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                          itemCount: controller.result.value.length,
-                          itemBuilder: (context, index) {
-                            String? name =
-                                controller.result[index].name!.length <= 14
-                                    ? controller.result[index].name!
-                                    : controller.result[index].name!.substring(0,14)+'..';
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(PaymentInvoice(
-                                  id: id,
-                                  idInvoice: controller.result[index].id,
-                                  name: name,
-                                ));
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, left: 16.0, right: 16.0),
-                                child: Container(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                      child: controller.result.isEmpty
+                          ? noListSearch()
+                          : ListView.builder(
+                              itemCount: controller.result.value.length,
+                              itemBuilder: (context, index) {
+                                String? name =
+                                    controller.result[index].name!.length <= 14
+                                        ? controller.result[index].name!
+                                        : controller.result[index].name!
+                                                .substring(0, 14) +
+                                            '..';
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(PaymentInvoice(
+                                      id: id,
+                                      idInvoice: controller.result[index].id,
+                                      name: name,
+                                    ));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, left: 16.0, right: 16.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "${controller.result[index].name}",
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 14,
-                                                color: HexColor('#3C3F58'),
-                                                fontWeight: FontWeight.w700),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "${controller.result[index].name}",
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 14,
+                                                    color: HexColor('#3C3F58'),
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                'Rp ' +
+                                                    rupiah(controller
+                                                        .result[index].amount),
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 14,
+                                                    color: HexColor('#FF8801'),
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                          'Rp '+  rupiah(controller
-                                                .result[index].amount),
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 14,
-                                                color: HexColor('#FF8801'),
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8, bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8, bottom: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text(
-                                                  "${controller.result[index].uniqueId}",
-                                                  style: GoogleFonts.montserrat(
-                                                      fontSize: 12,
-                                                      color: HexColor('#0063F8')
-                                                          .withOpacity(0.7),
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${controller.result[index].uniqueId}",
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              fontSize: 12,
+                                                              color: HexColor(
+                                                                      '#0063F8')
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                    Text(
+                                                      "${controller.result[index].address}",
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              fontSize: 12,
+                                                              color: HexColor(
+                                                                      '#707793')
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Text(
-                                                  "${controller.result[index].address}",
-                                                  style: GoogleFonts.montserrat(
-                                                      fontSize: 12,
-                                                      color: HexColor('#707793')
-                                                          .withOpacity(0.7),
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
+                                                controller.result[index]
+                                                            .status ==
+                                                        "unpaid"
+                                                    ? Container(
+                                                        child: Text(
+                                                          "Belum Lunas",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: HexColor(
+                                                                      '#FF3B3B')),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(6),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                            color: HexColor(
+                                                                    '#FF3B3B')
+                                                                .withOpacity(
+                                                                    0.1)),
+                                                      )
+                                                    : Container(
+                                                        child: Text(
+                                                          "Lunas",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: HexColor(
+                                                                      '#05C270')),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(6),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                            color: HexColor(
+                                                                    '#05C270')
+                                                                .withOpacity(
+                                                                    0.1)),
+                                                      )
                                               ],
                                             ),
-                                         controller.result[index].status=="unpaid"?    Container(
-                                              child: Text(
-                                               "Belum Lunas",
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: HexColor('#FF3B3B')),
-                                              ),
-                                              padding: const EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  color: HexColor('#FF3B3B')
-                                                      .withOpacity(0.1)),
-                                            ):Container(
-                                              child: Text(
-                                               "Lunas",
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: HexColor('#05C270')),
-                                              ),
-                                              padding: const EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  color: HexColor('#05C270')
-                                                      .withOpacity(0.1)),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  229,
-                                              padding: const EdgeInsets.all(9),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    "Dibuat pada",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 12,
-                                                            color: HexColor(
-                                                                '#707793'),
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    "${controller.result[index].dueDate!.day} ${months[controller.result[index].dueDate!.month - 1]} ${controller.result[index].dueDate!.year}",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 14,
-                                                            color: HexColor(
-                                                                '#0063F8'),
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: HexColor('#0063F8')
-                                                    .withOpacity(0.05)),
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  229,
-                                              padding: const EdgeInsets.all(9),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    "Volume",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 12,
-                                                            color: HexColor(
-                                                                '#707793'),
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
+                                          const SizedBox(height: 16),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      229,
+                                                  padding:
+                                                      const EdgeInsets.all(9),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "Dibuat pada",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 12,
+                                                                color: HexColor(
+                                                                    '#707793'),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        "${controller.result[index].dueDate!.day} ${months[controller.result[index].dueDate!.month - 1]} ${controller.result[index].dueDate!.year}",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14,
+                                                                color: HexColor(
+                                                                    '#0063F8'),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    "${controller.result[index].meterNow}",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 14,
-                                                            color: HexColor(
-                                                                '#05C270'),
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                ],
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: HexColor('#0063F8')
+                                                        .withOpacity(0.05)),
                                               ),
-                                            ),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: HexColor('#0063F8')
-                                                    .withOpacity(0.05)),
-                                          ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Container(
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      229,
+                                                  padding:
+                                                      const EdgeInsets.all(9),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "Volume",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 12,
+                                                                color: HexColor(
+                                                                    '#707793'),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        "${controller.result[index].meterNow}",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14,
+                                                                color: HexColor(
+                                                                    '#05C270'),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: HexColor('#0063F8')
+                                                        .withOpacity(0.05)),
+                                              ),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
+                                      ),
+                                      decoration: const BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: Offset(0.0, 8.0),
+                                              color: Color.fromRGBO(
+                                                  0, 99, 248, 0.16),
+                                              blurRadius: 24,
+                                            ),
+                                          ],
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(16)),
+                                          color: Colors.white),
+                                    ),
                                   ),
-                                  decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          offset: Offset(0.0, 8.0),
-                                          color:
-                                              Color.fromRGBO(0, 99, 248, 0.16),
-                                          blurRadius: 24,
-                                        ),
-                                      ],
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
-                                      color: Colors.white),
-                                ),
-                              ),
-                            );
-                          })),
+                                );
+                              })),
                 ),
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -395,6 +439,37 @@ class PaymentMonth extends GetView<PaymentMonthController> {
             boxShadow: const []),
       ),
       preferredSize: Size.fromHeight(Get.height * 0.1),
+    );
+  }
+
+  Widget noListSearch() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/search.png",
+            width: 77,
+            height: 90,
+          ),
+          const SizedBox(height: 30),
+          Text(
+            "Tidak ditemukan",
+            style: GoogleFonts.montserrat(
+                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "Belum ada tagihan yang sesuai dengan\n kata kunci di atas.",
+            style: GoogleFonts.montserrat(
+                fontSize: 12,
+                color: HexColor('#707793'),
+                fontWeight: FontWeight.w300),
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
     );
   }
 }

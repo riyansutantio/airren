@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../../../model/meter_transactionAll_model.dart';
 import '../../../utils/constant.dart';
@@ -19,10 +21,24 @@ class PaymentMonthController extends GetxController {
   final isSearch = false.obs;
 
   final searchController = TextEditingController();
+  @override
   void onInit() async {
     super.onInit();
     logger.i('test');
     await getPeymentMonths();
+  }
+  @override
+  void onReady() {
+    super.onReady();
+    debounce(searchValue, (String? val) {
+      print(val!.length);
+      if ((result.value.isEmpty)) {
+        isloading.value = true;
+      } else {
+        isloading.value = false;
+      }
+      return searchManage();
+    }, time: 500.milliseconds);
   }
   Future getPeymentMonths() async {
     try {
@@ -41,5 +57,12 @@ class PaymentMonthController extends GetxController {
     } finally {
       isloading.value = false;
     }
+  }
+  Future searchManage() async {
+    final res = await p!.getSearchMeter(
+        bearer: boxUser.read(tokenBearer), searchValue: searchValue.value,id: id);
+    // logger.wtf(res!.data!.data!.toList());
+
+    result.assignAll(res!.data!.cusMs!);
   }
 }
