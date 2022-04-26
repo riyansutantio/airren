@@ -9,6 +9,7 @@ import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
 import '../../error_handling/views/error_handling_view.dart';
+import '../../printer/setting_printer.dart';
 import '../controllers/payment_controller.dart';
 import '../controllers/payment_invoice_controller.dart';
 import '../controllers/peyment_month_controller.dart';
@@ -570,7 +571,11 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                     width: 10,
                                   ),
                                   ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (_) => Print()));
+                                      },
                                       child: Ink(
                                         decoration: BoxDecoration(
                                             boxShadow: const [
