@@ -340,13 +340,13 @@ class CatatMeterController extends GetxController {
         logger.d(result);
         fee?.value = res.data!.pam!.adminFee!;
         logger.d(fee);
-        charge?.value = 1000;
-        logger.d(charge!);
+        charge?.value = res.data!.pam!.charge!;
+        logger.d(charge);
         result!.value.forEach((element) {
           totalPrice = totalPrice! + int.parse(element.total!);
         });
         totalResult!.value = fee!.value + totalPrice!.value + charge!.value;
-        logger.d(totalResult);
+        logger.d(tm);
         // result.assignAll(res.data!.cusMs!);
       }
     } catch (e) {

@@ -22,7 +22,7 @@ class PrintController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   AppPrint? _appPrint;
   final devices = <BluetoothDevice>[].obs;
-  final device=Rxn<BluetoothDevice>();
+  final device = Rxn<BluetoothDevice>();
   RxBool? connected = false.obs, onBluetooth = false.obs;
 
   late SharedPreferences preferences;
@@ -36,7 +36,7 @@ class PrintController extends GetxController {
 
   RxBool conn = false.obs;
   RxBool isSwitched = false.obs;
-void tesPrint(
+  void tesPrint(
       {Pam? pam,
       TransactionAllModel? tm,
       List<CostDetail>? result,
@@ -50,7 +50,7 @@ void tesPrint(
     // 2- bold with medium text
     // 3- bold with large texts
     //ALIGN
-    // 0- ESC_ALIGN_LEFT
+    // 0- ESC_ALIGN_LEF
     // 1- ESC_ALIGN_CENTER
     // 2- ESC_ALIGN_RIGHT
 
@@ -68,8 +68,6 @@ void tesPrint(
         bluetooth.printCustom("Di tagihkan Kepada", 0, 1);
         if (tm != null) {
           if (tm.name != null && tm.name!.isNotEmpty) {
-            bluetooth.printNewLine();
-            bluetooth.printNewLine();
             bluetooth.printCustom("${tm.name}", 0, 1);
           }
           if (tm.address != null && tm.address!.isNotEmpty) {
@@ -83,18 +81,18 @@ void tesPrint(
 
         bluetooth.printCustom("RINCIAN PEMAKAIAN", 0, 1);
         if (tm != null) {
-          if (tm.starMeter != null && tm.starMeter!.isNotEmpty) {
-            bluetooth.printLeftRight("METER AWAL", "${tm.starMeter}", 0);
+          if (tm.meterNow != null && tm.meterNow!.isNotEmpty) {
+            bluetooth.printLeftRight("METER AWAL", "${tm.meterLast}", 0);
           } else {
             bluetooth.printLeftRight("METER AWAL", " ", 0);
           }
-          if (tm.meterLast != null && tm.meterLast!.isNotEmpty) {
-            bluetooth.printLeftRight("METER AKHIR", "${tm.meterLast}", 0);
+          if (tm.meterNow != null && tm.meterNow!.isNotEmpty) {
+            bluetooth.printLeftRight("METER AKHIR", "${tm.meterNow}", 0);
           } else {
             bluetooth.printLeftRight("METER AKHIR", " ", 0);
           }
           if (tm.meterNow != null && tm.meterNow!.isNotEmpty) {
-            bluetooth.printLeftRight("VOLUME", "${tm.meterNow}", 0);
+            bluetooth.printLeftRight("VOLUME", "0", 0);
           } else {
             bluetooth.printLeftRight("VOLUME", " ", 0);
           }
@@ -109,19 +107,20 @@ void tesPrint(
           String subtotal = rupiah(int.parse(product.total!));
           // String subtot = rupiah(subtotal.toInt());
 
-          bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 1);
+          bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
         }).toList();
-        bluetooth.printCustom("--------------------------------", 1, 1);
-        bluetooth.printLeftRight("Subtotal     Rp ", "$totalPrice", 1);
-        bluetooth.printLeftRight("Biaya Admi   Rp ", "$fee", 1);
-        bluetooth.printLeftRight("Biaya Dend   Rp ", "$charge", 1);
-        bluetooth.printLeftRight("Total        Rp ", "$totalResult", 1);
+        bluetooth.printCustom("--------------------------------", 0, 0);
+        bluetooth.printLeftRight("Subtotal     Rp ", "$totalPrice", 0);
+        bluetooth.printLeftRight("Biaya Admin  Rp ", "$fee", 0);
+        bluetooth.printLeftRight("Biaya Denda  Rp ", "$charge", 0);
+        bluetooth.printLeftRight("Total        Rp ", "$totalResult", 0);
 
         bluetooth.printNewLine();
         bluetooth.printNewLine();
       }
     });
   }
+
   savePrint(String printAddress, String printName) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -188,7 +187,7 @@ void tesPrint(
     pAddress!.value = (preferences.getString('print') ?? 'AddresPrint');
     pName!.value = (preferences.getString('printer_name') ?? '');
     pConnected!.value = 1;
-  //  device?.value = BluetoothDevice(pName?.value, pAddress?.value);
+    //  device?.value = BluetoothDevice(pName?.value, pAddress?.value);
   }
 
   Future updatePrint() async {
@@ -231,7 +230,7 @@ void tesPrint(
   @override
   void onInit() async {
     super.onInit();
-   await getPrint();
+    await getPrint();
     if (pConnected == 0) {
       isSwitched.value = false;
     } else {
