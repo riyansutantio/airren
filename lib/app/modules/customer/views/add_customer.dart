@@ -92,7 +92,7 @@ class AddCustomer extends GetView<CustomerController> {
                     colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                 boxShadow: const []),
           ),
-          preferredSize: Size.fromHeight(56),
+          preferredSize: Size.fromHeight(Get.height * 0.1),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -119,9 +119,9 @@ class AddCustomer extends GetView<CustomerController> {
                               dataCustomerController.nameController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "Nama  harus diisi";
+                              return "Nama Pelanggan harus diisi";
                             } else if (val.length < 3) {
-                              return "Nama  harus lebih dari 3 karakter";
+                              return "Nama Pelanggan harus lebih dari 3 karakter";
                             }
                             return null;
                           },
@@ -185,7 +185,7 @@ class AddCustomer extends GetView<CustomerController> {
                               dataCustomerController.meterCusController,
                           returnValidation: (val) {
                             if (val!.isEmpty) {
-                              return "Meter harus diisi";
+                              return "Posisi Meter harus diisi";
                             }
                             return null;
                           },

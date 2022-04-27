@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,7 +89,7 @@ class FirstBlance extends GetView<TransactionController> {
                     colors: [HexColor('#5433FF'), HexColor('#0063F8')]),
                 boxShadow: const []),
           ),
-          preferredSize: Size.fromHeight(56),
+          preferredSize: Size.fromHeight(Get.height * 0.1),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -104,12 +105,7 @@ class FirstBlance extends GetView<TransactionController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
-                          textInputFormatter: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Fit the validating format.
-                            //fazer o formater para dinheiro
-                            CurrencyInputFormatter()
-                          ],
+                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
                           textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.pricetagsOutline,
                               color: HexColor('#0063F8')),

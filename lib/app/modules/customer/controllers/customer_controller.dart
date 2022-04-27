@@ -26,6 +26,7 @@ class CustomerController extends GetxController {
   CustomerProviders? p;
   final boxUser = GetStorage();
   final isLoadingCusUser = false.obs;
+  final isLoadingSearch = false.obs;
   RxInt isRadio = 1.obs;
   final searchValue = ''.obs;
   final isSearch = false.obs;
@@ -42,7 +43,8 @@ class CustomerController extends GetxController {
   final meterCusController = TextEditingController();
   final nameDetailController = TextEditingController();
   final idDetailController = TextEditingController();
-  TextEditingController? phoneDetailNumberCusController = TextEditingController();
+  TextEditingController? phoneDetailNumberCusController =
+      TextEditingController();
   TextEditingController? addressDetailCusController = TextEditingController();
   final meterDetailCusController = TextEditingController();
   final activeDetailCusController = TextEditingController();
@@ -161,13 +163,19 @@ class CustomerController extends GetxController {
         bearer: boxUser.read(tokenBearer), searchValue: searchValue.value);
     // logger.wtf(res!.data!.data!.toList());
 
-   cusUserResult.assignAll(res!.data!.cusMs!);
+    cusUserResult.assignAll(res!.data!.cusMs!);
   }
 
   @override
   void onReady() {
     super.onReady();
-    debounce(searchValue, (val) {
+    debounce(searchValue, (String? val) {
+      print(val!.length);
+      if (cusUserResult.value.isNotEmpty  && val.isNotEmpty) {
+        isLoadingSearch.value = true;
+      } else {
+        isLoadingSearch.value = false;
+      }
       return searchManage();
     }, time: 500.milliseconds);
   }
@@ -203,6 +211,37 @@ class CustomerController extends GetxController {
     );
   }
 
+  Widget noListSearch() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/search.png",
+            width: 77,
+            height: 90,
+          ),
+          const SizedBox(height: 30),
+          Text(
+            "Tidak ditemukan",
+            style: GoogleFonts.montserrat(
+                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "Belum ada pelanggan yang bisa ditemukan\ndari kata kunci di atas.",
+            style: GoogleFonts.montserrat(
+                fontSize: 12,
+                color: HexColor('#707793'),
+                fontWeight: FontWeight.w300),
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   void onClose() async {
     await getCusUsers();
@@ -213,7 +252,7 @@ class CustomerController extends GetxController {
     final pdf = pw.Document();
 
     pdf.addPage(pw.MultiPage(
-         margin: pw.EdgeInsets.all(5),
+        margin: pw.EdgeInsets.all(5),
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return [
@@ -225,7 +264,7 @@ class CustomerController extends GetxController {
                 children: [
                   pw.Container(
                       padding: pw.EdgeInsets.only(
-                           left: 6, right: 6, bottom: 2, top: 2),
+                          left: 6, right: 6, bottom: 2, top: 2),
                       decoration: pw.BoxDecoration(
                         border: pw.Border.all(
                             color: PdfColor.fromHex('#000'), width: 1),

@@ -48,6 +48,7 @@ class TransactionModel {
       this.numberofrecordedconsumer,
       this.numberofmetertransaction,
       this.numberOfPaidMeterTransaction,
+      this.dueDate,
       this.createdAt,
       this.updatedAt});
 
@@ -61,6 +62,7 @@ class TransactionModel {
   final int? pamId;
   final int? numberOfPaidMeterTransaction;
   final DateTime? createdAt;
+  final DateTime? dueDate;
   final DateTime? updatedAt;
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>
       TransactionModel(
@@ -88,5 +90,8 @@ class TransactionModel {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        dueDate: json["due_date"] == null
+            ? null
+            : DateTime.parse(json["due_date"]),
       );
 }
