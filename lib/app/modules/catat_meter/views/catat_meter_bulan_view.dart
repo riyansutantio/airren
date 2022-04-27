@@ -15,8 +15,13 @@ import '../../../utils/utils.dart';
 import '../../../utils/willPopCallBack.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
 import '../../error_handling/views/error_handling_view.dart';
+import '../../payment/controllers/payment_invoice_controller.dart';
+import '../../printer/setting_printer.dart';
 
 class CatatBulanView extends GetView<CatatMeterController> {
+  int? id;
+  int? idInvoice;
+  String? name;
   final CatatMeterController catatMeterBulanController =
       Get.put(CatatMeterController(catatmeterProvider: CatatMeterProvider()));
   // CatatBulanView({required this.bulan});
@@ -1061,13 +1066,35 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                           },
                                         );
                                       } else {
+                                        controller.id = controller.bulan.value;
+                                        controller.idInvoice = controller
+                                            .catatMeterresult[index]
+                                            .meter_transaction_id!
+                                            .toInt();
+                                        // controller.idInvoice = controller
+                                        //     .catatMeterresult[index].id;
+                                        // controller.updateTransaction(
+                                        //     idInvoice: controller.idInvoice!,
+                                        //     id: controller.bulan.value);
+
+                                        logger.e('bulan : ' +
+                                            '${controller.id}' +
+                                            ' id : ' +
+                                            '${controller.idInvoice}');
+                                        //controller.getPeymentIvoice();
                                         //print
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Print(),
-                                          ),
-                                        );
+                                        controller.getPeymentIvoice();
+                                        Get.to(Print(
+                                          charge: controller.charge!.value,
+                                          resultTotal:
+                                              controller.totalResult!.value,
+                                          pam: controller.dataPam!.value,
+                                          tm: controller.tm!.value,
+                                          result: controller.result!.value,
+                                          fee: controller.fee!.value,
+                                          totalPrice:
+                                              controller.totalPrice!.value,
+                                        ));
                                       }
                                     },
                                     itemBuilder: (BuildContext ctx) => [

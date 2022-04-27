@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:airen/app/model/catat_meter/bulan_model.dart';
 import 'package:airen/app/model/catat_meter/catat_meter_model.dart';
+import 'package:airen/app/model/invoice_pam.dart';
 import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
 import 'package:airen/app/modules/catat_meter/views/catat_meter_bulan_view.dart';
 import 'package:airen/app/modules/catat_meter/views/detail_catat_meter.dart';
@@ -16,6 +17,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import '../../../model/customer/customerModel.dart';
+import '../../../model/meter_transactionAll_model.dart';
+import '../../../model/register_model.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../../session/controllers/session_controller.dart';
@@ -38,7 +41,10 @@ class CatatMeterController extends GetxController {
   void onInit() async {
     super.onInit();
     await getMeterMonth();
-    //await getCusUsers();
+    if (id != null && idInvoice != null) {
+      await getPeymentIvoice();
+      logger.d("getting Invoice");
+    }
   }
 
   @override
@@ -93,11 +99,16 @@ class CatatMeterController extends GetxController {
   final deleteState = false.obs;
 
   //pengaturan printer
-  RxBool switchBluetooth = false.obs;
-  final switchAutoConnect = false.obs;
-  List<BluetoothDevice> device = [];
-  BluetoothDevice? selectedDevice;
-  BlueThermalPrinter printer = BlueThermalPrinter.instance;
+  int? id;
+  int? idInvoice;
+  RxInt? totalPrice = 0.obs;
+  final dataTransactionAllModel = TransactionAllModel().obs;
+  Rx<Pam>? dataPam = Pam().obs;
+  Rx<TransactionAllModel>? tm = TransactionAllModel().obs;
+  RxInt? fee = 0.obs;
+  RxInt? charge = 0.obs;
+  RxInt? totalResult = 0.obs;
+  RxList<CostDetail>? result = <CostDetail>[].obs;
 
   Future<void> clearCondition() async {
     meterNowController.clear();
@@ -301,6 +312,7 @@ class CatatMeterController extends GetxController {
     logger.i(res!.status);
     if (res.status == 'success') {
       await getCatatMeter();
+      await getPeymentIvoice();
       await clearCondition();
       snackBarNotificationSuccess(title: 'Tagihan berhasil diterbitkan');
     } else {
@@ -309,38 +321,38 @@ class CatatMeterController extends GetxController {
     }
   }
 
-  getDevice() async {
-    device = await printer.getBondedDevices();
-  }
-
-  Future<void> toggleBluetooth() async {
-    // if (switchBluetooth.value == false) {
-    //   BluetoothEnable.enableBluetooth.then((value) async {
-    //     if (value == "true") {
-    //       //Bluetooth has been enabled
-    //       logger.d('Bluetooth error');
-    //       await getDevice();
-    //       switchBluetooth.value = true;
-    //     } else if (value == "false") {
-    //       //Bluetooth has not been enabled
-    //       logger.d('Bluetooth error');
-    //     }
-    //   });
-    // } else {
-    //   switchBluetooth.value = false;
-    // }
-  }
-
-  void toggleAuto() =>
-      switchAutoConnect.value = switchAutoConnect.value ? false : true;
-
-  printInvoice() async {
-    //   List<int> bytes = [];
-    //   // Using default profile
-    //   final profile = await CapabilityProfile.load();
-    //   final generator = Generator(PaperSize.mm80, profile);
-
-    //   bytes += generator.text('Align center',
-    //       styles: PosStyles(align: PosAlign.center));
+  final isloading = false.obs;
+  Future getPeymentIvoice() async {
+    try {
+      logger.e("test");
+      isloading.value = true;
+      final res = await catatmeterProvider?.getPeymentMonthInvoice(
+          bearer: boxUser.read(tokenBearer), id: id, idInvoice: idInvoice);
+      if (res == null) {
+        //Get.to(UnauthenticationView());
+        logger.i('kosong');
+      } else {
+        tm?.value = res.data!.tm!;
+        logger.d(tm);
+        dataPam?.value = res.data!.pam!;
+        logger.d(dataPam);
+        result?.assignAll(res.data!.cusMs!);
+        logger.d(result);
+        fee?.value = res.data!.pam!.adminFee!;
+        logger.d(fee);
+        charge?.value = 1000;
+        logger.d(charge!);
+        result!.value.forEach((element) {
+          totalPrice = totalPrice! + int.parse(element.total!);
+        });
+        totalResult!.value = fee!.value + totalPrice!.value + charge!.value;
+        logger.d(totalResult);
+        // result.assignAll(res.data!.cusMs!);
+      }
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      isloading.value = false;
+    }
   }
 }

@@ -35,7 +35,6 @@ class Data {
       );
 }
 
-
 class MonthMeterResult {
   MonthMeterResult({
     this.id,
@@ -43,7 +42,7 @@ class MonthMeterResult {
     this.year_of,
     this.created_at,
     this.updated_at,
-    this.number_of_customer,
+    this.number_of_consumer,
     this.number_of_recorded_consumer,
     this.number_of_meter_transaction,
     this.number_of_paid_meter_transaction,
@@ -54,7 +53,7 @@ class MonthMeterResult {
   final int? year_of;
   final DateTime? created_at;
   final DateTime? updated_at;
-  final int? number_of_customer;
+  final int? number_of_consumer;
   final int? number_of_recorded_consumer;
   final int? number_of_meter_transaction;
   final int? number_of_paid_meter_transaction;
@@ -68,9 +67,9 @@ class MonthMeterResult {
             json["year_of"] == null ? null : DateTime.parse(json["created_at"]),
         updated_at:
             json["year_of"] == null ? null : DateTime.parse(json["updated_at"]),
-        number_of_customer: json["number_of_customer"] == null
+        number_of_consumer: json["number_of_consumer"] == null
             ? null
-            : json['number_of_customer'],
+            : json['number_of_consumer'],
         number_of_recorded_consumer: json["number_of_recorded_consumer"] == null
             ? null
             : json['number_of_recorded_consumer'],

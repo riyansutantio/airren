@@ -50,6 +50,7 @@ class CatatMeterResult {
     this.createdAt,
     this.updatedAt,
     this.is_published,
+    this.meter_transaction_id,
   });
 
   final int? id;
@@ -65,6 +66,7 @@ class CatatMeterResult {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final bool? is_published;
+  final int? meter_transaction_id;
 
   factory CatatMeterResult.fromJson(Map<String, dynamic> json) =>
       CatatMeterResult(
@@ -95,5 +97,8 @@ class CatatMeterResult {
             : DateTime.parse(json["updated_at"]),
         is_published:
             json["is_published"] == null ? null : json['is_published'],
+        meter_transaction_id: json["meter_transaction_id"] == null
+            ? null
+            : json['meter_transaction_id'],
       );
 }

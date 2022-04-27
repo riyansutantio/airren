@@ -13,6 +13,8 @@ import 'package:get/get.dart';
 import '../../../data/http_service.dart';
 import '../../../model/catat_meter/add_catat_meter_bulan_model.dart';
 import '../../../model/customer/customerModel.dart';
+import '../../../model/invoice_pam.dart';
+import '../../../model/meter_transactionAll_model.dart';
 import '../../../utils/utils.dart';
 
 class CatatMeterProvider extends GetConnect {
@@ -208,4 +210,21 @@ class CatatMeterProvider extends GetConnect {
     logger.wtf(response.statusCode);
     return addTagihanModelFromJson(jsonString);
   }
-}
+
+  Future<InvoiceModel?> getPeymentMonthInvoice(
+      {String? bearer, int? id, int? idInvoice}) async {
+    Uri _getPamsUser = Uri.parse(
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction/$idInvoice/invoice');
+    logger.wtf('ini adalah baseUrl $_getPamsUser');
+    final response =
+        await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return invoiceModelFromJson(jsonString);
+    }
+    return null;
+  }
+
+ }

@@ -246,7 +246,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                                 subtitle: Text(
                                                   element.number_of_recorded_consumer
                                                           .toString() +
-                                                      ' dari ${element.number_of_customer} pelanggan',
+                                                      ' dari ${element.number_of_consumer} pelanggan',
                                                   style: GoogleFonts.montserrat(
                                                       fontSize: 12,
                                                       fontWeight:

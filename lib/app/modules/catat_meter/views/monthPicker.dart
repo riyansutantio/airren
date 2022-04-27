@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -197,7 +198,7 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
               catatController.month_Of.value = month;
               catatController.year_Of.value = year;
               catatController.addCatatMeterBulan();
-              Navigator.pop(context, selectedDate);
+              Get.to(CatatMeterView());
             },
             child: Padding(
               padding: const EdgeInsets.all(15.0),
