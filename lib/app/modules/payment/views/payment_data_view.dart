@@ -394,7 +394,9 @@ class PaymentDataViews extends GetView<PaymentController> {
                 itemBuilder: (context, TransactionModel element) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(PaymentMonth(id: element.id));
+                      print(controller.status!.value);
+                      Get.to(PaymentMonth(month: element.monthof,year: element.yearof,
+                          id: element.id, status: controller.status!.value));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -416,7 +418,8 @@ class PaymentDataViews extends GetView<PaymentController> {
                                         child: Icon(
                                           EvaIcons.clockOutline,
                                           color: HexColor('#FF8801'),
-                                        )): CircleAvatar(
+                                        ))
+                                    : CircleAvatar(
                                         maxRadius: 30,
                                         backgroundColor: HexColor('#05C270')
                                             .withOpacity(0.1),
@@ -424,11 +427,10 @@ class PaymentDataViews extends GetView<PaymentController> {
                                           EvaIcons.checkmark,
                                           color: HexColor('#05C270'),
                                         ))
-                                    
                                 : CircleAvatar(
                                     maxRadius: 30,
                                     backgroundColor:
-                                        HexColor('#05C270').withOpacity(0.1),
+                                        HexColor('#FF3B3B').withOpacity(0.1),
                                     child: Icon(
                                       EvaIcons.alertTriangleOutline,
                                       color: HexColor('#FF3B3B'),

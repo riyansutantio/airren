@@ -22,7 +22,7 @@ class PrintController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   AppPrint? _appPrint;
   final devices = <BluetoothDevice>[].obs;
-  final device=Rxn<BluetoothDevice>();
+  final device = Rxn<BluetoothDevice>();
   RxBool? connected = false.obs, onBluetooth = false.obs;
 
   late SharedPreferences preferences;
@@ -36,13 +36,14 @@ class PrintController extends GetxController {
 
   RxBool conn = false.obs;
   RxBool isSwitched = false.obs;
-void tesPrint(
+  void tesPrint(
       {Pam? pam,
       TransactionAllModel? tm,
       List<CostDetail>? result,
       int? totalPrice,
       int? charge,
       int? totalResult,
+      String? phoneNumber,
       int? fee}) async {
     //SIZE
     // 0- normal size text
@@ -63,13 +64,14 @@ void tesPrint(
           if (pam.detailAddress != null && pam.detailAddress!.isNotEmpty) {
             bluetooth.printCustom("${pam.detailAddress}", 0, 1);
           }
+          if (phoneNumber != null && phoneNumber.isNotEmpty) {
+            bluetooth.printCustom(phoneNumber, 0, 1);
+          }
         }
-        bluetooth.printCustom("================================", 1, 1);
+        bluetooth.printCustom("--------------------------------", 1, 1);
         bluetooth.printCustom("Di tagihkan Kepada", 0, 1);
         if (tm != null) {
           if (tm.name != null && tm.name!.isNotEmpty) {
-            bluetooth.printNewLine();
-            bluetooth.printNewLine();
             bluetooth.printCustom("${tm.name}", 0, 1);
           }
           if (tm.address != null && tm.address!.isNotEmpty) {
@@ -79,7 +81,7 @@ void tesPrint(
             bluetooth.printCustom("${tm.uniqueId}", 0, 1);
           }
         }
-        bluetooth.printCustom("================================", 1, 1);
+        bluetooth.printNewLine();
 
         bluetooth.printCustom("RINCIAN PEMAKAIAN", 0, 1);
         if (tm != null) {
@@ -94,12 +96,16 @@ void tesPrint(
             bluetooth.printLeftRight("METER AKHIR", " ", 0);
           }
           if (tm.meterNow != null && tm.meterNow!.isNotEmpty) {
-            bluetooth.printLeftRight("VOLUME", "${tm.meterNow}", 0);
+            bluetooth.printLeftRight(
+                "VOLUME",
+                (double.parse(tm.meterNow!) - double.parse(tm.meterLast!))
+                    .toString(),
+                0);
           } else {
             bluetooth.printLeftRight("VOLUME", " ", 0);
           }
         }
-        bluetooth.printCustom("================================", 1, 1);
+        bluetooth.printNewLine();
         bluetooth.printCustom("RINCIAN BIAYA", 0, 1);
         result!.map((product) {
           String qtyBrg = product.meter.toString();
@@ -108,20 +114,35 @@ void tesPrint(
           //     product.transactionSinglePrice.toDouble();
           String subtotal = rupiah(int.parse(product.total!));
           // String subtot = rupiah(subtotal.toInt());
-
-          bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 1);
+          if (qtyBrg.length <= 9) {
+            bluetooth.printLeftRight("$qtyBrg    x   $hrgBrg", subtotal, 0);
+          } else {
+            bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
+          }
         }).toList();
-        bluetooth.printCustom("--------------------------------", 1, 1);
-        bluetooth.printLeftRight("Subtotal     Rp ", "$totalPrice", 1);
-        bluetooth.printLeftRight("Biaya Admi   Rp ", "$fee", 1);
-        bluetooth.printLeftRight("Biaya Dend   Rp ", "$charge", 1);
-        bluetooth.printLeftRight("Total        Rp ", "$totalResult", 1);
+        bluetooth.printLeftRight("Subtotal      Rp ", "$totalPrice", 0);
+        bluetooth.printLeftRight("Biaya Admin   Rp ", "$fee", 0);
+        bluetooth.printLeftRight("Biaya Denda   Rp ", "$charge", 0);
+        bluetooth.printLeftRight("Total         Rp ", "$totalResult", 0);
 
         bluetooth.printNewLine();
+
+        if (tm!.status == 'paid') {
+          bluetooth.printCustom("== Lunas ==", 0, 1);
+        } else if (tm.status == 'unpaid') {
+          bluetooth.printCustom("== Belum Lunas ==", 0, 1);
+        } else {
+          bluetooth.printCustom("== Denda ==", 0, 1);
+        }
+        bluetooth.printNewLine();
+        bluetooth.printCustom("--------------------------------", 1, 1);
+        bluetooth.printNewLine();
+        bluetooth.printCustom("AIRREN", 0, 1);
         bluetooth.printNewLine();
       }
     });
   }
+
   savePrint(String printAddress, String printName) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -188,7 +209,7 @@ void tesPrint(
     pAddress!.value = (preferences.getString('print') ?? 'AddresPrint');
     pName!.value = (preferences.getString('printer_name') ?? '');
     pConnected!.value = 1;
-  //  device?.value = BluetoothDevice(pName?.value, pAddress?.value);
+    //  device?.value = BluetoothDevice(pName?.value, pAddress?.value);
   }
 
   Future updatePrint() async {
@@ -231,7 +252,7 @@ void tesPrint(
   @override
   void onInit() async {
     super.onInit();
-   await getPrint();
+    await getPrint();
     if (pConnected == 0) {
       isSwitched.value = false;
     } else {

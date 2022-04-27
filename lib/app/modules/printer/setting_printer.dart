@@ -20,6 +20,7 @@ class Print extends GetView<PrintController> {
       this.result,
       this.fee,
       this.totalPrice,
+      this.phoneNumber,
       this.charge,
       this.resultTotal});
   final Pam? pam;
@@ -29,6 +30,7 @@ class Print extends GetView<PrintController> {
   final int? fee;
   final int? charge;
   final int? resultTotal;
+  final String? phoneNumber;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PrintController>(
@@ -423,7 +425,7 @@ class Print extends GetView<PrintController> {
                                       totalPrice: totalPrice,
                                       fee: fee,
                                       charge: charge,
-                                      totalResult: resultTotal,
+                                      totalResult: resultTotal,phoneNumber: phoneNumber,
                                       pam: pam);
                                 },
                                 child: Ink(

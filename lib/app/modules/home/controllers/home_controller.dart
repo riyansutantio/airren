@@ -9,13 +9,15 @@ import '../../../utils/constant.dart';
 import '../../session/controllers/session_controller.dart';
 import '../../session/providers/session_provider.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class HomeController extends GetxController {
   HomeProvider homeProvider;
 
   HomeController({required this.homeProvider});
 
-  final SessionController sessionController = Get.put(SessionController(sessionProvider: SessionProvider()));
-
+  final SessionController sessionController =
+      Get.put(SessionController(sessionProvider: SessionProvider()));
 
   final pageNavBottom = 0.obs;
   final userLocal = "".obs;
@@ -37,8 +39,7 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {
-  }
+  void onClose() {}
   void increment() => pageNavBottom.value++;
 
   void onItemTapPage(int index) {
@@ -72,7 +73,15 @@ class HomeController extends GetxController {
       sessionController.authError();
     } else if (res.message == 'Profile successfully retrieved') {
       resultUser.value = res.data!.profile!;
-      boxUser.write(roleUser, roleUserData(isOwner: res.data!.profile!.isOwner!, role: res.data!.profile!.roles!));
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? phone = res.data!.profile!.phoneNumber;
+      preferences.setString('phoneNumber', phone!);
+      preferences.commit();
+      boxUser.write(
+          roleUser,
+          roleUserData(
+              isOwner: res.data!.profile!.isOwner!,
+              role: res.data!.profile!.roles!));
       logger.i('ini adalah user sebagai ${boxUser.read(roleUser)}');
     }
   }

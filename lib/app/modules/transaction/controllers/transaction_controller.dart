@@ -9,6 +9,8 @@ import '../../../widgets/snack_bar_notification.dart';
 import '../../error_handling/views/unauthentication_view.dart';
 import '../provider/transaction_provider.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class TransactionController extends GetxController {
   TransactionController({required this.p});
   TransactionProvider? p;
@@ -16,6 +18,7 @@ class TransactionController extends GetxController {
   final count = 0.obs;
   final isLoadingPamTrans = false.obs;
   RxInt? total_balance = 0.obs;
+  RxInt? firstBlance = 0.obs;
   final isShowTransaksi = false.obs;
   final pamTransResult = <PamTransactionsModel>[].obs;
   final nameController = TextEditingController();
@@ -39,13 +42,14 @@ class TransactionController extends GetxController {
   void onInit() async {
     super.onInit();
     logger.i('test');
+    await getPref();
     await getPamTransactions();
   }
 
   Future addIncomes() async {
     final res = await p!.addIncomeTrans(
       bearer: boxUser.read(tokenBearer),
-      amount: int.parse(nominalController.text.replaceAll('.','')),
+      amount: int.parse(nominalController.text.replaceAll('.', '')),
       name: nameController.text,
       description: deskriptionController.text,
     );
@@ -58,12 +62,15 @@ class TransactionController extends GetxController {
     } else {
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
+    nominalController.clear();
+    nameController.clear();
+    deskriptionController.clear();
   }
 
   Future addExpensesTran() async {
     final res = await p!.addExpenseTrans(
       bearer: boxUser.read(tokenBearer),
-      amount: int.parse(nominalExpenseController.text.replaceAll('.','')),
+      amount: int.parse(nominalExpenseController.text.replaceAll('.', '')),
       name: nameExpenseController.text,
       description: deskriptionExpenseController.text,
     );
@@ -76,14 +83,27 @@ class TransactionController extends GetxController {
     } else {
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
+    nominalExpenseController.clear();
+    nameExpenseController.clear();
+    deskriptionExpenseController.clear();
+  }
+
+  Future<void> getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    firstBlance!.value = preferences.getInt('firstBlance') ?? 0;
   }
 
   Future addFirstBlances() async {
     final res = await p!.addFirstBlance(
       bearer: boxUser.read(tokenBearer),
-      amount: int.parse(nominalFirstBlanceController.text.replaceAll('.','')),
+      amount: int.parse(nominalFirstBlanceController.text.replaceAll('.', '')),
     );
     if (res!.status! == 'success') {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+
+      preferences.setInt('firstBlance', 1);
+      preferences.commit();
+      firstBlance!.value = 1;
       await getPamTransactions();
       await clearCondition();
       Get.back();
@@ -91,6 +111,7 @@ class TransactionController extends GetxController {
     } else {
       snackBarNotificationFailed(title: 'Gagal ditambahkan');
     }
+    nominalFirstBlanceController.clear();
   }
 
   Future<void> clearCondition() async {

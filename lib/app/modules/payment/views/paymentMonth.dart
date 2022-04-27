@@ -15,11 +15,19 @@ import '../providers/payment_providers.dart';
 
 class PaymentMonth extends GetView<PaymentMonthController> {
   int? id;
-  PaymentMonth({required this.id});
+  String? status;
+  int? month;
+  int? year;
+  PaymentMonth(
+      {required this.id,
+      required this.status,
+      required this.month,
+      required this.year});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PaymentMonthController>(
-      init: PaymentMonthController(p: PaymentProviders(), id: id),
+      init: PaymentMonthController(
+          p: PaymentProviders(), id: id, status: status!),
       builder: (controller) {
         return Obx(() => Scaffold(
               appBar: (controller.isSearch.value)
@@ -43,7 +51,7 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20.0),
                                     child: Text(
-                                      'Febuari 2022',
+                                      monthsAll[month! - 1] + ' $year',
                                       style: GoogleFonts.montserrat(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -193,31 +201,57 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                 controller.result[index]
                                                             .status ==
                                                         "unpaid"
-                                                    ? Container(
-                                                        child: Text(
-                                                          "Belum Lunas",
-                                                          style: GoogleFonts
-                                                              .montserrat(
+                                                    ? controller.result[index]
+                                                                .status ==
+                                                            "charge"
+                                                        ? Container(
+                                                            child: Text(
+                                                              "Denda",
+                                                              style: GoogleFonts.montserrat(
                                                                   fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400,
                                                                   color: HexColor(
                                                                       '#FF3B3B')),
-                                                        ),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(6),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        6),
-                                                            color: HexColor(
-                                                                    '#FF3B3B')
-                                                                .withOpacity(
-                                                                    0.1)),
-                                                      )
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(6),
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            6),
+                                                                color: HexColor(
+                                                                        '#FF3B3B')
+                                                                    .withOpacity(
+                                                                        0.1)),
+                                                          )
+                                                        : Container(
+                                                            child: Text(
+                                                              "Belum Lunas",
+                                                              style: GoogleFonts.montserrat(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: HexColor(
+                                                                      '#FF3B3B')),
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(6),
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            6),
+                                                                color: HexColor(
+                                                                        '#FF3B3B')
+                                                                    .withOpacity(
+                                                                        0.1)),
+                                                          )
                                                     : Container(
                                                         child: Text(
                                                           "Lunas",
@@ -322,7 +356,16 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                         height: 5,
                                                       ),
                                                       Text(
-                                                        "${controller.result[index].meterNow}",
+                                                        (double.parse(controller
+                                                                    .result[
+                                                                        index]
+                                                                    .meterNow!) -
+                                                                double.parse(
+                                                                    controller
+                                                                        .result[
+                                                                            index]
+                                                                        .meterLast!))
+                                                            .toString(),
                                                         style: GoogleFonts
                                                             .montserrat(
                                                                 fontSize: 14,
