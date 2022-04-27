@@ -28,7 +28,7 @@ Future<DateTime?> customMonthPicker({
   required DateTime initialDate,
   DateTime? firstDate,
   DateTime? lastDate,
-  Locale? locale,
+  Locale? locale = const Locale('id', 'ID'),
 }) async {
   assert(context != null);
   assert(initialDate != null);
@@ -199,6 +199,7 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
               catatController.year_Of.value = year;
               catatController.addCatatMeterBulan();
               Get.to(CatatMeterView());
+              navigator!.pop();
             },
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -329,12 +330,16 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
                     onPressed:
                         snapshot.data!.upState ? _onUpButtonPressed : null,
                   ),
-                  Text(
-                    '${DateFormat.y(locale).format(selectedDate!)}',
-                    style: GoogleFonts.montserrat(
-                        fontSize: MediaQuery.of(context).size.width * 0.07,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black),
+                  StreamBuilder<UpDownPageLimit>(
+                    stream: _upDownPageLimitPublishSubject,
+                    initialData: const UpDownPageLimit(0, 0),
+                    builder: (_, snapshot) => Text(
+                      '${DateFormat.y(locale).format(DateTime(snapshot.data!.upLimit))}',
+                      style: GoogleFonts.montserrat(
+                          fontSize: MediaQuery.of(context).size.width * 0.07,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black),
+                    ),
                   ),
                   IconButton(
                     icon: Icon(

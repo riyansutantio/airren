@@ -52,6 +52,7 @@ dependencies:
   esc_pos_bluetooth: ^0.4.1
 
   file_picker: ^4.5.1
+  flutter_sticky_header: ^0.6.1
 
 dev_dependencies: 
   flutter_lints: ^1.0.0
@@ -61,7 +62,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/iconfix.png"
+  image_path: "assets/iconAirrenNew.png"
 
 flutter: 
   uses-material-design: true

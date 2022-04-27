@@ -41,57 +41,62 @@ class CatatBulanView extends GetView<CatatMeterController> {
                 WillPopScope(
                   onWillPop: () =>
                       willPopWithFuncOnly(func: controller.closeSearchAppBar()),
-                  child: Container(
+                  child: SingleChildScrollView(
                     child: Container(
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40)),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: (controller.isSearch.value == true)
-                            ? searchNoFound(controller, context)
-                            : (controller.catatMeterresult.isEmpty)
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 40.0),
-                                        child: SvgPicture.asset(
-                                            'assets/belumadapencatatan.svg'),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Text('Belum ada data Pencatatan',
-                                            style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                            'Tambahkan pencatatandengan mencari \n data pelanggannya terlebih dahulu.',
-                                            style: GoogleFonts.montserrat(
-                                              color: HexColor('#707793')
-                                                  .withOpacity(0.7),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                            )),
-                                      )
-                                    ],
-                                  )
-                                : PelangganBuilder(controller),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height,
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(40)),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: (controller.isSearch.value == true)
+                              ? searchNoFound(controller, context)
+                              : (controller.catatMeterresult.isEmpty)
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 40.0),
+                                          child: SvgPicture.asset(
+                                              'assets/belumadapencatatan.svg'),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(16),
+                                          child:
+                                              Text('Belum ada data Pencatatan',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                              'Tambahkan pencatatandengan mencari \n data pelanggannya terlebih dahulu.',
+                                              style: GoogleFonts.montserrat(
+                                                color: HexColor('#707793')
+                                                    .withOpacity(0.7),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                              )),
+                                        )
+                                      ],
+                                    )
+                                  : PelangganBuilder(controller),
+                        ),
                       ),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                        HexColor('#5433FF'),
+                        HexColor('#0063F8')
+                      ])),
                     ),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                      HexColor('#5433FF'),
-                      HexColor('#0063F8')
-                    ])),
                   ),
                 ),
               ],
@@ -106,6 +111,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
     return Column(
       children: [
         Container(
+          height: MediaQuery.of(context).size.height - 100,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40), topRight: Radius.circular(40)),
@@ -144,269 +150,130 @@ class CatatBulanView extends GetView<CatatMeterController> {
                     ],
                   ),
                 )
-              : ListView.builder(
-                  itemCount: controller.cusUserResult.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          controller.statusDetail.value = true;
-                          controller.uniqueIdManageDetailCatatBulan.value =
-                              controller.cusUserResult[index].uniqueId!;
-                          controller.meterNowManageDetailCatatBulan.value =
-                              0.toString();
-                          controller.meterLastManageDetailCatatBulan.value =
-                              controller.cusUserResult[index].meter!;
-                          controller.nameManageDetailCatatBulan.value =
-                              controller.cusUserResult[index].name!;
-                          controller.addressManageDetailCatatBulan.value =
-                              controller.cusUserResult[index].address!;
-                          Get.to(DetailCatatMeter());
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, left: 16.0, right: 16.0),
-                          child: Container(
-                            padding: const EdgeInsets.only(top: 5, bottom: 5),
-                            child: ListTile(
-                                dense: false,
-                                title: Text(
-                                  controller.cusUserResult[index].name
-                                      .toString(),
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                leading: CircleAvatar(
-                                  backgroundColor:
-                                      HexColor('#0063F8').withOpacity(0.1),
-                                  maxRadius: 25,
-                                  child: Text(
-                                    controller.getInitials(controller
-                                        .cusUserResult[index].name
-                                        .toString()),
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.blue,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    controller.cusUserResult[index].uniqueId
-                                        .toString(),
-                                    style: GoogleFonts.montserrat(
-                                      color:
-                                          HexColor('#707793').withOpacity(0.7),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ),
-                                trailing: SizedBox(
-                                  width: 100,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SvgPicture.asset(
-                                            'assets/meter.svg'),
+              : Obx(
+                  () => ListView.builder(
+                      itemCount: controller.cusUserResult.length,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              controller.statusDetail.value = true;
+                              controller.uniqueIdManageDetailCatatBulan.value =
+                                  controller.cusUserResult[index].uniqueId!;
+                              controller.meterNowManageDetailCatatBulan.value =
+                                  0.toString();
+                              controller.meterLastManageDetailCatatBulan.value =
+                                  controller.cusUserResult[index].meter!;
+                              controller.nameManageDetailCatatBulan.value =
+                                  controller.cusUserResult[index].name!;
+                              controller.addressManageDetailCatatBulan.value =
+                                  controller.cusUserResult[index].address!;
+                              controller.idBulanLalu.value =
+                                  controller.cusUserResult[index].id!;
+                              logger.e(controller.idBulanLalu.value);
+                              controller.getBulanLalu();
+                              Get.to(() => DetailCatatMeter());
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0, left: 16.0, right: 16.0),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
+                                child: ListTile(
+                                    dense: false,
+                                    title: Text(
+                                      controller.cusUserResult[index].name
+                                          .toString(),
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Flexible(
-                                        child: SizedBox(
-                                          child: Text(
-                                              controller.cusUserResult[index].id
-                                                  .toString(),
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.montserrat(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal,
-                                              )),
+                                    ),
+                                    leading: CircleAvatar(
+                                      backgroundColor:
+                                          HexColor('#0063F8').withOpacity(0.1),
+                                      maxRadius: 25,
+                                      child: Text(
+                                        controller.getInitials(controller
+                                            .cusUserResult[index].name
+                                            .toString()),
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.blue,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.amber,
+                                    ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        controller.cusUserResult[index].uniqueId
+                                            .toString(),
+                                        style: GoogleFonts.montserrat(
+                                          color: HexColor('#707793')
+                                              .withOpacity(0.7),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                      )
+                                      ),
+                                    ),
+                                    trailing: SizedBox(
+                                      width: 100,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SvgPicture.asset(
+                                                'assets/meter.svg'),
+                                          ),
+                                          Flexible(
+                                            child: SizedBox(
+                                              child: Text(
+                                                  controller
+                                                      .cusUserResult[index]
+                                                      .meter
+                                                      .toString(),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  )),
+                                            ),
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.only(left: 8.0),
+                                            child: Icon(
+                                              Icons.arrow_forward,
+                                              color: Colors.amber,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                                decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: Offset(0.0, 8.0),
+                                        color: Color.fromRGBO(0, 99, 248, 0.16),
+                                        blurRadius: 24,
+                                      ),
                                     ],
-                                  ),
-                                )),
-                            decoration: const BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(0.0, 8.0),
-                                    color: Color.fromRGBO(0, 99, 248, 0.16),
-                                    blurRadius: 24,
-                                  ),
-                                ],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
-                                color: Colors.white),
-                          ),
-                        ),
-                      )),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16)),
+                                    color: Colors.white),
+                              ),
+                            ),
+                          )),
+                ),
         ),
       ],
-    );
-  }
-
-  Expanded searchPelanggan(
-      BuildContext context, CatatMeterController controller) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.only(top: 8.0),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-            color: Colors.white),
-        child: (controller.cusUserResult.isEmpty)
-            ? Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    (controller.isSearch.value)
-                        ? Padding(
-                            padding: const EdgeInsets.only(bottom: 40.0),
-                            child: SvgPicture.asset('assets/searchnofound.svg'),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(bottom: 40.0),
-                            child: SvgPicture.asset('assets/tarifkosong.svg'),
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text('Tidak ditemukan',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                          'Belum ada tagihan yang sesuai dengan \n kata kunci di atas.',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.montserrat(
-                            color: HexColor('#707793').withOpacity(0.7),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          )),
-                    ),
-                  ],
-                ),
-              )
-            : ListView.builder(
-                itemCount: controller.cusUserResult.length,
-                itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        controller.statusDetail.value = true;
-                        controller.uniqueIdManageDetailCatatBulan.value =
-                            controller.cusUserResult[index].uniqueId!;
-                        controller.meterNowManageDetailCatatBulan.value =
-                            0.toString();
-                        Get.to(DetailCatatMeter());
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 8.0, left: 16.0, right: 16.0),
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 5, bottom: 5),
-                          child: ListTile(
-                              dense: false,
-                              title: Text(
-                                controller.cusUserResult[index].name.toString(),
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              leading: CircleAvatar(
-                                backgroundColor:
-                                    HexColor('#0063F8').withOpacity(0.1),
-                                maxRadius: 25,
-                                child: Text(
-                                  controller.getInitials(controller
-                                      .cusUserResult[index].name
-                                      .toString()),
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.blue,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(
-                                  controller.cusUserResult[index].uniqueId
-                                      .toString(),
-                                  style: GoogleFonts.montserrat(
-                                    color: HexColor('#707793').withOpacity(0.7),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ),
-                              trailing: SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child:
-                                          SvgPicture.asset('assets/meter.svg'),
-                                    ),
-                                    Flexible(
-                                      child: SizedBox(
-                                        child: Text('1',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                            )),
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.amber,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
-                          decoration: const BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(0.0, 8.0),
-                                  color: Color.fromRGBO(0, 99, 248, 0.16),
-                                  blurRadius: 24,
-                                ),
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                              color: Colors.white),
-                        ),
-                      ),
-                    )),
-      ),
     );
   }
 
@@ -502,6 +369,8 @@ class CatatBulanView extends GetView<CatatMeterController> {
                         itemBuilder: (BuildContext ctx) => [
                           PopupMenuItem(
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Hapus Bulan',
@@ -509,9 +378,6 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 30,
                                   ),
                                   Icon(
                                     EvaIcons.trashOutline,
@@ -538,7 +404,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
                           controller.isSearch.value = true;
                         },
                         child: Container(
-                          padding: const EdgeInsets.fromLTRB(20, 15, 15, 10),
+                          padding: const EdgeInsets.fromLTRB(20, 10, 15, 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -603,8 +469,8 @@ class CatatBulanView extends GetView<CatatMeterController> {
         return Container(
           color: Colors.white.withOpacity(0.0),
           constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height * 0.4),
-          height: MediaQuery.of(context).size.height * 0.2,
+              minHeight: MediaQuery.of(context).size.height * 0.3),
+          height: MediaQuery.of(context).size.width,
           child: Column(
             children: <Widget>[
               Padding(
@@ -739,12 +605,9 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8),
                                   child: Text(
-                                      controller.catatMeterresult[index]
-                                              .consumer_name
-                                              .toString() +
-                                          " " +
-                                          controller.catatMeterresult[index].id
-                                              .toString(),
+                                      controller
+                                          .catatMeterresult[index].consumer_name
+                                          .toString(),
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.montserrat(
@@ -809,7 +672,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                               .value =
                                           controller.catatMeterresult[index]
                                               .meter_last!;
-                                      Get.to(DetailCatatMeter());
+                                      Get.to(() => DetailCatatMeter());
                                     } else {}
                                   },
                                   child: Padding(
@@ -894,16 +757,9 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                             return Container(
                                               color:
                                                   Colors.white.withOpacity(0.0),
-                                              constraints: BoxConstraints(
-                                                  minHeight:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.4),
                                               height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.2,
+                                                  .size
+                                                  .width,
                                               child: Column(
                                                 children: <Widget>[
                                                   Padding(

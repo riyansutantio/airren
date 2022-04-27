@@ -192,77 +192,87 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                     ),
                                     itemBuilder:
                                         (context, MonthMeterResult element) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, left: 16.0, right: 16.0),
-                                        child: Card(
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(16)),
-                                          ),
-                                          elevation: 8.0,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              controller.idManageCatatBulan
-                                                  .value = element.id!;
-                                              controller.bulan.value =
-                                                  element.id!;
-                                              logger.d(controller.bulan.value);
-                                              catatMeterBulanController
-                                                  .getCatatMeter();
-                                              controller.judul.value =
-                                                  penentuBulan(element.month_of)
-                                                          .toString() +
-                                                      " " +
-                                                      element.year_of
-                                                          .toString();
-                                              Get.to(CatatBulanView());
-                                            },
-                                            child: Container(
-                                              child: ListTile(
-                                                leading: CircleAvatar(
-                                                    maxRadius: 30,
-                                                    backgroundColor:
-                                                        HexColor('#FF8801')
-                                                            .withOpacity(0.1),
-                                                    child: Icon(
-                                                      EvaIcons
-                                                          .alertTriangleOutline,
-                                                      color:
-                                                          HexColor('#FF3B3B'),
-                                                    )),
-                                                contentPadding:
-                                                    const EdgeInsets.all(10),
-                                                title: Text(
-                                                  monthsAll[
-                                                      element.month_of! - 1],
-                                                  style: GoogleFonts.montserrat(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          HexColor('#3C3F58')),
-                                                ),
-                                                subtitle: Text(
-                                                  element.number_of_recorded_consumer
-                                                          .toString() +
-                                                      ' dari ${element.number_of_consumer} pelanggan',
-                                                  style: GoogleFonts.montserrat(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: HexColor('#707793')
-                                                          .withOpacity(0.7)),
-                                                ),
-                                                trailing: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () => {},
-                                                    child: Icon(
-                                                      EvaIcons.arrowForward,
-                                                      color:
-                                                          HexColor('#FFCC00'),
+                                      return SingleChildScrollView(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0,
+                                              left: 16.0,
+                                              right: 16.0),
+                                          child: Card(
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(16)),
+                                            ),
+                                            elevation: 8.0,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                controller.idManageCatatBulan
+                                                    .value = element.id!;
+                                                controller.bulan.value =
+                                                    element.id!;
+                                                logger
+                                                    .d(controller.bulan.value);
+                                                catatMeterBulanController
+                                                    .getCatatMeter();
+                                                controller
+                                                    .judul.value = penentuBulan(
+                                                            element.month_of)
+                                                        .toString() +
+                                                    " " +
+                                                    element.year_of.toString();
+                                                Get.to(CatatBulanView());
+                                              },
+                                              child: Container(
+                                                child: ListTile(
+                                                  leading: CircleAvatar(
+                                                      maxRadius: 30,
+                                                      backgroundColor:
+                                                          HexColor('#FF8801')
+                                                              .withOpacity(0.1),
+                                                      child: Icon(
+                                                        EvaIcons
+                                                            .alertTriangleOutline,
+                                                        color:
+                                                            HexColor('#FF3B3B'),
+                                                      )),
+                                                  contentPadding:
+                                                      const EdgeInsets.all(10),
+                                                  title: Text(
+                                                    monthsAll[
+                                                        element.month_of! - 1],
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: HexColor(
+                                                                '#3C3F58')),
+                                                  ),
+                                                  subtitle: Text(
+                                                    element.number_of_recorded_consumer
+                                                            .toString() +
+                                                        ' dari ${element.number_of_consumer} pelanggan',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: HexColor(
+                                                                    '#707793')
+                                                                .withOpacity(
+                                                                    0.7)),
+                                                  ),
+                                                  trailing: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: GestureDetector(
+                                                      onTap: () => {},
+                                                      child: Icon(
+                                                        EvaIcons.arrowForward,
+                                                        color:
+                                                            HexColor('#FFCC00'),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -315,120 +325,12 @@ class CatatMeterView extends GetView<CatatMeterController> {
       },
     );
   }
-
-  // ListView listViewBuilder(CatatMeterController controller, String year) {
-  //   return ListView.builder(
-  //     padding: const EdgeInsets.only(top: 10),
-  //     itemCount: controller.meterMonthResult.length,
-  //     scrollDirection: Axis.vertical,
-  //     shrinkWrap: true,
-  //     itemBuilder: (context, index) {
-  //       controller.idManageCatatBulan.value =
-  //           controller.meterMonthResult[index].id!;
-  //       var totalPelanggan =
-  //           (controller.meterMonthResult[index].number_of_customer == null)
-  //               ? "0"
-  //               : controller.meterMonthResult[index].number_of_customer;
-  //       var x = penentuBulan(controller.meterMonthResult[index].month_of) +
-  //           " " +
-  //           controller.meterMonthResult[index].year_of.toString();
-  //       return GestureDetector(
-  //         onTap: () {
-  //           controller.bulan.value = controller.meterMonthResult[index].id!;
-  //           logger.d(controller.bulan.value);
-  //           catatMeterBulanController.getCatatMeter();
-  //           controller.judul.value =
-  //               penentuBulan(controller.meterMonthResult[index].month_of)
-  //                       .toString() +
-  //                   " " +
-  //                   controller.meterMonthResult[index].year_of.toString();
-  //           Get.to(CatatBulanView());
-  //         },
-  //         child: Padding(
-  //           padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-  //           child: Column(
-  //             children: [
-  //               Text(
-  //                 (controller.meterMonthResult[index].year_of.toString() ==
-  //                         year)
-  //                     ? "Tahun Sekarang"
-  //                     : controller.meterMonthResult[index].year_of.toString(),
-  //               ),
-  //               Container(
-  //                 child: ListTile(
-  //                   contentPadding: const EdgeInsets.all(10),
-  //                   dense: false,
-  //                   title: Text(
-  //                     penentuBulan(
-  //                             controller.meterMonthResult[index].month_of) +
-  //                         " " +
-  //                         controller.meterMonthResult[index].year_of
-  //                             .toString() +
-  //                         " " +
-  //                         controller.meterMonthResult[index].id.toString(),
-  //                     style: GoogleFonts.montserrat(
-  //                       color: Colors.black,
-  //                       fontSize: 14,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                   subtitle: Padding(
-  //                     padding: const EdgeInsets.only(top: 8.0),
-  //                     child: Text(
-  //                       controller.meterMonthResult[index]
-  //                               .number_of_recorded_consumer
-  //                               .toString() +
-  //                           " dari " +
-  //                           totalPelanggan.toString() +
-  //                           " pelanggan",
-  //                       style: GoogleFonts.montserrat(
-  //                         color: HexColor('#707793').withOpacity(0.7),
-  //                         fontSize: 14,
-  //                         fontWeight: FontWeight.normal,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   leading: CircleAvatar(
-  //                     maxRadius: 30,
-  //                     //background leading pict ada 3 jenis clear, touble, masalah
-  //                     backgroundColor: HexColor('#FF801').withOpacity(0.1),
-  //                     // child: Icon(icon),
-  //                   ),
-  //                   trailing: GestureDetector(
-  //                     onTap: () => {},
-  //                     child: Icon(
-  //                       EvaIcons.arrowForward,
-  //                       color: HexColor('#FFCC00'),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 decoration: const BoxDecoration(
-  //                     boxShadow: [
-  //                       BoxShadow(
-  //                         offset: Offset(0.0, 8.0),
-  //                         color: Colors.blue,
-  //                         blurRadius: 24,
-  //                       ),
-  //                     ],
-  //                     borderRadius: BorderRadius.all(Radius.circular(16)),
-  //                     color: Colors.white),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
 }
 
 penentuBulan(index) {
   List<String> bulan = [
     'Januari',
     'Februari',
-    'Maret',
-    'April',
     'Maret',
     'April',
     'Mei',

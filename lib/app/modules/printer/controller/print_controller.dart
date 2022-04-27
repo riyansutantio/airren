@@ -107,14 +107,30 @@ class PrintController extends GetxController {
           String subtotal = rupiah(int.parse(product.total!));
           // String subtot = rupiah(subtotal.toInt());
 
-          bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
+          if (qtyBrg.length == 1) {
+            bluetooth.printLeftRight("$qtyBrg    x   $hrgBrg", subtotal, 0);
+          } else {
+            bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
+          }
         }).toList();
+        String totals = rupiah(totalPrice);
+        String fees = rupiah(fee);
+        String charges = rupiah(charge);
+        String results = rupiah(totalResult);
         bluetooth.printCustom("--------------------------------", 0, 0);
-        bluetooth.printLeftRight("Subtotal     Rp ", "$totalPrice", 0);
-        bluetooth.printLeftRight("Biaya Admin  Rp ", "$fee", 0);
-        bluetooth.printLeftRight("Biaya Denda  Rp ", "$charge", 0);
-        bluetooth.printLeftRight("Total        Rp ", "$totalResult", 0);
-
+        bluetooth.printLeftRight("Subtotal     Rp ", totals, 0);
+        bluetooth.printLeftRight("Biaya Admin  Rp ", fees, 0);
+        bluetooth.printLeftRight("Biaya Denda  Rp ", charges, 0);
+        bluetooth.printLeftRight("Total        Rp ", results, 0);
+        
+        bluetooth.printNewLine();
+        if (tm!.status == 'unpaid') {
+          bluetooth.printCustom("== BELUM LUNAS ==", 0, 1);
+        } else {
+          bluetooth.printCustom("== LUNAS ==", 0, 1);
+        }
+        bluetooth.printCustom("--------------------------------", 0, 0);
+        bluetooth.printCustom("AIRREN", 0, 1);
         bluetooth.printNewLine();
         bluetooth.printNewLine();
       }

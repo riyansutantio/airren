@@ -25,9 +25,7 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
     return GetBuilder<CatatMeterController>(
       init: CatatMeterController(catatmeterProvider: CatatMeterProvider()),
       builder: (controller) {
-        int? now = int.tryParse(
-                controller.meterNowManageDetailCatatBulan.value.toString()) ??
-            0;
+        int? now = int.tryParse(controller.onchangeMeterNow.value) ?? 0;
         int? last = int.tryParse(
                 controller.meterLastManageDetailCatatBulan.value.toString()) ??
             0;
@@ -81,13 +79,60 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                   child: const Icon(EvaIcons.bellOutline,
                                       color: Colors.white)),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 0, bottom: 0, right: 10),
-                              child: GestureDetector(
-                                  onTap: () {},
-                                  child: const Icon(EvaIcons.checkmark,
-                                      color: Colors.white)),
+                            GestureDetector(
+                              onTap: () {
+                                if (controller.meterNowController.text != '') {
+                                  if (controller.statusDetail.value == true) {
+                                    if (int.parse(controller
+                                            .meterLastManageDetailCatatBulan
+                                            .value) >
+                                        int.parse(controller
+                                            .meterNowController.text)) {
+                                      logger.e("masuk sini");
+                                      Get.back();
+                                      snackBarNotificationFailed(
+                                          title:
+                                              "Nilai input data tidak valid");
+                                    } else {
+                                      catatMeterBulanController.addCatatMeter();
+                                    }
+                                  } else {
+                                    if (int.parse(controller
+                                            .meterLastManageDetailCatatBulan
+                                            .value) >
+                                        int.parse(controller
+                                            .meterNowController.text)) {
+                                      logger.e("masuk sini");
+                                      Get.back();
+                                      snackBarNotificationFailed(
+                                          title:
+                                              "Nilai input data tidak valid");
+                                    } else {
+                                      catatMeterBulanController
+                                          .updateCatatMeter(
+                                        id: controller.idManageCatatBulan
+                                            .toString(),
+                                        meter_now: controller
+                                            .meterNowManageDetailCatatBulan
+                                            .toString(),
+                                        month: controller.bulan.value,
+                                      );
+                                    }
+                                  }
+                                } else {
+                                  Get.back();
+                                  snackBarNotificationFailed(
+                                      title: "Nilai input tidak valid");
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 0, bottom: 0, right: 10),
+                                child: GestureDetector(
+                                    onTap: () {},
+                                    child: const Icon(EvaIcons.checkmark,
+                                        color: Colors.white)),
+                              ),
                             ),
                           ],
                         ),
@@ -255,8 +300,8 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            30, 15, 30, 15),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 15),
                                         child: Column(
                                           children: [
                                             Text(
@@ -270,8 +315,7 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                               height: 4,
                                             ),
                                             Text(
-                                              controller
-                                                  .meterLastManageDetailCatatBulan
+                                              controller.meterBulanLalu.value
                                                   .toString(),
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 15,
@@ -291,8 +335,8 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                       Expanded(
                                         child: Container(
                                           margin: const EdgeInsets.all(10),
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 8, 8, 8),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             border: Border.all(
@@ -304,35 +348,38 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                                 Radius.circular(
                                                     15.0)), // set rounded corner radius
                                           ),
-                                          child: Obx(
-                                            () => TextFormField(
-                                              textAlign: TextAlign.center,
-                                              decoration: InputDecoration(
-                                                hintText: controller
-                                                    .meterNowManageDetailCatatBulan
-                                                    .toString(),
-                                                border: InputBorder.none,
-                                              ),
-                                              validator: (text) {
-                                                if (text == null ||
-                                                    text.isEmpty ||
-                                                    int.parse(text) == 0) {
-                                                  snackBarNotificationFailed(
-                                                      title:
-                                                          "Data yang diinput salah");
-                                                  Get.off(CatatMeterView());
-                                                } else {
-                                                  logger.e("error");
-                                                }
-                                                return null;
-                                              },
-                                              controller:
-                                                  controller.meterNowController,
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 15,
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w800),
+                                          child: TextFormField(
+                                            textAlign: TextAlign.center,
+                                            decoration: InputDecoration(
+                                              hintText: controller
+                                                  .meterNowManageDetailCatatBulan
+                                                  .toString(),
+                                              border: InputBorder.none,
                                             ),
+                                            onChanged: (values) {
+                                              controller.onchangeMeterNow
+                                                  .value = values;
+                                              controller.increment();
+                                            },
+                                            validator: (text) {
+                                              if (text == null ||
+                                                  text.isEmpty ||
+                                                  int.parse(text) == 0) {
+                                                snackBarNotificationFailed(
+                                                    title:
+                                                        "Data yang diinput salah");
+                                                Get.off(CatatMeterView());
+                                              } else {
+                                                logger.e("error");
+                                              }
+                                              return null;
+                                            },
+                                            controller:
+                                                controller.meterNowController,
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 15,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w800),
                                           ),
                                         ),
                                       ),
@@ -340,8 +387,8 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                         width: 5,
                                       ),
                                       Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            30, 15, 30, 15),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 15),
                                         child: Column(
                                           children: [
                                             Text(
@@ -399,30 +446,79 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                   int.parse(controller.meterNowController.text)) {
                 logger.e("masuk sini");
                 Get.back();
+                controller.isSearch.value = false;
                 snackBarNotificationFailed(
                     title: "Nilai input data tidak valid");
               } else {
+                controller.isSearch.value = false;
                 catatMeterBulanController.addCatatMeter();
               }
             } else {
               if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
                   int.parse(controller.meterNowController.text)) {
                 logger.e("masuk sini");
+                if (controller.meterNowController.text != '') {
+                  if (controller.statusDetail.value == true) {
+                    if (int.parse(
+                            controller.meterLastManageDetailCatatBulan.value) >
+                        int.parse(controller.meterNowController.text)) {
+                      logger.e("masuk sini");
+                      Get.back();
+                      controller.clearCondition();
+                      controller.isSearch.value = false;
+                      snackBarNotificationFailed(
+                          title: "Nilai input data tidak valid");
+                      controller.clearCondition();
+                    } else {
+                      catatMeterBulanController.addCatatMeter();
+                      controller.isSearch.value = false;
+                      controller.clearCondition();
+                    }
+                  } else {
+                    if (int.parse(
+                            controller.meterLastManageDetailCatatBulan.value) >
+                        int.parse(controller.meterNowController.text)) {
+                      logger.e("masuk sini");
+                      Get.back();
+                      controller.clearCondition();
+                      snackBarNotificationFailed(
+                          title: "Nilai input data tidak valid");
+                      controller.clearCondition();
+                    } else {
+                      catatMeterBulanController.updateCatatMeter(
+                        id: controller.idManageCatatBulan.toString(),
+                        meter_now: controller.meterNowManageDetailCatatBulan
+                            .toString(),
+                        month: controller.bulan.value,
+                      );
+                      controller.clearCondition();
+                    }
+                  }
+                } else {
+                  Get.back();
+                  snackBarNotificationFailed(title: "Nilai input tidak valid");
+                  controller.clearCondition();
+                }
                 Get.back();
                 snackBarNotificationFailed(
                     title: "Nilai input data tidak valid");
+                controller.clearCondition();
               } else {
+                controller.isSearch.value = false;
                 catatMeterBulanController.updateCatatMeter(
                   id: controller.idManageCatatBulan.toString(),
                   meter_now:
                       controller.meterNowManageDetailCatatBulan.toString(),
                   month: controller.bulan.value,
                 );
+                controller.clearCondition();
               }
             }
           } else {
+            controller.isSearch.value = false;
             Get.back();
             snackBarNotificationFailed(title: "Nilai input tidak valid");
+            controller.clearCondition();
           }
         },
         child: Ink(

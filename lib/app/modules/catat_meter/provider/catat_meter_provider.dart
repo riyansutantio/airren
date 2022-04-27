@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../../../data/http_service.dart';
 import '../../../model/catat_meter/add_catat_meter_bulan_model.dart';
+import '../../../model/catat_meter/get_bulan_lalu.dart';
 import '../../../model/customer/customerModel.dart';
 import '../../../model/invoice_pam.dart';
 import '../../../model/meter_transactionAll_model.dart';
@@ -110,6 +111,21 @@ class CatatMeterProvider extends GetConnect {
     return null;
   }
 
+  Future<GetBulanLalu?> getBulanlalu({String? bearer, int? id}) async {
+    Uri _getPamsUser = Uri.parse(
+        'https://api.airren.tbrdev.my.id/api/v1/consumer/$id/latest-meter');
+    logger.wtf('ini adalah baseUrl $_getPamsUser');
+    final response =
+        await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
+    if (response.statusCode == 200) {
+      logger.wtf(response.statusCode);
+      var jsonString = response.body;
+      logger.wtf(jsonDecode(jsonString));
+      return GetBulanLaluFromJson(jsonString);
+    }
+    return null;
+  }
+
   Future<CommonModel?> deleteMeterBulan(
       {required String? bearer, required String? id}) async {
     var baseUrl = FlavorConfig.instance.variables["baseUrl"];
@@ -199,12 +215,12 @@ class CatatMeterProvider extends GetConnect {
         }));
     var jsonString = response.body;
     logger.wtf(jsonEncode({
-          "consumer_unique_id": consumer_unique_id,
-          "meter_now": meter_now,
-          "meter_last": meter_last,
-          "consumer_name": consumer_name,
-          "consumer_full_address": consumer_full_address,
-          "consumer_phone_number": consumer_phone_number,
+      "consumer_unique_id": consumer_unique_id,
+      "meter_now": meter_now,
+      "meter_last": meter_last,
+      "consumer_name": consumer_name,
+      "consumer_full_address": consumer_full_address,
+      "consumer_phone_number": consumer_phone_number,
     }));
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
@@ -226,5 +242,4 @@ class CatatMeterProvider extends GetConnect {
     }
     return null;
   }
-
- }
+}

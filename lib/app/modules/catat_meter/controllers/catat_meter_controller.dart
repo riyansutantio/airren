@@ -41,6 +41,9 @@ class CatatMeterController extends GetxController {
   void onInit() async {
     super.onInit();
     await getMeterMonth();
+    if (meterBulanLalu.value != 0) {
+      await getBulanLalu();
+    }
     if (id != null && idInvoice != null) {
       await getPeymentIvoice();
       logger.d("getting Invoice");
@@ -53,6 +56,9 @@ class CatatMeterController extends GetxController {
     debounce(searchValue, (val) {
       return searchManage();
     }, time: 500.milliseconds);
+    debounce(onchangeMeterNow, (val) {
+      return onchangeMeterNow;
+    }, time: 500.milliseconds);
   }
 
   @override
@@ -61,7 +67,10 @@ class CatatMeterController extends GetxController {
     await getCusUsers();
   }
 
-  void increment() => count.value++;
+  void increment() {
+    update();
+  }
+
   final boxUser = GetStorage();
   final isLoadingMeterMonth = false.obs;
   final meterMonthResult = <MonthMeterResult>[].obs;
@@ -92,6 +101,9 @@ class CatatMeterController extends GetxController {
   final volume = ''.obs;
   final statusPenerbitanInvoice = false.obs;
   final statusTagihan = false.obs;
+  final idBulanLalu = 0.obs;
+  final meterBulanLalu = 0.obs;
+  final onchangeMeterNow = ''.obs;
 
   //manage bulan
   final month_Of = 0.obs;
@@ -112,6 +124,7 @@ class CatatMeterController extends GetxController {
 
   Future<void> clearCondition() async {
     meterNowController.clear();
+    meterBulanLalu.value = 0;
   }
 
   Future getMeterMonth() async {
@@ -198,13 +211,33 @@ class CatatMeterController extends GetxController {
     try {
       isLoadingCatatMeter.value = true;
       final res = await CP!.getCusUser(bearer: boxUser.read(tokenBearer));
-      // logger.wtf(res!.data!.data!.toList());
       if (res == null) {
         Get.to(UnauthenticationView());
         logger.i('kosong');
       } else {
         cusUserResult.assignAll(res.data!.cusMs!);
         logger.d(cusUserResult);
+      }
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      isLoadingCatatMeter.value = false;
+    }
+  }
+
+  Future getBulanLalu() async {
+    try {
+      isLoadingCatatMeter.value = true;
+      final res = await catatmeterProvider!.getBulanlalu(
+          bearer: boxUser.read(tokenBearer), id: idBulanLalu.value);
+      // logger.wtf(res!.data!.data!.toList());
+      logger.d(res?.message);
+      if (res == null) {
+        //Get.to(UnauthenticationView());
+        logger.i('kosong');
+      } else {
+        meterBulanLalu.value = int.parse(res.data!.meter_start!);
+        logger.d(meterBulanLalu);
       }
     } catch (e) {
       logger.e(e);
