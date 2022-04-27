@@ -550,7 +550,7 @@ class _PrintState extends State<Print> {
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: ElevatedButton(
                           onPressed: () {
-                            _appPrint!.testPrint();
+                            _appPrint!.tesPrint();
                           },
                           style: ElevatedButton.styleFrom(
                             primary: HexColor('#FF8801'),
