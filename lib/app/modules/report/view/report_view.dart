@@ -38,7 +38,7 @@ class ReportView extends GetView<ReportController> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
-                              'Pengaturan Printer',
+                              'Laporan',
                               style: GoogleFonts.montserrat(
                                 color: Colors.white,
                                 fontSize: 14,
