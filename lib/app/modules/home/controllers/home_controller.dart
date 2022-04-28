@@ -22,6 +22,7 @@ class HomeController extends GetxController {
   final pageNavBottom = 0.obs;
   final page = 0.obs;
   final userLocal = "".obs;
+  final bottomSheet = false.obs;
 
   @override
   void onInit() async {
@@ -98,6 +99,13 @@ class HomeController extends GetxController {
     MenuItemModel(title: 'Laporan', assets: 'laporan.svg', id: '3'),
     MenuItemModel(title: 'Pelanggan', assets: 'pelanggan.svg', id: '4'),
     MenuItemModel(title: 'Master data', assets: 'masterdata.svg', id: '5'),
+  ];
+  var bottomSheetItem = <MenuItemModel>[
+    MenuItemModel(title: 'Catat meter', assets: 'catatmetericon.svg', id: '0'),
+    MenuItemModel(title: 'Pembayaran', assets: 'pembayaran.svg', id: '1'),
+    MenuItemModel(title: 'Transaksi', assets: 'transaksi.svg', id: '2'),
+    MenuItemModel(title: 'Laporan', assets: 'laporan.svg', id: '3'),
+    MenuItemModel(title: 'Akun', assets: 'iconAkun.svg', id: '4'),
   ];
 }
 

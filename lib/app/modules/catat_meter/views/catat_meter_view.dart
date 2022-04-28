@@ -155,6 +155,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                       //listViewBuilder(controller, year)
                                       StickyGroupedListView<MonthMeterResult,
                                           DateTime>(
+                                    order: StickyGroupedListOrder.DESC,
                                     elements: controller.meterMonthResult.value,
                                     groupBy: (MonthMeterResult element) =>
                                         DateTime(
@@ -162,8 +163,8 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                     ),
                                     itemComparator: (MonthMeterResult element1,
                                             MonthMeterResult element2) =>
-                                        element1.year_of!
-                                            .compareTo(element2.year_of!),
+                                        element1.month_of!
+                                            .compareTo(element2.month_of!),
                                     floatingHeader: true,
                                     groupSeparatorBuilder:
                                         (MonthMeterResult element) => Container(
@@ -224,17 +225,53 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                               },
                                               child: Container(
                                                 child: ListTile(
-                                                  leading: CircleAvatar(
-                                                      maxRadius: 30,
-                                                      backgroundColor:
-                                                          HexColor('#FF8801')
-                                                              .withOpacity(0.1),
-                                                      child: Icon(
-                                                        EvaIcons
-                                                            .alertTriangleOutline,
-                                                        color:
-                                                            HexColor('#FF3B3B'),
-                                                      )),
+                                                  leading: element
+                                                              .number_of_recorded_consumer!
+                                                              .toInt() ==
+                                                          element
+                                                              .number_of_consumer!
+                                                              .toInt()
+                                                      ? CircleAvatar(
+                                                          maxRadius: 30,
+                                                          backgroundColor:
+                                                              HexColor('#05C270')
+                                                                  .withOpacity(
+                                                                      0.1),
+                                                          child: Icon(
+                                                            EvaIcons.checkmark,
+                                                            color: HexColor(
+                                                                '#05C270'),
+                                                          ))
+                                                      : element.month_of ==
+                                                              DateTime.now()
+                                                                  .month
+                                                          ? CircleAvatar(
+                                                              maxRadius: 30,
+                                                              backgroundColor:
+                                                                  HexColor(
+                                                                          '#FF8801')
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                              child: Icon(
+                                                                EvaIcons
+                                                                    .clockOutline,
+                                                                color: HexColor(
+                                                                    '#FF8801'),
+                                                              ),
+                                                            )
+                                                          : CircleAvatar(
+                                                              maxRadius: 30,
+                                                              backgroundColor:
+                                                                  HexColor(
+                                                                          '#FF3B3B')
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                              child: Icon(
+                                                                EvaIcons
+                                                                    .alertTriangleOutline,
+                                                                color: HexColor(
+                                                                    '#FF3B3B'),
+                                                              )),
                                                   contentPadding:
                                                       const EdgeInsets.all(10),
                                                   title: Text(
@@ -242,11 +279,12 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                                         element.month_of! - 1],
                                                     style:
                                                         GoogleFonts.montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: HexColor(
-                                                                '#3C3F58')),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          HexColor('#3C3F58'),
+                                                    ),
                                                   ),
                                                   subtitle: Text(
                                                     element.number_of_recorded_consumer

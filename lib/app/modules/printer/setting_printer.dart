@@ -1,4 +1,5 @@
 import 'package:airen/app/model/register_model.dart';
+import 'package:airen/app/modules/catat_meter/controllers/catat_meter_controller.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -31,6 +32,8 @@ class Print extends GetView<PrintController> {
   final int? charge;
   final int? resultTotal;
   final String? phoneNumber;
+
+  CatatMeterController? catatmeter;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PrintController>(
@@ -51,7 +54,10 @@ class Print extends GetView<PrintController> {
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () => Get.back(),
+                                onPressed: () {
+                                  Get.back();
+                                  catatmeter?.clearCondition();
+                                },
                                 icon: const Icon(EvaIcons.arrowBack),
                                 color: Colors.white),
                             Padding(
@@ -425,7 +431,8 @@ class Print extends GetView<PrintController> {
                                       totalPrice: totalPrice,
                                       fee: fee,
                                       charge: charge,
-                                      totalResult: resultTotal,phoneNumber: phoneNumber,
+                                      totalResult: resultTotal,
+                                      phoneNumber: phoneNumber,
                                       pam: pam);
                                 },
                                 child: Ink(
