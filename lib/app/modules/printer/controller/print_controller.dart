@@ -64,9 +64,6 @@ class PrintController extends GetxController {
           if (pam.detailAddress != null && pam.detailAddress!.isNotEmpty) {
             bluetooth.printCustom("${pam.detailAddress}", 0, 1);
           }
-          if (phoneNumber != null && phoneNumber.isNotEmpty) {
-            bluetooth.printCustom(phoneNumber, 0, 1);
-          }
         }
         bluetooth.printCustom("--------------------------------", 1, 1);
         bluetooth.printCustom("Di tagihkan Kepada", 0, 1);
@@ -129,7 +126,7 @@ class PrintController extends GetxController {
         bluetooth.printLeftRight("Biaya Admin  Rp ", fees, 0);
         bluetooth.printLeftRight("Biaya Denda  Rp ", charges, 0);
         bluetooth.printLeftRight("Total        Rp ", results, 0);
-        
+
         bluetooth.printNewLine();
         if (tm!.status == 'unpaid') {
           bluetooth.printCustom("== BELUM LUNAS ==", 0, 1);
