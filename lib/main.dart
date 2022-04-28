@@ -27,12 +27,11 @@ void main() async {
       color: Colors.red,
       location: BannerLocation.topStart,
       child: GetMaterialApp(
-        home: ReportView(),
         debugShowCheckedModeBanner: false,
         navigatorKey: Get.key,
         theme: ThemeData.light(),
         title: "Airen",
-        // initialRoute: AppPages.INITIAL,
+        initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
       ),
     ),
