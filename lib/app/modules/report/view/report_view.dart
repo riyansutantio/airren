@@ -1,4 +1,5 @@
 import 'package:airen/app/model/register_model.dart';
+import 'package:airen/app/utils/utils.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -17,7 +18,7 @@ class ReportView extends GetView<ReportController> {
     return GetBuilder<ReportController>(
       init: ReportController(p: ReportProvider()),
       builder: (controller) {
-        return Scaffold(
+        return Obx(() => Scaffold(
             appBar: PreferredSize(
               child: Container(
                 padding:
@@ -37,7 +38,7 @@ class ReportView extends GetView<ReportController> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
-                              'Pengaturan Printer',
+                              'Laporan',
                               style: GoogleFonts.montserrat(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -121,91 +122,188 @@ class ReportView extends GetView<ReportController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: HexColor('#FFCC00')
-                                          .withOpacity(0.05)),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "2022",
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 14,
-                                                color: HexColor('#707793')),
-                                          ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.bottomSheet(Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(40),
+                                              topLeft: Radius.circular(40)),
+                                          color: Colors.white,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            EvaIcons.arrowIosDownwardOutline,
-                                            color: HexColor('#FFCC00'),
+                                        child: Column(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 12.0),
+                                            child: Container(
+                                              width: 70,
+                                              height: 5,
+                                              decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(40)),
+                                                color: Colors.amber,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ]),
+                                          Expanded(
+                                            child: ListView.builder(
+                                                itemCount: controller
+                                                    .years.value.length,
+                                                itemBuilder: (context, index) {
+                                                  return GestureDetector(
+                                                      onTap: () {
+                                                        controller.resultYears
+                                                                .value =
+                                                            controller
+                                                                .years[index];
+                                                        Get.back();
+                                                      },
+                                                      child: ListTile(
+                                                        title: Text(controller
+                                                            .years[index]
+                                                            .toString()),
+                                                      ));
+                                                }),
+                                          )
+                                        ])));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: HexColor('#FFCC00')
+                                            .withOpacity(0.05)),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              controller.resultYears.value,
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 14,
+                                                  color: HexColor('#707793')),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              EvaIcons.arrowIosDownwardOutline,
+                                              color: HexColor('#FFCC00'),
+                                            ),
+                                          ),
+                                        ]),
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 8,
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: HexColor('#FFCC00')
-                                          .withOpacity(0.05)),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Febuari",
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 14,
-                                                color: HexColor('#707793')),
-                                          ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.bottomSheet(Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(40),
+                                              topLeft: Radius.circular(40)),
+                                          color: Colors.white,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            EvaIcons.arrowIosDownwardOutline,
-                                            color: HexColor('#FFCC00'),
+                                        child: Column(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 12.0),
+                                            child: Container(
+                                              width: 70,
+                                              height: 5,
+                                              decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(40)),
+                                                color: Colors.amber,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            controller.getPdfMonth();
-                                          },
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                      offset: Offset(0.0, 8.0),
-                                                      color: Color.fromRGBO(
-                                                          0, 99, 248, 0.2),
-                                                      blurRadius: 24,
-                                                    ),
-                                                  ],
-                                                  color: HexColor('#FFCC00'),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: SizedBox(
-                                                  width: 48,
-                                                  height: 48,
-                                                  child: Icon(
-                                                    EvaIcons
-                                                        .cloudDownloadOutline,
-                                                    color: HexColor('#ffffff'),
-                                                  ))),
-                                        )
-                                      ]),
+                                          Expanded(
+                                            child: ListView.builder(
+                                                itemCount: controller
+                                                    .years.value.length,
+                                                itemBuilder: (context, index) {
+                                                  return GestureDetector(
+                                                      onTap: () {
+                                                        controller.resultMonths
+                                                                .value =
+                                                            (index + 1)
+                                                                .toString();
+                                                        print(controller
+                                                            .resultMonths
+                                                            .value);
+                                                        Get.back();
+                                                      },
+                                                      child: ListTile(
+                                                        title: Text(
+                                                            monthsAll[index]
+                                                                .toString()),
+                                                      ));
+                                                }),
+                                          )
+                                        ])));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: HexColor('#FFCC00')
+                                            .withOpacity(0.05)),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              " ${monthsAll[int.parse(controller.resultMonths.value) - 1]}",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 14,
+                                                  color: HexColor('#707793')),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              EvaIcons.arrowIosDownwardOutline,
+                                              color: HexColor('#FFCC00'),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              controller.getReportMonths();
+                                            },
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        offset:
+                                                            Offset(0.0, 8.0),
+                                                        color: Color.fromRGBO(
+                                                            0, 99, 248, 0.2),
+                                                        blurRadius: 24,
+                                                      ),
+                                                    ],
+                                                    color: HexColor('#FFCC00'),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: SizedBox(
+                                                    width: 48,
+                                                    height: 48,
+                                                    child: Icon(
+                                                      EvaIcons
+                                                          .cloudDownloadOutline,
+                                                      color:
+                                                          HexColor('#ffffff'),
+                                                    ))),
+                                          )
+                                        ]),
+                                  ),
                                 )
                               ],
                             ),
@@ -267,41 +365,93 @@ class ReportView extends GetView<ReportController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width - 178,
-                                  decoration: BoxDecoration(
-                                      color: HexColor('#FFCC00')
-                                          .withOpacity(0.05)),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "2022",
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 14,
-                                                color: HexColor('#707793')),
+                                GestureDetector(
+                                  onTap: () {
+                                    
+                                      Get.bottomSheet(Container(
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(40),
+                                                topLeft: Radius.circular(40)),
+                                            color: Colors.white,
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            EvaIcons.arrowIosDownwardOutline,
-                                            color: HexColor('#05C270'),
+                                          child: Column(children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 12.0),
+                                              child: Container(
+                                                width: 70,
+                                                height: 5,
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(40)),
+                                                  color: Colors.amber,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                  itemCount: controller
+                                                      .years.value.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return GestureDetector(
+                                                        onTap: () {
+                                                          controller.resultYears
+                                                                  .value =
+                                                              controller
+                                                                  .years[index];
+                                                          Get.back();
+                                                        },
+                                                        child: ListTile(
+                                                          title: Text(controller
+                                                              .years[index]
+                                                              .toString()),
+                                                        ));
+                                                  }),
+                                            )
+                                          ])));
+                                    
+                                  },
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 178,
+                                    decoration: BoxDecoration(
+                                        color: HexColor('#FFCC00')
+                                            .withOpacity(0.05)),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              controller.resultYears.value,
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 14,
+                                                  color: HexColor('#707793')),
+                                            ),
                                           ),
-                                        ),
-                                      ]),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              EvaIcons.arrowIosDownwardOutline,
+                                              color: HexColor('#05C270'),
+                                            ),
+                                          ),
+                                        ]),
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 8,
                                 ),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    controller.getReportYears();
+                                  },
                                   child: Container(
                                       decoration: BoxDecoration(
                                           boxShadow: const [
@@ -345,7 +495,7 @@ class ReportView extends GetView<ReportController> {
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
-            ));
+            )));
       },
     );
   }
