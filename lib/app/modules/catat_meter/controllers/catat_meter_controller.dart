@@ -37,40 +37,6 @@ class CatatMeterController extends GetxController {
 
   final count = 0.obs;
   final isLoadingCatatMeter = false.obs;
-  @override
-  void onInit() async {
-    super.onInit();
-    await getMeterMonth();
-    if (meterBulanLalu.value != 0) {
-      await getBulanLalu();
-    }
-    if (id != null && idInvoice != null) {
-      await getPeymentIvoice();
-      logger.d("getting Invoice");
-    }
-  }
-
-  @override
-  void onReady() async {
-    super.onReady();
-    debounce(searchValue, (val) {
-      return searchManage();
-    }, time: 500.milliseconds);
-    debounce(onchangeMeterNow, (val) {
-      return onchangeMeterNow;
-    }, time: 500.milliseconds);
-  }
-
-  @override
-  void onClose() async {
-    await getMeterMonth();
-    await getCusUsers();
-  }
-
-  void increment() {
-    update();
-  }
-
   final boxUser = GetStorage();
   final isLoadingMeterMonth = false.obs;
   final meterMonthResult = <MonthMeterResult>[].obs;
@@ -85,6 +51,7 @@ class CatatMeterController extends GetxController {
   final searchValue = ''.obs;
   String scannedQrCode = '';
   final now = new DateTime.now().obs;
+  List<dynamic> listOne = List.empty(growable: true).obs;
 
   //Detail catat Meter
   final statusDetail = false.obs;
@@ -102,7 +69,7 @@ class CatatMeterController extends GetxController {
   final statusPenerbitanInvoice = false.obs;
   final statusTagihan = false.obs;
   final idBulanLalu = 0.obs;
-  final meterBulanLalu = 0.obs;
+  RxDouble meterBulanLalu = 0.0.obs;
   final onchangeMeterNow = ''.obs;
 
   //manage bulan
@@ -115,16 +82,61 @@ class CatatMeterController extends GetxController {
   int? idInvoice;
   RxInt? totalPrice = 0.obs;
   final dataTransactionAllModel = TransactionAllModel().obs;
-  Rx<Pam>? dataPam = Pam().obs;
-  Rx<TransactionAllModel>? tm = TransactionAllModel().obs;
-  RxInt? fee = 0.obs;
-  RxInt? charge = 0.obs;
-  RxInt? totalResult = 0.obs;
-  RxList<CostDetail>? result = <CostDetail>[].obs;
+  Rx<Pam> dataPam = Pam().obs;
+  Rx<TransactionAllModel> tm = TransactionAllModel().obs;
+  RxInt fee = 0.obs;
+  RxInt charge = 0.obs;
+  RxInt totalResult = 0.obs;
+  RxList<CostDetail> result = <CostDetail>[].obs;
+  @override
+  void onInit() async {
+    super.onInit();
+    await getMeterMonth();
+    if (meterBulanLalu.value != 0) {
+      await getBulanLalu();
+    }
+    result.refresh();
+    cusUserResult.refresh();
+    if (id != null && idInvoice != null) {
+      await getPeymentIvoice();
+      logger.d("getting Invoice");
+    } else {
+      logger.d("Gagall");
+    }
+  }
+
+  @override
+  void onReady() async {
+    super.onReady();
+    debounce(searchValue, (val) {
+      return searchManage();
+    }, time: 500.milliseconds);
+    debounce(onchangeMeterNow, (val) {
+      return onchangeMeterNow;
+    }, time: 500.milliseconds);
+  }
+
+  @override
+  void onClose() async {
+    await getMeterMonth();
+    if (isSearch.value == true) {
+      await getCusUsers();
+    }
+  }
+
+  void increment() {
+    update();
+  }
 
   Future<void> clearCondition() async {
     meterNowController.clear();
-    meterBulanLalu.value = 0;
+    onchangeMeterNow.value = '';
+    meterBulanLalu.value = 0.0;
+    totalPrice!.value = 0;
+    fee.value = 0;
+    charge.value = 0;
+    totalResult.value = 0;
+    result = <CostDetail>[].obs;
   }
 
   Future getMeterMonth() async {
@@ -211,6 +223,7 @@ class CatatMeterController extends GetxController {
     try {
       isLoadingCatatMeter.value = true;
       final res = await CP!.getCusUser(bearer: boxUser.read(tokenBearer));
+
       if (res == null) {
         Get.to(UnauthenticationView());
         logger.i('kosong');
@@ -236,7 +249,7 @@ class CatatMeterController extends GetxController {
         //Get.to(UnauthenticationView());
         logger.i('kosong');
       } else {
-        meterBulanLalu.value = int.parse(res.data!.meter_start!);
+        meterBulanLalu.value = double.parse(res.data!.meter_start!);
         logger.d(meterBulanLalu);
       }
     } catch (e) {
@@ -357,7 +370,6 @@ class CatatMeterController extends GetxController {
   final isloading = false.obs;
   Future getPeymentIvoice() async {
     try {
-      logger.e("test");
       isloading.value = true;
       final res = await catatmeterProvider?.getPeymentMonthInvoice(
           bearer: boxUser.read(tokenBearer), id: id, idInvoice: idInvoice);
@@ -365,22 +377,23 @@ class CatatMeterController extends GetxController {
         //Get.to(UnauthenticationView());
         logger.i('kosong');
       } else {
-        tm?.value = res.data!.tm!;
+        tm.value = res.data!.tm!;
         logger.d(tm);
-        dataPam?.value = res.data!.pam!;
+        dataPam.value = res.data!.pam!;
         logger.d(dataPam);
-        result?.assignAll(res.data!.cusMs!);
+        result.assignAll(res.data!.cusMs!);
         logger.d(result);
-        fee?.value = res.data!.pam!.adminFee!;
+        fee.value = res.data!.pam!.adminFee!;
         logger.d(fee);
-        charge?.value = res.data!.pam!.charge!;
+        charge.value = res.data!.pam!.charge!;
         logger.d(charge);
-        result!.value.forEach((element) {
+        result.value.forEach((element) {
           totalPrice = totalPrice! + int.parse(element.total!);
         });
-        totalResult!.value = fee!.value + totalPrice!.value + charge!.value;
-        logger.d(tm);
+        totalResult.value = fee.value + totalPrice!.value + charge.value;
+        logger.d(totalResult);
         // result.assignAll(res.data!.cusMs!);
+        update();
       }
     } catch (e) {
       logger.e(e);

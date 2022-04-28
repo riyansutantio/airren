@@ -25,11 +25,11 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
     return GetBuilder<CatatMeterController>(
       init: CatatMeterController(catatmeterProvider: CatatMeterProvider()),
       builder: (controller) {
-        int? now = int.tryParse(controller.onchangeMeterNow.value) ?? 0;
-        int? last = int.tryParse(
-                controller.meterLastManageDetailCatatBulan.value.toString()) ??
-            0;
-        int volume = now - last;
+        double x = double.parse(
+            controller.meterLastManageDetailCatatBulan.value.toString());
+        double? now = double.tryParse(controller.onchangeMeterNow.value) ?? x;
+        double? last = double.parse(controller.meterBulanLalu.value.toString());
+        double volume = now - last;
         var id = controller.idManageDetailCatatBulan.value;
         return Scaffold(
           appBar: PreferredSize(
@@ -299,122 +299,146 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 15),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              "Bulan lalu",
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 15,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            const SizedBox(
-                                              height: 4,
-                                            ),
-                                            Text(
-                                              controller.meterBulanLalu.value
-                                                  .toString(),
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 15,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w800),
-                                            ),
-                                          ],
-                                        ),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: HexColor('#5433FF')),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.30,
                                         child: Container(
-                                          margin: const EdgeInsets.all(10),
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
+                                              horizontal: 20, vertical: 15),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "Bulan lalu",
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                              const SizedBox(
+                                                height: 4,
+                                              ),
+                                              Text(
+                                                controller.meterBulanLalu.value
+                                                    .toString(),
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w800),
+                                              ),
+                                            ],
+                                          ),
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: Colors
-                                                    .blue, // set border color
-                                                width: 3.0), // set border width
-                                            borderRadius: const BorderRadius
-                                                    .all(
-                                                Radius.circular(
-                                                    15.0)), // set rounded corner radius
-                                          ),
-                                          child: TextFormField(
-                                            textAlign: TextAlign.center,
-                                            decoration: InputDecoration(
-                                              hintText: controller
-                                                  .meterNowManageDetailCatatBulan
-                                                  .toString(),
-                                              border: InputBorder.none,
-                                            ),
-                                            onChanged: (values) {
-                                              controller.onchangeMeterNow
-                                                  .value = values;
-                                              controller.increment();
-                                            },
-                                            validator: (text) {
-                                              if (text == null ||
-                                                  text.isEmpty ||
-                                                  int.parse(text) == 0) {
-                                                snackBarNotificationFailed(
-                                                    title:
-                                                        "Data yang diinput salah");
-                                                Get.off(CatatMeterView());
-                                              } else {
-                                                logger.e("error");
-                                              }
-                                              return null;
-                                            },
-                                            controller:
-                                                controller.meterNowController,
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 15,
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.w800),
-                                          ),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: HexColor('#5433FF')),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 15),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              "Volume",
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        child: Expanded(
+                                          child: Container(
+                                            margin: const EdgeInsets.all(10),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 10),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .blue, // set border color
+                                                  width:
+                                                      3.0), // set border width
+                                              borderRadius: const BorderRadius
+                                                      .all(
+                                                  Radius.circular(
+                                                      15.0)), // set rounded corner radius
+                                            ),
+                                            child: TextFormField(
+                                              textAlign: TextAlign.center,
+                                              // initialValue: controller
+                                              //     .meterNowManageDetailCatatBulan
+                                              //     .value,
+                                              decoration: InputDecoration(
+                                                fillColor: Colors.blue,
+                                                hintText: controller
+                                                    .meterNowManageDetailCatatBulan
+                                                    .toString(),
+                                                border: InputBorder.none,
+                                              ),
+                                              onChanged: (values) {
+                                                controller.onchangeMeterNow
+                                                    .value = values;
+                                                controller.increment();
+                                              },
+                                              validator: (text) {
+                                                if (text == null ||
+                                                    text.isEmpty ||
+                                                    int.parse(text) == 0) {
+                                                  snackBarNotificationFailed(
+                                                      title:
+                                                          "Data yang diinput salah");
+                                                  Get.off(CatatMeterView());
+                                                } else {
+                                                  logger.e("error");
+                                                }
+                                                return null;
+                                              },
+                                              controller:
+                                                  controller.meterNowController,
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 15,
-                                                  color: HexColor('#707793'),
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            const SizedBox(
-                                              height: 4,
-                                            ),
-                                            Text(
-                                              volume.toString(),
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 15,
-                                                  color: HexColor('#05C270'),
+                                                  color: Colors.grey,
                                                   fontWeight: FontWeight.w800),
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: HexColor('#05C270')
-                                                .withOpacity(0.2)),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 15),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "Volume",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    color: HexColor('#707793'),
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                              const SizedBox(
+                                                height: 4,
+                                              ),
+                                              Text(
+                                                volume.toStringAsFixed(2),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    color: HexColor('#05C270'),
+                                                    fontWeight:
+                                                        FontWeight.w800),
+                                              ),
+                                            ],
+                                          ),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: HexColor('#05C270')
+                                                  .withOpacity(0.2)),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -442,8 +466,9 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
         onPressed: () {
           if (controller.meterNowController.text != '') {
             if (controller.statusDetail.value == true) {
-              if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
-                  int.parse(controller.meterNowController.text)) {
+              if (double.parse(
+                      controller.meterLastManageDetailCatatBulan.value) >
+                  double.parse(controller.meterNowController.text)) {
                 logger.e("masuk sini");
                 Get.back();
                 controller.isSearch.value = false;
@@ -454,14 +479,15 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                 catatMeterBulanController.addCatatMeter();
               }
             } else {
-              if (int.parse(controller.meterLastManageDetailCatatBulan.value) >
-                  int.parse(controller.meterNowController.text)) {
+              if (double.parse(
+                      controller.meterLastManageDetailCatatBulan.value) >
+                  double.parse(controller.meterNowController.text)) {
                 logger.e("masuk sini");
                 if (controller.meterNowController.text != '') {
                   if (controller.statusDetail.value == true) {
-                    if (int.parse(
+                    if (double.parse(
                             controller.meterLastManageDetailCatatBulan.value) >
-                        int.parse(controller.meterNowController.text)) {
+                        double.parse(controller.meterNowController.text)) {
                       logger.e("masuk sini");
                       Get.back();
                       controller.clearCondition();
@@ -475,9 +501,9 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                       controller.clearCondition();
                     }
                   } else {
-                    if (int.parse(
+                    if (double.parse(
                             controller.meterLastManageDetailCatatBulan.value) >
-                        int.parse(controller.meterNowController.text)) {
+                        double.parse(controller.meterNowController.text)) {
                       logger.e("masuk sini");
                       Get.back();
                       controller.clearCondition();

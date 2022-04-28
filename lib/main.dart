@@ -21,9 +21,26 @@ void main() async {
     },
   );
 
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => FlavorBanner(
+  // runApp(DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => FlavorBanner(
+  //     color: Colors.red,
+  //     location: BannerLocation.topStart,
+  //     child: GetMaterialApp(
+  //       home: ReportView(),
+  //       debugShowCheckedModeBanner: false,
+  //       navigatorKey: Get.key,
+  //       theme: ThemeData.light(),
+  //       title: "Airen",
+  //       initialRoute: AppPages.INITIAL,
+  //       getPages: AppPages.routes,
+  //     ),
+  //   ),
+  // ));
+
+  /// without devPreview, running this for !debug
+  runApp(
+    FlavorBanner(
       color: Colors.red,
       location: BannerLocation.topStart,
       child: GetMaterialApp(
@@ -35,20 +52,5 @@ void main() async {
         getPages: AppPages.routes,
       ),
     ),
-  ));
-
-  /// without devPreview, running this for !debug
-  // runApp(
-  //   FlavorBanner(
-  //     color: Colors.red,
-  //     location: BannerLocation.topStart,
-  //     child: GetMaterialApp(
-  //       navigatorKey: Get.key,
-  //       theme: ThemeData.light(),
-  //       title: "Airen",
-  //       initialRoute: AppPages.INITIAL,
-  //       getPages: AppPages.routes,
-  //     ),
-  //   ),
-  // );
+  );
 }
