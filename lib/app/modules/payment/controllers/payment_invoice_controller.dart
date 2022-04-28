@@ -1,6 +1,5 @@
 import 'package:airen/app/model/register_model.dart';
-import 'package:airen/app/modules/session/views/payment_view.dart';
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -29,10 +28,17 @@ class PaymentInvoiceController extends GetxController {
   RxList<CostDetail>? result = <CostDetail>[].obs;
   final isloading = false.obs;
   final boxUser = GetStorage();
+  RxString? numberPhone = ''.obs;
+  pref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    numberPhone?.value = (preferences.getString('phoneNumber') ?? '');
+  }
 
   @override
   void onInit() async {
     super.onInit();
+    await pref();
     logger.i('test');
     if (id != null && idInvoice != null) {
       await getPeymentIvoice();
@@ -57,7 +63,7 @@ class PaymentInvoiceController extends GetxController {
         result!.value.forEach((element) {
           totalPrice = totalPrice! + int.parse(element.total!);
         });
-        totalResult!.value = fee!.value + totalPrice!.value+charge!.value;
+        totalResult!.value = fee!.value + totalPrice!.value + charge!.value;
         // result.assignAll(res.data!.cusMs!);
       }
     } catch (e) {
@@ -83,6 +89,4 @@ class PaymentInvoiceController extends GetxController {
       snackBarNotificationFailed(title: 'Gagal diubah');
     }
   }
-
-  
 }

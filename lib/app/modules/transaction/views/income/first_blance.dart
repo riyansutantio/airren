@@ -2,6 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -74,7 +75,146 @@ class FirstBlance extends GetView<TransactionController> {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             } else {
-                              dataCustomerController.addFirstBlances();
+                              Get.bottomSheet(Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(40),
+                                      topLeft: Radius.circular(40)),
+                                  color: Colors.white,
+                                ),
+                                child: Wrap(
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 12.0),
+                                          child: Container(
+                                            width: 70,
+                                            height: 5,
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(40)),
+                                              color: Colors.amber,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 30.0),
+                                          child: SvgPicture.asset(
+                                              'assets/quation.svg'),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 24.0),
+                                          child: Text(
+                                            'Konfirmasi',
+                                            style: GoogleFonts.montserrat(
+                                              color: HexColor('#3C3F58'),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16.0),
+                                          child: Text(
+                                            'Pastikan nominal saldo awal yang di\n tulis sama dengan jumlah uang cash',
+                                            style: GoogleFonts.montserrat(
+                                              color: HexColor('#707793'),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 32.0, bottom: 40),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    child: Text('Batal',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          color: HexColor(
+                                                              '#0063F8'),
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: HexColor('#0063F8')
+                                                          .withOpacity(0.2),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 20,
+                                                            right: 20,
+                                                            bottom: 10,
+                                                            top: 10),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  dataCustomerController
+                                                      .addFirstBlances();
+                                                  Get.back();
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    child: Text('Ya, benar',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          color: Colors.white,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color:
+                                                          HexColor('#0063F8'),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 20,
+                                                            right: 20,
+                                                            bottom: 10,
+                                                            top: 10),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ));
                             }
                           },
                           child: const Icon(EvaIcons.checkmark,
@@ -105,7 +245,10 @@ class FirstBlance extends GetView<TransactionController> {
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 24),
                         child: AirenTextFormFieldBase(
-                          textInputFormatter: [CurrencyTextInputFormatter(locale: 'id', symbol: '', decimalDigits: 0)],
+                          textInputFormatter: [
+                            CurrencyTextInputFormatter(
+                                locale: 'id', symbol: '', decimalDigits: 0)
+                          ],
                           textInputType: TextInputType.number,
                           suffixIcon: Icon(EvaIcons.pricetagsOutline,
                               color: HexColor('#0063F8')),
@@ -137,6 +280,16 @@ class FirstBlance extends GetView<TransactionController> {
                           },
                         ),
                       ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        "Pastikan nominal saldo awal yang anda tulis sama\ndengan jumlah uang cash",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: HexColor('#707793').withOpacity(0.7)),
+                      ),
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -163,7 +316,114 @@ class FirstBlance extends GetView<TransactionController> {
           if (!_formKey.currentState!.validate()) {
             return;
           } else {
-            dataCustomerController.addFirstBlances();
+            Get.bottomSheet(Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40)),
+                color: Colors.white,
+              ),
+              child: Wrap(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Container(
+                          width: 70,
+                          height: 5,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                            color: Colors.amber,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: SvgPicture.asset('assets/quation.svg'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        child: Text(
+                          'Konfirmasi',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#3C3F58'),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Text(
+                          'Pastikan nominal saldo awal yang di\n tulis sama dengan jumlah uang cash',
+                          style: GoogleFonts.montserrat(
+                            color: HexColor('#707793'),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 32.0, bottom: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: Text('Batal',
+                                      style: GoogleFonts.montserrat(
+                                        color: HexColor('#0063F8'),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: HexColor('#0063F8').withOpacity(0.2),
+                                  ),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 10, top: 10),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                dataCustomerController.addFirstBlances();
+                                Get.back();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: Text('Ya, benar',
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: HexColor('#0063F8'),
+                                  ),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 10, top: 10),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ));
           }
         },
         child: Ink(

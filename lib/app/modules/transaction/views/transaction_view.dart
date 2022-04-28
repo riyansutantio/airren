@@ -76,17 +76,19 @@ class TransactionView extends GetView<TransactionController> {
               ),
               preferredSize: Size.fromHeight(Get.height * 0.1),
             ),
-            floatingActionButton: Container(
-              height: 100,
-              child: FloatingActionButton(
-                  onPressed: () {
-                    // Get.to(AddCustomer());
-                  },
+            floatingActionButton: Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                width: 55,
+                height:55,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(100)),
                   child: PopupMenuButton(
-                      offset: const Offset(0, -50),
+                      offset: const Offset(0, -125),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(20.0),
+                          Radius.circular(16.0),
                         ),
                       ),
                       padding: const EdgeInsets.only(right: 100),
@@ -184,9 +186,7 @@ class TransactionView extends GetView<TransactionController> {
                                 const SizedBox(
                                   height: 24,
                                 ),
-                                controller.total_balance
-                                        .toString()
-                                        .contains('-')
+                                controller.firstBlance!.value != 1
                                     ? btnSaldo()
                                     : controller.total_balance == null
                                         ? btnSaldo()
@@ -466,9 +466,10 @@ class TransactionView extends GetView<TransactionController> {
                                                                                     padding: const EdgeInsets.all(20.0),
                                                                                     child: Stack(
                                                                                       children: [
-                                                                                        Opacity(opacity: 0.1,
+                                                                                        Opacity(
+                                                                                          opacity: 0.1,
                                                                                           child: ElevatedButton(
-                                                                                              child: const Center(child:SizedBox() ),
+                                                                                              child: const Center(child: SizedBox()),
                                                                                               style: ButtonStyle(
                                                                                                 backgroundColor: MaterialStateProperty.all<Color>(HexColor('#0063F8')),
                                                                                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -482,14 +483,16 @@ class TransactionView extends GetView<TransactionController> {
                                                                                               }),
                                                                                         ),
                                                                                         Positioned.fill(
-                                                                                          
-                                                                                          child: Align(
-                                                                                            alignment: Alignment.center,
-                                                                                            child: InkWell(
-                                                                                              onTap: (){
-                                                                                                 Get.back();
-                                                                                              },
-                                                                                              child: Icon(EvaIcons.arrowIosDownwardOutline,color: HexColor('#0063F8'),))))
+                                                                                            child: Align(
+                                                                                                alignment: Alignment.center,
+                                                                                                child: InkWell(
+                                                                                                    onTap: () {
+                                                                                                      Get.back();
+                                                                                                    },
+                                                                                                    child: Icon(
+                                                                                                      EvaIcons.arrowIosDownwardOutline,
+                                                                                                      color: HexColor('#0063F8'),
+                                                                                                    ))))
                                                                                       ],
                                                                                     ),
                                                                                   ),

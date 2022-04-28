@@ -11,9 +11,11 @@ import '../../error_handling/views/unauthentication_view.dart';
 import '../providers/payment_providers.dart';
 
 class PaymentMonthController extends GetxController {
-  PaymentMonthController({required this.p, required this.id});
+  PaymentMonthController(
+      {required this.p, required this.id, required this.status});
   PaymentProviders? p;
   int? id;
+  final String status;
   final isloading = false.obs;
   final boxUser = GetStorage();
   final result = <TransactionAllModel>[].obs;
@@ -25,8 +27,10 @@ class PaymentMonthController extends GetxController {
   void onInit() async {
     super.onInit();
     logger.i('test');
+    print(status);
     await getPeymentMonths();
   }
+
   @override
   void onReady() {
     super.onReady();
@@ -40,11 +44,12 @@ class PaymentMonthController extends GetxController {
       return searchManage();
     }, time: 500.milliseconds);
   }
+
   Future getPeymentMonths() async {
     try {
       isloading.value = true;
-      final res =
-          await p!.getPeymentMonth(bearer: boxUser.read(tokenBearer), id: id);
+      final res = await p!.getPeymentMonth(
+          bearer: boxUser.read(tokenBearer), id: id, status: status);
       // logger.wtf(res!.data!.data!.toList());
       if (res == null) {
         Get.to(UnauthenticationView());
@@ -58,9 +63,12 @@ class PaymentMonthController extends GetxController {
       isloading.value = false;
     }
   }
+
   Future searchManage() async {
     final res = await p!.getSearchMeter(
-        bearer: boxUser.read(tokenBearer), searchValue: searchValue.value,id: id);
+        bearer: boxUser.read(tokenBearer),
+        searchValue: searchValue.value,status:status,
+        id: id);
     // logger.wtf(res!.data!.data!.toList());
 
     result.assignAll(res!.data!.cusMs!);

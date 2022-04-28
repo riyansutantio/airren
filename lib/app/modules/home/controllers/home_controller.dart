@@ -9,6 +9,8 @@ import '../../../utils/constant.dart';
 import '../../session/controllers/session_controller.dart';
 import '../../session/providers/session_provider.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class HomeController extends GetxController {
   HomeProvider homeProvider;
 
@@ -39,10 +41,7 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() {
-    pageNavBottom.value++;
-    page.value++;
-  }
+  void increment() => pageNavBottom.value++;
 
   void onItemTapPage(int index) {
     pageNavBottom.value = index;
@@ -79,6 +78,10 @@ class HomeController extends GetxController {
       sessionController.authError();
     } else if (res.message == 'Profile successfully retrieved') {
       resultUser.value = res.data!.profile!;
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? phone = res.data!.profile!.phoneNumber;
+      preferences.setString('phoneNumber', phone!);
+      preferences.commit();
       boxUser.write(
           roleUser,
           roleUserData(

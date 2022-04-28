@@ -17,7 +17,7 @@ class PaymentProviders extends GetConnect {
       };
   Future<MeterTransModel?> getPayment({String? path, String? bearer,String? status}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/meter-month?status=$status');
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -31,9 +31,9 @@ class PaymentProviders extends GetConnect {
   }
 
   Future<MeterTransMonthModel?> getPeymentMonth(
-      {String? path, String? bearer, int? id}) async {
+      {String? path, String? bearer, int? id,String? status}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction');
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction?status=$status');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -46,8 +46,8 @@ class PaymentProviders extends GetConnect {
     return null;
   }
 Future<MeterTransMonthModel?> getSearchMeter(
-      {String? path, String? bearer, String? searchValue,int? id}) async {
-    Uri _getSearchBaseFee = Uri.parse("https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction?search=$searchValue");
+      {String? path, String? bearer, String? searchValue,int? id,String? status}) async {
+    Uri _getSearchBaseFee = Uri.parse('https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction?status=$status&search=$searchValue');
     logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
     final response =
         await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));

@@ -43,6 +43,7 @@ class PrintController extends GetxController {
       int? totalPrice,
       int? charge,
       int? totalResult,
+      String? phoneNumber,
       int? fee}) async {
     //SIZE
     // 0- normal size text
@@ -63,8 +64,11 @@ class PrintController extends GetxController {
           if (pam.detailAddress != null && pam.detailAddress!.isNotEmpty) {
             bluetooth.printCustom("${pam.detailAddress}", 0, 1);
           }
+          if (phoneNumber != null && phoneNumber.isNotEmpty) {
+            bluetooth.printCustom(phoneNumber, 0, 1);
+          }
         }
-        bluetooth.printCustom("================================", 1, 1);
+        bluetooth.printCustom("--------------------------------", 1, 1);
         bluetooth.printCustom("Di tagihkan Kepada", 0, 1);
         if (tm != null) {
           if (tm.name != null && tm.name!.isNotEmpty) {
@@ -77,7 +81,7 @@ class PrintController extends GetxController {
             bluetooth.printCustom("${tm.uniqueId}", 0, 1);
           }
         }
-        bluetooth.printCustom("================================", 1, 1);
+        bluetooth.printNewLine();
 
         bluetooth.printCustom("RINCIAN PEMAKAIAN", 0, 1);
         if (tm != null) {
@@ -92,12 +96,16 @@ class PrintController extends GetxController {
             bluetooth.printLeftRight("METER AKHIR", " ", 0);
           }
           if (tm.meterNow != null && tm.meterNow!.isNotEmpty) {
-            bluetooth.printLeftRight("VOLUME", "0", 0);
+            bluetooth.printLeftRight(
+                "VOLUME",
+                (double.parse(tm.meterNow!) - double.parse(tm.meterLast!))
+                    .toString(),
+                0);
           } else {
             bluetooth.printLeftRight("VOLUME", " ", 0);
           }
         }
-        bluetooth.printCustom("================================", 1, 1);
+        bluetooth.printNewLine();
         bluetooth.printCustom("RINCIAN BIAYA", 0, 1);
         result!.map((product) {
           String qtyBrg = product.meter.toString();
@@ -106,8 +114,7 @@ class PrintController extends GetxController {
           //     product.transactionSinglePrice.toDouble();
           String subtotal = rupiah(int.parse(product.total!));
           // String subtot = rupiah(subtotal.toInt());
-
-          if (qtyBrg.length == 1) {
+          if (qtyBrg.length <= 9) {
             bluetooth.printLeftRight("$qtyBrg    x   $hrgBrg", subtotal, 0);
           } else {
             bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
@@ -132,7 +139,19 @@ class PrintController extends GetxController {
         bluetooth.printCustom("--------------------------------", 0, 0);
         bluetooth.printCustom("AIRREN", 0, 1);
         bluetooth.printNewLine();
-        bluetooth.printNewLine();
+
+        // if (tm!.status == 'paid') {
+        //   bluetooth.printCustom("== Lunas ==", 0, 1);
+        // } else if (tm.status == 'unpaid') {
+        //   bluetooth.printCustom("== Belum Lunas ==", 0, 1);
+        // } else {
+        //   bluetooth.printCustom("== Denda ==", 0, 1);
+        // }
+        // bluetooth.printNewLine();
+        // bluetooth.printCustom("--------------------------------", 1, 1);
+        // bluetooth.printNewLine();
+        // bluetooth.printCustom("AIRREN", 0, 1);
+        // bluetooth.printNewLine();
       }
     });
   }
