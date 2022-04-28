@@ -179,7 +179,9 @@ class ReportView extends GetView<ReportController> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () {},
+                                          onTap: () {
+                                            controller.getPdfMonth();
+                                          },
                                           child: Container(
                                               decoration: BoxDecoration(
                                                   boxShadow: const [
@@ -265,7 +267,9 @@ class ReportView extends GetView<ReportController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(width: MediaQuery.of(context).size.width-178,
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width - 178,
                                   decoration: BoxDecoration(
                                       color: HexColor('#FFCC00')
                                           .withOpacity(0.05)),
