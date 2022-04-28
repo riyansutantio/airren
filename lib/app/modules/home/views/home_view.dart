@@ -2,6 +2,7 @@ import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
 import 'package:airen/app/modules/home/providers/home_provider.dart';
+import 'package:airen/app/modules/report/view/report_view.dart';
 import 'package:airen/app/modules/session/views/payment_view.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:airen/app/utils/utils.dart';
@@ -470,6 +471,8 @@ class HomeView extends GetView<HomeController> {
                         Get.to(TransactionView());
                       }else if (controller.menuItem[index].id == "1") {
                         Get.to(PaymentDataViews());
+                      }else if (controller.menuItem[index].id == "3") {
+                        Get.to(ReportView());
                       }
                     },
                     child: containerItemMenu(
