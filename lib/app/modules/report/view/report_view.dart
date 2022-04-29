@@ -159,9 +159,16 @@ class ReportView extends GetView<ReportController> {
                                                         Get.back();
                                                       },
                                                       child: ListTile(
-                                                        title: Text(controller
-                                                            .years[index]
-                                                            .toString()),
+                                                        title: Text(
+                                                          controller
+                                                              .years[index]
+                                                              .toString(),
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 14,
+                                                                  color: HexColor(
+                                                                      '#707793')),
+                                                        ),
                                                       ));
                                                 }),
                                           )
@@ -224,8 +231,7 @@ class ReportView extends GetView<ReportController> {
                                           ),
                                           Expanded(
                                             child: ListView.builder(
-                                                itemCount: controller
-                                                    .years.value.length,
+                                                itemCount: 12,
                                                 itemBuilder: (context, index) {
                                                   return GestureDetector(
                                                       onTap: () {
@@ -240,8 +246,14 @@ class ReportView extends GetView<ReportController> {
                                                       },
                                                       child: ListTile(
                                                         title: Text(
-                                                            monthsAll[index]
-                                                                .toString()),
+                                                          monthsAll[index]
+                                                              .toString(),
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 14,
+                                                                  color: HexColor(
+                                                                      '#707793')),
+                                                        ),
                                                       ));
                                                 }),
                                           )
@@ -367,52 +379,55 @@ class ReportView extends GetView<ReportController> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    
-                                      Get.bottomSheet(Container(
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(40),
-                                                topLeft: Radius.circular(40)),
-                                            color: Colors.white,
-                                          ),
-                                          child: Column(children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 12.0),
-                                              child: Container(
-                                                width: 70,
-                                                height: 5,
-                                                decoration: const BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(40)),
-                                                  color: Colors.amber,
-                                                ),
+                                    Get.bottomSheet(Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(40),
+                                              topLeft: Radius.circular(40)),
+                                          color: Colors.white,
+                                        ),
+                                        child: Column(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 12.0),
+                                            child: Container(
+                                              width: 70,
+                                              height: 5,
+                                              decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(40)),
+                                                color: Colors.amber,
                                               ),
                                             ),
-                                            Expanded(
-                                              child: ListView.builder(
-                                                  itemCount: controller
-                                                      .years.value.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return GestureDetector(
-                                                        onTap: () {
-                                                          controller.resultYears
-                                                                  .value =
-                                                              controller
-                                                                  .years[index];
-                                                          Get.back();
-                                                        },
-                                                        child: ListTile(
-                                                          title: Text(controller
+                                          ),
+                                          Expanded(
+                                            child: ListView.builder(
+                                                itemCount: controller
+                                                    .years.value.length,
+                                                itemBuilder: (context, index) {
+                                                  return GestureDetector(
+                                                      onTap: () {
+                                                        controller.resultYears
+                                                                .value =
+                                                            controller
+                                                                .years[index];
+                                                        Get.back();
+                                                      },
+                                                      child: ListTile(
+                                                        title: Text(
+                                                          controller
                                                               .years[index]
-                                                              .toString()),
-                                                        ));
-                                                  }),
-                                            )
-                                          ])));
-                                    
+                                                              .toString(),
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 14,
+                                                                  color: HexColor(
+                                                                      '#707793')),
+                                                        ),
+                                                      ));
+                                                }),
+                                          )
+                                        ])));
                                   },
                                   child: Container(
                                     width:
