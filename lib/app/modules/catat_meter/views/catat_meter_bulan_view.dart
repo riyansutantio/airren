@@ -921,31 +921,6 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                         name: controller
                                             .nameManageDetailCatatBulan.value,
                                       ));
-                                      // controller.id = controller.bulan.value;
-                                      // controller.idInvoice = controller
-                                      //     .catatMeterresult[index]
-                                      //     .meter_transaction_id!
-                                      //     .toInt();
-                                      // logger.e('bulan : ' +
-                                      //     '${controller.id}' +
-                                      //     ' id : ' +
-                                      //     '${controller.idInvoice}');
-                                      // controller.getPeymentIvoice();
-                                      // logger.d(controller.result);
-                                      // controller.increment();
-                                      // controller.result.refresh();
-                                      // controller.update();
-                                      // Get.to(Print(
-                                      //   charge: controller.charge.value,
-                                      //   resultTotal:
-                                      //       controller.totalResult.value,
-                                      //   pam: controller.dataPam.value,
-                                      //   tm: controller.tm.value,
-                                      //   result: controller.result.value,
-                                      //   fee: controller.fee.value,
-                                      //   totalPrice:
-                                      //       controller.totalPrice!.value,
-                                      // ));
                                     }
                                   },
                                   itemBuilder: (BuildContext ctx) => [

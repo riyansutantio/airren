@@ -192,9 +192,12 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
               logger.e(DateFormat('yyyy').format(selectedDate!));
               logger.e(DateFormat('MM').format(selectedDate!));
               var yearRaw = DateFormat('yyyy').format(selectedDate!);
-              var monthRaw = DateFormat('M').format(selectedDate!).split('0');
+              var monthRaw = DateFormat('MM').format(selectedDate!);
+              logger.d(monthRaw);
+
               int year = int.parse(yearRaw);
-              int month = int.parse(monthRaw[0]);
+              int month = int.parse(monthRaw);
+              logger.e(month);
               catatController.month_Of.value = month;
               catatController.year_Of.value = year;
               catatController.addCatatMeterBulan();
@@ -223,6 +226,30 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
         ],
       ),
     );
+  }
+
+  penntuAngkaBulan(inp) {
+    if (inp == 01) {
+      return 1;
+    } else if (inp == 02) {
+      return 2;
+    } else if (inp == 03) {
+      return 3;
+    } else if (inp == 04) {
+      return 4;
+    } else if (inp == 05) {
+      return 5;
+    } else if (inp == 06) {
+      return 6;
+    } else if (inp == 07) {
+      return 7;
+    } else if (inp == 08) {
+      return 8;
+    } else if (inp == 09) {
+      return 9;
+    } else {
+      return inp;
+    }
   }
 
   Widget buildHeader(ThemeData theme, String locale) {

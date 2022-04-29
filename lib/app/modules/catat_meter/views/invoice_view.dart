@@ -97,45 +97,50 @@ class InvoiceViews extends GetView<print_controller> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                      controller.dataPam!.value.name != null
-                                          ? controller.dataPam!.value.name!
-                                          : '',
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: 14,
-                                          color: HexColor('#3C3F58'),
-                                          fontWeight: FontWeight.bold)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5),
+                                    child: Text(
+                                        controller.dataPam!.value.name != null
+                                            ? controller.dataPam!.value.name!
+                                            : '',
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            color: HexColor('#3C3F58'),
+                                            fontWeight: FontWeight.bold)),
+                                  ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     margin: const EdgeInsets.only(right: 20),
-                                    child: Text(
-                                        controller.dataPam!.value.detailAddress != null &&
-                                                controller.dataPam!.value.district!.name !=
-                                                    null &&
-                                                controller.dataPam!.value
-                                                        .regency!.name !=
-                                                    null &&
-                                                controller.dataPam!.value
-                                                        .province!.name !=
-                                                    null
-                                            ? controller.dataPam!.value
-                                                    .detailAddress! +
-                                                ',' +
-                                                controller.dataPam!.value
-                                                    .district!.name! +
-                                                ', ' +
-                                                controller.dataPam!.value
-                                                    .regency!.name! +
-                                                ', ' +
-                                                controller.dataPam!.value
-                                                    .province!.name!
-                                            : '',
-                                        maxLines: 3,
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            color: HexColor('#707793')
-                                                .withOpacity(0.7),
-                                            fontWeight: FontWeight.w400)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                          controller.dataPam!.value.detailAddress != null &&
+                                                  controller.dataPam!.value
+                                                          .district!.name !=
+                                                      null &&
+                                                  controller.dataPam!
+                                                          .value.regency!.name !=
+                                                      null &&
+                                                  controller.dataPam!.value
+                                                          .province!.name !=
+                                                      null
+                                              ? controller.dataPam!.value.detailAddress! +
+                                                  ',' +
+                                                  controller.dataPam!.value
+                                                      .district!.name! +
+                                                  ', ' +
+                                                  controller.dataPam!.value
+                                                      .regency!.name! +
+                                                  ', ' +
+                                                  controller.dataPam!.value
+                                                      .province!.name!
+                                              : '',
+                                          maxLines: 3,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              color: HexColor('#707793').withOpacity(0.7),
+                                              fontWeight: FontWeight.w400)),
+                                    ),
                                   ),
                                   Text('0' + controller.numberPhone!.value,
                                       style: GoogleFonts.montserrat(
@@ -183,7 +188,7 @@ class InvoiceViews extends GetView<print_controller> {
                                                   "charge"
                                               ? Container(
                                                   child: Text(
-                                                    "Denda",
+                                                    "Belum Lunas",
                                                     style:
                                                         GoogleFonts.montserrat(
                                                             fontSize: 12,
@@ -203,7 +208,7 @@ class InvoiceViews extends GetView<print_controller> {
                                                 )
                                               : Container(
                                                   child: Text(
-                                                    "Denda",
+                                                    "Belum Lunas",
                                                     style:
                                                         GoogleFonts.montserrat(
                                                             fontSize: 12,
@@ -239,6 +244,7 @@ class InvoiceViews extends GetView<print_controller> {
                                     ],
                                   ),
                                   Container(
+                                    padding: const EdgeInsets.only(bottom: 5),
                                     width: MediaQuery.of(context).size.width,
                                     margin: const EdgeInsets.only(right: 20),
                                     child: Text(
@@ -251,6 +257,7 @@ class InvoiceViews extends GetView<print_controller> {
                                             fontWeight: FontWeight.w400)),
                                   ),
                                   Container(
+                                    padding: const EdgeInsets.only(bottom: 5),
                                     width: MediaQuery.of(context).size.width,
                                     margin: const EdgeInsets.only(right: 20),
                                     child: Text(
@@ -264,6 +271,7 @@ class InvoiceViews extends GetView<print_controller> {
                                             fontWeight: FontWeight.w400)),
                                   ),
                                   Container(
+                                    padding: const EdgeInsets.only(bottom: 5),
                                     width: MediaQuery.of(context).size.width,
                                     margin: const EdgeInsets.only(right: 20),
                                     child: Text(
@@ -315,49 +323,56 @@ class InvoiceViews extends GetView<print_controller> {
                                   const SizedBox(
                                     height: 12,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Meter Awal",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: HexColor('#707793')),
-                                      ),
-                                      Text(
-                                        controller.tm!.value.starMeter != null
-                                            ? "${controller.tm!.value.starMeter}"
-                                            : '',
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: HexColor('#707793')),
-                                      ),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Meter Awal",
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: HexColor('#707793')),
+                                        ),
+                                        Text(
+                                          controller.tm!.value.starMeter != null
+                                              ? "${controller.tm!.value.starMeter}"
+                                              : controller.tm!.value.meterNow
+                                                  .toString(),
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: HexColor('#707793')),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Meter Akhir",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: HexColor('#707793')),
-                                      ),
-                                      Text(
-                                        controller.tm!.value.meterLast == null
-                                            ? ''
-                                            : "${controller.tm!.value.meterLast}",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: HexColor('#707793')),
-                                      ),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Meter Akhir",
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: HexColor('#707793')),
+                                        ),
+                                        Text(
+                                          controller.tm!.value.meterLast == null
+                                              ? ''
+                                              : "${controller.tm!.value.meterLast}",
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: HexColor('#707793')),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -479,7 +494,8 @@ class InvoiceViews extends GetView<print_controller> {
                                                   height: 2),
                                             ),
                                             Text(
-                                              "${controller.result![index].total}",
+                                              "Rp. " +
+                                                  "${rupiah(controller.result![index].total)}",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -504,7 +520,7 @@ class InvoiceViews extends GetView<print_controller> {
                                             height: 2),
                                       ),
                                       Text(
-                                        'Rp' +
+                                        'Rp ' +
                                             rupiah(controller.totalPrice!.value
                                                 .toString()),
                                         style: GoogleFonts.montserrat(
@@ -528,7 +544,7 @@ class InvoiceViews extends GetView<print_controller> {
                                             height: 2),
                                       ),
                                       Text(
-                                        'Rp' +
+                                        'Rp ' +
                                             rupiah(controller.fee!.value
                                                 .toString()),
                                         style: GoogleFonts.montserrat(
@@ -602,171 +618,78 @@ class InvoiceViews extends GetView<print_controller> {
                               ),
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                             Container(
-                              margin:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  controller.tm!.value.status == "unpaid"
-                                      ? ElevatedButton(
-                                          onPressed: () {},
-                                          child: Ink(
-                                            decoration: BoxDecoration(
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    offset: Offset(0.0, 8.0),
-                                                    color: Color.fromRGBO(
-                                                        0, 99, 248, 0.2),
-                                                    blurRadius: 24,
-                                                  ),
-                                                ],
-                                                color: HexColor('#0063F8'),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: SizedBox(
-                                              height: 48,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  218,
-                                              child: Center(
-                                                child: Text(
-                                                  'Dibayar',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Get.to(Print(
+                                      charge: controller.charge!.value,
+                                      resultTotal:
+                                          controller.totalResult!.value,
+                                      pam: controller.dataPam!.value,
+                                      tm: controller.tm!.value,
+                                      result: controller.result!.value,
+                                      fee: controller.fee!.value,
+                                      totalPrice: controller.totalPrice!.value,
+                                      phoneNumber:
+                                          controller.numberPhone!.value,
+                                    ));
+                                  },
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            offset: Offset(0.0, 8.0),
+                                            color:
+                                                Color.fromRGBO(0, 99, 248, 0.2),
+                                            blurRadius: 24,
+                                          ),
+                                        ],
+                                        color: HexColor('#FF8801'),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: SizedBox(
+                                      height: 50,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.9,
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Text(
+                                                'Cetak',
+                                                style: GoogleFonts.montserrat(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.zero,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10))))
-                                      : Opacity(
-                                          opacity: 0.5,
-                                          child: ElevatedButton(
-                                              onPressed: () {},
-                                              child: Ink(
-                                                decoration: BoxDecoration(
-                                                    color: HexColor('#0063F8')
-                                                        .withOpacity(0.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: SizedBox(
-                                                  height: 48,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      218,
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Dibayar',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                            const Padding(
+                                              padding: EdgeInsets.all(4.0),
+                                              child: Icon(
+                                                EvaIcons.printerOutline,
+                                                color: Colors.white,
                                               ),
-                                              style: ElevatedButton.styleFrom(
-                                                  padding: EdgeInsets.zero,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)))),
-                                        ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Get.to(Print(
-                                          charge: controller.charge!.value,
-                                          resultTotal:
-                                              controller.totalResult!.value,
-                                          pam: controller.dataPam!.value,
-                                          tm: controller.tm!.value,
-                                          result: controller.result!.value,
-                                          fee: controller.fee!.value,
-                                          totalPrice:
-                                              controller.totalPrice!.value,
-                                          phoneNumber:
-                                              controller.numberPhone!.value,
-                                        ));
-                                      },
-                                      child: Ink(
-                                        decoration: BoxDecoration(
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                offset: Offset(0.0, 8.0),
-                                                color: Color.fromRGBO(
-                                                    0, 99, 248, 0.2),
-                                                blurRadius: 24,
-                                              ),
-                                            ],
-                                            color: HexColor('#FF8801'),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: SizedBox(
-                                          height: 48,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              218,
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: Text(
-                                                    'Cetak',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const Padding(
-                                                  padding: EdgeInsets.all(4.0),
-                                                  child: Icon(
-                                                    EvaIcons.printerOutline,
-                                                    color: Colors.white,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      style: ElevatedButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))))
-                                ],
-                              ),
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)))),
                             ),
                             const SizedBox(
                               height: 30,

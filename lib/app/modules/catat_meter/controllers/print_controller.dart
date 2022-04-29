@@ -57,13 +57,31 @@ class print_controller extends GetxController {
         tm?.value = res.data!.tm!;
         dataPam?.value = res.data!.pam!;
         result?.assignAll(res.data!.cusMs!);
-        fee?.value = res.data!.pam!.adminFee!;
-        charge?.value = res.data!.pam!.charge!;
+        fee?.value = res.data!.tm!.adminfee!;
+        charge?.value = res.data!.tm!.charge!;
         result!.value.forEach((element) {
           totalPrice = totalPrice! + int.parse(element.total!);
         });
         totalResult!.value = fee!.value + totalPrice!.value + charge!.value;
         // result.assignAll(res.data!.cusMs!);
+      }
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      isloading.value = false;
+    }
+  }
+  Future getMeterTransaction() async {
+    try {
+      isloading.value = true;
+      final res = await p!.getMeterTransaction(
+          bearer: boxUser.read(tokenBearer), id: id);
+      // logger.wtf(res!.data!.data!.toList());
+      if (res == null) {
+        Get.to(UnauthenticationView());
+        logger.i('kosong');
+      } else {
+
       }
     } catch (e) {
       logger.e(e);
