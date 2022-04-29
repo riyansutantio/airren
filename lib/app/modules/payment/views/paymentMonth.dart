@@ -308,7 +308,7 @@ class PaymentMonth extends GetView<PaymentMonthController> {
                                                         height: 5,
                                                       ),
                                                       Text(
-                                                        "${controller.result[index].dueDate!.day} ${months[controller.result[index].dueDate!.month - 1]} ${controller.result[index].dueDate!.year}",
+                                                        "${controller.result[index].createdAt!.day} ${months[controller.result[index].createdAt!.month - 1]} ${controller.result[index].createdAt!.year}",
                                                         style: GoogleFonts
                                                             .montserrat(
                                                                 fontSize: 14,

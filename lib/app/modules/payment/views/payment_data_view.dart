@@ -339,14 +339,16 @@ class PaymentDataViews extends GetView<PaymentController> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40), topRight: Radius.circular(40)),
             color: Colors.white),
-        child: ListView.builder(
-            itemCount: 0,
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {},
-                  child: const Padding(
-                    padding: EdgeInsets.zero,
-                  ),
-                )),
+        child: controller.result.isEmpty
+            ? controller.noListCustomer()
+            : ListView.builder(
+                itemCount: 0,
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {},
+                      child: const Padding(
+                        padding: EdgeInsets.zero,
+                      ),
+                    )),
       ),
     );
   }
@@ -395,8 +397,11 @@ class PaymentDataViews extends GetView<PaymentController> {
                   return GestureDetector(
                     onTap: () {
                       print(controller.status!.value);
-                      Get.to(PaymentMonth(month: element.monthof,year: element.yearof,
-                          id: element.id, status: controller.status!.value));
+                      Get.to(PaymentMonth(
+                          month: element.monthof,
+                          year: element.yearof,
+                          id: element.id,
+                          status: controller.status!.value));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -408,13 +413,20 @@ class PaymentDataViews extends GetView<PaymentController> {
                         elevation: 8.0,
                         child: Container(
                           child: ListTile(
+                            trailing: const Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.amber,
+                              ),
+                            ),
                             leading: element.numberOfPaidMeterTransaction ==
                                     element.numberofmetertransaction
                                 ? element.monthof == DateTime.now().month
                                     ? CircleAvatar(
                                         maxRadius: 30,
                                         backgroundColor: HexColor('#FF8801')
-                                            .withOpacity(0.1),
+                                            .withOpacity(0.3),
                                         child: Icon(
                                           EvaIcons.clockOutline,
                                           color: HexColor('#FF8801'),
@@ -443,14 +455,39 @@ class PaymentDataViews extends GetView<PaymentController> {
                                   fontWeight: FontWeight.w600,
                                   color: HexColor('#3C3F58')),
                             ),
-                            subtitle: Text(
-                              element.numberOfPaidMeterTransaction.toString() +
-                                  ' dari ${element.numberofmetertransaction} tagihan',
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: HexColor('#707793').withOpacity(0.7)),
-                            ),
+                            subtitle: controller.status!.value == 'paid'
+                                ? Text(
+                                    element.numberOfPaidMeterTransaction
+                                            .toString() +
+                                        ' dari ${element.numberofmetertransaction} tagihan',
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor('#707793')
+                                            .withOpacity(0.7)),
+                                  )
+                                : controller.status!.value == 'charge'
+                                ?  Text(
+                                    element.numberofchargemetertransaction
+                                            .toString() +
+                                        ' dari ${element.numberofmetertransaction} tagihan',
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor('#707793')
+                                            .withOpacity(0.7)),
+                                  ): Text(
+                                    (element.numberofmetertransaction! -
+                                                element
+                                                    .numberOfPaidMeterTransaction!)
+                                            .toString() +
+                                        ' dari ${element.numberofmetertransaction} tagihan',
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor('#707793')
+                                            .withOpacity(0.7)),
+                                  ),
                           ),
                         ),
                       ),

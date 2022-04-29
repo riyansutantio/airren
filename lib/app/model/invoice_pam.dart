@@ -50,9 +50,9 @@ class CostDetail {
     this.total,
   });
 
-  final int? meter;
-  final int? cost;
-  final String? total;
+  final dynamic meter;
+  final dynamic cost;
+  final dynamic total;
 
   factory CostDetail.fromJson(Map<String, dynamic> json) => CostDetail(
         meter: json["meter"] == null ? null : json["meter"],
