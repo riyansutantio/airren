@@ -5,6 +5,7 @@ import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -307,7 +308,7 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                   child: Container(
                                     margin: const EdgeInsets.all(10),
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
+                                        horizontal: 5, vertical: 10),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(
@@ -320,6 +321,13 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                                     ),
                                     child: TextFormField(
                                       textAlign: TextAlign.center,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp('[,]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp('[0-9.]')),
+                                      ],
+                                      keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                         fillColor: Colors.blue,
                                         hintText: controller

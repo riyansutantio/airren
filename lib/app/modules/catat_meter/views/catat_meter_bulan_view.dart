@@ -995,7 +995,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                   MediaQuery.of(context).size.width * 0.06,
                                   MediaQuery.of(context).size.width * 0.04,
                                   MediaQuery.of(context).size.width * 0.06,
-                                  MediaQuery.of(context).size.width * 0.04),
+                                    MediaQuery.of(context).size.width * 0.04),
                               child: Column(
                                 children: [
                                   Text(

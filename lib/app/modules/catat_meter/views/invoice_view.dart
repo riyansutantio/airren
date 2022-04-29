@@ -92,7 +92,6 @@ class InvoiceViews extends GetView<print_controller> {
                               margin: const EdgeInsets.only(
                                   left: 20, right: 20, top: 20),
                               width: MediaQuery.of(context).size.width,
-                              height: 140,
                               padding: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +168,6 @@ class InvoiceViews extends GetView<print_controller> {
                               margin:
                                   const EdgeInsets.only(left: 20, right: 20),
                               width: MediaQuery.of(context).size.width,
-                              height: 132,
                               padding: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,7 +269,6 @@ class InvoiceViews extends GetView<print_controller> {
                                             fontWeight: FontWeight.w400)),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(bottom: 5),
                                     width: MediaQuery.of(context).size.width,
                                     margin: const EdgeInsets.only(right: 20),
                                     child: Text(
@@ -304,7 +301,6 @@ class InvoiceViews extends GetView<print_controller> {
                               margin:
                                   const EdgeInsets.only(left: 20, right: 20),
                               width: MediaQuery.of(context).size.width,
-                              height: 132,
                               padding: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,10 +333,8 @@ class InvoiceViews extends GetView<print_controller> {
                                               color: HexColor('#707793')),
                                         ),
                                         Text(
-                                          controller.tm!.value.starMeter != null
-                                              ? "${controller.tm!.value.starMeter}"
-                                              : controller.tm!.value.meterNow
-                                                  .toString(),
+                                          controller.tm!.value.meterLast
+                                              .toString(),
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
@@ -365,7 +359,7 @@ class InvoiceViews extends GetView<print_controller> {
                                         Text(
                                           controller.tm!.value.meterLast == null
                                               ? ''
-                                              : "${controller.tm!.value.meterLast}",
+                                              : "${controller.tm!.value.meterNow}",
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
@@ -452,41 +446,63 @@ class InvoiceViews extends GetView<print_controller> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            SizedBox(
-                                              width: 60,
-                                              child: Text(
-                                                "${controller.result![index].meter}",
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: HexColor('#707793'),
-                                                    height: 2),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                              child: Text(
-                                                "X",
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: HexColor('#707793'),
-                                                    height: 2),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 130,
-                                              child: Text(
-                                                "${controller.result![index].cost}",
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: HexColor('#707793'),
-                                                    height: 2),
-                                              ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.1,
+                                                  child: Text(
+                                                    "${controller.result![index].meter}",
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: HexColor(
+                                                                '#707793'),
+                                                            height: 2),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.1,
+                                                  child: Text(
+                                                    "X",
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: HexColor(
+                                                                '#707793'),
+                                                            height: 2),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.2,
+                                                  child: Text(
+                                                    "${controller.result![index].cost}",
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: HexColor(
+                                                                '#707793'),
+                                                            height: 2),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                             Text(
-                                              "=",
+                                              "=    ",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -494,8 +510,8 @@ class InvoiceViews extends GetView<print_controller> {
                                                   height: 2),
                                             ),
                                             Text(
-                                              "Rp. " +
-                                                  "${rupiah(controller.result![index].total)}",
+                                              "Rp. "
+                                              "${rupiah(controller.result![index].total)}",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -535,13 +551,20 @@ class InvoiceViews extends GetView<print_controller> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "Biaya Admin",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: HexColor('#707793'),
-                                            height: 2),
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text(
+                                            "Biaya Admin",
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: HexColor('#707793'),
+                                                height: 2),
+                                          ),
+                                        ],
                                       ),
                                       Text(
                                         'Rp ' +
@@ -559,18 +582,26 @@ class InvoiceViews extends GetView<print_controller> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "Denda",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: HexColor('#707793'),
-                                            height: 2),
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text(
+                                            "Denda",
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: HexColor('#707793'),
+                                                height: 2),
+                                          ),
+                                        ],
                                       ),
                                       Text(
                                         'Rp ' +
                                             rupiah(controller.charge!.value
                                                 .toString()),
+                                        textAlign: TextAlign.left,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -595,6 +626,7 @@ class InvoiceViews extends GetView<print_controller> {
                                         'Rp ' +
                                             rupiah(
                                                 controller.totalResult!.value),
+                                        textAlign: TextAlign.left,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,

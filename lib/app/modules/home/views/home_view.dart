@@ -383,7 +383,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Stack buildNavBarNoteMeterPayment() {
+  Stack buildNavBarNoteMeterPayment(BuildContext context) {
     return Stack(
       children: [
         Container(
@@ -469,14 +469,19 @@ class HomeView extends GetView<HomeController> {
                 ),
                 label: 'Transaksi',
               ),
-              const BottomNavigationBarItem(
+              BottomNavigationBarItem(
                 tooltip: "",
                 backgroundColor: Colors.white,
-                icon: Padding(
-                  padding: EdgeInsets.only(left: 4.0, right: 4.0),
-                  child: Icon(
-                    EvaIcons.gridOutline,
-                    color: Colors.grey,
+                icon: GestureDetector(
+                  onTap: () {
+                    bottomSheet(context);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: Icon(
+                      EvaIcons.gridOutline,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
                 label: 'Lainnya',
@@ -515,7 +520,7 @@ class HomeView extends GetView<HomeController> {
                         Get.to(TransactionView());
                       } else if (controller.menuItem[index].id == "1") {
                         Get.to(PaymentDataViews());
-                      }else if (controller.menuItem[index].id == "3") {
+                      } else if (controller.menuItem[index].id == "3") {
                         Get.to(ReportView());
                       }
                     },
@@ -777,9 +782,6 @@ class HomeView extends GetView<HomeController> {
       case '2':
         return TransactionView();
       default:
-        Future.delayed(Duration.zero, () {
-          bottomSheet(context);
-        });
         return TransactionView();
     }
   }
@@ -893,7 +895,7 @@ class HomeView extends GetView<HomeController> {
       case '1':
         return buildNavBarAdminPam();
       case '2':
-        return buildNavBarNoteMeterPayment();
+        return buildNavBarNoteMeterPayment(context);
       case '3':
         return buildNavBarNoteMeter();
       case '4':
