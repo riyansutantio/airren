@@ -120,10 +120,12 @@ class PrintController extends GetxController {
             bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
           }
         }).toList();
-        bluetooth.printLeftRight("Subtotal      Rp ", "$totalPrice", 0);
-        bluetooth.printLeftRight("Biaya Admin   Rp ", "$fee", 0);
-        bluetooth.printLeftRight("Biaya Denda   Rp ", "$charge", 0);
-        bluetooth.printLeftRight("Total         Rp ", "$totalResult", 0);
+        bluetooth.printLeftRight(
+            "Subtotal      Rp ", "${rupiah(totalPrice)}", 0);
+        bluetooth.printLeftRight("Biaya Admin   Rp ", "${rupiah(fee)}", 0);
+        bluetooth.printLeftRight("Biaya Denda   Rp ", "${rupiah(charge)}", 0);
+        bluetooth.printLeftRight(
+            "Total         Rp ", "${rupiah(totalResult)}", 0);
 
         bluetooth.printNewLine();
 
