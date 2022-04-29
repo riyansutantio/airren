@@ -39,6 +39,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
                   onWillPop: () =>
                       willPopWithFuncOnly(func: controller.closeSearchAppBar()),
                   child: Container(
+                    padding: const EdgeInsets.only(top: 10),
                     child: Container(
                       height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(
@@ -1142,7 +1143,9 @@ PreferredSize buildAppBarSearch(
     BuildContext context, CatatMeterController controller) {
   return PreferredSize(
     child: Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top,
+          bottom: MediaQuery.of(context).padding.bottom),
       child: Padding(
         padding: const EdgeInsets.only(
             left: 5.0, top: 20.0, right: 10.0, bottom: 8.0),
