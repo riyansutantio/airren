@@ -51,7 +51,7 @@ class PrintController extends GetxController {
     // 2- bold with medium text
     // 3- bold with large texts
     //ALIGN
-    // 0- ESC_ALIGN_LEFT
+    // 0- ESC_ALIGN_LEF
     // 1- ESC_ALIGN_CENTER
     // 2- ESC_ALIGN_RIGHT
 
@@ -63,9 +63,6 @@ class PrintController extends GetxController {
           }
           if (pam.detailAddress != null && pam.detailAddress!.isNotEmpty) {
             bluetooth.printCustom("${pam.detailAddress}", 0, 1);
-          }
-          if (phoneNumber != null && phoneNumber.isNotEmpty) {
-            bluetooth.printCustom(phoneNumber, 0, 1);
           }
         }
         bluetooth.printCustom("--------------------------------", 1, 1);
@@ -114,12 +111,13 @@ class PrintController extends GetxController {
           //     product.transactionSinglePrice.toDouble();
           String subtotal = rupiah(int.parse(product.total!.toString()));
           // String subtot = rupiah(subtotal.toInt());
-          if (qtyBrg.length <= 9) {
+          if (qtyBrg.length == 1) {
             bluetooth.printLeftRight("$qtyBrg    x   $hrgBrg", subtotal, 0);
           } else {
             bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
           }
         }).toList();
+<<<<<<< HEAD
         bluetooth.printLeftRight(
             "Subtotal      Rp ", "${rupiah(totalPrice)}", 0);
         bluetooth.printLeftRight("Biaya Admin   Rp ", "${rupiah(fee)}", 0);
@@ -127,20 +125,41 @@ class PrintController extends GetxController {
         bluetooth.printLeftRight(
             "Total         Rp ", "${rupiah(totalResult)}", 0);
 
+=======
+        String totals = rupiah(totalPrice);
+        String fees = rupiah(fee);
+        String charges = rupiah(charge);
+        String results = rupiah(totalResult);
+>>>>>>> 2eeadffd94b95b1ac87cba623aba124fd659b467
         bluetooth.printNewLine();
+        bluetooth.printLeftRight("Subtotal     Rp ", totals, 0);
+        bluetooth.printLeftRight("Biaya Admin  Rp ", fees, 0);
+        bluetooth.printLeftRight("Biaya Denda  Rp ", charges, 0);
+        bluetooth.printLeftRight("Total        Rp ", results, 0);
 
-        if (tm!.status == 'paid') {
-          bluetooth.printCustom("== Lunas ==", 0, 1);
-        } else if (tm.status == 'unpaid') {
-          bluetooth.printCustom("== Belum Lunas ==", 0, 1);
+        bluetooth.printNewLine();
+        if (tm!.status == 'unpaid') {
+          bluetooth.printCustom("== BELUM LUNAS ==", 0, 1);
         } else {
-          bluetooth.printCustom("== Denda ==", 0, 1);
+          bluetooth.printCustom("== LUNAS ==", 0, 1);
         }
-        bluetooth.printNewLine();
-        bluetooth.printCustom("--------------------------------", 1, 1);
-        bluetooth.printNewLine();
+        bluetooth.printCustom("--------------------------------", 0, 0);
         bluetooth.printCustom("AIRREN", 0, 1);
         bluetooth.printNewLine();
+        bluetooth.printNewLine();
+
+        // if (tm!.status == 'paid') {
+        //   bluetooth.printCustom("== Lunas ==", 0, 1);
+        // } else if (tm.status == 'unpaid') {
+        //   bluetooth.printCustom("== Belum Lunas ==", 0, 1);
+        // } else {
+        //   bluetooth.printCustom("== Denda ==", 0, 1);
+        // }
+        // bluetooth.printNewLine();
+        // bluetooth.printCustom("--------------------------------", 1, 1);
+        // bluetooth.printNewLine();
+        // bluetooth.printCustom("AIRREN", 0, 1);
+        // bluetooth.printNewLine();
       }
     });
   }

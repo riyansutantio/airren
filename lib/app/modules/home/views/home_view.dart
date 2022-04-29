@@ -1,3 +1,4 @@
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/modules/customer/views/customer_view.dart';
 import 'package:airen/app/modules/data_master/views/data_master_view.dart';
 import 'package:airen/app/modules/error_handling/views/error_handling_view.dart';
@@ -17,6 +18,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../account/views/account_view.dart';
 import '../../payment/views/payment_data_view.dart';
+import '../../report/view/report_view.dart';
 import '../../transaction/views/transaction_view.dart';
 import '../controllers/home_controller.dart';
 
@@ -324,9 +326,9 @@ class HomeView extends GetView<HomeController> {
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                   child: controller.pageNavBottom.value == 0
-                      ? const Icon(EvaIcons.editOutline)
+                      ? const Icon(EvaIcons.pricetagsOutline)
                       : const Icon(
-                          EvaIcons.editOutline,
+                          EvaIcons.pricetagsOutline,
                           color: Colors.grey,
                         ),
                 ),
@@ -338,6 +340,34 @@ class HomeView extends GetView<HomeController> {
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                   child: controller.pageNavBottom.value == 1
+                      ? const Icon(EvaIcons.fileTextOutline)
+                      : const Icon(
+                          EvaIcons.fileTextOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Transaksi',
+              ),
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 2
+                      ? const Icon(EvaIcons.pieChartOutline)
+                      : const Icon(
+                          EvaIcons.pieChartOutline,
+                          color: Colors.grey,
+                        ),
+                ),
+                label: 'Laporan',
+              ),
+              BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: controller.pageNavBottom.value == 3
                       ? const Icon(EvaIcons.dropletOutline)
                       : const Icon(
                           EvaIcons.dropletOutline,
@@ -431,13 +461,25 @@ class HomeView extends GetView<HomeController> {
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                   child: controller.pageNavBottom.value == 2
-                      ? const Icon(EvaIcons.editOutline)
+                      ? const Icon(EvaIcons.fileTextOutline)
                       : const Icon(
-                          EvaIcons.editOutline,
+                          EvaIcons.fileTextOutline,
                           color: Colors.grey,
                         ),
                 ),
-                label: 'Akun',
+                label: 'Transaksi',
+              ),
+              const BottomNavigationBarItem(
+                tooltip: "",
+                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: EdgeInsets.only(left: 4.0, right: 4.0),
+                  child: Icon(
+                    EvaIcons.gridOutline,
+                    color: Colors.grey,
+                  ),
+                ),
+                label: 'Lainnya',
               ),
             ],
           ),
@@ -467,9 +509,11 @@ class HomeView extends GetView<HomeController> {
                         controller.pageNavBottom.value = 2;
                       } else if (controller.menuItem[index].id == "4") {
                         controller.pageNavBottom.value = 1;
+                      } else if (controller.menuItem[index].id == "0") {
+                        Get.to(() => CatatMeterView());
                       } else if (controller.menuItem[index].id == "2") {
                         Get.to(TransactionView());
-                      }else if (controller.menuItem[index].id == "1") {
+                      } else if (controller.menuItem[index].id == "1") {
                         Get.to(PaymentDataViews());
                       }else if (controller.menuItem[index].id == "3") {
                         Get.to(ReportView());
@@ -727,16 +771,68 @@ class HomeView extends GetView<HomeController> {
     var command = '${controller.pageNavBottom.value}';
     switch (command) {
       case '0':
-        return Container(
-          child: Center(child: const Text('Catat Meter')),
-        );
+        return CatatMeterView();
       case '1':
-        return Center(child: Center(child: Text('Pembayaran')));
+        return PaymentDataViews();
       case '2':
-        return AccountView();
+        return TransactionView();
       default:
-        return Container();
+        Future.delayed(Duration.zero, () {
+          bottomSheet(context);
+        });
+        return TransactionView();
     }
+  }
+
+  Future<dynamic> bottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      builder: (context) => Container(
+        height: 250,
+        child: Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0))),
+          child: Expanded(
+            flex: 4,
+            child: AlignedGridView.count(
+              padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+              crossAxisCount: 3,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              itemCount: controller.bottomSheetItem.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    if (controller.bottomSheetItem[index].id == "0") {
+                      Get.to(() => CatatMeterView());
+                    } else if (controller.bottomSheetItem[index].id == "1") {
+                      Get.to(PaymentDataViews());
+                    } else if (controller.bottomSheetItem[index].id == "2") {
+                      Get.to(TransactionView());
+                    } else if (controller.bottomSheetItem[index].id == "3") {
+                      Get.to(ReportView());
+                    } else if (controller.bottomSheetItem[index].id == "4") {
+                      Get.to(AccountView());
+                    }
+                  },
+                  child: containerItemMenu(
+                      title: '${controller.bottomSheetItem[index].title}',
+                      assets: '${controller.bottomSheetItem[index].assets}'),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget renderPageNote(BuildContext context) {
@@ -744,9 +840,7 @@ class HomeView extends GetView<HomeController> {
     var command = '${controller.pageNavBottom.value}';
     switch (command) {
       case '0':
-        return Container(
-          child: const Center(child: Text('Catat Meter')),
-        );
+        return CatatMeterView();
       case '1':
         return AccountView();
       default:
@@ -760,9 +854,17 @@ class HomeView extends GetView<HomeController> {
     switch (command) {
       case '0':
         return Container(
-          child: Center(child: TransactionView()),
+          child: Center(child: PaymentDataViews()),
         );
       case '1':
+        return Container(
+          child: Center(child: TransactionView()),
+        );
+      case '2':
+        return Container(
+          child: Center(child: ReportView()),
+        );
+      case '3':
         return AccountView();
       default:
         return Container();

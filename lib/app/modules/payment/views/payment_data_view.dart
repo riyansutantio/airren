@@ -370,7 +370,7 @@ class PaymentDataViews extends GetView<PaymentController> {
                 ),
                 itemComparator:
                     (TransactionModel element1, TransactionModel element2) =>
-                        element1.yearof!.compareTo(element2.yearof!),
+                        element1.monthof!.compareTo(element2.monthof!),
                 floatingHeader: true,
                 groupSeparatorBuilder: (TransactionModel element) => Container(
                   height: 50,

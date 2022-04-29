@@ -18,13 +18,17 @@ class AboutUsView extends GetView<AccountController> {
         child: Container(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Padding(
-            padding: const EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0, bottom: 8.0),
+            padding: const EdgeInsets.only(
+                left: 5.0, top: 5.0, right: 10.0, bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    IconButton(onPressed: () => Get.back(), icon: const Icon(EvaIcons.arrowBack), color: Colors.white),
+                    IconButton(
+                        onPressed: () => Get.back(),
+                        icon: const Icon(EvaIcons.arrowBack),
+                        color: Colors.white),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
@@ -39,18 +43,19 @@ class AboutUsView extends GetView<AccountController> {
                   ],
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Get.to(ErrorHandlingView());
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 10.0),
-                    child: Icon(EvaIcons.bellOutline, color: Colors.white)
-                   )
-                ),
+                    onTap: () {
+                      Get.to(ErrorHandlingView());
+                    },
+                    child: const Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child:
+                            Icon(EvaIcons.bellOutline, color: Colors.white))),
               ],
             ),
           ),
-          decoration: BoxDecoration(gradient: LinearGradient(colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [HexColor('#5433FF'), HexColor('#0063F8')])),
         ),
         preferredSize: Size.fromHeight(Get.height * 0.1),
       ),
@@ -73,12 +78,17 @@ class AboutUsView extends GetView<AccountController> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20, top: 10, bottom: 10),
                 child: Html(
                     data: """${controller.resultAboutUs.value.content}""",
-                    customTextStyle: (node, TextStyle baseStyle) {
-                      return baseStyle.merge(TextStyle(color: HexColor('#707793'), fontFamily: 'Montserrat', fontSize: 14));
-                    }),
+                    // customTextStyle: (node, TextStyle baseStyle) {
+                    //   return baseStyle.merge(TextStyle(
+                    //       color: HexColor('#707793'),
+                    //       fontFamily: 'Montserrat',
+                    //       fontSize: 14));
+                    // }
+                    ),
               ),
               // Text('${controller.resultTermAboutUsHelp.value.content}')
             ],

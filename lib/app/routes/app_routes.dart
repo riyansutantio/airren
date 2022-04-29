@@ -11,6 +11,7 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const SESSION = _Paths.SESSION;
   static const ERROR_HANDLING = _Paths.ERROR_HANDLING;
+  static const CATAT_METER = _Paths.CATAT_METER;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const SESSION = '/session';
   static const ERROR_HANDLING = '/error-handling';
+  static const CATAT_METER = '/catat-meter';
 }
