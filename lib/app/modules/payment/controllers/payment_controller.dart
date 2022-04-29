@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import 'dart:io';
 import '../../../model/meter_transaction_model.dart';
@@ -27,6 +29,35 @@ class PaymentController extends GetxController {
     super.onInit();
     logger.i('test');
     await getPeyments();
+  }Widget noListCustomer() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/emptylist.png",
+            width: 77,
+            height: 90,
+          ),
+          const SizedBox(height: 30),
+          Text(
+            "Belum ada tagihan",
+            style: GoogleFonts.montserrat(
+                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "Belum ada tagihan yang diterbitkan oleh\npetugas entry meter",
+            style: GoogleFonts.montserrat(
+                fontSize: 12,
+                color: HexColor('#707793'),
+                fontWeight: FontWeight.w300),
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
   }
   Future getPeyments() async {
     try {

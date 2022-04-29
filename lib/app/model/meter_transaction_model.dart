@@ -48,6 +48,7 @@ class TransactionModel {
       this.numberofrecordedconsumer,
       this.numberofmetertransaction,
       this.numberOfPaidMeterTransaction,
+      this.numberofchargemetertransaction,
       this.dueDate,
       this.createdAt,
       this.updatedAt});
@@ -61,6 +62,7 @@ class TransactionModel {
   final int? numberofmetertransaction;
   final int? pamId;
   final int? numberOfPaidMeterTransaction;
+  final int? numberofchargemetertransaction;
   final DateTime? createdAt;
   final DateTime? dueDate;
   final DateTime? updatedAt;
@@ -68,6 +70,10 @@ class TransactionModel {
       TransactionModel(
         name: json["name"] == null ? null : json["name"],
         id: json["id"] == null ? null : json["id"],
+        numberofchargemetertransaction:
+            json["number_of_charge_meter_transaction"] == null
+                ? null
+                : json["number_of_charge_meter_transaction"],
         monthof: json["month_of"] == null ? null : json["month_of"],
         yearof: json["year_of"] == null ? null : json["year_of"],
         numberofconsumer: json["number_of_consumer"] == null
@@ -90,8 +96,7 @@ class TransactionModel {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        dueDate: json["due_date"] == null
-            ? null
-            : DateTime.parse(json["due_date"]),
+        dueDate:
+            json["due_date"] == null ? null : DateTime.parse(json["due_date"]),
       );
 }

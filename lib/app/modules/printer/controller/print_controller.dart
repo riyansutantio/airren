@@ -85,13 +85,13 @@ class PrintController extends GetxController {
 
         bluetooth.printCustom("RINCIAN PEMAKAIAN", 0, 1);
         if (tm != null) {
-          if (tm.starMeter != null && tm.starMeter!.isNotEmpty) {
-            bluetooth.printLeftRight("METER AWAL", "${tm.starMeter}", 0);
+          if (tm.meterLast != null && tm.meterLast!.isNotEmpty) {
+            bluetooth.printLeftRight("METER AWAL", "${tm.meterLast}", 0);
           } else {
             bluetooth.printLeftRight("METER AWAL", " ", 0);
           }
-          if (tm.meterLast != null && tm.meterLast!.isNotEmpty) {
-            bluetooth.printLeftRight("METER AKHIR", "${tm.meterLast}", 0);
+          if (tm.meterNow != null && tm.meterNow!.isNotEmpty) {
+            bluetooth.printLeftRight("METER AKHIR", "${tm.meterNow}", 0);
           } else {
             bluetooth.printLeftRight("METER AKHIR", " ", 0);
           }
@@ -112,7 +112,7 @@ class PrintController extends GetxController {
           String hrgBrg = rupiah(product.cost?.toInt());
           // double subtotal = product.transactionQuantity *
           //     product.transactionSinglePrice.toDouble();
-          String subtotal = rupiah(int.parse(product.total!));
+          String subtotal = rupiah(int.parse(product.total!.toString()));
           // String subtot = rupiah(subtotal.toInt());
           if (qtyBrg.length <= 9) {
             bluetooth.printLeftRight("$qtyBrg    x   $hrgBrg", subtotal, 0);

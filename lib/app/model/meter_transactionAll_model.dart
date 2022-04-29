@@ -54,6 +54,8 @@ class TransactionAllModel {
       this.phoneNumber,
       this.starMeter,
       this.dueDate,
+      this.charge,
+      this.adminfee,
       this.createdAt,
       this.updatedAt});
 
@@ -71,12 +73,16 @@ class TransactionAllModel {
   final String? address;
   final String? phoneNumber;
   final String? starMeter;
+  final int? charge;
+  final int? adminfee;
   final DateTime? dueDate;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   factory TransactionAllModel.fromJson(Map<String, dynamic> json) =>
       TransactionAllModel(
         name: json["consumer_name"] == null ? null : json["consumer_name"],
+        charge: json["charge"] == null ? 0 : json["charge"],
+        adminfee: json["admin_fee"] == null ? 0 : json["admin_fee"],
         id: json["id"] == null ? null : json["id"],
         amount: json["amount"] == null ? null : json["amount"],
         status: json["status"] == null ? null : json["status"],

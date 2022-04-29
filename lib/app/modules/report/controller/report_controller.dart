@@ -105,18 +105,25 @@ class ReportController extends GetxController {
       List<ReportMonthactionsModel>? reportMonth) async {
     final pdf = pw.Document();
 
-    var url = "${pam!.photoPath}";
+    var url = "pam!.photoPath";
     var response = await http.get(Uri.parse(url));
     var data = response.bodyBytes;
-    final imageA = pw.MemoryImage(
-      data,
-    );
+    pw.MemoryImage? imageA;
+
     final air = pw.MemoryImage(
       (await rootBundle.load('assets/air.png')).buffer.asUint8List(),
     );
     final imageB = pw.MemoryImage(
       (await rootBundle.load('assets/logoairen.png')).buffer.asUint8List(),
     );
+    try {
+      imageA = pw.MemoryImage(
+        data,
+      );
+    } catch (e) {
+      imageA = pw.MemoryImage(
+          (await rootBundle.load('assets/default.jpg')).buffer.asUint8List());
+    }
     pdf.addPage(pw.MultiPage(
         margin: pw.EdgeInsets.zero,
         pageFormat: PdfPageFormat.a4,
@@ -135,14 +142,19 @@ class ReportController extends GetxController {
                               pw.ClipRRect(
                                   verticalRadius: 30,
                                   horizontalRadius: 30,
-                                  child:
-                                      pw.Image(imageA, width: 60, height: 60)),
+                                  child: imageA == null
+                                      ? pw.SizedBox(
+                                          width: 60,
+                                          height: 60,
+                                        )
+                                      : pw.Image(imageA,
+                                          width: 60, height: 60)),
                               pw.SizedBox(width: 30),
                               pw.Column(
                                   crossAxisAlignment:
                                       pw.CrossAxisAlignment.start,
                                   children: [
-                                    pw.Text("${pam.name}",
+                                    pw.Text("${pam!.name}",
                                         style: pw.TextStyle(
                                             fontSize: 22,
                                             color: PdfColor.fromHex('#3C3F58'),
@@ -206,7 +218,7 @@ class ReportController extends GetxController {
                                           fontWeight: pw.FontWeight.bold),
                                     ),
                                     pw.Text(
-                                      "Rp. ${reportMonth![reportMonth.length - 1].balance}",
+                                      "Rp. ${rupiah(reportMonth![reportMonth.length - 1].balance)}",
                                       style: pw.TextStyle(
                                           fontSize: 22,
                                           color: PdfColor.fromHex('#FF8801'),
@@ -304,7 +316,7 @@ class ReportController extends GetxController {
                                               width: 120,
                                               child: pw.Center(
                                                   child: pw.Text(
-                                                      "${reportMonth[index].amount}",
+                                                      "${rupiah(reportMonth[index].amount)}",
                                                       style: pw.TextStyle(
                                                           fontSize: 14,
                                                           color:
@@ -316,7 +328,7 @@ class ReportController extends GetxController {
                                           pw.SizedBox(
                                               width: 140,
                                               child: pw.Text(
-                                                  "${reportMonth[index].balance}",
+                                                  "${rupiah(reportMonth[index].balance)}",
                                                   style: pw.TextStyle(
                                                       fontSize: 14,
                                                       color: PdfColor.fromHex(
@@ -450,15 +462,21 @@ class ReportController extends GetxController {
     var url = "${pam!.photoPath}";
     var response = await http.get(Uri.parse(url));
     var data = response.bodyBytes;
-    final imageA = pw.MemoryImage(
-      data,
-    );
+    pw.MemoryImage? imageA;
     final air = pw.MemoryImage(
       (await rootBundle.load('assets/air.png')).buffer.asUint8List(),
     );
     final imageB = pw.MemoryImage(
       (await rootBundle.load('assets/logoairen.png')).buffer.asUint8List(),
     );
+    try {
+      imageA = pw.MemoryImage(
+        data,
+      );
+    } catch (e) {
+      imageA = pw.MemoryImage(
+          (await rootBundle.load('assets/default.jpg')).buffer.asUint8List());
+    }
     pdf.addPage(pw.MultiPage(
         margin: pw.EdgeInsets.zero,
         pageFormat: PdfPageFormat.a4,
@@ -477,8 +495,13 @@ class ReportController extends GetxController {
                               pw.ClipRRect(
                                   verticalRadius: 30,
                                   horizontalRadius: 30,
-                                  child:
-                                      pw.Image(imageA, width: 60, height: 60)),
+                                  child: imageA == null
+                                      ? pw.SizedBox(
+                                          width: 60,
+                                          height: 60,
+                                        )
+                                      : pw.Image(imageA,
+                                          width: 60, height: 60)),
                               pw.SizedBox(width: 30),
                               pw.Column(
                                   crossAxisAlignment:
@@ -548,7 +571,7 @@ class ReportController extends GetxController {
                                           fontWeight: pw.FontWeight.bold),
                                     ),
                                     pw.Text(
-                                      "Rp. ${reportMonth![reportMonth.length - 1].balance}",
+                                      "Rp. ${rupiah(reportMonth![reportMonth.length - 1].balance)}",
                                       style: pw.TextStyle(
                                           fontSize: 22,
                                           color: PdfColor.fromHex('#FF8801'),
@@ -646,7 +669,7 @@ class ReportController extends GetxController {
                                               width: 120,
                                               child: pw.Center(
                                                   child: pw.Text(
-                                                      "${reportMonth[index].amount}",
+                                                      "${rupiah(reportMonth[index].amount)}",
                                                       style: pw.TextStyle(
                                                           fontSize: 14,
                                                           color:
@@ -658,7 +681,7 @@ class ReportController extends GetxController {
                                           pw.SizedBox(
                                               width: 140,
                                               child: pw.Text(
-                                                  "${reportMonth[index].balance}",
+                                                  "${rupiah(reportMonth[index].balance)}",
                                                   style: pw.TextStyle(
                                                       fontSize: 14,
                                                       color: PdfColor.fromHex(
