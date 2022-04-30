@@ -34,24 +34,29 @@ class DataReportMonth {
       {this.reportMonth,
       this.priode,
       this.pamOwner,
+      this.printDayname,
       this.pamTreasurer,
       this.printDate,
       this.pam});
 
   final List<ReportMonthactionsModel>? reportMonth;
-  final String? priode;
+
+  final DateTime? priode;
   final String? pamOwner;
+  final String? printDayname;
   final String? pamTreasurer;
   final String? printDate;
   final Pam? pam;
   factory DataReportMonth.fromJson(Map<String, dynamic> json) =>
       DataReportMonth(
         pam: json["pam"] == null ? null : Pam.fromJson(json["pam"]),
-        priode: json["period"] == null ? null : json["period"],
+        priode: json["period"] == null ? null : DateTime.parse(json["period"]),
         pamOwner: json["pam_owner"] == null ? null : json["pam_owner"],
         pamTreasurer:
             json["pam_treasurer"] == null ? null : json["pam_treasurer"],
         printDate: json["print_date"] == null ? null : json["print_date"],
+        printDayname:
+            json["print_dayname"] == null ? null : json["print_dayname"],
         reportMonth: json["monthlyReport"] == null
             ? null
             : List<ReportMonthactionsModel>.from(json["monthlyReport"]
@@ -60,10 +65,11 @@ class DataReportMonth {
 }
 
 class ReportMonthactionsModel {
-  ReportMonthactionsModel(
-      {this.desc,
-      this.amount,
-      this.balance,});
+  ReportMonthactionsModel({
+    this.desc,
+    this.amount,
+    this.balance,
+  });
 
   final String? desc;
   final int? balance;
@@ -72,6 +78,10 @@ class ReportMonthactionsModel {
       ReportMonthactionsModel(
         desc: json["desc"] == null ? null : json["desc"],
         balance: json["balance"] == null ? null : json["balance"],
-        amount: json["amount"] == null ? null :json["amount"] =="-"?0: json["amount"],
+        amount: json["amount"] == null
+            ? null
+            : json["amount"] == "-"
+                ? 0
+                : json["amount"],
       );
 }

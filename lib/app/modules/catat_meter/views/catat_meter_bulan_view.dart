@@ -379,7 +379,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(15, 20, 20, 10),
+                padding: const EdgeInsets.fromLTRB(15, 20, 18, 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

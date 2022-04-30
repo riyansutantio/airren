@@ -96,7 +96,7 @@ class PrintController extends GetxController {
             bluetooth.printLeftRight(
                 "VOLUME",
                 (double.parse(tm.meterNow!) - double.parse(tm.meterLast!))
-                    .toString(),
+                    .toStringAsFixed(2)+" M3",
                 0);
           } else {
             bluetooth.printLeftRight("VOLUME", " ", 0);
@@ -117,20 +117,10 @@ class PrintController extends GetxController {
             bluetooth.printLeftRight("$qtyBrg   x   $hrgBrg", subtotal, 0);
           }
         }).toList();
-<<<<<<< HEAD
-        bluetooth.printLeftRight(
-            "Subtotal      Rp ", "${rupiah(totalPrice)}", 0);
-        bluetooth.printLeftRight("Biaya Admin   Rp ", "${rupiah(fee)}", 0);
-        bluetooth.printLeftRight("Biaya Denda   Rp ", "${rupiah(charge)}", 0);
-        bluetooth.printLeftRight(
-            "Total         Rp ", "${rupiah(totalResult)}", 0);
-
-=======
         String totals = rupiah(totalPrice);
         String fees = rupiah(fee);
         String charges = rupiah(charge);
         String results = rupiah(totalResult);
->>>>>>> 2eeadffd94b95b1ac87cba623aba124fd659b467
         bluetooth.printNewLine();
         bluetooth.printLeftRight("Subtotal     Rp ", totals, 0);
         bluetooth.printLeftRight("Biaya Admin  Rp ", fees, 0);

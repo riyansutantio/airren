@@ -65,6 +65,7 @@ class ReportController extends GetxController {
             res.data!.pamOwner,
             res.data!.pamTreasurer,
             res.data!.printDate,
+            res.data!.printDayname,
             res.data!.pam,
             res.data!.reportMonth);
       }
@@ -86,8 +87,14 @@ class ReportController extends GetxController {
         logger.i('kosong');
       } else {
         resultYearslist.assignAll(res.data!.reportYear!);
-        getPdfYear(res.data!.priode, res.data!.pamOwner, res.data!.pamTreasurer,
-            res.data!.printDate, res.data!.pam, res.data!.reportYear);
+        getPdfYear(
+            res.data!.priode,
+            res.data!.pamOwner,
+            res.data!.pamTreasurer,
+            res.data!.printDayname,
+            res.data!.printDate,
+            res.data!.pam,
+            res.data!.reportYear);
       }
     } catch (e) {
       logger.e(e);
@@ -97,15 +104,16 @@ class ReportController extends GetxController {
   }
 
   void getPdfMonth(
-      String? priode,
+      DateTime? priode,
       String? pamOwner,
       String? pamTreasurer,
       String? printDate,
+      String? printDayname,
       Pam? pam,
       List<ReportMonthactionsModel>? reportMonth) async {
     final pdf = pw.Document();
 
-    var url = "pam!.photoPath";
+    var url = "${pam!.photoPath}";
     var response = await http.get(Uri.parse(url));
     var data = response.bodyBytes;
     pw.MemoryImage? imageA;
@@ -154,7 +162,7 @@ class ReportController extends GetxController {
                                   crossAxisAlignment:
                                       pw.CrossAxisAlignment.start,
                                   children: [
-                                    pw.Text("${pam!.name}",
+                                    pw.Text("${pam.name}",
                                         style: pw.TextStyle(
                                             fontSize: 22,
                                             color: PdfColor.fromHex('#3C3F58'),
@@ -201,7 +209,7 @@ class ReportController extends GetxController {
                                     pw.MainAxisAlignment.spaceBetween,
                                 children: [
                                   pw.Text(
-                                    "$priode",
+                                    "Periode ${monthsAll[priode!.month - 1]} ${priode.year}",
                                     style: pw.TextStyle(
                                         fontSize: 24,
                                         color: PdfColor.fromHex('#3D3A41'),
@@ -232,7 +240,7 @@ class ReportController extends GetxController {
                                 height: 5, color: PdfColor.fromHex('#FFCC00')),
                             pw.SizedBox(height: 30),
                             pw.Container(
-                                height: 56,
+                                height: 46,
                                 color: PdfColor.fromHex('#0063F8'),
                                 child: pw.Row(
                                     crossAxisAlignment:
@@ -242,7 +250,7 @@ class ReportController extends GetxController {
                                     children: [
                                       pw.SizedBox(
                                           width: 30,
-                                          height: 56,
+                                          height: 46,
                                           child: pw.Center(
                                               child: pw.Text("No",
                                                   style: pw.TextStyle(
@@ -383,6 +391,7 @@ class ReportController extends GetxController {
                                 height: 5, color: PdfColor.fromHex('#FFCC00')),
                             pw.SizedBox(height: 30),
                             pw.Row(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     pw.MainAxisAlignment.spaceBetween,
                                 children: [
@@ -394,13 +403,22 @@ class ReportController extends GetxController {
                                           children: [
                                             pw.SizedBox(
                                                 width: 100,
-                                                child: pw.Text("$printDate",
+                                                child: pw.Text("$printDayname",
                                                     style: pw.TextStyle(
-                                                        fontSize: 17,
+                                                        fontSize: 22,
                                                         color: PdfColor.fromHex(
                                                             '#0063F8'),
                                                         fontWeight: pw
                                                             .FontWeight.bold))),
+                                            pw.SizedBox(
+                                                width: 70,
+                                                child: pw.Text("$printDate",
+                                                    style: pw.TextStyle(
+                                                        fontSize: 14,
+                                                        color: PdfColor.fromHex(
+                                                            '#707793'),
+                                                        fontWeight: pw
+                                                            .FontWeight.bold)))
                                           ])),
                                   pw.SizedBox(
                                       width: 180,
@@ -417,7 +435,19 @@ class ReportController extends GetxController {
                                                 fontSize: 16,
                                                 color:
                                                     PdfColor.fromHex('#3C3F58'),
-                                                fontWeight: pw.FontWeight.bold))
+                                                fontWeight:
+                                                    pw.FontWeight.bold)),
+                                        pw.SizedBox(
+                                          height: 55,
+                                        ),
+                                        pw.Opacity(
+                                            opacity: 0.4,
+                                            child: pw.Text(
+                                                ".......................",
+                                                style: pw.TextStyle(
+                                                    fontSize: 16,
+                                                    color: PdfColor.fromHex(
+                                                        '#3C3F58'))))
                                       ])),
                                   pw.SizedBox(
                                       width: 180,
@@ -434,7 +464,19 @@ class ReportController extends GetxController {
                                                 fontSize: 16,
                                                 color:
                                                     PdfColor.fromHex('#3C3F58'),
-                                                fontWeight: pw.FontWeight.bold))
+                                                fontWeight:
+                                                    pw.FontWeight.bold)),
+                                        pw.SizedBox(
+                                          height: 55,
+                                        ),
+                                        pw.Opacity(
+                                            opacity: 0.4,
+                                            child: pw.Text(
+                                                ".......................",
+                                                style: pw.TextStyle(
+                                                    fontSize: 16,
+                                                    color: PdfColor.fromHex(
+                                                        '#3C3F58'))))
                                       ]))
                                 ])
                           ]))
@@ -454,6 +496,7 @@ class ReportController extends GetxController {
       String? priode,
       String? pamOwner,
       String? pamTreasurer,
+      String? printDayname,
       String? printDate,
       Pam? pam,
       List<ReportYearactionsModel>? reportMonth) async {
@@ -585,7 +628,7 @@ class ReportController extends GetxController {
                                 height: 5, color: PdfColor.fromHex('#FFCC00')),
                             pw.SizedBox(height: 30),
                             pw.Container(
-                                height: 56,
+                                height: 46,
                                 color: PdfColor.fromHex('#0063F8'),
                                 child: pw.Row(
                                     crossAxisAlignment:
@@ -595,7 +638,7 @@ class ReportController extends GetxController {
                                     children: [
                                       pw.SizedBox(
                                           width: 30,
-                                          height: 56,
+                                          height: 46,
                                           child: pw.Center(
                                               child: pw.Text("No",
                                                   style: pw.TextStyle(
@@ -736,6 +779,7 @@ class ReportController extends GetxController {
                                 height: 5, color: PdfColor.fromHex('#FFCC00')),
                             pw.SizedBox(height: 30),
                             pw.Row(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     pw.MainAxisAlignment.spaceBetween,
                                 children: [
@@ -747,13 +791,22 @@ class ReportController extends GetxController {
                                           children: [
                                             pw.SizedBox(
                                                 width: 100,
-                                                child: pw.Text("$printDate",
+                                                child: pw.Text("$printDayname",
                                                     style: pw.TextStyle(
-                                                        fontSize: 17,
+                                                        fontSize: 22,
                                                         color: PdfColor.fromHex(
                                                             '#0063F8'),
                                                         fontWeight: pw
                                                             .FontWeight.bold))),
+                                            pw.SizedBox(
+                                                width: 70,
+                                                child: pw.Text("$printDate",
+                                                    style: pw.TextStyle(
+                                                        fontSize: 14,
+                                                        color: PdfColor.fromHex(
+                                                            '#707793'),
+                                                        fontWeight: pw
+                                                            .FontWeight.bold)))
                                           ])),
                                   pw.SizedBox(
                                       width: 180,
@@ -770,7 +823,19 @@ class ReportController extends GetxController {
                                                 fontSize: 16,
                                                 color:
                                                     PdfColor.fromHex('#3C3F58'),
-                                                fontWeight: pw.FontWeight.bold))
+                                                fontWeight:
+                                                    pw.FontWeight.bold)),
+                                        pw.SizedBox(
+                                          height: 55,
+                                        ),
+                                        pw.Opacity(
+                                            opacity: 0.4,
+                                            child: pw.Text(
+                                                ".......................",
+                                                style: pw.TextStyle(
+                                                    fontSize: 16,
+                                                    color: PdfColor.fromHex(
+                                                        '#3C3F58'))))
                                       ])),
                                   pw.SizedBox(
                                       width: 180,
@@ -787,7 +852,19 @@ class ReportController extends GetxController {
                                                 fontSize: 16,
                                                 color:
                                                     PdfColor.fromHex('#3C3F58'),
-                                                fontWeight: pw.FontWeight.bold))
+                                                fontWeight:
+                                                    pw.FontWeight.bold)),
+                                        pw.SizedBox(
+                                          height: 55,
+                                        ),
+                                        pw.Opacity(
+                                            opacity: 0.4,
+                                            child: pw.Text(
+                                                ".......................",
+                                                style: pw.TextStyle(
+                                                    fontSize: 16,
+                                                    color: PdfColor.fromHex(
+                                                        '#3C3F58'))))
                                       ]))
                                 ])
                           ]))

@@ -1,4 +1,8 @@
 import 'package:airen/app/model/register_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -61,7 +65,8 @@ class PaymentInvoiceController extends GetxController {
         fee?.value = res.data!.tm!.adminfee!;
         charge?.value = res.data!.tm!.charge!;
         result?.value.forEach((element) {
-          totalPrice?.value = (totalPrice!.value + int.parse(element.total.toString()));
+          totalPrice?.value =
+              (totalPrice!.value + int.parse(element.total.toString()));
         });
         totalResult?.value = fee!.value + totalPrice!.value + charge!.value;
         // result.assignAll(res.data!.cusMs!);
@@ -84,9 +89,119 @@ class PaymentInvoiceController extends GetxController {
     );
     if (res!.status! == 'success') {
       Get.off(PaymentDataViews());
-      snackBarNotificationSuccess(title: 'Berhasil diubah');
+      snackBarNotificationSuccess(title: 'Tagihan berhasil dibayar');
     } else {
-      snackBarNotificationFailed(title: 'Gagal diubah');
+      snackBarNotificationFailed(title: 'Tagihan gagal dibayar');
     }
+  }
+
+  confirmations() {
+    Get.bottomSheet(Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+        color: Colors.white,
+      ),
+      child: Wrap(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Container(
+                  width: 70,
+                  height: 5,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    color: Colors.amber,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: SvgPicture.asset('assets/quation.svg'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Text(
+                  'Konfirmasi',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor('#3C3F58'),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  'Status akan menjadi lunas dan tidak\nbisa diubah ke status sebelumnya.',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor('#707793'),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 32.0, bottom: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Text('Batal',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#0063F8'),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: HexColor('#0063F8').withOpacity(0.2),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 10, top: 10),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        updateTransaction(id: id!, idInvoice: idInvoice!);
+                        Get.back();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Text('Ya, benar',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: HexColor('#0063F8'),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 10, top: 10),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ));
   }
 }

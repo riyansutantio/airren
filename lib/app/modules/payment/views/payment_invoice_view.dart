@@ -190,7 +190,7 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                             ? SizedBox()
                                             : controller.tm!.value.status ==
                                                     "paid"
-                                                ?  Container(
+                                                ? Container(
                                                     child: Text(
                                                       "Lunas",
                                                       style: GoogleFonts
@@ -211,7 +211,8 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                                         color: HexColor(
                                                                 '#05C270')
                                                             .withOpacity(0.1)),
-                                                  ):controller.tm!.value.status ==
+                                                  )
+                                                : controller.tm!.value.status ==
                                                         "charge"
                                                     ? Container(
                                                         child: Text(
@@ -263,7 +264,6 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                                                 .withOpacity(
                                                                     0.1)),
                                                       )
-                                                
                                       ],
                                     ),
                                     Container(
@@ -404,13 +404,17 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                                   controller.tm!.value
                                                           .meterLast !=
                                                       null
-                                              ? (double.parse(controller.tm!
-                                                          .value.meterNow!) -
-                                                      double.parse(controller
-                                                          .tm!
-                                                          .value
-                                                          .meterLast!))
-                                                  .toString()
+                                              ? (double.parse(controller
+                                                              .tm!
+                                                              .value
+                                                              .meterNow!) -
+                                                          double.parse(
+                                                              controller
+                                                                  .tm!
+                                                                  .value
+                                                                  .meterLast!))
+                                                      .toStringAsFixed(2) +
+                                                  " M3"
                                               : '',
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14,
@@ -696,70 +700,29 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     controller.tm!.value.status == "unpaid"
-                                        ? ElevatedButton(
-                                            onPressed: () {
-                                              controller.updateTransaction(
-                                                  id: id!,
-                                                  idInvoice: idInvoice!);
-                                            },
-                                            child: Ink(
-                                              decoration: BoxDecoration(
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                      offset: Offset(0.0, 8.0),
-                                                      color: Color.fromRGBO(
-                                                          0, 99, 248, 0.2),
-                                                      blurRadius: 24,
-                                                    ),
-                                                  ],
-                                                  color: HexColor('#0063F8'),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: SizedBox(
-                                                height: 48,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    218,
-                                                child: Center(
-                                                  child: Text(
-                                                    'Dibayar',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            style: ElevatedButton.styleFrom(
-                                                padding: EdgeInsets.zero,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10))))
-                                        : Opacity(
-                                            opacity: 0.5,
+                                        ? Expanded(
                                             child: ElevatedButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  controller.confirmations();
+                                                },
                                                 child: Ink(
                                                   decoration: BoxDecoration(
-                                                      color: HexColor('#0063F8')
-                                                          .withOpacity(0.5),
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                          offset:
+                                                              Offset(0.0, 8.0),
+                                                          color: Color.fromRGBO(
+                                                              0, 99, 248, 0.2),
+                                                          blurRadius: 24,
+                                                        ),
+                                                      ],
+                                                      color:
+                                                          HexColor('#0063F8'),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10)),
                                                   child: SizedBox(
                                                     height: 48,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            218,
                                                     child: Center(
                                                       child: Text(
                                                         'Dibayar',
@@ -782,85 +745,123 @@ class PaymentInvoice extends GetView<PaymentInvoiceController> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         10)))),
+                                          )
+                                        : Expanded(
+                                            child: Opacity(
+                                              opacity: 0.5,
+                                              child: ElevatedButton(
+                                                  onPressed: () {},
+                                                  child: Ink(
+                                                    decoration: BoxDecoration(
+                                                        color: HexColor(
+                                                                '#0063F8')
+                                                            .withOpacity(0.5),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10)),
+                                                    child: SizedBox(
+                                                      height: 48,
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Dibayar',
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  style: ElevatedButton.styleFrom(
+                                                      padding: EdgeInsets.zero,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)))),
+                                            ),
                                           ),
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          Get.to(Print(
-                                            charge: controller.charge!.value,
-                                            resultTotal:
-                                                controller.totalResult!.value,
-                                            pam: controller.dataPam!.value,
-                                            tm: controller.tm!.value,
-                                            result: controller.result!.value,
-                                            fee: controller.fee!.value,
-                                            totalPrice:
-                                                controller.totalPrice!.value,
-                                            phoneNumber:
-                                                controller.numberPhone!.value,
-                                          ));
-                                        },
-                                        child: Ink(
-                                          decoration: BoxDecoration(
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  offset: Offset(0.0, 8.0),
-                                                  color: Color.fromRGBO(
-                                                      0, 99, 248, 0.2),
-                                                  blurRadius: 24,
-                                                ),
-                                              ],
-                                              color: HexColor('#FF8801'),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: SizedBox(
-                                            height: 48,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                218,
-                                            child: Center(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
-                                                    child: Text(
-                                                      'Cetak',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                    Expanded(
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            Get.to(Print(
+                                              charge: controller.charge!.value,
+                                              resultTotal:
+                                                  controller.totalResult!.value,
+                                              pam: controller.dataPam!.value,
+                                              tm: controller.tm!.value,
+                                              result: controller.result!.value,
+                                              fee: controller.fee!.value,
+                                              totalPrice:
+                                                  controller.totalPrice!.value,
+                                              phoneNumber:
+                                                  controller.numberPhone!.value,
+                                            ));
+                                          },
+                                          child: Ink(
+                                            decoration: BoxDecoration(
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                    offset: Offset(0.0, 8.0),
+                                                    color: Color.fromRGBO(
+                                                        0, 99, 248, 0.2),
+                                                    blurRadius: 24,
+                                                  ),
+                                                ],
+                                                color: HexColor('#FF8801'),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: SizedBox(
+                                              height: 48,
+                                              child: Center(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              4.0),
+                                                      child: Text(
+                                                        'Cetak',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const Padding(
-                                                    padding:
-                                                        EdgeInsets.all(4.0),
-                                                    child: Icon(
-                                                      EvaIcons.printerOutline,
-                                                      color: Colors.white,
-                                                    ),
-                                                  )
-                                                ],
+                                                    const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(4.0),
+                                                      child: Icon(
+                                                        EvaIcons.printerOutline,
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                            padding: EdgeInsets.zero,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))))
+                                          style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.zero,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)))),
+                                    )
                                   ],
                                 ),
                               ),
