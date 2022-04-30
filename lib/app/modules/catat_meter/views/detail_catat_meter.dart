@@ -5,6 +5,7 @@ import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -155,302 +156,262 @@ class DetailCatatMeter extends GetView<CatatMeterController> {
                         topLeft: Radius.circular(40),
                         topRight: Radius.circular(40)),
                     color: Colors.white),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    //listview bulan
-                    Expanded(
-                      child: (controller.meterMonthResult.isEmpty)
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            top: 25, right: 20, left: 20, bottom: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 40.0),
-                                  child: SvgPicture.asset(
-                                      'assets/belumadapencatatan.svg'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Text('Belum ada data Pencatatan',
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                      'Tambahkan bulan terlebih dahulu\n kemudian baru lakukan pencatatan pada setiap\n pelanggan',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                        color: HexColor('#707793')
-                                            .withOpacity(0.7),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      )),
-                                ),
-                              ],
-                            )
-                          : Container(
-                              padding: const EdgeInsets.only(
-                                  top: 25, right: 20, left: 20, bottom: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 20),
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        backgroundColor:
+                                            Colors.blue.withOpacity(0.1),
+                                        child: Text(
+                                          controller.getInitials(
+                                            controller
+                                                .nameManageDetailCatatBulan
+                                                .toString(),
+                                          ),
+                                          style: GoogleFonts.montserrat(
+                                            color: Colors.blue,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 20, 20),
-                                            child: CircleAvatar(
-                                              maxRadius: 25,
-                                              backgroundColor:
-                                                  Colors.blue.withOpacity(0.1),
-                                              child: Text(
-                                                controller.getInitials(
-                                                  controller
-                                                      .nameManageDetailCatatBulan
-                                                      .toString(),
-                                                ),
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.blue,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                          Text(
+                                            controller.nameManageDetailCatatBulan
+                                                        .toString()
+                                                        .length <=
+                                                    12
+                                                ? controller
+                                                    .nameManageDetailCatatBulan
+                                                    .toString()
+                                                : controller
+                                                        .nameManageDetailCatatBulan
+                                                        .toString()
+                                                        .substring(0, 12) +
+                                                    '..',
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 20),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  controller.nameManageDetailCatatBulan
-                                                              .toString()
-                                                              .length <=
-                                                          12
-                                                      ? controller
-                                                          .nameManageDetailCatatBulan
-                                                          .toString()
-                                                      : controller
-                                                              .nameManageDetailCatatBulan
-                                                              .toString()
-                                                              .substring(
-                                                                  0, 12) +
-                                                          '..',
-                                                  textAlign: TextAlign.left,
-                                                  style: GoogleFonts.montserrat(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  controller
-                                                      .addressManageDetailCatatBulan
-                                                      .toString(),
-                                                  textAlign: TextAlign.left,
-                                                  style: GoogleFonts.montserrat(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ],
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            controller
+                                                .addressManageDetailCatatBulan
+                                                .toString(),
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 20, 20, 20),
-                                        child: Text(
-                                          controller
-                                              .uniqueIdManageDetailCatatBulan
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 20, 20, 20),
+                                  child: Text(
+                                    controller.uniqueIdManageDetailCatatBulan
+                                        .toString(),
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                              child: Divider(),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.30,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Bulan lalu",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          controller.meterBulanLalu.value
                                               .toString(),
                                           style: GoogleFonts.montserrat(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                                    child: Divider(),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.30,
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 15),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                "Bulan lalu",
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 15,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                              const SizedBox(
-                                                height: 4,
-                                              ),
-                                              Text(
-                                                controller.meterBulanLalu.value
-                                                    .toString(),
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 15,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w800),
-                                              ),
-                                            ],
-                                          ),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: HexColor('#5433FF')),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.25,
-                                        child: Expanded(
-                                          child: Container(
-                                            margin: const EdgeInsets.all(10),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 10),
-                                            decoration: BoxDecoration(
+                                              fontSize: 15,
                                               color: Colors.white,
-                                              border: Border.all(
-                                                  color: Colors
-                                                      .blue, // set border color
-                                                  width:
-                                                      3.0), // set border width
-                                              borderRadius: const BorderRadius
-                                                      .all(
-                                                  Radius.circular(
-                                                      15.0)), // set rounded corner radius
-                                            ),
-                                            child: TextFormField(
-                                              textAlign: TextAlign.center,
-                                              // initialValue: controller
-                                              //     .meterNowManageDetailCatatBulan
-                                              //     .value,
-                                              decoration: InputDecoration(
-                                                fillColor: Colors.blue,
-                                                hintText: controller
-                                                    .meterNowManageDetailCatatBulan
-                                                    .toString(),
-                                                border: InputBorder.none,
-                                              ),
-                                              onChanged: (values) {
-                                                controller.onchangeMeterNow
-                                                    .value = values;
-                                                controller.increment();
-                                              },
-                                              validator: (text) {
-                                                if (text == null ||
-                                                    text.isEmpty ||
-                                                    int.parse(text) == 0) {
-                                                  snackBarNotificationFailed(
-                                                      title:
-                                                          "Data yang diinput salah");
-                                                  Get.off(CatatMeterView());
-                                                } else {
-                                                  logger.e("error");
-                                                }
-                                                return null;
-                                              },
-                                              controller:
-                                                  controller.meterNowController,
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 15,
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w800),
-                                            ),
-                                          ),
+                                              fontWeight: FontWeight.w800),
                                         ),
+                                      ],
+                                    ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: HexColor('#5433FF')),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.25,
+                                  child: Container(
+                                    margin: const EdgeInsets.all(10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color:
+                                              Colors.blue, // set border color
+                                          width: 3.0), // set border width
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(
+                                              15.0)), // set rounded corner radius
+                                    ),
+                                    child: TextFormField(
+                                      textAlign: TextAlign.center,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp('[,]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp('[0-9.]')),
+                                      ],
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        fillColor: Colors.blue,
+                                        hintText: controller
+                                            .meterNowManageDetailCatatBulan
+                                            .toString(),
+                                        border: InputBorder.none,
                                       ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.3,
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 15),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                "Volume",
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: false,
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 15,
-                                                    color: HexColor('#707793'),
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                              const SizedBox(
-                                                height: 4,
-                                              ),
-                                              Text(
-                                                volume.toStringAsFixed(2),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: false,
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 15,
-                                                    color: HexColor('#05C270'),
-                                                    fontWeight:
-                                                        FontWeight.w800),
-                                              ),
-                                            ],
-                                          ),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: HexColor('#05C270')
-                                                  .withOpacity(0.2)),
+                                      onChanged: (values) {
+                                        controller.onchangeMeterNow.value =
+                                            values;
+                                        controller.increment();
+                                      },
+                                      validator: (text) {
+                                        if (text == null ||
+                                            text.isEmpty ||
+                                            int.parse(text) == 0) {
+                                          snackBarNotificationFailed(
+                                              title: "Data yang diinput salah");
+                                          Get.off(CatatMeterView());
+                                        } else {
+                                          logger.e("error");
+                                        }
+                                        return null;
+                                      },
+                                      controller: controller.meterNowController,
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Volume",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 15,
+                                              color: HexColor('#707793'),
+                                              fontWeight: FontWeight.w400),
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          volume.toStringAsFixed(2),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 15,
+                                              color: HexColor('#05C270'),
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                      ],
+                                    ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: HexColor('#05C270')
+                                            .withOpacity(0.2)),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 25),
-                                    child: buildElevatedButtonCustom(context),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                    ),
-                  ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 25),
+                              child: buildElevatedButtonCustom(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 )),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
