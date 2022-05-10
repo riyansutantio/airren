@@ -16,7 +16,7 @@ class ReportProvider extends GetConnect {
   Future<ReportMonthUserModel?> getReportMonth(
       {String? path, String? bearer, String? month, String? year}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/report/monthly?month=$month-$year');
+        'https://api.airren.id/api/v1/report/monthly?month=$month-$year');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -29,11 +29,10 @@ class ReportProvider extends GetConnect {
     return null;
   }
 
-
   Future<ReportYearUserModel?> getReportYear(
-      {String? path, String? bearer,String? year}) async {
-    Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/report/yearly?year=$year');
+      {String? path, String? bearer, String? year}) async {
+    Uri _getPamsUser =
+        Uri.parse('https://api.airren.id/api/v1/report/yearly?year=$year');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));

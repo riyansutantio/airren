@@ -82,8 +82,8 @@ class CatatMeterProvider extends GetConnect {
   }
 
   Future<CatatMeterModel?> getCatatMeter({String? bearer, int? bulan}) async {
-    Uri _getCatatMeter = Uri.parse(
-        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$bulan/meter");
+    Uri _getCatatMeter =
+        Uri.parse("https://api.airren.id/api/v1/meter-month/$bulan/meter");
     logger.wtf('ini adalah baseUrl $_getCatatMeter');
     final response =
         await http.get(_getCatatMeter, headers: bearerAuth(bearer: bearer));
@@ -99,7 +99,7 @@ class CatatMeterProvider extends GetConnect {
   Future<CusUserModel?> getSearchCus(
       {String? path, String? bearer, String? searchValue}) async {
     Uri _getSearchBaseFee = Uri.parse(
-        "https://api.airren.tbrdev.my.id/api/v1/consumer?status=active&search=$searchValue");
+        "https://api.airren.id/api/v1/consumer?status=active&search=$searchValue");
     logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
     final response =
         await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
@@ -113,8 +113,8 @@ class CatatMeterProvider extends GetConnect {
   }
 
   Future<GetBulanLalu?> getBulanlalu({String? bearer, int? id}) async {
-    Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/consumer/$id/latest-meter');
+    Uri _getPamsUser =
+        Uri.parse('https://api.airren.id/api/v1/consumer/$id/latest-meter');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -148,8 +148,8 @@ class CatatMeterProvider extends GetConnect {
       required String? consumer_unique_id,
       required String? meter_now,
       required int? bulan}) async {
-    Uri _addCatatMeterUri = Uri.parse(
-        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$bulan/meter");
+    Uri _addCatatMeterUri =
+        Uri.parse("https://api.airren.id/api/v1/meter-month/$bulan/meter");
     logger.wtf(_addCatatMeterUri);
     final response = await http.post(_addCatatMeterUri,
         headers: bearerAuth(bearer: bearer),
@@ -173,8 +173,8 @@ class CatatMeterProvider extends GetConnect {
     required String meter_now,
     required int month,
   }) async {
-    Uri _updatePamManageUri = Uri.parse(
-        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$month/meter/$id");
+    Uri _updatePamManageUri =
+        Uri.parse("https://api.airren.id/api/v1/meter-month/$month/meter/$id");
     logger.wtf(_updatePamManageUri);
     final response = await http.post(_updatePamManageUri,
         headers: bearerAuth(bearer: bearer),
@@ -202,7 +202,7 @@ class CatatMeterProvider extends GetConnect {
       required String? consumer_phone_number,
       required int? bulan}) async {
     Uri _addTagihan = Uri.parse(
-        "https://api.airren.tbrdev.my.id/api/v1/meter-month/$bulan/meter-transaction");
+        "https://api.airren.id/api/v1/meter-month/$bulan/meter-transaction");
     logger.wtf(_addTagihan);
     final response = await http.post(_addTagihan,
         headers: bearerAuth(bearer: bearer),
@@ -231,7 +231,7 @@ class CatatMeterProvider extends GetConnect {
   Future<InvoiceModel?> getPeymentMonthInvoice(
       {String? bearer, int? id, int? idInvoice}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction/$idInvoice/invoice');
+        'https://api.airren.id/api/v1/meter-month/$id/meter-transaction/$idInvoice/invoice');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -244,9 +244,10 @@ class CatatMeterProvider extends GetConnect {
     return null;
   }
 
-  Future<MeterTransactionModel?> getMeterTransaction({String? bearer, int? id}) async {
+  Future<MeterTransactionModel?> getMeterTransaction(
+      {String? bearer, int? id}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction');
+        'https://api.airren.id/api/v1/meter-month/$id/meter-transaction');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));

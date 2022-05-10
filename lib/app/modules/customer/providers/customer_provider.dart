@@ -13,8 +13,7 @@ class CustomerProviders extends GetConnect {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
   Future<CusUserModel?> getCusUser({String? path, String? bearer}) async {
-    Uri _getPamsUser =
-        Uri.parse('https://api.airren.tbrdev.my.id/api/v1/consumer');
+    Uri _getPamsUser = Uri.parse('https://api.airren.id/api/v1/consumer');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -33,8 +32,7 @@ class CustomerProviders extends GetConnect {
       required String? phoneNumber,
       required String? address,
       required String? meter}) async {
-    Uri _addPamManageUri =
-        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer");
+    Uri _addPamManageUri = Uri.parse("https://api.airren.id/api/v1/consumer");
     logger.wtf(_addPamManageUri);
     final response = await http.post(_addPamManageUri,
         headers: bearerAuth(bearer: bearer),
@@ -65,7 +63,7 @@ class CustomerProviders extends GetConnect {
       required String id,
       required String meter}) async {
     Uri _updatePamManageUri =
-        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer/$id");
+        Uri.parse("https://api.airren.id/api/v1/consumer/$id");
     logger.wtf(_updatePamManageUri);
     final response = await http.post(_updatePamManageUri,
         headers: bearerAuth(bearer: bearer),
@@ -92,7 +90,8 @@ class CustomerProviders extends GetConnect {
 
   Future<CusUserModel?> getSearchCus(
       {String? path, String? bearer, String? searchValue}) async {
-    Uri _getSearchBaseFee = Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer?search=$searchValue");
+    Uri _getSearchBaseFee =
+        Uri.parse("https://api.airren.id/api/v1/consumer?search=$searchValue");
     logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
     final response =
         await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
