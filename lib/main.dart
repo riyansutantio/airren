@@ -1,4 +1,5 @@
 // @dart=2.9
+import 'package:airen/app/modules/transaction/views/transaction_view.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +48,12 @@ void main() async {
       color: Colors.red,
       location: BannerLocation.topStart,
       child: GetMaterialApp(
-        home: HistorySubView(),
+        // home: TransactionView(),
         debugShowCheckedModeBanner: false,
         navigatorKey: Get.key,
         theme: ThemeData.light(),
         title: "Airen",
-        // initialRoute: AppPages.INITIAL,
+        initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
       ),
     ),
