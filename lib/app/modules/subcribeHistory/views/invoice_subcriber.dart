@@ -169,10 +169,10 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                             Text(
                                               "Kecamatan Karanganyar,\nKabupaten Karanganyar,\nProvinsi Jawa Tengah",
                                               style: GoogleFonts.montserrat(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: HexColor('#707793')
                                                       .withOpacity(0.7),
-                                                  fontWeight: FontWeight.w500),
+                                                  fontWeight: FontWeight.normal),
                                             ),
                                             const SizedBox(
                                               height: 8,
@@ -180,10 +180,10 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                             Text(
                                               "0813 9099 0019",
                                               style: GoogleFonts.montserrat(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: HexColor('#707793')
                                                       .withOpacity(0.7),
-                                                  fontWeight: FontWeight.w500),
+                                                  fontWeight: FontWeight.normal),
                                             )
                                           ],
                                         )
@@ -273,7 +273,7 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                 margin: const EdgeInsets.only(
                                     left: 20, right: 20, top: 8),
                                 width: MediaQuery.of(context).size.width,
-                                height: 110,
+                                height: 120,
                                 padding: const EdgeInsets.all(20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,19 +312,21 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                       ],
                                     ),
                                     const SizedBox(
-                                      height: 8,
+                                      height: 2,
                                     ),
                                     Text("${data!.name}",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400)),
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5)),
                                     Text(
                                         "${data!.ownerName} (${data!.ownerPhoneNumber})",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400)),
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5)),
                                   ],
                                 ),
                                 decoration: BoxDecoration(
@@ -366,13 +368,15 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400)),
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5)),
                                     Text(
                                         "${data!.dateStart!.day} ${months[data!.dateStart!.month - 1]} ${data!.dateStart!.year} sd. ${data!.dateEnd!.day} ${months[data!.dateEnd!.month - 1]} ${data!.dateEnd!.year}",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400)),
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5)),
                                   ],
                                 ),
                                 decoration: BoxDecoration(
