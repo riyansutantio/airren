@@ -14,15 +14,15 @@ String dateFormatMonth({DateTime? date}){
     'Jan',
     'Feb',
     'Mar',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'Sept',
-    'Octo',
+    'Apr',
+    'Mei',
+    'Jun',
+    'Jul',
+    'Agu',
+    'Sep',
+    'Okt',
     'Nov',
-    'Dec'
+    'Des'
   ];
  List<String> monthsAll = [
     'Januari',
