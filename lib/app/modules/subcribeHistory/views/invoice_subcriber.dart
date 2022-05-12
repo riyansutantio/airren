@@ -209,7 +209,6 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                 margin: const EdgeInsets.only(
                                     left: 20, right: 20, top: 8),
                                 width: MediaQuery.of(context).size.width,
-                                height: 88,
                                 padding: const EdgeInsets.all(20),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,7 +248,7 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                             height: 12,
                                           ),
                                           Text(
-                                              "${data!.createdAt!.day}-${data!.createdAt!.month.toString().padLeft(2, '0')}-${data!.createdAt!.year} ${data!.createdAt!.hour.toString().padLeft(2, '0')}.${data!.createdAt!.minute}",
+                                              "${data!.createdAt!.day}-${data!.createdAt!.month.toString().padLeft(2, '0')}-${data!.createdAt!.year} ${data!.createdAt!.hour.toString().padLeft(2, '0')}.${data!.createdAt!.minute.toString().padLeft(2, '0')}",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 14,
                                                   color: HexColor('#707793'),
@@ -275,7 +274,6 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                 margin: const EdgeInsets.only(
                                     left: 20, right: 20, top: 8),
                                 width: MediaQuery.of(context).size.width,
-                                height: 120,
                                 padding: const EdgeInsets.all(20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -320,15 +318,13 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5)),
+                                            fontWeight: FontWeight.w400)),
                                     Text(
                                         "${data!.ownerName} (${data!.ownerPhoneNumber})",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5)),
+                                            fontWeight: FontWeight.w400)),
                                   ],
                                 ),
                                 decoration: BoxDecoration(
@@ -347,7 +343,6 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                 margin: const EdgeInsets.only(
                                     left: 20, right: 20, top: 8),
                                 width: MediaQuery.of(context).size.width,
-                                height: 110,
                                 padding: const EdgeInsets.all(20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -370,15 +365,13 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5)),
+                                            fontWeight: FontWeight.w400)),
                                     Text(
                                         "${data!.dateStart!.day} ${months[data!.dateStart!.month - 1]} ${data!.dateStart!.year} sd. ${data!.dateEnd!.day} ${months[data!.dateEnd!.month - 1]} ${data!.dateEnd!.year}",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             color: HexColor('#707793'),
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5)),
+                                            fontWeight: FontWeight.w400)),
                                   ],
                                 ),
                                 decoration: BoxDecoration(
@@ -397,7 +390,6 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                 margin: const EdgeInsets.only(
                                     left: 20, right: 20, top: 8),
                                 width: MediaQuery.of(context).size.width,
-                                height: 140,
                                 padding: const EdgeInsets.all(20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
