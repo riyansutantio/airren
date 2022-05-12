@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../../../model/customer/customerModel.dart';
+import '../../../model/meter_transactionAll_model.dart';
 import '../../../utils/utils.dart';
 
 class CustomerProviders extends GetConnect {
@@ -54,6 +55,36 @@ class CustomerProviders extends GetConnect {
     logger.wtf(jsonDecode(jsonString));
     logger.wtf(response.statusCode);
     return CusUserModelFromJson(jsonString);
+  }
+
+  Future<MeterTransMonthModel?> addInvoiceIssue(
+      {required String? bearer,
+      required String? id,
+      required String? meter_last,
+      required String? meter_now,
+      required String? consumer_unique_id,
+      required String? consumer_name,
+      required String? consumer_full_address,
+      required String? address,
+      required String? consumer_phone_number,}) async {
+    Uri _addPamManageUri =
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction");
+    logger.wtf(_addPamManageUri);
+    final response = await http.post(_addPamManageUri,
+        headers: bearerAuth(bearer: bearer),
+        body: jsonEncode({
+        "meter_last" : "$meter_last",
+    "meter_now": "$meter_now",
+    "consumer_unique_id": "$consumer_unique_id",
+    "consumer_name": "$consumer_name",
+    "consumer_full_address": "$consumer_full_address",
+    "consumer_phone_number": "$consumer_phone_number"
+        }));
+    var jsonString = response.body;
+    
+    logger.wtf(jsonDecode(jsonString));
+    logger.wtf(response.statusCode);
+    return MeterTransModelAllFromJson(jsonString);
   }
 
   Future<CusUserModel?> updateCusManage(
