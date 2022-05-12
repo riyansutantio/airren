@@ -5,6 +5,7 @@ import 'package:airen/app/modules/error_handling/views/error_handling_view.dart'
 import 'package:airen/app/modules/home/providers/home_provider.dart';
 import 'package:airen/app/modules/report/view/report_view.dart';
 import 'package:airen/app/modules/session/views/payment_view.dart';
+import 'package:airen/app/modules/subcribeHistory/views/history_views.dart';
 import 'package:airen/app/utils/constant.dart';
 import 'package:airen/app/utils/utils.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -692,6 +693,30 @@ class HomeView extends GetView<HomeController> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(16)),
                             )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: GestureDetector(
+                          onTap: () => {Get.to(HistorySubView())},
+                          child: Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                'Riwayat pembayaran',
+                                style: GoogleFonts.montserrat(
+                                  color: HexColor('#284CFB'),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: HexColor("#284CFB").withOpacity(0.1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                            )
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),

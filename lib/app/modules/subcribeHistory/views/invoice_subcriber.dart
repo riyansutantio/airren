@@ -172,7 +172,8 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                                   fontSize: 14,
                                                   color: HexColor('#707793')
                                                       .withOpacity(0.7),
-                                                  fontWeight: FontWeight.normal),
+                                                  fontWeight:
+                                                      FontWeight.normal),
                                             ),
                                             const SizedBox(
                                               height: 8,
@@ -183,7 +184,8 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                                   fontSize: 14,
                                                   color: HexColor('#707793')
                                                       .withOpacity(0.7),
-                                                  fontWeight: FontWeight.normal),
+                                                  fontWeight:
+                                                      FontWeight.normal),
                                             )
                                           ],
                                         )
@@ -493,21 +495,17 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                                 child: data!.status == 'valid'
                                     ? null
                                     : Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: HexColor('#0063F8')
-                                                    .withOpacity(0.2),
-                                                spreadRadius: 5,
-                                                blurRadius: 10,
-                                                offset: const Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            color: Colors.white),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            offset: Offset(0.0, 8.0),
+                                            color: Color.fromRGBO(0, 99, 248, 0.16),
+                                            blurRadius: 24,
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        color: Colors.white),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Column(
@@ -630,31 +628,33 @@ class SubcriberInvoice extends GetView<InvoiceSubcribe> {
                       HexColor('#0063F8')
                     ])),
                   ),
-                  data!.status == 'valid' ? Container() : Container(
-                    height: 48.0,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16)),
-                        gradient: LinearGradient(colors: [
-                          HexColor('#0063F8'),
-                          HexColor('#5433FF')
-                        ])),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          shadowColor: Colors.transparent),
-                      child: Text(
-                        'Konfirmasi Sekarang',
-                        style: GoogleFonts.montserrat(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
+                  data!.status == 'valid'
+                      ? Container()
+                      : Container(
+                          height: 48.0,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(16),
+                                  topRight: Radius.circular(16)),
+                              gradient: LinearGradient(colors: [
+                                HexColor('#0063F8'),
+                                HexColor('#5433FF')
+                              ])),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.transparent,
+                                shadowColor: Colors.transparent),
+                            child: Text(
+                              'Konfirmasi Sekarang',
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ));
