@@ -19,8 +19,15 @@ class PdfTransactionProvider extends GetConnect {
       String? month,
       String? year,
       String? type}) async {
+    String? monthh;
+    int m = int.parse(month!);
+    if (m <= 9) {
+      monthh = '0' + m.toString();
+    }else{
+        monthh =  m.toString();
+    }
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.tbrdev.my.id/api/v1/pam-transaction/download?month=04-$year&type=$type');
+        'https://api.airren.tbrdev.my.id/api/v1/pam-transaction/download?month=$monthh-$year&type=$type');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));

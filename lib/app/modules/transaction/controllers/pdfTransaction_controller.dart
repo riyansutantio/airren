@@ -242,7 +242,10 @@ class PdfTransactionController extends GetxController {
                                 ]),
                             pw.SizedBox(height: 30),
                             pw.Container(
-                                height: 5, color: PdfColor.fromHex('#FFCC00')),
+                                height: 5,
+                                color: title == 'Transaksi Pemasukan'
+                                    ? PdfColor.fromHex('#05C270')
+                                    : PdfColor.fromHex('#FF3B3B')),
                             pw.SizedBox(height: 30),
                             pw.Container(
                                 height: 46,
@@ -398,18 +401,22 @@ class PdfTransactionController extends GetxController {
                                       width: 120,
                                       child: pw.Center(
                                           child: pw.Text(rupiah(total),
-                                                style: pw.TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  PdfColor.fromHex('#3C3F58'),
-                                              fontWeight: pw.FontWeight.bold)))),
+                                              style: pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColor.fromHex(
+                                                      '#3C3F58'),
+                                                  fontWeight:
+                                                      pw.FontWeight.bold)))),
                                   pw.SizedBox(
                                     width: 140,
                                   ),
                                 ]),
                             pw.SizedBox(height: 30),
                             pw.Container(
-                                height: 5, color: PdfColor.fromHex('#FFCC00')),
+                                height: 5,
+                                color: title == 'Transaksi Pemasukan'
+                                    ? PdfColor.fromHex('#05C270')
+                                    : PdfColor.fromHex('#FF3B3B')),
                             pw.SizedBox(height: 30),
                             pw.Row(
                                 crossAxisAlignment: pw.CrossAxisAlignment.start,
