@@ -8,14 +8,17 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/loginTextFormFieldBase.dart';
 import '../../error_handling/views/error_handling_view.dart';
 import '../controllers/transaction_controller.dart';
 import '../provider/transaction_provider.dart';
+import 'download_transaction_view.dart';
 import 'income/first_blance.dart';
 
 class TransactionView extends GetView<TransactionController> {
+  ScrollController sc = ScrollController();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -79,8 +82,8 @@ class TransactionView extends GetView<TransactionController> {
             floatingActionButton: Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                width: 55,
-                height:55,
+                  width: 55,
+                  height: 55,
                   decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(100)),
@@ -227,19 +230,21 @@ class TransactionView extends GetView<TransactionController> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: 30,
-                                              child: TextButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  'Semua',
-                                                  style: GoogleFonts.montserrat(
+                                                height: 25,
+                                                width: 25,
+                                                child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  onPressed: () {
+                                                    Get.to(
+                                                        DownloadTransaction());
+                                                  },
+                                                  icon: Icon(
+                                                    EvaIcons
+                                                        .cloudDownloadOutline,
                                                     color: HexColor('#0063F8'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
+                                                    size: 25,
                                                   ),
-                                                ),
-                                              ),
-                                            ),
+                                                )),
                                           ],
                                         ),
                                       ),
@@ -267,417 +272,788 @@ class TransactionView extends GetView<TransactionController> {
                                                             .pamTransResult
                                                             .length +
                                                         1;
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        controller
-                                                                .nameDetailController
-                                                                .text =
+                                                    return index ==
                                                             controller
-                                                                .pamTransResult[
-                                                                    index]
-                                                                .name!;
-                                                        controller
-                                                            .deskriptionDetailController
-                                                            .text = controller
-                                                                .pamTransResult[
-                                                                    index]
-                                                                .description ??
-                                                            '';
-                                                        controller
-                                                                .nominalDetailController
-                                                                .text =
-                                                            controller
-                                                                .pamTransResult[
-                                                                    index]
-                                                                .amount
-                                                                .toString();
-                                                        // controller.pamTransResult[index]
-                                                        //             .type ==
-                                                        //         'income'
-                                                        //     ? Get.to(DetailIncome())
-                                                        //     : 1;
-                                                        Get.bottomSheet(
-                                                            Obx(() => Container(
-                                                                  decoration:
-                                                                      const BoxDecoration(
-                                                                    borderRadius: BorderRadius.only(
-                                                                        topRight:
-                                                                            Radius.circular(
-                                                                                40),
-                                                                        topLeft:
-                                                                            Radius.circular(40)),
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                  child: Wrap(
-                                                                    children: [
-                                                                      Column(
-                                                                        children: [
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(top: 12.0),
-                                                                            child:
-                                                                                Container(
-                                                                              width: 70,
-                                                                              height: 5,
-                                                                              decoration: const BoxDecoration(
-                                                                                borderRadius: BorderRadius.all(Radius.circular(40)),
-                                                                                color: Colors.amber,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                top: 8.0,
-                                                                                left: 16.0,
-                                                                                right: 16.0),
-                                                                            child:
-                                                                                Container(
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  ListTile(
-                                                                                    contentPadding: const EdgeInsets.all(10),
-                                                                                    dense: false,
-                                                                                    title: Column(
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      children: [
-                                                                                        Text(
-                                                                                          'Detail Transaksi',
-                                                                                          style: GoogleFonts.montserrat(
-                                                                                            color: HexColor('#3C3F58'),
-                                                                                            fontSize: 14,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                          ),
-                                                                                        ),
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.only(top: 8.0),
-                                                                                          child: Text(
-                                                                                            '${controller.pamTransResult[index].name}',
-                                                                                            style: GoogleFonts.montserrat(
-                                                                                              color: HexColor('#3C3F58'),
-                                                                                              fontSize: 12,
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.only(top: 4.0),
-                                                                                          child: Row(
-                                                                                            children: [
-                                                                                              Container(
-                                                                                                child: Container(
-                                                                                                  width: MediaQuery.of(context).size.width - 132,
-                                                                                                  child: Row(
-                                                                                                    children: [
-                                                                                                      Text(
-                                                                                                        'Rp ${rupiah(controller.pamTransResult[index].amount)}',
-                                                                                                        style: GoogleFonts.montserrat(
-                                                                                                          color: HexColor('#FF8801'),
-                                                                                                          fontSize: 14,
-                                                                                                          fontWeight: FontWeight.w700,
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      const SizedBox(
-                                                                                                        width: 10,
-                                                                                                      ),
-                                                                                                      Container(
-                                                                                                        padding: const EdgeInsets.all(6),
-                                                                                                        decoration: BoxDecoration(
-                                                                                                          color: controller.pamTransResult[index].type == 'income' ? HexColor('#05C270') : HexColor('#FF3B3B'),
-                                                                                                          borderRadius: BorderRadius.circular(6),
-                                                                                                        ),
-                                                                                                        child: Text(
-                                                                                                          typ,
-                                                                                                          style: GoogleFonts.montserrat(
-                                                                                                            color: HexColor('#FFFFFF'),
-                                                                                                            fontSize: 12,
-                                                                                                            fontWeight: FontWeight.bold,
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            ],
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                    subtitle: Column(
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      children: [
-                                                                                        const SizedBox(
-                                                                                          height: 15,
-                                                                                        ),
-                                                                                        Text(
-                                                                                          'Catatan:',
-                                                                                          style: GoogleFonts.montserrat(
-                                                                                            color: HexColor('#000000'),
-                                                                                            fontSize: 13,
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                          ),
-                                                                                        ),
-                                                                                        Text(
-                                                                                          controller.pamTransResult[index].description != null ? controller.pamTransResult[index].description! : '',
-                                                                                          maxLines: 3,
-                                                                                          style: GoogleFonts.montserrat(
-                                                                                            color: HexColor('#707793'),
-                                                                                            fontSize: 12,
-                                                                                            fontWeight: FontWeight.w300,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                    leading: CircleAvatar(
-                                                                                        maxRadius: 30,
-                                                                                        backgroundColor: HexColor('#0063F8'),
-                                                                                        child: Container(
-                                                                                          width: 55,
-                                                                                          height: 55,
-                                                                                          child: Column(
-                                                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                                                            children: [
-                                                                                              Text(
-                                                                                                controller.pamTransResult[index].createdAt!.day <= 9 ? '0' + controller.pamTransResult[index].createdAt!.day.toString().toUpperCase() : controller.pamTransResult[index].createdAt!.day.toString().toUpperCase(),
-                                                                                                style: GoogleFonts.montserrat(
-                                                                                                  color: HexColor('#FFFFFF'),
-                                                                                                  fontSize: 16,
-                                                                                                  fontWeight: FontWeight.bold,
-                                                                                                ),
-                                                                                              ),
-                                                                                              Text(
-                                                                                                months[controller.pamTransResult[index].createdAt!.month - 1],
-                                                                                                style: GoogleFonts.montserrat(
-                                                                                                  color: HexColor('#FFFFFF').withOpacity(0.8),
-                                                                                                  fontSize: 12,
-                                                                                                  fontWeight: FontWeight.w400,
-                                                                                                ),
-                                                                                              ),
-                                                                                            ],
-                                                                                          ),
-                                                                                        )),
-                                                                                  ),
-                                                                                  const SizedBox(
-                                                                                    height: 20,
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.all(20.0),
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Opacity(
-                                                                                          opacity: 0.1,
-                                                                                          child: ElevatedButton(
-                                                                                              child: const Center(child: SizedBox()),
-                                                                                              style: ButtonStyle(
-                                                                                                backgroundColor: MaterialStateProperty.all<Color>(HexColor('#0063F8')),
-                                                                                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                                                  RoundedRectangleBorder(
-                                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                              onPressed: () {
-                                                                                                Get.back();
-                                                                                              }),
-                                                                                        ),
-                                                                                        Positioned.fill(
-                                                                                            child: Align(
-                                                                                                alignment: Alignment.center,
-                                                                                                child: InkWell(
-                                                                                                    onTap: () {
-                                                                                                      Get.back();
-                                                                                                    },
-                                                                                                    child: Icon(
-                                                                                                      EvaIcons.arrowIosDownwardOutline,
-                                                                                                      color: HexColor('#0063F8'),
-                                                                                                    ))))
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              decoration: const BoxDecoration(boxShadow: [
-                                                                                BoxShadow(
-                                                                                  offset: Offset(0.0, 8.0),
-                                                                                  color: Color.fromRGBO(0, 99, 248, 0.16),
-                                                                                  blurRadius: 24,
-                                                                                ),
-                                                                              ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )));
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 8.0,
-                                                                left: 16.0,
-                                                                right: 16.0),
-                                                        child: Container(
-                                                          child: ListTile(
-                                                              contentPadding:
-                                                                  const EdgeInsets
-                                                                      .all(10),
-                                                              dense: false,
-                                                              title: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    '${controller.pamTransResult[index].name}',
-                                                                    style: GoogleFonts
-                                                                        .montserrat(
-                                                                      color: HexColor(
-                                                                          '#3C3F58'),
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        top:
-                                                                            4.0),
-                                                                    child: Text(
-                                                                      'Rp ${rupiah(controller.pamTransResult[index].amount)}',
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        color: HexColor(
-                                                                            '#FF8801'),
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.w700,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              subtitle: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top:
-                                                                            4.0),
-                                                                child: Text(
+                                                                    .pamTransResult
+                                                                    .length -
+                                                                1
+                                                        ? Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: () {
                                                                   controller
+                                                                          .nameDetailController
+                                                                          .text =
+                                                                      controller
+                                                                          .pamTransResult[
+                                                                              index]
+                                                                          .name!;
+                                                                  controller
+                                                                      .deskriptionDetailController
+                                                                      .text = controller
                                                                           .pamTransResult[
                                                                               index]
                                                                           .description ??
-                                                                      '',
-                                                                  style: GoogleFonts
-                                                                      .montserrat(
-                                                                    color: HexColor(
-                                                                            '#707793')
-                                                                        .withOpacity(
-                                                                            0.7),
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              leading:
-                                                                  CircleAvatar(
-                                                                      maxRadius:
-                                                                          30,
-                                                                      backgroundColor: HexColor(
-                                                                              '#0063F8')
-                                                                          .withOpacity(
-                                                                              0.05),
-                                                                      child:
+                                                                      '';
+                                                                  controller
+                                                                          .nominalDetailController
+                                                                          .text =
+                                                                      controller
+                                                                          .pamTransResult[
+                                                                              index]
+                                                                          .amount
+                                                                          .toString();
+                                                                  // controller.pamTransResult[index]
+                                                                  //             .type ==
+                                                                  //         'income'
+                                                                  //     ? Get.to(DetailIncome())
+                                                                  //     : 1;
+                                                                  Get.bottomSheet(
+                                                                      Obx(() =>
                                                                           Container(
-                                                                        width:
-                                                                            55,
-                                                                        height:
-                                                                            55,
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
+                                                                            decoration:
+                                                                                const BoxDecoration(
+                                                                              borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            child:
+                                                                                Wrap(
+                                                                              children: [
+                                                                                Column(
+                                                                                  children: [
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(top: 12.0),
+                                                                                      child: Container(
+                                                                                        width: 70,
+                                                                                        height: 5,
+                                                                                        decoration: const BoxDecoration(
+                                                                                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                                                                                          color: Colors.amber,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
+                                                                                      child: Container(
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          children: [
+                                                                                            ListTile(
+                                                                                              contentPadding: const EdgeInsets.all(10),
+                                                                                              dense: false,
+                                                                                              title: Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Text(
+                                                                                                    'Detail Transaksi',
+                                                                                                    style: GoogleFonts.montserrat(
+                                                                                                      color: HexColor('#3C3F58'),
+                                                                                                      fontSize: 14,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Padding(
+                                                                                                    padding: const EdgeInsets.only(top: 8.0),
+                                                                                                    child: Text(
+                                                                                                      '${controller.pamTransResult[index].name}',
+                                                                                                      style: GoogleFonts.montserrat(
+                                                                                                        color: HexColor('#3C3F58'),
+                                                                                                        fontSize: 12,
+                                                                                                        fontWeight: FontWeight.w500,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Padding(
+                                                                                                    padding: const EdgeInsets.only(top: 4.0),
+                                                                                                    child: Row(
+                                                                                                      children: [
+                                                                                                        Container(
+                                                                                                          child: Container(
+                                                                                                            width: MediaQuery.of(context).size.width - 132,
+                                                                                                            child: Row(
+                                                                                                              children: [
+                                                                                                                Text(
+                                                                                                                  'Rp ${rupiah(controller.pamTransResult[index].amount)}',
+                                                                                                                  style: GoogleFonts.montserrat(
+                                                                                                                    color: HexColor('#FF8801'),
+                                                                                                                    fontSize: 14,
+                                                                                                                    fontWeight: FontWeight.w700,
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                const SizedBox(
+                                                                                                                  width: 10,
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                  padding: const EdgeInsets.all(6),
+                                                                                                                  decoration: BoxDecoration(
+                                                                                                                    color: controller.pamTransResult[index].type == 'income' ? HexColor('#05C270') : HexColor('#FF3B3B'),
+                                                                                                                    borderRadius: BorderRadius.circular(6),
+                                                                                                                  ),
+                                                                                                                  child: Text(
+                                                                                                                    typ,
+                                                                                                                    style: GoogleFonts.montserrat(
+                                                                                                                      color: HexColor('#FFFFFF'),
+                                                                                                                      fontSize: 12,
+                                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              subtitle: Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  const SizedBox(
+                                                                                                    height: 15,
+                                                                                                  ),
+                                                                                                  Text(
+                                                                                                    'Catatan:',
+                                                                                                    style: GoogleFonts.montserrat(
+                                                                                                      color: HexColor('#000000'),
+                                                                                                      fontSize: 13,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Text(
+                                                                                                    controller.pamTransResult[index].description != null ? controller.pamTransResult[index].description! : '',
+                                                                                                    maxLines: 3,
+                                                                                                    style: GoogleFonts.montserrat(
+                                                                                                      color: HexColor('#707793'),
+                                                                                                      fontSize: 12,
+                                                                                                      fontWeight: FontWeight.w300,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              leading: CircleAvatar(
+                                                                                                  maxRadius: 30,
+                                                                                                  backgroundColor: HexColor('#0063F8'),
+                                                                                                  child: Container(
+                                                                                                    width: 55,
+                                                                                                    height: 55,
+                                                                                                    child: Column(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                      children: [
+                                                                                                        Text(
+                                                                                                          controller.pamTransResult[index].createdAt!.day <= 9 ? '0' + controller.pamTransResult[index].createdAt!.day.toString().toUpperCase() : controller.pamTransResult[index].createdAt!.day.toString().toUpperCase(),
+                                                                                                          style: GoogleFonts.montserrat(
+                                                                                                            color: HexColor('#FFFFFF'),
+                                                                                                            fontSize: 16,
+                                                                                                            fontWeight: FontWeight.bold,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        Text(
+                                                                                                          months[controller.pamTransResult[index].createdAt!.month - 1],
+                                                                                                          style: GoogleFonts.montserrat(
+                                                                                                            color: HexColor('#FFFFFF').withOpacity(0.8),
+                                                                                                            fontSize: 12,
+                                                                                                            fontWeight: FontWeight.w400,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  )),
+                                                                                            ),
+                                                                                            const SizedBox(
+                                                                                              height: 20,
+                                                                                            ),
+                                                                                            Padding(
+                                                                                              padding: const EdgeInsets.all(20.0),
+                                                                                              child: Stack(
+                                                                                                children: [
+                                                                                                  Opacity(
+                                                                                                    opacity: 0.1,
+                                                                                                    child: ElevatedButton(
+                                                                                                        child: const Center(child: SizedBox()),
+                                                                                                        style: ButtonStyle(
+                                                                                                          backgroundColor: MaterialStateProperty.all<Color>(HexColor('#0063F8')),
+                                                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                                                            RoundedRectangleBorder(
+                                                                                                              borderRadius: BorderRadius.circular(10),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        onPressed: () {
+                                                                                                          Get.back();
+                                                                                                        }),
+                                                                                                  ),
+                                                                                                  Positioned.fill(
+                                                                                                      child: Align(
+                                                                                                          alignment: Alignment.center,
+                                                                                                          child: InkWell(
+                                                                                                              onTap: () {
+                                                                                                                Get.back();
+                                                                                                              },
+                                                                                                              child: Icon(
+                                                                                                                EvaIcons.arrowIosDownwardOutline,
+                                                                                                                color: HexColor('#0063F8'),
+                                                                                                              ))))
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                        decoration: const BoxDecoration(boxShadow: [
+                                                                                          BoxShadow(
+                                                                                            offset: Offset(0.0, 8.0),
+                                                                                            color: Color.fromRGBO(0, 99, 248, 0.16),
+                                                                                            blurRadius: 24,
+                                                                                          ),
+                                                                                        ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          )));
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0,
+                                                                      left:
+                                                                          16.0,
+                                                                      right:
+                                                                          16.0),
+                                                                  child:
+                                                                      Container(
+                                                                    child: ListTile(
+                                                                        contentPadding: const EdgeInsets.all(10),
+                                                                        dense: false,
+                                                                        title: Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
                                                                           children: [
                                                                             Text(
-                                                                              controller.pamTransResult[index].createdAt!.day <= 9 ? '0' + controller.pamTransResult[index].createdAt!.day.toString().toUpperCase() : controller.pamTransResult[index].createdAt!.day.toString().toUpperCase(),
+                                                                              '${controller.pamTransResult[index].name}',
                                                                               style: GoogleFonts.montserrat(
-                                                                                color: HexColor('#0063F8').withOpacity(0.8),
-                                                                                fontSize: 16,
-                                                                                fontWeight: FontWeight.bold,
+                                                                                color: HexColor('#3C3F58'),
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w600,
                                                                               ),
                                                                             ),
-                                                                            Text(
-                                                                              months[controller.pamTransResult[index].createdAt!.month - 1],
-                                                                              style: GoogleFonts.montserrat(
-                                                                                color: HexColor('#0063F8').withOpacity(0.8),
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.w400,
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(top: 4.0),
+                                                                              child: Text(
+                                                                                'Rp ${rupiah(controller.pamTransResult[index].amount)}',
+                                                                                style: GoogleFonts.montserrat(
+                                                                                  color: HexColor('#FF8801'),
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.w700,
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
                                                                         ),
-                                                                      )),
-                                                              trailing: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
+                                                                        subtitle: Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(top: 4.0),
+                                                                          child:
+                                                                              Text(
+                                                                            controller.pamTransResult[index].description ??
+                                                                                '',
+                                                                            style:
+                                                                                GoogleFonts.montserrat(
+                                                                              color: HexColor('#707793').withOpacity(0.7),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.normal,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        leading: CircleAvatar(
+                                                                            maxRadius: 30,
+                                                                            backgroundColor: HexColor('#0063F8').withOpacity(0.05),
+                                                                            child: Container(
+                                                                              width: 55,
+                                                                              height: 55,
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.pamTransResult[index].createdAt!.day <= 9 ? '0' + controller.pamTransResult[index].createdAt!.day.toString().toUpperCase() : controller.pamTransResult[index].createdAt!.day.toString().toUpperCase(),
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      color: HexColor('#0063F8').withOpacity(0.8),
+                                                                                      fontSize: 16,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    months[controller.pamTransResult[index].createdAt!.month - 1],
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      color: HexColor('#0063F8').withOpacity(0.8),
+                                                                                      fontSize: 12,
+                                                                                      fontWeight: FontWeight.w400,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            )),
+                                                                        trailing: Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(left: 8.0),
+                                                                          child:
+                                                                              Icon(
+                                                                            controller.pamTransResult[index].type == "expense"
+                                                                                ? EvaIcons.arrowCircleUpOutline
+                                                                                : EvaIcons.arrowCircleDownOutline,
+                                                                            color: controller.pamTransResult[index].type == "expense"
+                                                                                ? HexColor('#FF3B3B')
+                                                                                : HexColor('#05C270'),
+                                                                          ),
+                                                                        )),
+                                                                    decoration: const BoxDecoration(
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                            offset:
+                                                                                Offset(0.0, 8.0),
+                                                                            color: Color.fromRGBO(
+                                                                                0,
+                                                                                99,
+                                                                                248,
+                                                                                0.16),
+                                                                            blurRadius:
+                                                                                24,
+                                                                          ),
+                                                                        ],
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(
+                                                                                16)),
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 24,
+                                                              ),
+                                                              Center(
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    Get.to(
+                                                                        DownloadTransaction());
+                                                                  },
+                                                                  child: Container(
+                                                                      decoration: BoxDecoration(boxShadow: const [
+                                                                        BoxShadow(
+                                                                          offset: Offset(
+                                                                              0.0,
+                                                                              8.0),
+                                                                          color: Color.fromRGBO(
+                                                                              0,
+                                                                              99,
+                                                                              248,
+                                                                              0.2),
+                                                                          blurRadius:
+                                                                              24,
+                                                                        ),
+                                                                      ], gradient: LinearGradient(colors: gradientColorAirren), borderRadius: BorderRadius.circular(10)),
+                                                                      child: SizedBox(
+                                                                          width: 48,
+                                                                          height: 48,
+                                                                          child: Icon(
+                                                                            EvaIcons.cloudDownloadOutline,
+                                                                            color:
+                                                                                HexColor('#ffffff'),
+                                                                          ))),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        : GestureDetector(
+                                                            onTap: () {
+                                                              controller
+                                                                      .nameDetailController
+                                                                      .text =
+                                                                  controller
+                                                                      .pamTransResult[
+                                                                          index]
+                                                                      .name!;
+                                                              controller
+                                                                  .deskriptionDetailController
+                                                                  .text = controller
+                                                                      .pamTransResult[
+                                                                          index]
+                                                                      .description ??
+                                                                  '';
+                                                              controller
+                                                                      .nominalDetailController
+                                                                      .text =
+                                                                  controller
+                                                                      .pamTransResult[
+                                                                          index]
+                                                                      .amount
+                                                                      .toString();
+                                                              // controller.pamTransResult[index]
+                                                              //             .type ==
+                                                              //         'income'
+                                                              //     ? Get.to(DetailIncome())
+                                                              //     : 1;
+                                                              Get.bottomSheet(
+                                                                  Obx(() =>
+                                                                      Container(
+                                                                        decoration:
+                                                                            const BoxDecoration(
+                                                                          borderRadius: BorderRadius.only(
+                                                                              topRight: Radius.circular(40),
+                                                                              topLeft: Radius.circular(40)),
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                        child:
+                                                                            Wrap(
+                                                                          children: [
+                                                                            Column(
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(top: 12.0),
+                                                                                  child: Container(
+                                                                                    width: 70,
+                                                                                    height: 5,
+                                                                                    decoration: const BoxDecoration(
+                                                                                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                                                                                      color: Colors.amber,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
+                                                                                  child: Container(
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        ListTile(
+                                                                                          contentPadding: const EdgeInsets.all(10),
+                                                                                          dense: false,
+                                                                                          title: Column(
+                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                            children: [
+                                                                                              Text(
+                                                                                                'Detail Transaksi',
+                                                                                                style: GoogleFonts.montserrat(
+                                                                                                  color: HexColor('#3C3F58'),
+                                                                                                  fontSize: 14,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                ),
+                                                                                              ),
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(top: 8.0),
+                                                                                                child: Text(
+                                                                                                  '${controller.pamTransResult[index].name}',
+                                                                                                  style: GoogleFonts.montserrat(
+                                                                                                    color: HexColor('#3C3F58'),
+                                                                                                    fontSize: 12,
+                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(top: 4.0),
+                                                                                                child: Row(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                      child: Container(
+                                                                                                        width: MediaQuery.of(context).size.width - 132,
+                                                                                                        child: Row(
+                                                                                                          children: [
+                                                                                                            Text(
+                                                                                                              'Rp ${rupiah(controller.pamTransResult[index].amount)}',
+                                                                                                              style: GoogleFonts.montserrat(
+                                                                                                                color: HexColor('#FF8801'),
+                                                                                                                fontSize: 14,
+                                                                                                                fontWeight: FontWeight.w700,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            const SizedBox(
+                                                                                                              width: 10,
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                              padding: const EdgeInsets.all(6),
+                                                                                                              decoration: BoxDecoration(
+                                                                                                                color: controller.pamTransResult[index].type == 'income' ? HexColor('#05C270') : HexColor('#FF3B3B'),
+                                                                                                                borderRadius: BorderRadius.circular(6),
+                                                                                                              ),
+                                                                                                              child: Text(
+                                                                                                                typ,
+                                                                                                                style: GoogleFonts.montserrat(
+                                                                                                                  color: HexColor('#FFFFFF'),
+                                                                                                                  fontSize: 12,
+                                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                          subtitle: Column(
+                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                            children: [
+                                                                                              const SizedBox(
+                                                                                                height: 15,
+                                                                                              ),
+                                                                                              Text(
+                                                                                                'Catatan:',
+                                                                                                style: GoogleFonts.montserrat(
+                                                                                                  color: HexColor('#000000'),
+                                                                                                  fontSize: 13,
+                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                ),
+                                                                                              ),
+                                                                                              Text(
+                                                                                                controller.pamTransResult[index].description != null ? controller.pamTransResult[index].description! : '',
+                                                                                                maxLines: 3,
+                                                                                                style: GoogleFonts.montserrat(
+                                                                                                  color: HexColor('#707793'),
+                                                                                                  fontSize: 12,
+                                                                                                  fontWeight: FontWeight.w300,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                          leading: CircleAvatar(
+                                                                                              maxRadius: 30,
+                                                                                              backgroundColor: HexColor('#0063F8'),
+                                                                                              child: Container(
+                                                                                                width: 55,
+                                                                                                height: 55,
+                                                                                                child: Column(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                  children: [
+                                                                                                    Text(
+                                                                                                      controller.pamTransResult[index].createdAt!.day <= 9 ? '0' + controller.pamTransResult[index].createdAt!.day.toString().toUpperCase() : controller.pamTransResult[index].createdAt!.day.toString().toUpperCase(),
+                                                                                                      style: GoogleFonts.montserrat(
+                                                                                                        color: HexColor('#FFFFFF'),
+                                                                                                        fontSize: 16,
+                                                                                                        fontWeight: FontWeight.bold,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Text(
+                                                                                                      months[controller.pamTransResult[index].createdAt!.month - 1],
+                                                                                                      style: GoogleFonts.montserrat(
+                                                                                                        color: HexColor('#FFFFFF').withOpacity(0.8),
+                                                                                                        fontSize: 12,
+                                                                                                        fontWeight: FontWeight.w400,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              )),
+                                                                                        ),
+                                                                                        const SizedBox(
+                                                                                          height: 20,
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.all(20.0),
+                                                                                          child: Stack(
+                                                                                            children: [
+                                                                                              Opacity(
+                                                                                                opacity: 0.1,
+                                                                                                child: ElevatedButton(
+                                                                                                    child: const Center(child: SizedBox()),
+                                                                                                    style: ButtonStyle(
+                                                                                                      backgroundColor: MaterialStateProperty.all<Color>(HexColor('#0063F8')),
+                                                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                                                        RoundedRectangleBorder(
+                                                                                                          borderRadius: BorderRadius.circular(10),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    onPressed: () {
+                                                                                                      Get.back();
+                                                                                                    }),
+                                                                                              ),
+                                                                                              Positioned.fill(
+                                                                                                  child: Align(
+                                                                                                      alignment: Alignment.center,
+                                                                                                      child: InkWell(
+                                                                                                          onTap: () {
+                                                                                                            Get.back();
+                                                                                                          },
+                                                                                                          child: Icon(
+                                                                                                            EvaIcons.arrowIosDownwardOutline,
+                                                                                                            color: HexColor('#0063F8'),
+                                                                                                          ))))
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    decoration: const BoxDecoration(boxShadow: [
+                                                                                      BoxShadow(
+                                                                                        offset: Offset(0.0, 8.0),
+                                                                                        color: Color.fromRGBO(0, 99, 248, 0.16),
+                                                                                        blurRadius: 24,
+                                                                                      ),
+                                                                                    ], borderRadius: BorderRadius.all(Radius.circular(16)), color: Colors.white),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      )));
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0,
+                                                                      left:
+                                                                          16.0,
+                                                                      right:
+                                                                          16.0),
+                                                              child: Container(
+                                                                child: ListTile(
+                                                                    contentPadding:
+                                                                        const EdgeInsets.all(
+                                                                            10),
+                                                                    dense:
+                                                                        false,
+                                                                    title:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          '${controller.pamTransResult[index].name}',
+                                                                          style:
+                                                                              GoogleFonts.montserrat(
+                                                                            color:
+                                                                                HexColor('#3C3F58'),
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                          ),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(top: 4.0),
+                                                                          child:
+                                                                              Text(
+                                                                            'Rp ${rupiah(controller.pamTransResult[index].amount)}',
+                                                                            style:
+                                                                                GoogleFonts.montserrat(
+                                                                              color: HexColor('#FF8801'),
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w700,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    subtitle:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              4.0),
+                                                                      child:
+                                                                          Text(
+                                                                        controller.pamTransResult[index].description ??
+                                                                            '',
+                                                                        style: GoogleFonts
+                                                                            .montserrat(
+                                                                          color:
+                                                                              HexColor('#707793').withOpacity(0.7),
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    leading:
+                                                                        CircleAvatar(
+                                                                            maxRadius:
+                                                                                30,
+                                                                            backgroundColor: HexColor('#0063F8').withOpacity(
+                                                                                0.05),
+                                                                            child:
+                                                                                Container(
+                                                                              width: 55,
+                                                                              height: 55,
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.pamTransResult[index].createdAt!.day <= 9 ? '0' + controller.pamTransResult[index].createdAt!.day.toString().toUpperCase() : controller.pamTransResult[index].createdAt!.day.toString().toUpperCase(),
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      color: HexColor('#0063F8').withOpacity(0.8),
+                                                                                      fontSize: 16,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    months[controller.pamTransResult[index].createdAt!.month - 1],
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      color: HexColor('#0063F8').withOpacity(0.8),
+                                                                                      fontSize: 12,
+                                                                                      fontWeight: FontWeight.w400,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            )),
+                                                                    trailing:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              8.0),
+                                                                      child:
+                                                                          Icon(
+                                                                        controller.pamTransResult[index].type ==
+                                                                                "expense"
+                                                                            ? EvaIcons.arrowCircleUpOutline
+                                                                            : EvaIcons.arrowCircleDownOutline,
+                                                                        color: controller.pamTransResult[index].type ==
+                                                                                "expense"
+                                                                            ? HexColor('#FF3B3B')
+                                                                            : HexColor('#05C270'),
+                                                                      ),
+                                                                    )),
+                                                                decoration: const BoxDecoration(
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                        offset: Offset(
+                                                                            0.0,
                                                                             8.0),
-                                                                child: Icon(
-                                                                  controller.pamTransResult[index].type ==
-                                                                          "expense"
-                                                                      ? EvaIcons
-                                                                          .arrowCircleUpOutline
-                                                                      : EvaIcons
-                                                                          .arrowCircleDownOutline,
-                                                                  color: controller
-                                                                              .pamTransResult[
-                                                                                  index]
-                                                                              .type ==
-                                                                          "expense"
-                                                                      ? HexColor(
-                                                                          '#FF3B3B')
-                                                                      : HexColor(
-                                                                          '#05C270'),
-                                                                ),
-                                                              )),
-                                                          decoration: const BoxDecoration(
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  offset:
-                                                                      Offset(
-                                                                          0.0,
-                                                                          8.0),
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          0,
-                                                                          99,
-                                                                          248,
-                                                                          0.16),
-                                                                  blurRadius:
-                                                                      24,
-                                                                ),
-                                                              ],
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          16)),
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ),
-                                                    );
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            99,
+                                                                            248,
+                                                                            0.16),
+                                                                        blurRadius:
+                                                                            24,
+                                                                      ),
+                                                                    ],
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            16)),
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                          );
                                                   })),
                                         ),
                                       ),
