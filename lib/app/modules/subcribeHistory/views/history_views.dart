@@ -167,7 +167,7 @@ class HistorySubView extends GetView<HistorySubController> {
                                                   children: [
                                                     Text(
                                                       controller.result[index]
-                                                          .dateEnd!.day
+                                                          .createdAt!.day
                                                           .toString()
                                                           .toUpperCase(),
                                                       style: GoogleFonts
@@ -181,7 +181,7 @@ class HistorySubView extends GetView<HistorySubController> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      '${months[controller.result[index].dateEnd!.month - 1]}',
+                                                      months[controller.result[index].createdAt!.month - 1],
                                                       style: GoogleFonts
                                                           .montserrat(
                                                         color: HexColor(
