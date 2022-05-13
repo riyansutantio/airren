@@ -46,6 +46,7 @@ class MonthMeterResult {
     this.number_of_recorded_consumer,
     this.number_of_meter_transaction,
     this.number_of_paid_meter_transaction,
+    this.total_water_usage,
   });
 
   final int? id;
@@ -57,11 +58,13 @@ class MonthMeterResult {
   final int? number_of_recorded_consumer;
   final int? number_of_meter_transaction;
   final int? number_of_paid_meter_transaction;
+  final int? total_water_usage;
 
   factory MonthMeterResult.fromJson(Map<String, dynamic> json) =>
       MonthMeterResult(
         id: json["id"] == null ? null : json['id'],
         month_of: json["month_of"] == null ? null : json['month_of'],
+        total_water_usage: json["total_water_usage"] == null ? null : json['total_water_usage'],
         year_of: json["year_of"] == null ? null : json['year_of'],
         created_at:
             json["year_of"] == null ? null : DateTime.parse(json["created_at"]),

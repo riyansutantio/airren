@@ -12,16 +12,21 @@ import 'package:airen/app/modules/customer/providers/customer_provider.dart';
 import 'package:airen/app/modules/error_handling/views/unauthentication_view.dart';
 import 'package:airen/app/widgets/snack_bar_notification.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import '../../../model/customer/customerModel.dart';
 import '../../../model/meter_transactionAll_model.dart';
 import '../../../model/register_model.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
+import '../../payment/views/payment_data_view.dart';
 import '../../session/controllers/session_controller.dart';
 import '../../session/providers/session_provider.dart';
 import '../provider/catat_meter_provider.dart';
@@ -176,6 +181,139 @@ class CatatMeterController extends GetxController {
       logger.d(res.status! + " menambahkan catat meter bulanan");
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
       Get.offAll(() => CatatMeterView());
+      update();
+    } else {
+      logger.d(res.status);
+      snackBarNotificationFailed(title: "Gagal ditambahkan");
+    }
+  }
+
+  confirmations(int? index) {
+    Get.bottomSheet(Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+        color: Colors.white,
+      ),
+      child: Wrap(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Container(
+                  width: 70,
+                  height: 5,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    color: Colors.amber,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: SvgPicture.asset('assets/quation.svg'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Text(
+                  'Terbitkan Tagihan',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor('#3C3F58'),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  'Tagihan yang sudah diterbitkan, posisi\nmeter tidak bisa diubah lagi.',
+                  style: GoogleFonts.montserrat(
+                    color: HexColor('#707793'),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 32.0, bottom: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Text('Batal',
+                              style: GoogleFonts.montserrat(
+                                color: HexColor('#0063F8'),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: HexColor('#0063F8').withOpacity(0.2),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 10, top: 10),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        addInvoiceIssue(index!);
+                        Get.to(PaymentDataViews());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Text('Ya, benar',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: HexColor('#0063F8'),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 10, top: 10),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+
+  Future addInvoiceIssue(int i) async {
+    final res = await catatmeterProvider!.addTagihan(
+        bearer: boxUser.read(tokenBearer),
+        meter_last: catatMeterresult[i].meter_last,
+        meter_now: catatMeterresult[i].meter_now,
+        consumer_name: catatMeterresult[i].consumer_name,
+        consumer_unique_id: catatMeterresult[i].consumer_unique_id,
+        consumer_full_address: catatMeterresult[i].consumer_full_address,
+        consumer_phone_number: catatMeterresult[i].consumer_phone_number,
+        bulan: bulan.value);
+    logger.d(res!.message!);
+    if (res.message! == 'Meter months successfully created' ||
+        res.status == 'success') {
+      await getMeterMonth();
+      logger.d(res.status! + " menambahkan catat meter bulanan");
+      snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
       update();
     } else {
       logger.d(res.status);

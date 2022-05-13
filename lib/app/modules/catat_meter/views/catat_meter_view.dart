@@ -32,11 +32,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
       init: CatatMeterController(catatmeterProvider: CatatMeterProvider()),
       builder: (controller) {
         return Obx(
-          () => WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: Scaffold(
+          () =>  Scaffold(
               appBar: PreferredSize(
                 child: Container(
                   padding:
@@ -271,43 +267,79 @@ class CatatMeterView extends GetView<CatatMeterController> {
                                                               )),
                                                   contentPadding:
                                                       const EdgeInsets.all(10),
-                                                  title: Text(
-                                                    monthsAll[
-                                                        element.month_of! - 1],
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          HexColor('#3C3F58'),
-                                                    ),
-                                                  ),
-                                                  subtitle: Text(
-                                                    element.number_of_recorded_consumer
-                                                            .toString() +
-                                                        ' dari ${element.number_of_consumer} pelanggan',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: HexColor(
-                                                                    '#707793')
-                                                                .withOpacity(
-                                                                    0.7)),
-                                                  ),
-                                                  trailing: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10.0),
-                                                    child: GestureDetector(
-                                                      onTap: () => {},
-                                                      child: Icon(
-                                                        EvaIcons.arrowForward,
-                                                        color:
-                                                            HexColor('#FFCC00'),
+                                                  title: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        monthsAll[
+                                                            element.month_of! -
+                                                                1],
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: HexColor(
+                                                              '#3C3F58'),
+                                                        ),
                                                       ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10.0),
+                                                        child: GestureDetector(
+                                                          onTap: () => {},
+                                                          child: Icon(
+                                                            EvaIcons
+                                                                .arrowForward,
+                                                            color: HexColor(
+                                                                '#FFCC00'),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  subtitle:  Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10.0),
+                                                        child:  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          element.number_of_recorded_consumer
+                                                                  .toString() +
+                                                              ' dari ${element.number_of_consumer} pelanggan',
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: HexColor(
+                                                                          '#707793')
+                                                                      .withOpacity(
+                                                                          0.7)),
+                                                        ),
+                                                          Text(
+                                                          element.total_water_usage
+                                                                  .toString()+' M3',
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: HexColor(
+                                                                          '#707793')
+                                                                      .withOpacity(
+                                                                          0.7)),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
@@ -355,7 +387,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
                 ),
               ),
             ),
-          ),
+          
         );
       },
     );
