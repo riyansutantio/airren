@@ -18,7 +18,7 @@ void main() async {
     color: Colors.red,
     location: BannerLocation.bottomStart,
     variables: {
-      "baseUrl": "https://api.airren.id/",
+      "baseUrl": "https://api.airren.tbrdev.my.id/",
     },
   );
 

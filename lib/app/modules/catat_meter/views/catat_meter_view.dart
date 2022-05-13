@@ -335,7 +335,7 @@ class CatatMeterView extends GetView<CatatMeterController> {
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime.now(),
-                    lastDate: DateTime(2100),
+                    lastDate: DateTime(3100),
                   );
                 },
                 backgroundColor: HexColor('#0063F8'),

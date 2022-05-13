@@ -17,7 +17,8 @@ class PaymentProviders extends GetConnect {
       };
   Future<MeterTransModel?> getPayment(
       {String? path, String? bearer, String? status}) async {
-    Uri _getPamsUser = Uri.parse('https://api.airren.id/api/v1/meter-month');
+    Uri _getPamsUser =
+        Uri.parse('https://api.airren.tbrdev.my.id/api/v1/meter-month');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -33,7 +34,7 @@ class PaymentProviders extends GetConnect {
   Future<MeterTransMonthModel?> getPeymentMonth(
       {String? path, String? bearer, int? id, String? status}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.id/api/v1/meter-month/$id/meter-transaction?status=$status');
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction?status=$status');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -53,7 +54,7 @@ class PaymentProviders extends GetConnect {
       int? id,
       String? status}) async {
     Uri _getSearchBaseFee = Uri.parse(
-        'https://api.airren.id/api/v1/meter-month/$id/meter-transaction?status=$status&search=$searchValue');
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction?status=$status&search=$searchValue');
     logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
     final response =
         await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));
@@ -69,7 +70,7 @@ class PaymentProviders extends GetConnect {
   Future<MeterTransMonthModel?> updatePeymentMonth(
       {String? path, String? bearer, int? id, int? idInvoice}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.id/api/v1/meter-month/$id/meter-transaction/$idInvoice');
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction/$idInvoice');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response = await http.post(_getPamsUser,
         headers: bearerAuth(bearer: bearer),
@@ -86,7 +87,7 @@ class PaymentProviders extends GetConnect {
   Future<InvoiceModel?> getPeymentMonthInvoice(
       {String? path, String? bearer, int? id, int? idInvoice}) async {
     Uri _getPamsUser = Uri.parse(
-        'https://api.airren.id/api/v1/meter-month/$id/meter-transaction/$idInvoice/invoice');
+        'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction/$idInvoice/invoice');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));

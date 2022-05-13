@@ -15,8 +15,8 @@ class TransactionProvider extends GetConnect {
       };
   Future<PamTransUserModel?> getPamTransaction(
       {String? path, String? bearer}) async {
-    Uri _getPamsUser =
-        Uri.parse('https://api.airren.id/api/v1/pam-transaction?search&limit&');
+    Uri _getPamsUser = Uri.parse(
+        'https://api.airren.tbrdev.my.id/api/v1/pam-transaction?search&limit&');
     logger.wtf('ini adalah baseUrl $_getPamsUser');
     final response =
         await http.get(_getPamsUser, headers: bearerAuth(bearer: bearer));
@@ -35,7 +35,7 @@ class TransactionProvider extends GetConnect {
       required int? amount,
       required String? description}) async {
     Uri _addPamManageUri =
-        Uri.parse("https://api.airren.id/api/v1/pam-transaction");
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/pam-transaction");
     logger.wtf(_addPamManageUri);
     final response = await http.post(_addPamManageUri,
         headers: bearerAuth(bearer: bearer),
@@ -63,7 +63,7 @@ class TransactionProvider extends GetConnect {
       required int? amount,
       required String? description}) async {
     Uri _addPamManageUri =
-        Uri.parse("https://api.airren.id/api/v1/pam-transaction");
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/pam-transaction");
     logger.wtf(_addPamManageUri);
     final response = await http.post(_addPamManageUri,
         headers: bearerAuth(bearer: bearer),
@@ -90,7 +90,7 @@ class TransactionProvider extends GetConnect {
     required int? amount,
   }) async {
     Uri _addPamManageUri =
-        Uri.parse("https://api.airren.id/api/v1/first-balance");
+        Uri.parse("https://api.airren.tbrdev.my.id/api/v1/first-balance");
     logger.wtf(_addPamManageUri);
     final response = await http.post(_addPamManageUri,
         headers: bearerAuth(bearer: bearer),

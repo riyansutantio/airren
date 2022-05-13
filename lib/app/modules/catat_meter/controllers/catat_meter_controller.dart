@@ -5,6 +5,7 @@ import 'package:airen/app/model/catat_meter/catat_meter_model.dart';
 import 'package:airen/app/model/invoice_pam.dart';
 import 'package:airen/app/modules/catat_meter/provider/catat_meter_provider.dart';
 import 'package:airen/app/modules/catat_meter/views/catat_meter_bulan_view.dart';
+import 'package:airen/app/modules/catat_meter/views/catat_meter_view.dart';
 import 'package:airen/app/modules/catat_meter/views/detail_catat_meter.dart';
 import 'package:airen/app/modules/customer/controllers/customer_controller.dart';
 import 'package:airen/app/modules/customer/providers/customer_provider.dart';
@@ -174,6 +175,7 @@ class CatatMeterController extends GetxController {
       await getMeterMonth();
       logger.d(res.status! + " menambahkan catat meter bulanan");
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+      Get.offAll(() => CatatMeterView());
       update();
     } else {
       logger.d(res.status);
@@ -266,6 +268,7 @@ class CatatMeterController extends GetxController {
     if (res!.message! == 'Meter month successfully deleted') {
       await getCatatMeter();
       snackBarNotificationSuccess(title: 'Berhasil dihapus');
+      Get.offAll(() => CatatMeterView());
       update();
     } else {
       snackBarNotificationFailed(title: 'Gagal dihapus');
@@ -314,6 +317,7 @@ class CatatMeterController extends GetxController {
       await clearCondition();
       Get.back();
       snackBarNotificationSuccess(title: 'Berhasil ditambahkan');
+      update();
     } else {
       Get.back();
       await clearCondition();
