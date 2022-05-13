@@ -533,8 +533,6 @@ class CatatBulanView extends GetView<CatatMeterController> {
                         controller.deleteState.value = false;
                         logger.e(controller.idManageCatatBulan.value);
                         controller.deleteMeterBulan();
-                        controller.meterMonthResult.refresh();
-                        Get.offAll(CatatMeterView());
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
@@ -995,7 +993,7 @@ class CatatBulanView extends GetView<CatatMeterController> {
                                   MediaQuery.of(context).size.width * 0.06,
                                   MediaQuery.of(context).size.width * 0.04,
                                   MediaQuery.of(context).size.width * 0.06,
-                                    MediaQuery.of(context).size.width * 0.04),
+                                  MediaQuery.of(context).size.width * 0.04),
                               child: Column(
                                 children: [
                                   Text(

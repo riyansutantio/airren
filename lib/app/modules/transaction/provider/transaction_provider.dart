@@ -56,6 +56,7 @@ class TransactionProvider extends GetConnect {
     logger.wtf(response.statusCode);
     return pamTransModelFromJson(jsonString);
   }
+
   Future<PamTransUserModel?> addExpenseTrans(
       {required String? bearer,
       required String? name,
@@ -83,16 +84,18 @@ class TransactionProvider extends GetConnect {
     logger.wtf(response.statusCode);
     return pamTransModelFromJson(jsonString);
   }
-  Future<PamTransUserModel?> addFirstBlance(
-      {required String? bearer,
-      required int? amount,}) async {
+
+  Future<PamTransUserModel?> addFirstBlance({
+    required String? bearer,
+    required int? amount,
+  }) async {
     Uri _addPamManageUri =
         Uri.parse("https://api.airren.tbrdev.my.id/api/v1/first-balance");
     logger.wtf(_addPamManageUri);
     final response = await http.post(_addPamManageUri,
         headers: bearerAuth(bearer: bearer),
         body: jsonEncode({
-              "_method": "PATCH",
+          "_method": "PATCH",
           "first_balance": amount,
         }));
     var jsonString = response.body;

@@ -244,7 +244,8 @@ class CatatMeterProvider extends GetConnect {
     return null;
   }
 
-  Future<MeterTransactionModel?> getMeterTransaction({String? bearer, int? id}) async {
+  Future<MeterTransactionModel?> getMeterTransaction(
+      {String? bearer, int? id}) async {
     Uri _getPamsUser = Uri.parse(
         'https://api.airren.tbrdev.my.id/api/v1/meter-month/$id/meter-transaction');
     logger.wtf('ini adalah baseUrl $_getPamsUser');

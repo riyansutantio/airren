@@ -92,7 +92,8 @@ class CustomerProviders extends GetConnect {
 
   Future<CusUserModel?> getSearchCus(
       {String? path, String? bearer, String? searchValue}) async {
-    Uri _getSearchBaseFee = Uri.parse("https://api.airren.tbrdev.my.id/api/v1/consumer?search=$searchValue");
+    Uri _getSearchBaseFee = Uri.parse(
+        "https://api.airren.tbrdev.my.id/api/v1/consumer?search=$searchValue");
     logger.wtf('ini adalah baseUrl $_getSearchBaseFee');
     final response =
         await http.get(_getSearchBaseFee, headers: bearerAuth(bearer: bearer));

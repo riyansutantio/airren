@@ -29,9 +29,8 @@ class ReportProvider extends GetConnect {
     return null;
   }
 
-
   Future<ReportYearUserModel?> getReportYear(
-      {String? path, String? bearer,String? year}) async {
+      {String? path, String? bearer, String? year}) async {
     Uri _getPamsUser = Uri.parse(
         'https://api.airren.tbrdev.my.id/api/v1/report/yearly?year=$year');
     logger.wtf('ini adalah baseUrl $_getPamsUser');

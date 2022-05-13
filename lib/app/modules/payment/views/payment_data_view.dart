@@ -467,27 +467,28 @@ class PaymentDataViews extends GetView<PaymentController> {
                                             .withOpacity(0.7)),
                                   )
                                 : controller.status!.value == 'charge'
-                                ?  Text(
-                                    element.numberofchargemetertransaction
-                                            .toString() +
-                                        ' dari ${element.numberofmetertransaction} tagihan',
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: HexColor('#707793')
-                                            .withOpacity(0.7)),
-                                  ): Text(
-                                    (element.numberofmetertransaction! -
-                                                element
-                                                    .numberOfPaidMeterTransaction!)
-                                            .toString() +
-                                        ' dari ${element.numberofmetertransaction} tagihan',
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: HexColor('#707793')
-                                            .withOpacity(0.7)),
-                                  ),
+                                    ? Text(
+                                        element.numberofchargemetertransaction
+                                                .toString() +
+                                            ' dari ${element.numberofmetertransaction} tagihan',
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: HexColor('#707793')
+                                                .withOpacity(0.7)),
+                                      )
+                                    : Text(
+                                        (element.numberofmetertransaction! -
+                                                    element
+                                                        .numberOfPaidMeterTransaction!)
+                                                .toString() +
+                                            ' dari ${element.numberofmetertransaction} tagihan',
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: HexColor('#707793')
+                                                .withOpacity(0.7)),
+                                      ),
                           ),
                         ),
                       ),

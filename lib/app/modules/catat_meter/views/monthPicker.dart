@@ -201,7 +201,6 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
               catatController.month_Of.value = month;
               catatController.year_Of.value = year;
               catatController.addCatatMeterBulan();
-              Get.to(CatatMeterView());
               navigator!.pop();
             },
             child: Padding(
